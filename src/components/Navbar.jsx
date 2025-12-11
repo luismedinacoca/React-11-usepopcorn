@@ -1,0 +1,36 @@
+import Logo from "./Logo";
+import Search from "./Search";
+import NumResult from "./NumResult";
+const Navbar = () => {
+  //const [query, setQuery] = useState("");
+
+  return (
+    <nav className="nav-bar">
+      {/* // src/components/Logo.jsx
+      <div className="logo">
+        <span role="img">🍿</span>
+        <h1>usePopcorn</h1>
+      </div> 
+      */}
+      <Logo />
+      {/* 
+      <input
+        className="search"
+        type="text"
+        placeholder="Search movies..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      /> 
+      */}
+      <Search />
+      {/* // src/components/NumResult.jsx
+      <p className="num-results">
+        Found <strong>X</strong> results
+      </p> 
+      */}
+      <NumResult />
+    </nav>
+  );
+};
+
+export default Navbar;

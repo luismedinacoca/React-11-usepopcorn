@@ -13,6 +13,11 @@
   - [🔧 2. Lesson 107 — *How to split  a UI into components*](#-2-lesson-107--how-to-split--a-ui-into-components)
     - [🧠 2.1 Context](#-21-context)
     - [🔍 2.2 How to split:](#-22-how-to-split)
+  - [🔧 3. Lesson 108 — *Splitting Components in Practices*](#-3-lesson-108--spliting-components-in-practice)
+    - [🧠 3.1 Context](#-31-context)
+    - [⚙️ 3.2 Adding new code:](#-32-adding-new-code)
+    - [⚡ 3.3 Incidents Found](#-33-incidents-found)
+    - [🧱 3.4 Pending Fixes (TODO)](#-34-pending-fixes-TODO)
 
 ---
 
@@ -38,3 +43,1524 @@ This lesson teaches the fundamental skill of breaking down a user interface into
 ![Framework: When to create a new component?](../img/section10-lecture106-004.png)
 ![Some more general GUIDELINES](../img/section10-lecture106-005.png)
 ![Any App has components of different sizes and reusability](../img/section10-lecture106-006.png)
+
+
+## 🔧 3. Lesson 108 — *Splitting Components in Practice* 
+
+### 🧠 3.1 Context
+This lesson applies the theoretical concepts from Lesson 107 by practically splitting a monolithic React component into smaller, reusable, and maintainable components. We start with a single `App.jsx` file containing all the UI logic and progressively break it down into logical component pieces. The refactoring process demonstrates the step-by-step approach to component decomposition, showing how to identify component boundaries, extract reusable UI elements, and manage component composition. This hands-on practice reinforces the principles of "thinking in React" by transforming a complex single-component application into a well-structured component hierarchy. The lesson covers creating container components, presentational components, and understanding when to lift state up or keep it local, establishing a solid foundation for building scalable React applications.
+
+### ⚙️ 3.2 Adding new code:
+
+#### 1. Provided Code:
+```jsx
+/* src/App.jsx */
+import { useState } from "react";
+
+const tempMovieData = [
+  {
+    imdbID: "tt1375666",
+    Title: "Inception",
+    Year: "2010",
+    Poster: "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+  },
+  {
+    imdbID: "tt0133093",
+    Title: "The Matrix",
+    Year: "1999",
+    Poster:
+      "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+  },
+  {
+    imdbID: "tt6751668",
+    Title: "Parasite",
+    Year: "2019",
+    Poster:
+      "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
+  },
+];
+
+const tempWatchedData = [
+  {
+    imdbID: "tt1375666",
+    Title: "Inception",
+    Year: "2010",
+    Poster: "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+    runtime: 148,
+    imdbRating: 8.8,
+    userRating: 10,
+  },
+  {
+    imdbID: "tt0088763",
+    Title: "Back to the Future",
+    Year: "1985",
+    Poster:
+      "https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+    runtime: 116,
+    imdbRating: 8.5,
+    userRating: 9,
+  },
+];
+
+const average = (arr) => arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+
+function App() {
+  const [query, setQuery] = useState("");
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
+  const [isOpen1, setIsOpen1] = useState(true);
+  const [isOpen2, setIsOpen2] = useState(true);
+
+  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
+  const avgUserRating = average(watched.map((movie) => movie.userRating));
+  const avgRuntime = average(watched.map((movie) => movie.runtime));
+
+  return (
+    <>
+      <nav className="nav-bar">
+        <div className="logo">
+          <span role="img">🍿</span>
+          <h1>usePopcorn</h1>
+        </div>
+        <input
+          className="search"
+          type="text"
+          placeholder="Search movies..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <p className="num-results">
+          Found <strong>{movies.length}</strong> results
+        </p>
+      </nav>
+
+      <main className="main">
+        <div className="box">
+          <button className="btn-toggle" onClick={() => setIsOpen1((open) => !open)}>
+            {isOpen1 ? "–" : "+"}
+          </button>
+          {isOpen1 && (
+            <ul className="list">
+              {movies?.map((movie) => (
+                <li key={movie.imdbID}>
+                  <img src={movie.Poster} alt={`${movie.Title} poster`} />
+                  <h3>{movie.Title}</h3>
+                  <div>
+                    <p>
+                      <span>🗓</span>
+                      <span>{movie.Year}</span>
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div className="box">
+          <button className="btn-toggle" onClick={() => setIsOpen2((open) => !open)}>
+            {isOpen2 ? "–" : "+"}
+          </button>
+          {isOpen2 && (
+            <>
+              <div className="summary">
+                <h2>Movies you watched</h2>
+                <div>
+                  <p>
+                    <span>#️⃣</span>
+                    <span>{watched.length} movies</span>
+                  </p>
+                  <p>
+                    <span>⭐️</span>
+                    <span>{avgImdbRating}</span>
+                  </p>
+                  <p>
+                    <span>🌟</span>
+                    <span>{avgUserRating}</span>
+                  </p>
+                  <p>
+                    <span>⏳</span>
+                    <span>{avgRuntime} min</span>
+                  </p>
+                </div>
+              </div>
+
+              <ul className="list">
+                {watched.map((movie) => (
+                  <li key={movie.imdbID}>
+                    <img src={movie.Poster} alt={`${movie.Title} poster`} />
+                    <h3>{movie.Title}</h3>
+                    <div>
+                      <p>
+                        <span>⭐️</span>
+                        <span>{movie.imdbRating}</span>
+                      </p>
+                      <p>
+                        <span>🌟</span>
+                        <span>{movie.userRating}</span>
+                      </p>
+                      <p>
+                        <span>⏳</span>
+                        <span>{movie.runtime} min</span>
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+      </main>
+    </>
+  );
+}
+export default App;
+```
+
+```css
+/* src/index.css */
+:root {
+  --color-primary: #6741d9;
+  --color-primary-light: #7950f2;
+  --color-text: #dee2e6;
+  --color-text-dark: #adb5bd;
+  --color-background-100: #343a40;
+  --color-background-500: #2b3035;
+  --color-background-900: #212529;
+  --color-red: #fa5252;
+  --color-red-dark: #e03131;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+
+  color: var(--color-text);
+  background-color: var(--color-background-900);
+  padding: 2.4rem;
+}
+
+/* ******* */
+
+.nav-bar {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  height: 7.2rem;
+  padding: 0 3.2rem;
+  background-color: var(--color-primary);
+  border-radius: 0.9rem;
+}
+
+.main {
+  margin-top: 2.4rem;
+  height: calc(100vh - 7.2rem - 3 * 2.4rem);
+  display: flex;
+  gap: 2.4rem;
+  justify-content: center;
+}
+
+.box {
+  width: 42rem;
+  max-width: 42rem;
+  background-color: var(--color-background-500);
+  border-radius: 0.9rem;
+  /* overflow: scroll; */
+  position: relative;
+}
+
+.loader {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 2rem;
+  font-weight: 600;
+  margin: 4.8rem;
+}
+
+.error {
+  text-align: center;
+  font-size: 2rem;
+  padding: 4.8rem;
+}
+
+/* ******* */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.logo span {
+  font-size: 3.2rem;
+}
+
+.logo h1 {
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #fff;
+}
+
+.search {
+  justify-self: center;
+  border: none;
+  padding: 1.1rem 1.6rem;
+  font-size: 1.8rem;
+  border-radius: 0.7rem;
+  width: 40rem;
+  transition: all 0.3s;
+  color: var(--color-text);
+
+  /* background-color: var(--color-background-900); */
+  background-color: var(--color-primary-light);
+}
+
+.search::placeholder {
+  color: var(--color-text-dark);
+}
+
+.search:focus {
+  outline: none;
+  box-shadow: 0 2.4rem 2.4rem rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.num-results {
+  justify-self: end;
+  font-size: 1.8rem;
+}
+
+.btn-toggle {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  height: 2.4rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--color-background-900);
+  color: var(--color-text);
+  font-size: 1.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 999;
+}
+
+.list {
+  list-style: none;
+  padding: 0.8rem 0;
+  /* overflow: scroll; */
+}
+
+.list-watched {
+  height: calc(100% - 9rem);
+}
+
+.list li {
+  position: relative;
+  display: grid;
+  grid-template-columns: 4rem 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 2.4rem;
+  font-size: 1.6rem;
+  align-items: center;
+
+  padding: 1.6rem 3.2rem;
+  border-bottom: 1px solid var(--color-background-100);
+}
+
+.list.list-movies li {
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.list.list-movies li:hover {
+  background-color: var(--color-background-100);
+}
+
+.list img {
+  width: 100%;
+  grid-row: 1 / -1;
+}
+
+.list h3 {
+  font-size: 1.8rem;
+}
+
+.list div {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+}
+
+.list p {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.btn-delete {
+  position: absolute;
+  right: 2.4rem;
+
+  height: 1.8rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: none;
+  background-color: var(--color-red);
+  color: var(--color-background-900);
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-delete:hover {
+  background-color: var(--color-red-dark);
+}
+
+/* ******* */
+
+.summary {
+  padding: 2.2rem 3.2rem 1.8rem 3.2rem;
+  border-radius: 0.9rem;
+  background-color: var(--color-background-100);
+  box-shadow: 0 1.2rem 2.4rem rgba(0, 0, 0, 0.2);
+}
+
+.summary h2 {
+  text-transform: uppercase;
+  font-size: 1.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.summary div {
+  display: flex;
+  align-items: center;
+  gap: 2.4rem;
+  font-size: 1.6rem;
+  font-weight: 600;
+}
+
+.summary p {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+/* ******* */
+
+.details {
+  line-height: 1.4;
+  font-size: 1.4rem;
+}
+
+.details header {
+  display: flex;
+}
+
+.details section {
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.details img {
+  width: 33%;
+}
+
+.details-overview {
+  width: 100%;
+  padding: 2.4rem 3rem;
+  background-color: var(--color-background-100);
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.details-overview h2 {
+  font-size: 2.4rem;
+  margin-bottom: 0.4rem;
+  line-height: 1.1;
+}
+
+.details-overview p {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.rating {
+  background-color: var(--color-background-100);
+  border-radius: 0.9rem;
+  padding: 2rem 2.4rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 2.4rem;
+}
+
+.btn-add {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  border: none;
+  border-radius: 10rem;
+  font-size: 1.4rem;
+  padding: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-add:hover {
+  background-color: var(--color-primary-light);
+}
+
+.seconds {
+  background-color: var(--color-background-100);
+  width: 8rem;
+  border-radius: 10rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 0.4rem;
+  margin-top: 2.4rem;
+}
+
+.btn-back {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  height: 3.2rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: none;
+  /* background-color: var(--color-text); */
+  background-color: #fff;
+  color: var(--color-background-500);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.8);
+  font-family: sans-serif;
+  font-size: 2.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*
+SPACING SYSTEM (px)
+2 / 4 / 8 / 12 / 16 / 24 / 32 / 40 / 48 / 64 / 80 / 96 / 128
+
+FONT SIZE SYSTEM (px)
+10 / 12 / 14 / 16 / 18 / 20 / 24 / 30 / 36 / 44 /52 / 62 / 74 / 86 / 98
+*/
+
+/*
+FULL STAR
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 20 20"
+  fill="#000"
+  stroke="#000"
+>
+  <path
+    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+  />
+</svg>
+
+
+EMPTY STAR
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  fill="none"
+  viewBox="0 0 24 24"
+  stroke="#000"
+>
+  <path
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth="{2}"
+    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+  />
+</svg>
+*/
+```
+
+
+#### 2. Keeping `App` as simple as possible:
+```jsx
+/* src/App.jsx */
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+
+const tempMovieData = [
+  {
+    imdbID: "tt1375666",
+    Title: "Inception",
+    Year: "2010",
+    Poster: "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+  },
+  {
+    imdbID: "tt0133093",
+    Title: "The Matrix",
+    Year: "1999",
+    Poster:
+      "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+  },
+  {
+    imdbID: "tt6751668",
+    Title: "Parasite",
+    Year: "2019",
+    Poster:
+      "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
+  },
+];
+
+const tempWatchedData = [
+  {
+    imdbID: "tt1375666",
+    Title: "Inception",
+    Year: "2010",
+    Poster: "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+    runtime: 148,
+    imdbRating: 8.8,
+    userRating: 10,
+  },
+  {
+    imdbID: "tt0088763",
+    Title: "Back to the Future",
+    Year: "1985",
+    Poster:
+      "https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+    runtime: 116,
+    imdbRating: 8.5,
+    userRating: 9,
+  },
+];
+
+//const average = (arr) => arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+
+function App() {
+  //const [query, setQuery] = useState("");
+  // const [movies, setMovies] = useState(tempMovieData);
+  // const [watched, setWatched] = useState(tempWatchedData);
+  // const [isOpen1, setIsOpen1] = useState(true);
+  // const [isOpen2, setIsOpen2] = useState(true);
+
+  // const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
+  // const avgUserRating = average(watched.map((movie) => movie.userRating));
+  // const avgRuntime = average(watched.map((movie) => movie.runtime));
+
+  return (
+    <>
+      {/*  // src/components/Navbar.jsx
+      <nav className="nav-bar">
+        <div className="logo">
+          <span role="img">🍿</span>
+          <h1>usePopcorn</h1>
+        </div>
+        <input
+          className="search"
+          type="text"
+          placeholder="Search movies..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <p className="num-results">
+          Found <strong>{movies.length}</strong> results
+        </p>
+      </nav>
+      */}
+      <Navbar />
+
+      {/*  // src/components/Main.jsx
+      <main className="main">
+        <div className="box">
+          <button className="btn-toggle" onClick={() => setIsOpen1((open) => !open)}>
+            {isOpen1 ? "–" : "+"}
+          </button>
+          {isOpen1 && (
+            <ul className="list">
+              {movies?.map((movie) => (
+                <li key={movie.imdbID}>
+                  <img src={movie.Poster} alt={`${movie.Title} poster`} />
+                  <h3>{movie.Title}</h3>
+                  <div>
+                    <p>
+                      <span>🗓</span>
+                      <span>{movie.Year}</span>
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div className="box">
+          <button className="btn-toggle" onClick={() => setIsOpen2((open) => !open)}>
+            {isOpen2 ? "–" : "+"}
+          </button>
+          {isOpen2 && (
+            <>
+              <div className="summary">
+                <h2>Movies you watched</h2>
+                <div>
+                  <p>
+                    <span>#️⃣</span>
+                    <span>{watched.length} movies</span>
+                  </p>
+                  <p>
+                    <span>⭐️</span>
+                    <span>{avgImdbRating}</span>
+                  </p>
+                  <p>
+                    <span>🌟</span>
+                    <span>{avgUserRating}</span>
+                  </p>
+                  <p>
+                    <span>⏳</span>
+                    <span>{avgRuntime} min</span>
+                  </p>
+                </div>
+              </div>
+
+              <ul className="list">
+                {watched.map((movie) => (
+                  <li key={movie.imdbID}>
+                    <img src={movie.Poster} alt={`${movie.Title} poster`} />
+                    <h3>{movie.Title}</h3>
+                    <div>
+                      <p>
+                        <span>⭐️</span>
+                        <span>{movie.imdbRating}</span>
+                      </p>
+                      <p>
+                        <span>🌟</span>
+                        <span>{movie.userRating}</span>
+                      </p>
+                      <p>
+                        <span>⏳</span>
+                        <span>{movie.runtime} min</span>
+                      </p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </div>
+      </main> 
+      */}
+      <Main tempMovieData={tempMovieData} tempWatchedData={tempWatchedData} />
+    </>
+  );
+}
+export default App;
+```
+
+#### 3. Reduce `App.jsx` and Create `Navbar.jsx` component:
+```jsx
+/* src/components/Navbar.jsx */
+import Logo from "./Logo";
+import Search from "./Search";
+import NumResult from "./NumResult";
+const Navbar = () => {
+  //const [query, setQuery] = useState("");
+
+  return (
+    <nav className="nav-bar">
+      <div className="logo">
+        <span role="img">🍿</span>
+        <h1>usePopcorn</h1>
+      </div> 
+      <input
+        className="search"
+        type="text"
+        placeholder="Search movies..."
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+      /> 
+      <p className="num-results">
+        Found <strong>X</strong> results
+      </p>
+    </nav>
+  );
+};
+export default Navbar;
+```
+
+#### 4. Reduce `App.jsx` and Create `Main.jsx` component:
+```jsx
+/* src/components/Main.jsx */
+import { useState } from "react";
+
+const Main = ({ tempMovieData, tempWatchedData }) => {
+  const [isOpen1, setIsOpen1] = useState(true);
+  const [isOpen2, setIsOpen2] = useState(true);
+
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
+
+  const average = (arr) => arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+
+  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
+  const avgUserRating = average(watched.map((movie) => movie.userRating));
+  const avgRuntime = average(watched.map((movie) => movie.runtime));
+
+  return (
+    <main className="main">
+      <div className="box">
+        <button className="btn-toggle" onClick={() => setIsOpen1((open) => !open)}>
+          {isOpen1 ? "–" : "+"}
+        </button>
+        {isOpen1 && (
+          <ul className="list">
+            {movies?.map((movie) => (
+              <li key={movie.imdbID}>
+                <img src={movie.Poster} alt={`${movie.Title} poster`} />
+                <h3>{movie.Title}</h3>
+                <div>
+                  <p>
+                    <span>🗓</span>
+                    <span>{movie.Year}</span>
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div className="box">
+        <button className="btn-toggle" onClick={() => setIsOpen2((open) => !open)}>
+          {isOpen2 ? "–" : "+"}
+        </button>
+        {isOpen2 && (
+          <>
+            <div className="summary">
+              <h2>Movies you watched</h2>
+              <div>
+                <p>
+                  <span>#️⃣</span>
+                  <span>{watched.length} movies</span>
+                </p>
+                <p>
+                  <span>⭐️</span>
+                  <span>{avgImdbRating}</span>
+                </p>
+                <p>
+                  <span>🌟</span>
+                  <span>{avgUserRating}</span>
+                </p>
+                <p>
+                  <span>⏳</span>
+                  <span>{avgRuntime} min</span>
+                </p>
+              </div>
+            </div>
+
+            <ul className="list">
+              {watched.map((movie) => (
+                <li key={movie.imdbID}>
+                  <img src={movie.Poster} alt={`${movie.Title} poster`} />
+                  <h3>{movie.Title}</h3>
+                  <div>
+                    <p>
+                      <span>⭐️</span>
+                      <span>{movie.imdbRating}</span>
+                    </p>
+                    <p>
+                      <span>🌟</span>
+                      <span>{movie.userRating}</span>
+                    </p>
+                    <p>
+                      <span>⏳</span>
+                      <span>{movie.runtime} min</span>
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
+    </main>
+  );
+};
+export default Main;
+```
+
+Meanwhile `App.jsx` is reduced to:
+```jsx
+/* src/App.jsx */
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+
+const tempMovieData = [
+  ....
+];
+
+const tempWatchedData = [
+  ....
+];
+function App() {
+  return (
+    <>
+      <Navbar />  // 👈🏽 ✅
+      <Main tempMovieData={tempMovieData} tempWatchedData={tempWatchedData} />  // 👈🏽 ✅
+    </>
+  );
+}
+export default App;
+```
+
+#### 5. Reduce `Navbar.jsx` and Create `Logo.jsx` component:
+```jsx
+/* src/components/Logo.jsx */
+const Logo = () => {
+  return (
+    <div className="logo">
+      <span role="img">🍿</span>
+      <h1>usePopcorn</h1>
+    </div>
+  );
+};
+
+export default Logo;
+```
+
+
+#### 6. Reduce `Navbar.jsx` and Create `Search.jsx` component:
+```jsx
+/* src/components/Search.jsx */
+import { useState } from "react";
+
+const Search = () => {
+  const [query, setQuery] = useState("");
+  return (
+    <input
+      className="search"
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+    />
+  );
+};
+
+export default Search;
+```
+
+#### 7. Reduce `Navbar.jsx` and Create `NumResult.jsx` component:
+```jsx
+/* src/components/NumResult.jsx */
+const NumResult = () => {
+  return (
+    <p className="num-results">
+      {/* Found <strong>{movies.length}</strong> results */}
+      Found <strong>X</strong> results
+    </p>
+  );
+};
+
+export default NumResult;
+```
+
+Meanwhile the `Navbar.jsx` is reduced to:
+```jsx
+/* src/components/Navbar.jsx */
+import Logo from "./Logo";
+import Search from "./Search";
+import NumResult from "./NumResult";
+const Navbar = () => {
+  //const [query, setQuery] = useState("");
+
+  return (
+    <nav className="nav-bar">
+      <Logo />
+      <Search />
+      <NumResult />
+    </nav>
+  );
+};
+
+export default Navbar;
+```
+
+
+#### 8. Reduce `Main.jsx` and Create `ListBox.jsx` component:
+```jsx
+/* src/components/ListBox.jsx */
+import { useState } from "react";
+const ListBox = ({ tempMovieData }) => {
+  const [isOpen, setIsOpen] = useState(true);
+  const [movies, setMovies] = useState(tempMovieData);
+
+  return (
+    <div className="box">
+      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+        {isOpen ? "–" : "+"}
+      </button>
+      {isOpen && (
+        <ul className="list">
+          {movies?.map((movie) => (
+            <li key={movie.imdbID}>
+              <img src={movie.Poster} alt={`${movie.Title} poster`} />
+              <h3>{movie.Title}</h3>
+              <div>
+                <p>
+                  <span>🗓</span>
+                  <span>{movie.Year}</span>
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  );
+};
+
+export default ListBox;
+```
+
+#### 9. Reduce `Main.jsx` and Create `WatchedBox.jsx` component:
+```jsx
+/* src/components/WatchedBox.jsx */
+import { useState } from "react";
+const WatchedBox = ({ tempWatchedData }) => {
+  const [isOpen, setisOpen] = useState(true);
+  const [watched, setWatched] = useState(tempWatchedData);
+  const average = (arr) => arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+
+  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
+  const avgUserRating = average(watched.map((movie) => movie.userRating));
+  const avgRuntime = average(watched.map((movie) => movie.runtime));
+  return (
+    <div className="box">
+      <button className="btn-toggle" onClick={() => setisOpen((open) => !open)}>
+        {isOpen ? "–" : "+"}
+      </button>
+      {isOpen && (
+        <>
+          <div className="summary">
+            <h2>Movies you watched</h2>
+            <div>
+              <p>
+                <span>#️⃣</span>
+                <span>{watched.length} movies</span>
+              </p>
+              <p>
+                <span>⭐️</span>
+                <span>{avgImdbRating}</span>
+              </p>
+              <p>
+                <span>🌟</span>
+                <span>{avgUserRating}</span>
+              </p>
+              <p>
+                <span>⏳</span>
+                <span>{avgRuntime} min</span>
+              </p>
+            </div>
+          </div>
+
+          <ul className="list">
+            {watched.map((movie) => (
+              <li key={movie.imdbID}>
+                <img src={movie.Poster} alt={`${movie.Title} poster`} />
+                <h3>{movie.Title}</h3>
+                <div>
+                  <p>
+                    <span>⭐️</span>
+                    <span>{movie.imdbRating}</span>
+                  </p>
+                  <p>
+                    <span>🌟</span>
+                    <span>{movie.userRating}</span>
+                  </p>
+                  <p>
+                    <span>⏳</span>
+                    <span>{movie.runtime} min</span>
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default WatchedBox;
+```
+
+Meanwhile `Main.jsx` component is reduced to:
+```jsx
+/* src/components/Main.jsx */
+import { useState } from "react";
+import ListBox from "./ListBox";
+import WatchedBox from "./WatchedBox";
+
+const Main = ({ tempMovieData, tempWatchedData }) => {
+
+  return (
+    <main className="main">
+      <ListBox tempMovieData={tempMovieData} />
+      <WatchedBox tempWatchedData={tempWatchedData} />
+    </main>
+  );
+};
+
+export default Main;
+```
+
+#### 10. Reduce `ListBox.jsx` and Create `MovieList.jsx` component:
+```jsx
+/* src/components/MovieList.jsx */
+const MovieList = ({ movies }) => {
+  return (
+    <ul className="list">
+      {movies?.map((movie) => (
+        <li key={movie.imdbID}>
+          <img src={movie.Poster} alt={`${movie.Title} poster`} />
+          <h3>{movie.Title}</h3>
+          <div>
+            <p>
+              <span>🗓</span>
+              <span>{movie.Year}</span>
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default MovieList;
+```
+
+Meanwhile `ListBox.jsx`  component is reduced to:
+```jsx
+/* src/components/ListBox.jsx */
+import { useState } from "react";
+import MovieList from "./MovieList";
+const ListBox = ({ tempMovieData }) => {
+  const [isOpen, setIsOpen] = useState(true);
+  const [movies, setMovies] = useState(tempMovieData);
+
+  return (
+    <div className="box">
+      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+        {isOpen ? "–" : "+"}
+      </button>
+      {isOpen && (
+        <MovieList movies={movies} />
+      )}
+    </div>
+  );
+};
+
+export default ListBox;
+```
+
+#### 11. Reduce `MovieList.jsx` and create `Movie.jsx`  component:
+```jsx
+/* src/components/Movie.jsx */
+const Movie = ({ movie }) => {
+  return (
+    <li>
+      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+      <h3>{movie.Title}</h3>
+      <div>
+        <p>
+          <span>🗓</span>
+          <span>{movie.Year}</span>
+        </p>
+      </div>
+    </li>
+  );
+};
+
+export default Movie;
+```
+
+Meanwhile `MovieList.jsx` component is reduced to:
+```jsx
+/* src/components/MovieList.jsx */
+import Movie from "./Movie";
+
+const MovieList = ({ movies }) => {
+  return (
+    <ul className="list">
+      {movies?.map((movie) => (
+        <Movie movie={movie} key={movie.imdbID} />
+      ))}
+    </ul>
+  );
+};
+
+export default MovieList;
+```
+
+#### 12. Reduce `WatchedBox.jsx` and Create `WatchedSummary.jsx` component:
+```jsx
+/* src/components/WatchedSummary.jsx */
+const WatchedSummary = ({ watched }) => {
+  const average = (arr) => arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+
+  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
+  const avgUserRating = average(watched.map((movie) => movie.userRating));
+  const avgRuntime = average(watched.map((movie) => movie.runtime));
+
+  return (
+    <div className="summary">
+      <h2>Movies you watched</h2>
+      <div>
+        <p>
+          <span>#️⃣</span>
+          <span>{watched.length} movies</span>
+        </p>
+        <p>
+          <span>⭐️</span>
+          <span>{avgImdbRating}</span>
+        </p>
+        <p>
+          <span>🌟</span>
+          <span>{avgUserRating}</span>
+        </p>
+        <p>
+          <span>⏳</span>
+          <span>{avgRuntime} min</span>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default WatchedSummary;
+```
+
+Meanwhile `WatchedBox.jsx` component is reduced to:
+```jsx
+/* src/components/WatchedBox.jsx */
+import { useState } from "react";
+import WatchedSummary from "./WatchedSummary";
+const WatchedBox = ({ tempWatchedData }) => {
+  const [isOpen, setisOpen] = useState(true);
+  const [watched, setWatched] = useState(tempWatchedData);
+
+  return (
+    <div className="box">
+      <button className="btn-toggle" onClick={() => setisOpen((open) => !open)}>
+        {isOpen ? "–" : "+"}
+      </button>
+      {isOpen && (
+        <>
+          <WatchedSummary watched={watched} />
+
+          <ul className="list">
+            {watched.map((movie) => (
+              <li key={movie.imdbID}>
+                <img src={movie.Poster} alt={`${movie.Title} poster`} />
+                <h3>{movie.Title}</h3>
+                <div>
+                  <p>
+                    <span>⭐️</span>
+                    <span>{movie.imdbRating}</span>
+                  </p>
+                  <p>
+                    <span>🌟</span>
+                    <span>{movie.userRating}</span>
+                  </p>
+                  <p>
+                    <span>⏳</span>
+                    <span>{movie.runtime} min</span>
+                  </p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+  );
+};
+
+export default WatchedBox;
+```
+
+#### 13. Reduce `WatchedBox.jsx` and Create `WatchedMovieList.jsx` component:
+```jsx
+/* src/components/WatchedMovieList.jsx */
+const WatchedMovieList = ({ watched }) => {
+  return (
+    <ul className="list">
+      {watched.map((movie) => (
+        <li key={movie.imdbID}>
+          <img src={movie.Poster} alt={`${movie.Title} poster`} />
+          <h3>{movie.Title}</h3>
+          <div>
+            <p>
+              <span>⭐️</span>
+              <span>{movie.imdbRating}</span>
+            </p>
+            <p>
+              <span>🌟</span>
+              <span>{movie.userRating}</span>
+            </p>
+            <p>
+              <span>⏳</span>
+              <span>{movie.runtime} min</span>
+            </p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default WatchedMovieList;
+```
+
+Meanwhile `WatchedBox.jsx` component is reduced to:
+```jsx
+/* src/components/WatchedBox.jsx */
+import { useState } from "react";
+import WatchedSummary from "./WatchedSummary";
+import WatchedList from "./WatchedMovieList";
+const WatchedBox = ({ tempWatchedData }) => {
+  const [isOpen, setisOpen] = useState(true);
+  const [watched, setWatched] = useState(tempWatchedData);
+
+  return (
+    <div className="box">
+      <button className="btn-toggle" onClick={() => setisOpen((open) => !open)}>
+        {isOpen ? "–" : "+"}
+      </button>
+      {isOpen && (
+        <>
+          <WatchedSummary watched={watched} />
+          <WatchedList watched={watched} />
+        </>
+      )}
+    </div>
+  );
+};
+
+export default WatchedBox;
+```
+
+#### 14. Reduce `WatchedMovieList.jsx` and Create `WatchedMovie.jsx` component:
+```jsx
+/* src/components/WatchedMovie.jsx */
+const WatchedMovie = ({ movie }) => {
+  return (
+    <li>
+      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+      <h3>{movie.Title}</h3>
+      <div>
+        <p>
+          <span>⭐️</span>
+          <span>{movie.imdbRating}</span>
+        </p>
+        <p>
+          <span>🌟</span>
+          <span>{movie.userRating}</span>
+        </p>
+        <p>
+          <span>⏳</span>
+          <span>{movie.runtime} min</span>
+        </p>
+      </div>
+    </li>
+  );
+};
+
+export default WatchedMovie;
+```
+
+Meanwhile `WatchedMovieList.jsx` component is reduced to:
+```jsx
+/* src/components/WatchedMovieList.jsx */
+import WatchedMovie from "./WatchedMovie";
+const WatchedMovieList = ({ watched }) => {
+  return (
+    <ul className="list">
+      {watched.map((movie) => (
+        <WatchedMovie movie={movie} key={movie.imdbID} />
+      ))}
+    </ul>
+  );
+};
+
+export default WatchedMovieList;
+```
+
+#### 15. 📂 Directory/Project Tree:
+
+```
+11-usepopcorn/
+│
+├── 📄 index.html                 # HTML entry point
+├── 📄 vite.config.js             # Vite configuration
+├── 📄 eslint.config.js           # ESLint configuration
+├── 📄 package.json               # Project dependencies and scripts
+├── 📄 package-lock.json          # Dependency lock file
+├── 📄 README.md                  # Project documentation
+├── 📄 PROJECT_STRUCTURE.md       # Project structure documentation
+│
+├── 📁 public/                    # Static public assets (empty)
+│
+├── 📁 docs/                      # Documentation files
+│   └── 📄 LECTURE_STEPS.md       # Lecture notes and steps
+│
+├── 📁 img/                       # Image assets
+│   └── ....
+│
+├── 📁 node_modules/              # Dependencies (excluded from version control)
+│
+└── 📁 src/                       # Source code
+    │
+    ├── 📄 main.jsx               # Application entry point (React DOM root)
+    ├── 📄 App.jsx                # Main App component (root component)
+    ├── 📄 index.css              # Global styles
+    │
+    ├── 📁 assets/                # Additional assets
+    │   ├── 📄 App.js             # Legacy/backup App file
+    │   └── 📄 index.css          # Additional styles
+    │
+    └── 📁 components/            # React components
+        ├── 📄 Navbar.jsx         # Navigation bar component
+        ├── 📄 Logo.jsx           # Logo component (🍿 usePopcorn)
+        ├── 📄 Search.jsx         # Search input component
+        ├── 📄 NumResult.jsx      # Results counter component
+        ├── 📄 Main.jsx           # Main content component (movie lists)
+        ├── 📄 ListBox.jsx        # Collapsible box for movie list
+        ├── 📄 MovieList.jsx      # List container for movies
+        ├── 📄 Movie.jsx          # Individual movie item component
+        ├── 📄 WatchedBox.jsx     # Collapsible box for watched movies
+        ├── 📄 WatchedSummary.jsx # Summary statistics component
+        ├── 📄 WatchedMovieList.jsx # List container for watched movies
+        └── 📄 WatchedMovie.jsx   # Individual watched movie item component
+```
+
+#### 16. 🔍 Component Hierarchy
+
+```
+App.jsx (Root Component)
+│
+├── Navbar.jsx
+│   ├── Logo.jsx
+│   ├── Search.jsx
+│   └── NumResult.jsx
+│
+└── Main.jsx
+    ├── ListBox.jsx
+    │   └── MovieList.jsx
+    │       └── Movie.jsx (multiple instances)
+    │
+    └── WatchedBox.jsx
+        ├── WatchedSummary.jsx
+        └── WatchedMovieList.jsx
+            └── WatchedMovie.jsx (multiple instances)
+```
+
+#### 17. 🔍Components (`src/components/`)
+
+| Component | Purpose |
+|-----------|---------|
+| `Navbar.jsx` | Top navigation bar container component |
+| `Logo.jsx` | Logo component displaying 🍿 usePopcorn |
+| `Search.jsx` | Search input field component with local state management |
+| `NumResult.jsx` | Component displaying the number of search results (currently static) |
+| `Main.jsx` | Main content area container - renders ListBox and WatchedBox |
+| `ListBox.jsx` | Collapsible box component for displaying the movie list |
+| `MovieList.jsx` | List container component that maps over movies array |
+| `Movie.jsx` | Individual movie item component displaying poster, title, and year |
+| `WatchedBox.jsx` | Collapsible box component for displaying watched movies |
+| `WatchedSummary.jsx` | Summary statistics component showing averages (ratings, runtime, count) |
+| `WatchedMovieList.jsx` | List container component that maps over watched movies array |
+| `WatchedMovie.jsx` | Individual watched movie item component with ratings and runtime |
+
+
+### ⚡ 3.3 Incidents Found  
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Import naming mismatch in WatchedBox.jsx** | ⚠️ Identified | Line 3: `import WatchedList from "./WatchedMovieList";` should be `import WatchedMovieList from "./WatchedMovieList";` - Component name doesn't match the actual export |
+| **Unused useState import in Main.jsx** | ⚠️ Identified | Line 1: `import { useState } from "react";` is imported but never used after refactoring - can be removed |
+| **State isolation in Search component** | ⚠️ Identified | `Search.jsx` manages its own `query` state locally, preventing parent components (`Navbar`, `App`) from accessing the search value. This breaks the connection between search input and movie filtering functionality |
+| **Static placeholder in NumResult component** | ⚠️ Identified | `NumResult.jsx` displays hardcoded "X" instead of actual movie count because it cannot access the `movies` array from parent components due to state isolation |
+| **Commented code cleanup needed** | ℹ️ Low Priority | Multiple components contain commented-out code blocks that were kept during refactoring for reference but should be cleaned up for production readiness |
+
+
+### 🧱 3.4 Pending Fixes (TODO)
+```md
+- [ ] Fix import naming in `WatchedBox.jsx`: Change `WatchedList` to `WatchedMovieList` to match the actual component export
+- [ ] Remove unused `useState` import from `Main.jsx` component
+- [ ] Implement state lifting for search functionality: Move `query` state from `Search.jsx` to `App.jsx` and pass it down as props to enable movie filtering
+- [ ] Connect `NumResult.jsx` to actual movie count: Pass `movies.length` as prop from `App.jsx` through `Navbar.jsx` to display real results count
+- [ ] Clean up commented code blocks in all components (`App.jsx`, `Main.jsx`, `Navbar.jsx`, `ListBox.jsx`, `WatchedBox.jsx`, `MovieList.jsx`, `WatchedMovieList.jsx`) for better code maintainability
+- [ ] Consider creating a shared `Box` component to reduce duplication between `ListBox.jsx` and `WatchedBox.jsx` (both have similar collapsible box structure)
+- [ ] Extract the `average` helper function to a utilities file since it's used in `WatchedSummary.jsx` and may be reused elsewhere
+- [ ] Add PropTypes or TypeScript types for better type safety and component documentation
+```
+
+
+
+
+
+
+---
+
+🔥 🔥 🔥 
+
+## 🔧 XX. Lesson YYY — *Pokemon screen*
+
+### 🧠 XX.1 Context:
+
+
+### ⚙️ XX.2 Updating code according the context:
+
+#### XX.2.1
+```tsx
+/*  */
+
+```
+
+#### XX.2.2
+```tsx
+/*  */
+
+```
+
+### 🐞 XX.3 Issues:
+- **first issue**: something..
+
+| Issue | Status | Log/Error |
+|---|---|---|
+
+### 🧱 XX.4 Pending Fixes (TODO)
+
+```md
+- [ ]
+```
