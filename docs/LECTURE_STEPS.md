@@ -1526,15 +1526,63 @@ App.jsx (Root Component)
 ```
 
 
+## 🔧 4. Lesson 109 — *Component Categories*
 
+### 🧠 4.1 Context:
 
+In React, components can be classified into different categories based on their responsibility and how they handle state. This lesson explores the three main component categories: **stateless/presentational components**, **stateful components**, and **structural components**. Understanding these categories is fundamental for designing scalable and maintainable component architectures, as each type has a specific purpose and different usage patterns. This classification helps developers make informed decisions about where to place state logic, how to structure component hierarchies, and how to maximize code reusability.
+
+#### **Stateless/Presentational Components**
+
+Presentational components, also known as "dumb" or "stateless" components, are components that focus exclusively on how the UI looks. They don't manage their own state or complex business logic. Their main characteristics include:
+
+- **No internal state**: They don't use hooks like `useState` or `useReducer` to manage local state
+- **Receive data via props**: All information they need to render comes from their parent components
+- **Communicate via callbacks**: They send events upward through functions passed as props (e.g., `onClick`, `onChange`)
+- **Highly reusable**: Since they don't depend on specific state, they can be used in different contexts
+- **Easy to test**: Being pure functions that receive props and return JSX, they are simpler to test
+- **Common examples**: Buttons, inputs, cards, badges, avatars, icons
+
+**Practical example**: A `Movie.jsx` component that only receives a `movie` object as a prop and renders it, without managing any internal state.
+
+#### **Stateful Components**
+
+Stateful components, also called "smart" or "container" components, are components that manage state and business logic. They are responsible for coordinating data and behavior between multiple child components. Their characteristics include:
+
+- **Manage state**: They use hooks like `useState`, `useReducer`, `useEffect` to manage local state
+- **Contain business logic**: They implement application logic, calculations, API calls, etc.
+- **Coordinate child components**: They act as containers that orchestrate multiple presentational components
+- **Less reusable**: They are more coupled to the specific application logic
+- **Common examples**: Complex forms, lists with filtering/searching, components that handle authentication
+
+**Practical example**: A `ListBox.jsx` component that manages the `isOpen` state to show/hide content, or `App.jsx` that manages the global application state.
+
+#### **Structural Components**
+
+Structural components are components that define the structure and layout of the application. They act as "skeletons" that organize other components without containing complex business logic. Their characteristics include:
+
+- **Organize layout**: They define the visual and spatial structure of the UI (grids, flexbox, containers)
+- **Component composition**: They group and organize other components in a logical structure
+- **May have minimal state**: Sometimes they manage simple state related to structure (e.g., collapse/expand sections)
+- **Reusable at structure level**: They can be reused to create similar layouts in different parts of the app
+- **Common examples**: `Navbar`, `Main`, `Sidebar`, `Layout`, `Container`, `Box`, `Modal`
+
+**Practical example**: A `Main.jsx` component that simply organizes `ListBox` and `WatchedBox` in a two-column layout, or `Navbar.jsx` that structures the `Logo`, `Search`, and `NumResult` components.
+
+**Important note**: A component can belong to multiple categories. For example, `Navbar` is primarily structural but can also have minimal state (like controlling whether the mobile menu is open). The classification helps think about the component's main responsibility.
+
+### ⚙️ 4.2 Theory:
+
+#### 4.2.1 Component categories:
+
+![Component Categories](../img/section10-lecture109-001.png)
 
 
 ---
 
 🔥 🔥 🔥 
 
-## 🔧 XX. Lesson YYY — *Pokemon screen*
+## 🔧 XX. Lesson YYY — *{{TITLE_NAME}}*
 
 ### 🧠 XX.1 Context:
 
