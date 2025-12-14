@@ -1578,6 +1578,256 @@ Structural components are components that define the structure and layout of the
 ![Component Categories](../img/section10-lecture109-001.png)
 
 
+
+## 🔧 5. Lesson 110 — *Prop Drilling*
+
+### 🧠 5.1 Context:
+
+Prop Drilling is a pattern in React where data (props) are passed through multiple levels of intermediate components that don't need that data, just to reach the component that actually needs it. This pattern is common when state is located in a parent component (like `App.jsx`) and needs to be accessed by deeply nested components in the component tree.
+
+**When does Prop Drilling occur?**
+- When state is "lifted up" to a common parent component
+- When multiple child components need to access the same state
+- When there are several levels of nesting between the component that has the state and the one that needs it
+
+**Example in this project:**
+The `movies` state is defined in `App.jsx` and needs to reach:
+1. `NumResult.jsx` (through `Navbar.jsx`) - to display the results count
+2. `Movie.jsx` (through `Main.jsx` → `ListBox.jsx` → `MovieList.jsx`) - to render each movie
+
+**Advantages of Prop Drilling:**
+- ✅ Simple and straightforward for small/medium applications
+- ✅ Easy to understand and follow the data flow
+- ✅ Doesn't require additional libraries
+- ✅ Makes the data flow explicit in the code
+
+**Disadvantages of Prop Drilling:**
+- ⚠️ Can become verbose when there are many levels of nesting
+- ⚠️ Intermediate components must receive props they don't use directly
+- ⚠️ Makes it harder to refactor component structure
+- ⚠️ May indicate the need for a more robust state management solution (Context API, Redux, etc.)
+
+**When to consider alternatives:**
+- When prop drilling goes through more than 3-4 levels of components
+- When multiple components in different branches of the tree need the same state
+- When code becomes difficult to maintain due to too many intermediate props
+
+In this lesson, we implement prop drilling to pass `movies` from `App.jsx` to the components that need it, demonstrating how this fundamental React pattern works.
+
+
+### ⚙️ 5.2 Updating code according the context:
+
+#### 5.2.1 Categorizing each Component:
+| Stateless | Stateful | Structural |
+|---|---|---|
+| Logo | ListBox | NavBar|
+| NumResults | Search | App|
+| MovieList | WatchedBox | Main|
+| Movie | -- | -- |
+| WatchedSummary | -- | -- |
+| WatchedMovieList | -- | -- |
+| WatchedMovie | -- | -- |
+
+> Component Tree:
+
+![Component Structure Tree](../img/section10-lecture110-001.png)
+
+#### 5.2.2 Access to Movie Result dynamically lifting up `movie` prop from `App` to `NumResults`:
+
+![lifting up a prop](../img/section10-lecture110-002.png)
+
+
+
+From `App.jsx` to `Navbar.jsx`:
+```tsx
+/* src/App.jsx */
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+
+const tempMovieData = [....];
+const tempWatchedData = [....];
+
+function App() {
+  const [movies, setMovies] = useState(tempMovieData);  // 👈🏽 ✅
+  return (
+    <>
+      <Navbar movies={movies} />  // 👈🏽 ✅
+      <Main tempMovieData={tempMovieData} tempWatchedData={tempWatchedData} />
+    </>
+  );
+}
+export default App;
+```
+
+From `NavBar.jsx` to `NumResults.jsx`:
+```tsx
+/* src/components/Navbar.jsx */
+import Logo from "./Logo";
+import Search from "./Search";
+import NumResult from "./NumResult";
+const Navbar = ({ movies }) => {  // 👈🏽 ✅
+
+  return (
+    <nav className="nav-bar">
+      <Logo />
+      <Search />
+      <NumResult movies={movies} />  // 👈🏽 ✅
+    </nav>
+  );
+};
+
+export default Navbar;
+```
+
+In `NumResults.jsx`:
+```jsx
+/* src/components/NumResult.jsx */
+const NumResult = ({ movies }) => {  // 👈🏽 ✅
+  return (
+    <p className="num-results">
+      Found <strong>{movies.length}</strong> results  // 👈🏽 ✅
+    </p>
+  );
+};
+
+export default NumResult;
+```
+![](../img/section10-lecture110-003.png)
+
+
+#### 5.2.3 Access to Movie lifting up `movie` prop from `App` to `MovieList`:
+From  `App.jsx` to `Main`:
+```jsx
+/* src/App.jsx */
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+
+const tempMovieData = [....];
+const tempWatchedData = [....];
+
+function App() {
+  const [movies, setMovies] = useState(tempMovieData);  // 👈🏽 ✅
+  return (
+    <>
+      <Navbar movies={movies} />
+      <Main movies={movies} tempWatchedData={tempWatchedData} />  // 👈🏽 ✅
+    </>
+  );
+}
+export default App;
+```
+
+From `Main.jsx` to `ListBox.jsx`:
+```jsx
+/* src/components/Main.jsx */
+import ListBox from "./ListBox";
+import WatchedBox from "./WatchedBox";
+
+const Main = ({ movies, tempWatchedData }) => {  // 👈🏽 ✅
+  return (
+    <main className="main">
+      <ListBox movies={movies} />  // 👈🏽 ✅
+      <WatchedBox tempWatchedData={tempWatchedData} />
+    </main>
+  );
+};
+
+export default Main;
+```
+
+
+From `ListBox.jsx` from `MovieList.jsx`:
+```jsx
+/* src/components/ListBox.jsx */
+import { useState } from "react";
+import MovieList from "./MovieList";
+const ListBox = ({ movies }) => {  // 👈🏽 ✅
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <div className="box">
+      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+        {isOpen ? "–" : "+"}
+      </button>
+      {isOpen && <MovieList movies={movies} />}  // 👈🏽 ✅
+    </div>
+  );
+};
+
+export default ListBox;
+```
+
+
+From `MovieList.jsx` to `Movie.jsx`:
+```jsx
+/* src/components/MovieList.jsx */
+import Movie from "./Movie";
+
+const MovieList = ({ movies }) => {
+  return (
+    <ul className="list">
+      {movies?.map((movie) => (
+        <Movie movie={movie} key={movie.imdbID} />
+      ))}
+    </ul>
+  );
+};
+
+export default MovieList;
+```
+
+In `Movie.jsx`
+```jsx
+/* src/components/Movie.jsx */
+const Movie = ({ movie }) => {
+  return (
+    <li>
+      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+      <h3>{movie.Title}</h3>
+      <div>
+        <p>
+          <span>🗓</span>
+          <span>{movie.Year}</span>
+        </p>
+      </div>
+    </li>
+  );
+};
+
+export default Movie;
+```
+
+
+![prop drilling path](../img/section10-lecture110-004.png)
+
+### 🐞 5.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Excessive prop drilling for `movies`** | ⚠️ Identified | The `movies` prop is passed through 4 levels (App → Navbar → NumResult) and 5 levels (App → Main → ListBox → MovieList → Movie). Although functional, this can become difficult to maintain if the structure grows |
+| **Intermediate components receive props they don't use** | ⚠️ Identified | `Navbar.jsx` and `Main.jsx` receive `movies` only to pass it to their children, they don't use it directly. This is characteristic of prop drilling but may indicate the need for Context API |
+| **Inconsistency in prop names** | ⚠️ Identified | `WatchedBox.jsx` receives `tempWatchedData` while `ListBox.jsx` receives `movies`. Should be consistent: both should receive the same type of prop (without the `temp` prefix) |
+| **Potential duplicate state** | ⚠️ Identified | `ListBox.jsx` could have its own local `movies` state (as seen in previous lessons), but now receives `movies` as a prop. Needs verification to avoid state duplication |
+| **Incorrect import in WatchedBox.jsx** | ⚠️ Identified | Line 3: `import WatchedList from "./WatchedMovieList";` should be `import WatchedMovieList from "./WatchedMovieList";` - The import name doesn't match the component export |
+| **Uncleaned commented code** | ℹ️ Low Priority | `WatchedBox.jsx` contains commented code (lines 7, 10-14, 22-42, 45-66) that should be removed to keep the code clean |
+
+### 🧱 5.4 Pending Fixes (TODO)
+
+```md
+- [ ] Fix import in `WatchedBox.jsx`: Change `WatchedList` to `WatchedMovieList` to match the exported component name
+- [ ] Standardize prop names: Change `tempWatchedData` to `watched` or `watchedMovies` to maintain consistency with `movies` in other components
+- [ ] Verify and remove duplicate state: Ensure that `ListBox.jsx` doesn't have local `movies` state that conflicts with the received prop
+- [ ] Clean up commented code: Remove all commented lines in `WatchedBox.jsx` (lines 7, 10-14, 22-42, 45-66) to keep the code clean and maintainable
+- [ ] Consider Context API for `movies`: If prop drilling becomes more complex, evaluate using React Context API to share the `movies` state without passing through intermediate components
+- [ ] Document prop flow: Create a diagram or documentation that clearly shows how the `movies` prop flows from `App.jsx` to the final components
+- [ ] Add prop validation: Consider using PropTypes or TypeScript to validate that `movies` props are valid arrays in each component that receives them
+- [ ] Optimize re-renders: Review if intermediate components like `Navbar` and `Main` are re-rendering unnecessarily when `movies` changes, and consider using `React.memo` if necessary
+```
+
+
+
 ---
 
 🔥 🔥 🔥 
