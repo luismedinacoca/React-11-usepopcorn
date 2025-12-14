@@ -1,11 +1,11 @@
-import ListBox from "./ListBox";
-import WatchedBox from "./WatchedBox";
+//import WatchedBox from "./WatchedBox";
+//import ListBox from "./ListBox";
 
-const Main = ({ movies, tempWatchedData }) => {
+const Main = ({ children }) => {
   return (
     <main className="main">
-      <ListBox movies={movies} />
-      <WatchedBox tempWatchedData={tempWatchedData} />
+      {/* <ListBox movies={movies} /> */}
+      {children}
     </main>
   );
 };

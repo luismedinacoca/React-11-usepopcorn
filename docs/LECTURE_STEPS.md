@@ -1967,6 +1967,239 @@ In this lesson, we identify that `ListBox.jsx` and `WatchedBox.jsx` share the sa
 ```
 
 
+## 🔧 7. Lesson 112 — *Fixing Prop Drilling With Composition (And Building a Layout)*
+
+### 🧠 7.1 Context:
+
+**Component Composition** is a powerful React pattern that allows you to build complex UIs by combining smaller, reusable components. Instead of passing data through multiple component levels (prop drilling), composition uses the `children` prop to inject content directly into parent components, creating more flexible and maintainable component hierarchies.
+
+**What is Composition?**
+Composition is the practice of building complex components by combining simpler ones. In React, this is achieved primarily through the `children` prop, which allows parent components to accept and render arbitrary content passed from their parent. This pattern enables components to act as "containers" or "layouts" that define structure while allowing content to be determined by the component's usage context.
+
+**How Composition Solves Prop Drilling:**
+In Lesson 110, we saw prop drilling where `movies` was passed through multiple levels:
+- `App` → `Navbar` → `NumResult` (3 levels)
+- `App` → `Main` → `ListBox` → `MovieList` → `Movie` (5 levels)
+
+With composition, we eliminate intermediate prop passing:
+- `Navbar` becomes a structural component that accepts `children`, removing the need to pass `movies` through it
+- `Main` and `ListBox` similarly become layout components that don't need to know about the data they contain
+- Data flows directly from `App` to the components that need it, bypassing intermediate components
+
+**When Composition is Used:**
+- When you have structural/layout components that don't need the data they contain
+- When you want to create flexible, reusable container components
+- When you want to reduce coupling between parent and child components
+- When building layout components (Navbar, Main, Sidebar, Modal, etc.)
+- When you want to avoid prop drilling through intermediate components
+
+**Examples from this Project:**
+1. **Navbar Component**: Transformed from receiving `movies` prop to accepting `children`, allowing `Search` and `NumResult` to be composed directly in `App.jsx`
+2. **Main Component**: Changed from receiving `movies` to accepting `children`, enabling flexible composition of `ListBox` and `WatchedBox`
+3. **ListBox Component**: Refactored to accept `children` instead of `movies`, making it a reusable container for any content
+
+**Advantages of Composition:**
+- ✅ **Eliminates prop drilling**: Data doesn't need to pass through components that don't use it
+- ✅ **Increases flexibility**: Components can be reused with different content
+- ✅ **Reduces coupling**: Parent components don't need to know about child component internals
+- ✅ **Improves maintainability**: Changes to data structure don't affect intermediate components
+- ✅ **Better separation of concerns**: Structural components focus on layout, not data management
+- ✅ **More reusable**: Container components can be used in different contexts with different content
+
+**Disadvantages of Composition:**
+- ⚠️ **Can be less explicit**: Data flow might be less obvious when using `children`
+- ⚠️ **Requires understanding**: Developers need to understand the composition pattern
+- ⚠️ **Not always appropriate**: Some components legitimately need props to function
+- ⚠️ **May require refactoring**: Existing prop-based components need to be refactored
+
+**When to Consider Alternatives:**
+- When components genuinely need the data they're passing through (not just forwarding)
+- When using Context API would be more appropriate for deeply nested, widely-used state
+- When the composition pattern makes the code less readable or more complex
+- When you need to pass multiple unrelated props through many levels (consider Context API or state management)
+
+**Building Layouts with Composition:**
+This lesson also demonstrates how composition enables building flexible layout components. Components like `Navbar`, `Main`, and `ListBox` become layout structures that can be reused across different parts of an application with different content, following the principle of "structure vs. content" separation.
+
+
+
+### ⚙️ 7.2 Updating code according the context:
+
+#### 7.2.1 Working on the path from `App.jsx`  through `NavBar.jsx` to `NumResults.jsx`:
+```tsx
+/* src/components/Navbar.jsx */
+//import Search from "./Search";
+//import NumResult from "./NumResult";
+import Logo from "./Logo";
+const Navbar = ({ children }) => {
+  return (
+    <nav className="nav-bar">
+      <Logo />
+      {/*
+        <Search />
+        <NumResult movies={movies} />
+      */}
+      {children}. // 👈🏽 ✅
+    </nav>
+  );
+};
+
+export default Navbar;
+```
+
+And now in `App.jsx`:
+```tsx
+/* src/App.jsx */
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";         // 👈🏽 ✅
+import NumResult from "./components/NumResult";   // 👈🏽 ✅
+const tempMovieData = [...];
+const tempWatchedData = [...];
+function App() {
+  const [movies, setMovies] = useState(tempMovieData);
+  return (
+    <>
+      <Navbar>                          // 👈🏽 ✅ no prop here!
+        <Search />                      // 👈🏽 ✅
+        <NumResult movies={movies} />   // 👈🏽 ✅
+      </Navbar>
+      <Main movies={movies} tempWatchedData={tempWatchedData} />
+    </>
+  );
+}
+export default App;
+```
+
+
+> Main Reasons:
+1. `Separation of concerns and coupling`:
+- `Logo`: presentational, no state or parent props needed. It’s part of Navbar’s visual structure.
+- `Search` and `NumResult`: need access to `movies` state in `App`. If inside `Navbar`, `movies` would need to be passed through `Navbar`, increasing coupling. (Prop Drilling)
+
+2. `Lifting state up`
+- `movies` lives in `App` because it’s used in multiple places (NumResult, Main).
+- `Search` likely updates `movies` (e.g., search results). Being in `App` lets it modify state directly without prop drilling.
+
+3. `Composition with children`
+- Navbar uses children, allowing content to be passed from the parent.
+- Benefits:
+  - `Navbar` is more flexible and reusable.
+  - Content can vary by context.
+  - `Logo` stays fixed in `Navbar` (base structure), while `Search` and `NumResult` are injected from outside.
+
+4. `Data flow`
+    ```
+    App (has movies state)
+      ├── Navbar (visual structure)
+      │   ├── Logo (presentational, no dependencies)
+      │   └── children (Search + NumResult that need movies)
+      └── Main (also needs movies)
+    ```
+If Search were inside Navbar:
+- `Navbar` would need `movies` and `setMovies`.
+- `Navbar` would be coupled to `search` logic.
+- Less flexible and harder to maintain.
+
+5. `Single responsibility principle`
+- `Navbar`: structure and layout of the navbar.
+- `App`: state management and component coordination.
+- `Search`: search logic (better placed near the state it manages).
+
+
+#### 7.2.2 Working on the path from `App.jsx` through `Main.jsx` and `ListBox.jsx` to `MovieList.jsx`:
+```tsx
+/* src/components/ListBox.jsx */
+import { useState } from "react";
+//import MovieList from "./MovieList";
+const ListBox = ({ children }) => {  // 👈🏽 ✅
+  const [isOpen, setIsOpen] = useState(true);
+  return (
+    <div className="box">
+      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+        {isOpen ? "–" : "+"}
+      </button>
+      {/* isOpen && <MovieList movies={movies} /> */}
+      {isOpen && children}  // 👈🏽 ✅
+    </div>
+  );
+};
+export default ListBox;
+```
+
+```tsx
+/* src/components/Main.jsx */
+//import WatchedBox from "./WatchedBox";
+//import ListBox from "./ListBox";
+const Main = ({ children }) => {  // 👈🏽 ✅
+  return (
+    <main className="main">
+      {/* <ListBox movies={movies} /> */}
+      {children}  // 👈🏽 ✅
+    </main>
+  );
+};
+
+export default Main;
+```
+
+```jsx
+/* src/App.jsx */
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import ListBox from "./components/ListBox";                 // 👈🏽 ✅
+import MovieList from "./components/MovieList";             // 👈🏽 ✅
+import WatchedBox from "./components/WatchedBox";           // 👈🏽 ✅
+const tempMovieData = [....];
+const tempWatchedData = [....];
+function App() {
+  const [movies, setMovies] = useState(tempMovieData);
+  return (
+    <>
+      <Navbar>
+        <Search />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>                                                // 👈🏽 ✅
+        <ListBox>                                           // 👈🏽 ✅
+          <MovieList movies={movies} />                     // 👈🏽 ✅
+        </ListBox>                                          
+      </Main>                                               
+        <WatchedBox tempWatchedData={tempWatchedData} />    // 👈🏽 ✅
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+
+### 🐞 7.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Syntax error in documentation example** | ⚠️ Identified | Line 1991 in documentation shows `{children}.` with a trailing dot, but actual code in `Navbar.jsx` is correct without the dot. Documentation should be updated to match the actual implementation |
+| **WatchedBox still uses prop drilling pattern** | ⚠️ Identified | `WatchedBox.jsx` receives `tempWatchedData` directly from `App.jsx` instead of using composition pattern. It could be refactored to accept `children` like `Navbar` and `Main` for consistency. Current: `<WatchedBox tempWatchedData={tempWatchedData} />` |
+| **Inconsistent prop naming convention** | ⚠️ Identified | `WatchedBox` receives `tempWatchedData` while other components receive `movies`. The `temp` prefix suggests temporary data and should be removed for consistency. Location: `src/App.jsx:69` and `src/components/WatchedBox.jsx:5` |
+| **Search component not connected to movies state** | ℹ️ Low Priority | `Search.jsx` has its own local state but doesn't filter or update the `movies` state in `App.jsx`. This means search functionality is not implemented, only the UI exists. Future enhancement needed |
+| **Composition pattern not fully applied** | ⚠️ Identified | While `Navbar` and `Main` use composition, `WatchedBox` still follows the old prop drilling pattern. For complete consistency, `WatchedBox` should be refactored to accept `WatchedSummary` and `WatchedMovieList` as children |
+
+### 🧱 7.4 Pending Fixes (TODO)
+
+```md
+- [ ] Fix documentation syntax error: Remove trailing dot from `{children}.` example in section 7.2.1 (line 1991) to match actual code implementation
+- [ ] Refactor WatchedBox to use composition pattern: Change `WatchedBox.jsx` to accept `children` prop instead of `tempWatchedData`, allowing `WatchedSummary` and `WatchedMovieList` to be composed in `App.jsx` similar to how `Navbar` and `Main` work
+- [ ] Update App.jsx composition: After refactoring `WatchedBox`, update `App.jsx` to compose `WatchedSummary` and `WatchedMovieList` as children of `WatchedBox`, passing `watched` state directly to these components
+- [ ] Rename tempWatchedData prop: Remove `temp` prefix from `tempWatchedData` variable and prop name for consistency with `movies` naming convention. Update in `src/App.jsx` and `src/components/WatchedBox.jsx`
+- [ ] Implement search functionality: Connect `Search.jsx` component to `movies` state in `App.jsx` to enable actual movie filtering/searching functionality (currently only UI exists)
+- [ ] Verify composition pattern consistency: Ensure all structural components (`Navbar`, `Main`, `ListBox`, `WatchedBox`) follow the same composition pattern using `children` prop for better code consistency and maintainability
+- [ ] Update component documentation: Add comments explaining the composition pattern usage in refactored components (`Navbar.jsx`, `Main.jsx`, `ListBox.jsx`) for future developers
+```
+
 ---
 
 🔥 🔥 🔥 
