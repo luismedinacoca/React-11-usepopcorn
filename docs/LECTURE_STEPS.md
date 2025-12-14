@@ -13,11 +13,55 @@
   - [🔧 2. Lesson 107 — *How to split  a UI into components*](#-2-lesson-107--how-to-split--a-ui-into-components)
     - [🧠 2.1 Context](#-21-context)
     - [🔍 2.2 How to split:](#-22-how-to-split)
-  - [🔧 3. Lesson 108 — *Splitting Components in Practices*](#-3-lesson-108--spliting-components-in-practice)
+  - [🔧 3. Lesson 108 — *Splitting Components in Practice*](#-3-lesson-108--splitting-components-in-practice)
     - [🧠 3.1 Context](#-31-context)
-    - [⚙️ 3.2 Adding new code:](#-32-adding-new-code)
+    - [⚙️ 3.2 Adding new code:](#️-32-adding-new-code)
+      - [1. Provided Code:](#1-provided-code)
+      - [2. Keeping `App` as simple as possible:](#2-keeping-app-as-simple-as-possible)
+      - [3. Reduce `App.jsx` and Create `Navbar.jsx` component:](#3-reduce-appjsx-and-create-navbarjsx-component)
+      - [4. Reduce `App.jsx` and Create `Main.jsx` component:](#4-reduce-appjsx-and-create-mainjsx-component)
+      - [5. Reduce `Navbar.jsx` and Create `Logo.jsx` component:](#5-reduce-navbarjsx-and-create-logojsx-component)
+      - [6. Reduce `Navbar.jsx` and Create `Search.jsx` component:](#6-reduce-navbarjsx-and-create-searchjsx-component)
+      - [7. Reduce `Navbar.jsx` and Create `NumResult.jsx` component:](#7-reduce-navbarjsx-and-create-numresultjsx-component)
+      - [8. Reduce `Main.jsx` and Create `ListBox.jsx` component:](#8-reduce-mainjsx-and-create-listboxjsx-component)
+      - [9. Reduce `Main.jsx` and Create `WatchedBox.jsx` component:](#9-reduce-mainjsx-and-create-watchedboxjsx-component)
+      - [10. Reduce `ListBox.jsx` and Create `MovieList.jsx` component:](#10-reduce-listboxjsx-and-create-movielistjsx-component)
+      - [11. Reduce `MovieList.jsx` and create `Movie.jsx`  component:](#11-reduce-movielistjsx-and-create-moviejsx--component)
+      - [12. Reduce `WatchedBox.jsx` and Create `WatchedSummary.jsx` component:](#12-reduce-watchedboxjsx-and-create-watchedsummaryjsx-component)
+      - [13. Reduce `WatchedBox.jsx` and Create `WatchedMovieList.jsx` component:](#13-reduce-watchedboxjsx-and-create-watchedmovielistjsx-component)
+      - [14. Reduce `WatchedMovieList.jsx` and Create `WatchedMovie.jsx` component:](#14-reduce-watchedmovielistjsx-and-create-watchedmoviejsx-component)
+      - [15. 📂 Directory/Project Tree:](#15--directoryproject-tree)
+      - [16. 🔍 Component Hierarchy](#16--component-hierarchy)
+      - [17. 🔍Components (`src/components/`)](#17-components-srccomponents)
     - [⚡ 3.3 Incidents Found](#-33-incidents-found)
-    - [🧱 3.4 Pending Fixes (TODO)](#-34-pending-fixes-TODO)
+    - [🧱 3.4 Pending Fixes (TODO)](#-34-pending-fixes-todo)
+  - [🔧 4. Lesson 109 — *Component Categories*](#-4-lesson-109--component-categories)
+    - [🧠 4.1 Context:](#-41-context)
+      - [**Stateless/Presentational Components**](#statelesspresentational-components)
+      - [**Stateful Components**](#stateful-components)
+      - [**Structural Components**](#structural-components)
+    - [⚙️ 4.2 Theory:](#️-42-theory)
+      - [4.2.1 Component categories:](#421-component-categories)
+  - [🔧 5. Lesson 110 — *Prop Drilling*](#-5-lesson-110--prop-drilling)
+    - [🧠 5.1 Context:](#-51-context)
+    - [⚙️ 5.2 Updating code according the context:](#️-52-updating-code-according-the-context)
+      - [5.2.1 Categorizing each Component:](#521-categorizing-each-component)
+      - [5.2.2 Access to Movie Result dynamically lifting up `movie` prop from `App` to `NumResults`:](#522-access-to-movie-result-dynamically-lifting-up-movie-prop-from-app-to-numresults)
+      - [5.2.3 Access to Movie lifting up `movie` prop from `App` to `MovieList`:](#523-access-to-movie-lifting-up-movie-prop-from-app-to-movielist)
+    - [🐞 5.3 Issues:](#-53-issues)
+    - [🧱 5.4 Pending Fixes (TODO)](#-54-pending-fixes-todo)
+  - [🔧 6. Lesson 111 — *Component Composition*](#-6-lesson-111--component-composition)
+    - [🧠 6.1 Context:](#-61-context)
+    - [⚙️ 6.2 Theory context:](#️-62-theory-context)
+    - [🐞 6.3 Issues:](#-63-issues)
+    - [🧱 6.4 Pending Fixes (TODO)](#-64-pending-fixes-todo)
+  - [🔧 XX. Lesson YYY — *{{TITLE\_NAME}}*](#-xx-lesson-yyy--title_name)
+    - [🧠 XX.1 Context:](#-xx1-context)
+    - [⚙️ XX.2 Updating code according the context:](#️-xx2-updating-code-according-the-context)
+      - [XX.2.1](#xx21)
+      - [XX.2.2](#xx22)
+    - [🐞 XX.3 Issues:](#-xx3-issues)
+    - [🧱 XX.4 Pending Fixes (TODO)](#-xx4-pending-fixes-todo)
 
 ---
 
@@ -1826,6 +1870,101 @@ export default Movie;
 - [ ] Optimize re-renders: Review if intermediate components like `Navbar` and `Main` are re-rendering unnecessarily when `movies` changes, and consider using `React.memo` if necessary
 ```
 
+
+
+## 🔧 6. Lesson 111 — *Component Composition*
+
+### 🧠 6.1 Context:
+
+Component Composition is a powerful React pattern that allows building complex UIs by combining smaller, reusable components. Instead of creating monolithic components with many props, composition enables flexible and maintainable component architectures by using the `children` prop and other composition techniques.
+
+**What is Component Composition?**
+
+Component Composition is the practice of building complex components by combining simpler, reusable components. The key concept is that components can accept other components (or JSX) as props, most commonly through the special `children` prop, allowing parent components to control what content is rendered inside child components.
+
+**When does Component Composition occur?**
+
+- When you need to create reusable container components that can wrap different content
+- When multiple components share similar structure but different content
+- When you want to avoid prop drilling by passing JSX directly instead of data
+- When building flexible, configurable components that can adapt to different use cases
+- When creating layout components that need to accept dynamic content
+
+**Examples in this project:**
+
+1. **Current structure without composition**: `ListBox.jsx` and `WatchedBox.jsx` both have identical structure (a collapsible box with toggle button), but they're separate components with duplicated code:
+   - Both have `<div className="box">`
+   - Both have `<button className="btn-toggle">` with state management
+   - Both conditionally render content based on `isOpen` state
+
+2. **Potential composition pattern**: A generic `Box` component could be created that accepts `children` as a prop, eliminating duplication:
+   ```jsx
+   <Box>
+     <MovieList movies={movies} />
+   </Box>
+   ```
+
+3. **Structural composition**: `Navbar.jsx` and `Main.jsx` are already using composition by combining multiple child components (`Logo`, `Search`, `NumResult` in Navbar; `ListBox` and `WatchedBox` in Main).
+
+**Advantages of Component Composition:**
+
+- ✅ **Reduces code duplication**: Shared UI patterns can be extracted into reusable components
+- ✅ **Increases flexibility**: Components become more adaptable to different use cases
+- ✅ **Improves maintainability**: Changes to shared structure only need to be made in one place
+- ✅ **Better separation of concerns**: Container components handle structure, child components handle content
+- ✅ **More reusable**: Generic components can be used in multiple contexts
+- ✅ **Easier to test**: Smaller, focused components are simpler to test individually
+
+**Disadvantages of Component Composition:**
+
+- ⚠️ **Can add abstraction layers**: Too many wrapper components can make code harder to follow
+- ⚠️ **May require more component files**: Creating generic components increases the number of files
+- ⚠️ **Potential over-engineering**: Not every similar structure needs a shared component
+- ⚠️ **Learning curve**: Developers need to understand composition patterns to work effectively
+
+**When to consider alternatives:**
+
+- When components are truly unique and won't benefit from sharing structure
+- When the abstraction would make the code less readable rather than more maintainable
+- When the duplication is minimal and the components are unlikely to change together
+- When performance is critical and additional component layers would impact rendering
+
+**Connection to this lesson's practical implementation:**
+
+In this lesson, we identify that `ListBox.jsx` and `WatchedBox.jsx` share the same collapsible box pattern. By applying Component Composition, we can create a generic `Box` component that handles the toggle functionality and structure, while accepting different content through the `children` prop. This demonstrates how composition can eliminate duplication and create more maintainable code.
+
+### ⚙️ 6.2 Theory context:
+
+![React component vs Component Composition](../img/section10_lecture111-001.png)
+![Component Composition use](../img/section10_lecture111-002.png)
+
+### 🐞 6.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Code duplication between ListBox and WatchedBox** | ⚠️ Identified | Both `ListBox.jsx` (lines 7-13) and `WatchedBox.jsx` (lines 16-20) have identical structure: `<div className="box">`, toggle button with `isOpen` state, and conditional rendering. This violates DRY principle and makes maintenance harder |
+| **Missing generic Box component** | ⚠️ Identified | No reusable `Box` component exists to handle the collapsible box pattern. The toggle functionality and structure are duplicated across multiple components |
+| **Incorrect import name in WatchedBox.jsx** | ⚠️ Identified | Line 3: `import WatchedList from "./WatchedMovieList";` should be `import WatchedMovieList from "./WatchedMovieList";` - Component name doesn't match the actual export, causing potential runtime errors |
+| **Commented code in WatchedBox.jsx** | ⚠️ Identified | Lines 7, 10-14, 22-42, and 45-66 contain commented-out code that should be removed for code cleanliness and maintainability |
+| **Commented code in WatchedMovieList.jsx** | ⚠️ Identified | Lines 6-23 contain commented-out code that duplicates the `WatchedMovie` component implementation, should be cleaned up |
+| **State management duplication** | ⚠️ Identified | Both `ListBox.jsx` and `WatchedBox.jsx` manage identical `isOpen` state independently. This could be abstracted into a reusable hook or component |
+| **Inconsistent prop naming** | ⚠️ Identified | `WatchedBox.jsx` receives `tempWatchedData` while `ListBox.jsx` receives `movies`. Should standardize prop naming conventions (remove `temp` prefix) |
+| **Missing composition pattern** | ⚠️ Identified | Components don't leverage the `children` prop pattern for flexible content composition, missing an opportunity to create more reusable and flexible components |
+
+### 🧱 6.4 Pending Fixes (TODO)
+
+```md
+- [ ] Fix import naming in `WatchedBox.jsx`: Change `WatchedList` to `WatchedMovieList` on line 3 to match the actual component export
+- [ ] Create generic `Box` component: Extract the collapsible box pattern from `ListBox.jsx` and `WatchedBox.jsx` into a reusable `Box.jsx` component that accepts `children` prop
+- [ ] Refactor `ListBox.jsx` to use composition: Replace the box structure with `<Box><MovieList movies={movies} /></Box>` pattern
+- [ ] Refactor `WatchedBox.jsx` to use composition: Replace the box structure with `<Box><WatchedSummary /> <WatchedMovieList /></Box>` pattern
+- [ ] Extract toggle state logic: Consider creating a custom hook `useToggle` to manage `isOpen` state if it will be reused elsewhere
+- [ ] Clean up commented code: Remove all commented-out code blocks from `WatchedBox.jsx` (lines 7, 10-14, 22-42, 45-66) and `WatchedMovieList.jsx` (lines 6-23)
+- [ ] Standardize prop naming: Rename `tempWatchedData` to `watched` or `watchedMovies` throughout the codebase for consistency
+- [ ] Update component documentation: Document the new `Box` component and its usage pattern in component hierarchy documentation
+- [ ] Test composition pattern: Verify that the refactored components maintain the same functionality and behavior after applying composition
+- [ ] Consider additional composition opportunities: Review other components (`Navbar`, `Main`) for potential composition improvements using `children` prop
+```
 
 
 ---
