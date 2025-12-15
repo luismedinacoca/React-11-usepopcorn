@@ -2430,13 +2430,14 @@ export default App;
 | Issue | Status | Log/Error |
 |---|---|---|
 | **Unused ListBox component** | ⚠️ Identified | `ListBox.jsx` still exists in the codebase but is no longer used in `App.jsx` after refactoring to use `Box.jsx`. The component should be removed or documented as deprecated. Location: `src/components/ListBox.jsx` |
-| **Unused WatchedBox component** | ⚠️ Identified | `WatchedBox.jsx` still exists but is commented out in `App.jsx` (line 71). The component should be removed since `Box.jsx` now handles this functionality. Location: `src/components/WatchedBox.jsx` |
-| **Commented code in App.jsx** | ⚠️ Identified | Line 71 in `App.jsx` contains commented code: `{/* <WatchedBox tempWatchedData={tempWatchedData} /> */}`. Commented code should be removed for code cleanliness. Location: `src/App.jsx:71` |
+| **Unused WatchedBox component** | ⚠️ Identified | `WatchedBox.jsx` still exists but is no longer used in `App.jsx` after refactoring to use `Box.jsx`. The component should be removed since `Box.jsx` now handles this functionality. Location: `src/components/WatchedBox.jsx` |
+| **Multiple commented code blocks in App.jsx** | ⚠️ Identified | `App.jsx` contains multiple commented code blocks: lines 69-71 (alternative `Box` usage with `children`), line 72 (`WatchedBox` usage), and lines 81-84 (alternative `Box` usage). Commented code should be removed for code cleanliness. Location: `src/App.jsx:69-71,72,81-84` |
 | **Commented code in ListBox.jsx** | ⚠️ Identified | Line 11 in `ListBox.jsx` contains commented code: `{/* isOpen && <MovieList movies={movies} /> */}`. Since `ListBox` is no longer used, this file should be removed entirely. Location: `src/components/ListBox.jsx:11` |
+| **Commented code in Main.jsx** | ⚠️ Identified | `Main.jsx` contains commented imports (lines 1-2) and commented JSX (line 7) related to deprecated `ListBox` and `WatchedBox` components. Should be cleaned up. Location: `src/components/Main.jsx:1-2,7` |
 | **Commented code in WatchedMovieList.jsx** | ⚠️ Identified | Lines 6-23 in `WatchedMovieList.jsx` contain commented-out code that duplicates the `WatchedMovie` component implementation. Should be cleaned up. Location: `src/components/WatchedMovieList.jsx:6-23` |
-| **Missing watched state in documentation example** | ⚠️ Identified | The code example in section 8.2.4 shows `watched` variable being used (line 2368-2369) but doesn't show where it's defined. The actual `App.jsx` has `const [watched, setWatched] = useState(tempWatchedData);` but the documentation example omits this. Location: Documentation section 8.2.4 |
-| **Inconsistent variable naming** | ℹ️ Low Priority | `App.jsx` uses `tempWatchedData` as initial state but stores it in `watched` state. The `temp` prefix suggests temporary data and should be removed for consistency. Consider renaming `tempWatchedData` to `initialWatchedData` or `watchedData`. Location: `src/App.jsx:35,59` |
-| **Commented import in App.jsx** | ℹ️ Low Priority | Line 2307 in documentation shows commented import: `//import WatchedBox from "./components/WatchedBox";`. In actual code, this import doesn't exist since `WatchedBox` is no longer used. Documentation should be updated to reflect current state. |
+| **Unused state setters** | ⚠️ Identified | `setMovies` and `setWatched` are declared but never used in `App.jsx`. Linter error: "Assigned a value but never used". These should either be used or prefixed with underscore if intentionally unused. Location: `src/App.jsx:58-59` |
+| **Missing watched state in documentation example** | ⚠️ Identified | The code example in section 8.2.4 shows `watched` variable being used but doesn't show where it's defined. The actual `App.jsx` has `const [watched, setWatched] = useState(tempWatchedData);` but the documentation example omits this. Location: Documentation section 8.2.4 |
+| **Inconsistent variable naming** | ℹ️ Low Priority | `App.jsx` uses `tempWatchedData` and `tempMovieData` as initial state but stores them in `watched` and `movies` state. The `temp` prefix suggests temporary data and should be removed for consistency. Consider renaming to `initialWatchedData`/`initialMovieData` or `watchedData`/`movieData`. Location: `src/App.jsx:12-55,58-59` |
 
 ### 🧱 8.4 Pending Fixes (TODO)
 
@@ -2453,6 +2454,185 @@ export default App;
 - [ ] Review component imports: Check all component files to ensure no stale imports of `ListBox` or `WatchedBox` exist
 ```
 
+
+## 🔧 9. Lesson 114 — *Passing Elements as Props (Alternative to children)*
+
+### 🧠 9.1 Context:
+
+**Passing Elements as Props** is an alternative pattern to using the `children` prop in React. Instead of wrapping content between component tags, you can pass JSX elements directly as named props. This lesson explores when and why you might use this pattern, and compares it to the more idiomatic `children` prop approach.
+
+**What is Passing Elements as Props?**
+
+Passing elements as props means accepting JSX elements through named props (like `element`, `header`, `footer`, `content`) instead of using the special `children` prop. For example:
+
+- **With `children`**: `<Box><MovieList movies={movies} /></Box>`
+- **With named prop**: `<Box element={<MovieList movies={movies} />} />`
+
+**When does this pattern occur?**
+
+- When you want to be explicit about what content is being passed
+- When you need to pass multiple distinct content sections (e.g., `header`, `body`, `footer`)
+- When you want to avoid the implicit `children` prop
+- When building component APIs that require explicit prop names
+- When you need to pass elements conditionally or dynamically
+
+**Examples from this project:**
+
+1. **Box component refactoring**: The `Box.jsx` component was changed from accepting `children` to accepting an `element` prop:
+   - Before: `const Box = ({ children }) => { ... }`
+   - After: `const Box = ({ element }) => { ... }`
+
+2. **Usage in App.jsx**: Instead of wrapping content, elements are passed as props:
+   - `<Box element={<MovieList movies={movies} />} />`
+   - `<Box element={<><WatchedSummary /><WatchedMovieList /></>} />`
+
+**Advantages of Passing Elements as Props:**
+
+- ✅ **Explicit and clear**: The prop name makes it obvious what content is being passed
+- ✅ **Multiple content sections**: Can accept multiple named props (e.g., `header`, `footer`, `content`)
+- ✅ **Type safety**: Easier to validate specific prop types with TypeScript or PropTypes
+- ✅ **Flexible naming**: Prop names can be descriptive of their purpose
+- ✅ **Conditional passing**: Can conditionally pass elements based on logic
+
+**Disadvantages of Passing Elements as Props:**
+
+- ⚠️ **Less idiomatic**: Not the standard React pattern, which can confuse developers familiar with `children`
+- ⚠️ **More verbose**: Requires explicit prop names instead of implicit wrapping
+- ⚠️ **Less composable**: Doesn't leverage React's natural composition patterns
+- ⚠️ **Less flexible**: Requires knowing prop names upfront, whereas `children` works with any content
+- ⚠️ **Not scalable**: Adding more content sections requires adding more props
+
+**When to consider alternatives:**
+
+- **Use `children` when**: Your component wraps content (most common case)
+- **Use named props when**: You need multiple distinct content sections with specific purposes
+- **Use `children` when**: You want idiomatic React code that other developers will immediately understand
+- **Use `children` when**: You want maximum flexibility and composability
+
+**Performance considerations:**
+
+There is **no meaningful performance difference** between using `children` and named props. Both approaches render React elements the same way. The choice is purely about API design and developer experience, not performance.
+
+**Connection to this lesson's practical implementation:**
+
+In this lesson, we demonstrate that while passing elements as props (`element`) is technically possible and works identically to `children`, the `children` prop is the recommended and idiomatic React pattern. The lesson shows both approaches side-by-side to illustrate that `children` is more composable, scalable, and follows React conventions. The final verdict is that `children` should be used when a component "wraps" content, which is the case for the `Box` component.
+
+### ⚙️ 9.2 Updating code according the context:
+
+#### 9.2.1 Changing `children` by `element` in order to send a prop.
+```tsx
+/* src/components/Box.jsx */
+import { useState } from "react";
+
+const Box = ({ element }) => {  // 👈🏽 ✅
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <div className="box">
+      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+        {isOpen ? "–" : "+"}
+      </button>
+      {isOpen && element}  // 👈🏽 ✅
+    </div>
+  );
+};
+
+export default Box;
+```
+
+#### 9.2.2 Applying this element in `App.jsx` component:
+```tsx
+/* src/App.jsx */
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+
+const tempMovieData = [....];
+const tempWatchedData = [....];
+
+function App() {
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
+  return (
+    <>
+      <Navbar>
+        <Search />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box element={<MovieList movies={movies} />} />  // 👈🏽 ✅
+        {/* <Box>
+          <MovieList movies={movies} />
+        </Box> */}
+        {/* <WatchedBox tempWatchedData={tempWatchedData} /> */}
+        <Box
+          element={  // 👈🏽 ✅
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          }
+        />
+        {/* <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box> */}
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+> Performance & behavior
+* No meaningful performance difference.
+* Both render React elements the same way.
+
+This is about API design, not speed.
+
+✅ *Final verdict*
+
+> There is no technical difference in rendering, but there is a big difference in design and intent.
+* `element` → explicit, less idiomatic, more rigid
+* `children` → idiomatic React, composable, scalable
+
+
+💡 Rule of thumb
+
+If your component “wraps” content → use `children`
+
+👉 `children` is the correct and recommended choice.
+
+### 🐞 9.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Box component uses non-idiomatic `element` prop** | ⚠️ Identified | `Box.jsx` currently uses `element` prop instead of `children`, which is less idiomatic React. While functionally equivalent, `children` is the recommended pattern for components that wrap content. Location: `src/components/Box.jsx:3,11` |
+| **Inconsistent composition patterns across components** | ⚠️ Identified | `Box.jsx` uses `element` prop while `Navbar.jsx`, `Main.jsx`, and `ListBox.jsx` use `children` prop. This inconsistency makes the codebase harder to understand and maintain. Location: Multiple files |
+| **Commented code showing alternative `children` usage** | ⚠️ Identified | `App.jsx` contains commented code blocks (lines 69-71, 81-84) showing how `Box` would be used with `children` prop. This suggests uncertainty about which pattern to use and should be cleaned up. Location: `src/App.jsx:69-71,81-84` |
+| **Missing documentation on prop choice** | ⚠️ Identified | No comments or documentation explaining why `element` prop was chosen over `children` in `Box.jsx`. Future developers may not understand the reasoning. Location: `src/components/Box.jsx` |
+| **Potential confusion for React developers** | ℹ️ Low Priority | Using `element` instead of `children` may confuse developers familiar with React conventions, as `children` is the standard pattern for wrapper components. This could impact code readability and onboarding |
+
+### 🧱 9.4 Pending Fixes (TODO)
+
+```md
+- [ ] Refactor `Box.jsx` to use `children` prop: Change `element` prop back to `children` to follow idiomatic React patterns and improve code consistency with other components (`Navbar`, `Main`, `ListBox`)
+- [ ] Update `App.jsx` to use `children` pattern: Replace `<Box element={...} />` with `<Box>{...}</Box>` syntax to match React conventions and improve readability
+- [ ] Remove commented code in `App.jsx`: Clean up commented code blocks showing alternative `children` usage (lines 69-71, 81-84) to keep codebase clean
+- [ ] Standardize composition patterns: Ensure all wrapper components (`Box`, `Navbar`, `Main`, `ListBox`) use the same `children` prop pattern for consistency
+- [ ] Add component documentation: Add comments in `Box.jsx` explaining why `children` is preferred over named props for wrapper components
+- [ ] Update component hierarchy documentation: Document that `Box` component uses `children` prop pattern in the component hierarchy section
+- [ ] Consider multiple content sections: If `Box` needs to support multiple distinct sections in the future (e.g., header, footer), consider using multiple named props (`header`, `footer`) while keeping `children` for main content
+- [ ] Review other components: Check if any other components could benefit from using `children` prop instead of specific named props for better React idiomaticity
+```
 
 
 ---

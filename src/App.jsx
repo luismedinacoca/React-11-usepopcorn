@@ -65,14 +65,23 @@ function App() {
         <NumResult movies={movies} />
       </Navbar>
       <Main>
-        <Box>
+        <Box element={<MovieList movies={movies} />} />
+        {/* <Box>
           <MovieList movies={movies} />
-        </Box>
+        </Box> */}
         {/* <WatchedBox tempWatchedData={tempWatchedData} /> */}
-        <Box>
+        <Box
+          element={
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          }
+        />
+        {/* <Box>
           <WatchedSummary watched={watched} />
           <WatchedMovieList watched={watched} />
-        </Box>
+        </Box> */}
       </Main>
     </>
   );
