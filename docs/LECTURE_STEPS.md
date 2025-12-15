@@ -2200,6 +2200,261 @@ export default App;
 - [ ] Update component documentation: Add comments explaining the composition pattern usage in refactored components (`Navbar.jsx`, `Main.jsx`, `ListBox.jsx`) for future developers
 ```
 
+## 🔧 8. Lesson 113 — *Using Composition to Make a Reusable Box*
+
+### 🧠 8.1 Context:
+
+This lesson demonstrates the practical application of Component Composition to eliminate code duplication by creating a reusable `Box` component. After identifying that `ListBox.jsx` and `WatchedBox.jsx` share identical structural patterns (collapsible box with toggle functionality), we extract the common logic into a generic `Box` component that can be reused across the application.
+
+**What is Code Duplication and Why Eliminate It?**
+
+Code duplication occurs when the same or very similar code appears in multiple places. In this case, both `ListBox.jsx` and `WatchedBox.jsx` implemented the same collapsible box pattern:
+- Both manage `isOpen` state using `useState`
+- Both render a `<div className="box">` container
+- Both have a toggle button with identical behavior
+- Both conditionally render content based on `isOpen` state
+
+**When Does This Pattern Occur?**
+
+- When multiple components share the same UI structure and behavior
+- When refactoring reveals repeated patterns across components
+- When you want to create reusable, generic components
+- When following the DRY (Don't Repeat Yourself) principle
+
+**Examples from this Project:**
+
+1. **Before refactoring**: `ListBox.jsx` and `WatchedBox.jsx` both contained duplicate code for the collapsible box pattern
+2. **After refactoring**: A single `Box.jsx` component handles all collapsible box functionality, accepting any content through the `children` prop
+
+**Advantages of Creating a Reusable Box Component:**
+
+- ✅ **Eliminates duplication**: Single source of truth for the collapsible box pattern
+- ✅ **Easier maintenance**: Changes to the box behavior only need to be made in one place
+- ✅ **Increased reusability**: The `Box` component can be used anywhere a collapsible container is needed
+- ✅ **Better separation of concerns**: `Box` handles structure/behavior, child components handle content
+- ✅ **More flexible**: Can wrap any content, not just specific movie-related components
+- ✅ **Consistent behavior**: All collapsible boxes behave identically across the application
+
+**Disadvantages:**
+
+- ⚠️ **Potential over-abstraction**: If the components were truly different, abstraction might not be beneficial
+- ⚠️ **Requires refactoring**: Existing components need to be updated to use the new pattern
+- ⚠️ **Learning curve**: Developers need to understand the composition pattern to use it effectively
+
+**When to Consider Alternatives:**
+
+- When components share structure but have significantly different behaviors
+- When the abstraction would make the code less readable
+- When the duplication is minimal and unlikely to change
+- When performance considerations require component-specific optimizations
+
+**Connection to this Lesson's Practical Implementation:**
+
+In this lesson, we identify the duplication between `ListBox` and `WatchedBox`, create a generic `Box` component using the `children` prop pattern, and refactor `App.jsx` to use `Box` for both movie list and watched movies sections. This demonstrates how composition can eliminate duplication while maintaining flexibility and improving code maintainability.
+
+### ⚙️ 8.2 Updating code according the context:
+Make an assessment into `WatchBox.jsx` and `ListBox.jsx`
+
+#### 8.2.1 Check it out how similar `WatchBox.jsx` and `ListBox.jsx` components are.
+```tsx
+/* src/components/WatchedBox.jsx */
+import { useState } from "react";
+import WatchedSummary from "./WatchedSummary";
+import WatchedMovieList from "./WatchedMovieList";
+
+const WatchedBox = ({ tempWatchedData }) => {
+  const [isOpen, setisOpen] = useState(true);
+  const [watched, setWatched] = useState(tempWatchedData);
+
+  return (
+    <div className="box">
+      <button className="btn-toggle" onClick={() => setisOpen((open) => !open)}>
+        {isOpen ? "–" : "+"}
+      </button>
+      {isOpen && (
+        <>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </>
+      )}
+    </div>
+  );
+};
+
+export default WatchedBox;
+```
+
+and
+
+```tsx
+/* src/components/ListBox.jsx */
+import { useState } from "react";
+
+const ListBox = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <div className="box">
+      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+        {isOpen ? "–" : "+"}
+      </button>
+      {/* isOpen && <MovieList movies={movies} /> */}
+      {isOpen && children}
+    </div>
+  );
+};
+
+export default ListBox;
+```
+
+What they Both components have in common:
+- Manage local UI state `(isOpen)`
+- Render the same UI pattern:
+  - A container `(div.box)`
+  - A `toggle` button
+  - Conditional rendering based on `isOpen`
+- Implement the same expand / collapse behavior
+
+From a React point of view, they share the same structural and behavioral logic.
+- ✅ Yes, they are very similar
+- ⚠️ But `ListBox` is a more abstract, reusable component, while `WatchedBox` is feature-specific
+
+#### 8.2.2 Create a General component named `Box.jsx`:
+```tsx
+/* src/components/Box.jsx */
+import { useState } from "react";
+
+const Box = ({ children }) => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  return (
+    <div className="box">
+      <button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
+        {isOpen ? "–" : "+"}
+      </button>
+      {isOpen && children}
+    </div>
+  );
+};
+
+export default Box;
+```
+
+#### 8.2.3 Import `Box.jsx` component into `App.jsx`:
+```tsx
+/* src/App.jsx */
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";  // 👈🏽 ✅
+import MovieList from "./components/MovieList";  // 👈🏽 ✅
+//import WatchedBox from "./components/WatchedBox";
+
+const tempMovieData = [....];
+const tempWatchedData = [....];
+
+function App() {
+  const [movies, setMovies] = useState(tempMovieData);
+
+  return (
+    <>
+      <Navbar>
+        <Search />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>  // 👈🏽 ✅
+          <MovieList movies={movies} />
+        </Box>
+        {/* <WatchedBox tempWatchedData={tempWatchedData} /> */}
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+![MovieList component inside Box component only](../img/section10_lecture113-001.png)
+
+#### 8.2.4 Reuse `Box.jsx` component in order to replace `WatchedBox.jsx`:
+```tsx
+/* src/App.jsx */
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";  // 👈🏽 ✅
+import WatchedMovieList from "./components/WatchedMovieList";  // 👈🏽 ✅
+
+const tempMovieData = [....];
+const tempWatchedData = [....];
+
+function App() {
+  const [movies, setMovies] = useState(tempMovieData);
+
+  return (
+    <>
+      <Navbar>
+        <Search />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          <MovieList movies={movies} />
+        </Box>
+        {/* <WatchedBox tempWatchedData={tempWatchedData} /> */}
+        <Box>  // 👈🏽 ✅
+          <WatchedSummary watched={watched} />  // 👈🏽 ✅
+          <WatchedMovieList watched={watched} />  // 👈🏽 ✅
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+![Both WatchedSummary and WatedMovieList components in Box component](../img/section10_lecture113-002.png)
+
+### 🐞 8.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Unused ListBox component** | ⚠️ Identified | `ListBox.jsx` still exists in the codebase but is no longer used in `App.jsx` after refactoring to use `Box.jsx`. The component should be removed or documented as deprecated. Location: `src/components/ListBox.jsx` |
+| **Unused WatchedBox component** | ⚠️ Identified | `WatchedBox.jsx` still exists but is commented out in `App.jsx` (line 71). The component should be removed since `Box.jsx` now handles this functionality. Location: `src/components/WatchedBox.jsx` |
+| **Commented code in App.jsx** | ⚠️ Identified | Line 71 in `App.jsx` contains commented code: `{/* <WatchedBox tempWatchedData={tempWatchedData} /> */}`. Commented code should be removed for code cleanliness. Location: `src/App.jsx:71` |
+| **Commented code in ListBox.jsx** | ⚠️ Identified | Line 11 in `ListBox.jsx` contains commented code: `{/* isOpen && <MovieList movies={movies} /> */}`. Since `ListBox` is no longer used, this file should be removed entirely. Location: `src/components/ListBox.jsx:11` |
+| **Commented code in WatchedMovieList.jsx** | ⚠️ Identified | Lines 6-23 in `WatchedMovieList.jsx` contain commented-out code that duplicates the `WatchedMovie` component implementation. Should be cleaned up. Location: `src/components/WatchedMovieList.jsx:6-23` |
+| **Missing watched state in documentation example** | ⚠️ Identified | The code example in section 8.2.4 shows `watched` variable being used (line 2368-2369) but doesn't show where it's defined. The actual `App.jsx` has `const [watched, setWatched] = useState(tempWatchedData);` but the documentation example omits this. Location: Documentation section 8.2.4 |
+| **Inconsistent variable naming** | ℹ️ Low Priority | `App.jsx` uses `tempWatchedData` as initial state but stores it in `watched` state. The `temp` prefix suggests temporary data and should be removed for consistency. Consider renaming `tempWatchedData` to `initialWatchedData` or `watchedData`. Location: `src/App.jsx:35,59` |
+| **Commented import in App.jsx** | ℹ️ Low Priority | Line 2307 in documentation shows commented import: `//import WatchedBox from "./components/WatchedBox";`. In actual code, this import doesn't exist since `WatchedBox` is no longer used. Documentation should be updated to reflect current state. |
+
+### 🧱 8.4 Pending Fixes (TODO)
+
+```md
+- [ ] Remove unused `ListBox.jsx` component: Delete the file since `Box.jsx` now handles its functionality. Verify no other files import it before deletion
+- [ ] Remove unused `WatchedBox.jsx` component: Delete the file since `Box.jsx` with composition pattern replaces it. Verify no other files import it before deletion
+- [ ] Clean up commented code in `App.jsx`: Remove the commented `WatchedBox` usage on line 71 (`{/* <WatchedBox tempWatchedData={tempWatchedData} /> */}`)
+- [ ] Clean up commented code in `WatchedMovieList.jsx`: Remove commented-out code blocks (lines 6-23) that duplicate `WatchedMovie` component implementation
+- [ ] Update documentation example: Add missing `watched` state declaration in section 8.2.4 code example to match actual implementation: `const [watched, setWatched] = useState(tempWatchedData);`
+- [ ] Standardize variable naming: Consider renaming `tempWatchedData` to `initialWatchedData` or `watchedData` throughout the codebase for better clarity and consistency
+- [ ] Update component documentation: Document that `Box.jsx` is the reusable component for collapsible containers, replacing the previous `ListBox` and `WatchedBox` components
+- [ ] Verify Box component usage: Ensure all instances of collapsible boxes in the application use the `Box` component for consistency
+- [ ] Add PropTypes or TypeScript: Consider adding type validation to `Box.jsx` to ensure `children` prop is properly typed
+- [ ] Review component imports: Check all component files to ensure no stale imports of `ListBox` or `WatchedBox` exist
+```
+
+
+
 ---
 
 🔥 🔥 🔥 

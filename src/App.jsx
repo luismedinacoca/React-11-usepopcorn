@@ -4,9 +4,10 @@ import Main from "./components/Main";
 import Search from "./components/Search";
 import NumResult from "./components/NumResult";
 
-import ListBox from "./components/ListBox";
+import Box from "./components/Box";
 import MovieList from "./components/MovieList";
-import WatchedBox from "./components/WatchedBox";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
 
 const tempMovieData = [
   {
@@ -55,6 +56,7 @@ const tempWatchedData = [
 
 function App() {
   const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
 
   return (
     <>
@@ -63,10 +65,14 @@ function App() {
         <NumResult movies={movies} />
       </Navbar>
       <Main>
-        <ListBox>
+        <Box>
           <MovieList movies={movies} />
-        </ListBox>
-        <WatchedBox tempWatchedData={tempWatchedData} />
+        </Box>
+        {/* <WatchedBox tempWatchedData={tempWatchedData} /> */}
+        <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
       </Main>
     </>
   );
