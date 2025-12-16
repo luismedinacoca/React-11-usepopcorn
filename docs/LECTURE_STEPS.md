@@ -2635,6 +2635,191 @@ If your component “wraps” content → use `children`
 ```
 
 
+## 🔧 10. Lesson 115 — *Building a Reusable Star Rating Component*
+
+### 🧠 10.1 Context:
+
+**Reusable Components** are React components designed to be used in multiple places throughout an application with different configurations. They encapsulate common UI patterns and behaviors, making code more maintainable and consistent.
+
+**StarRating Component** is a perfect example of a reusable component. It displays a visual rating system using stars, which can be configured with different maximum ratings (e.g., 5 stars, 10 stars) and reused across different parts of the application.
+
+**When it occurs/is used:**
+- When you need the same UI pattern in multiple places (e.g., rating movies, products, reviews)
+- When you want to maintain consistency across the application
+- When you need to reduce code duplication
+- When building a design system or component library
+
+**Examples from the project:**
+- The `StarRating` component in `src/StarRating.jsx` accepts a `maxRating` prop to control how many stars are displayed
+- It's currently used in `src/main.jsx` with different configurations: `<StarRating maxRating={5} />` and `<StarRating maxRating={10} />`
+- The component uses `Array.from()` to dynamically generate stars based on the `maxRating` prop
+
+**Advantages:**
+- **DRY Principle**: Write once, use many times
+- **Consistency**: Ensures the same look and behavior across the app
+- **Maintainability**: Changes in one place affect all usages
+- **Testability**: Easier to test a single component in isolation
+- **Flexibility**: Props allow customization without code duplication
+- **Reusability**: Can be shared across projects or teams
+
+**Disadvantages:**
+- **Over-engineering risk**: Creating reusable components for one-time use adds unnecessary complexity
+- **Prop complexity**: Too many props can make components hard to use
+- **Performance**: May need optimization for high-frequency updates
+- **Abstraction overhead**: Sometimes a simple inline solution is clearer
+
+**When to consider alternatives:**
+- If the component is only used once, consider keeping it inline
+- If props become too complex, consider composition patterns or multiple specialized components
+- If performance is critical, consider memoization or more specific implementations
+- If the component needs very different behaviors in different contexts, consider creating variants or separate components
+
+**Connection to practical implementation:**
+The `StarRating` component demonstrates the foundation of reusable components by accepting props (`maxRating`) to customize its behavior. This pattern will be extended in future lessons to add interactivity (clicking stars), state management (storing selected rating), and integration with the movie rating system.
+
+
+### ⚙️ 10.2 Updating code according the context:
+
+#### 10.2.1 Create `StarRating` component and comment other components.
+```tsx
+/* src/StarRating.jsx */
+const StarRating = () => {
+  return (
+    <div>
+      <div>
+        {Array.from({ length: 5 }, (_, i) => (
+          <span>S{i + 1}</span>
+        ))}
+      </div>
+      <p>10</p>
+    </div>
+  );
+};
+
+export default StarRating;
+```
+
+#### 10.2.2 Add some simple style to `StarRating` component:
+```tsx
+/*  */
+const containerStyle = {                          // 👈🏽 ✅
+  display: "flex",
+  alignItems: "center",
+  gap: "16px",
+};
+
+const starContainerStyle = {                      // 👈🏽 ✅
+  display: "flex",
+  gap: "4px",
+};
+
+const textStyle = {                              // 👈🏽 ✅
+  lineHeight: "1",
+  gap: "0",
+};
+
+const StarRating = () => {
+  return (
+    <div style={containerStyle}>                {/* 👈🏽 ✅ */}
+      <div style={starContainerStyle}>          {/* 👈🏽 ✅ */}
+        {Array.from({ length: 5 }, (_, i) => (
+          <span>S{i + 1}</span>
+        ))}
+      </div>
+      <p style={textStyle}>10</p>               {/* 👈🏽 ✅ */}
+    </div>
+  );
+};
+
+export default StarRating;
+```
+
+#### 10.2.3 Adding the `maxrating` as prop:
+```tsx
+/* src/main.jsx */
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+// import './index.css'
+// import App from './App.jsx'
+import StarRating from "./StarRating.jsx";
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    {/* <App /> */}
+    <StarRating maxRating={5} />    {/* 👈🏽 ✅ */}
+    <StarRating maxRating={10} />   {/* 👈🏽 ✅ */}
+  </StrictMode>
+);
+```
+
+
+```jsx
+/* src/StarRating.jsx */
+const containerStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "16px",
+};
+
+const starContainerStyle = {
+  display: "flex",
+  gap: "4px",
+};
+
+const textStyle = {
+  lineHeight: "1",
+  gap: "0",
+};
+
+const StarRating = ({ maxRating = 3 }) => {                 {/* 👈🏽 ✅ */} 
+  return (
+    <div style={containerStyle}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (   // 👈🏽 ✅ 
+          <span>S{i + 1}</span>
+        ))}
+      </div>
+      <p style={textStyle}>10</p>
+    </div>
+  );
+};
+
+export default StarRating;
+```
+
+Notes:
+* setting _by default_ `3 stars` when `main.jsx` has that: `<StarRating />`
+
+
+### 🐞 10.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Hardcoded rating display** | ⚠️ Identified | In `src/StarRating.jsx` line 25, the rating text is hardcoded as `10` instead of displaying a dynamic rating value. The component should accept a `rating` prop to display the actual rating. |
+| **Missing rating prop** | ⚠️ Identified | The component doesn't accept a `rating` prop to display the current rating value. It only accepts `maxRating` to control the number of stars, but there's no way to show an actual rating. |
+| **No interactivity** | ⚠️ Identified | The component is purely presentational. Users cannot click on stars to select a rating. This limits its reusability for interactive rating scenarios (e.g., user rating a movie). |
+| **Missing accessibility features** | ⚠️ Identified | The component lacks ARIA attributes (`aria-label`, `role="radiogroup"`), keyboard navigation support, and screen reader compatibility. This makes it inaccessible for users relying on assistive technologies. |
+| **No prop validation** | ℹ️ Low Priority | The component doesn't validate props (no PropTypes or TypeScript). Invalid values like negative numbers or non-numeric values could cause unexpected behavior. |
+| **Styles defined outside component** | ℹ️ Low Priority | Style objects (`containerStyle`, `starContainerStyle`, `textStyle`) are defined outside the component. While this works, it could cause issues if multiple instances need different styles or if styles need to be dynamic based on props. |
+| **Placeholder star display** | ⚠️ Identified | Stars are displayed as text `S{i + 1}` (e.g., "S1", "S2") instead of actual star icons or emojis. This is clearly a placeholder that needs to be replaced with proper star visualization. |
+| **No default value handling** | ℹ️ Low Priority | While `maxRating` has a default value of `3` in the documentation example, the actual implementation in `src/StarRating.jsx` doesn't set a default, which could cause issues if the prop is undefined. |
+
+### 🧱 10.4 Pending Fixes (TODO)
+
+```md
+- [ ] Add `rating` prop to `StarRating` component: Update `src/StarRating.jsx` to accept a `rating` prop and display it instead of the hardcoded "10" value (line 25)
+- [ ] Replace placeholder star text with actual star icons: Replace `S{i + 1}` text (line 22) with star emojis (⭐) or SVG icons for proper visual representation
+- [ ] Add default value for `maxRating` prop: Ensure `maxRating` has a default value (e.g., `maxRating = 5`) in the component definition to handle cases where the prop is not provided
+- [ ] Implement interactive star selection: Add click handlers to stars allowing users to select a rating, and manage the selected rating state (will require useState hook)
+- [ ] Add accessibility attributes: Include `aria-label`, `role="radiogroup"` or `role="button"`, `tabIndex`, and keyboard event handlers (`onKeyDown`) for full accessibility support
+- [ ] Add prop validation: Implement PropTypes or convert to TypeScript to validate that `maxRating` and `rating` are positive numbers within acceptable ranges
+- [ ] Consider moving styles inside component: Evaluate if styles should be moved inside the component or made dynamic based on props for better encapsulation
+- [ ] Add visual feedback for selected stars: Implement visual distinction between selected and unselected stars (e.g., filled vs. empty stars, different colors)
+- [ ] Handle edge cases: Add validation to ensure `rating` doesn't exceed `maxRating` and handle undefined/null values gracefully
+- [ ] Add component documentation: Include JSDoc comments explaining props, usage examples, and component behavior
+```
+
+
 ---
 
 🔥 🔥 🔥 
