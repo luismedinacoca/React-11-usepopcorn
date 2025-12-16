@@ -2819,6 +2819,381 @@ Notes:
 - [ ] Add component documentation: Include JSDoc comments explaining props, usage examples, and component behavior
 ```
 
+## 🔧 11. Lesson 116 — *Creating the Stars*
+
+### 🧠 11.1 Context:
+
+Creating the Stars component (`Star.jsx`) is a fundamental step in building a reusable and interactive star rating system. This lesson focuses on implementing a single star component that can display both filled and empty states, which will be used as building blocks for the complete rating interface.
+
+**What is the Star Component?**
+
+The `Star` component is a presentational React component that renders a single star icon using SVG. It can display two visual states:
+- **Full star**: A filled star icon (used for selected/rated stars)
+- **Empty star**: An outlined star icon (used for unselected/unrated stars)
+
+**When is it Used?**
+
+The Star component is used when building rating systems where users need to:
+- Rate movies, products, services, or any content
+- Display existing ratings visually
+- Provide interactive feedback through visual states
+- Create accessible rating interfaces
+
+**Examples from the Project:**
+
+In this project, the Star component is used in `StarRating.jsx` to create a rating interface:
+
+```8:30:src/Star.jsx
+const Star = ({ onRate, full }) => {
+  return (
+    <span role="button" style={starStyle} onClick={onRate}>
+      {full ? (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#000" stroke="#000">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      ) : (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#000">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="{2}"
+            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+          />
+        </svg>
+      )}
+    </span>
+  );
+};
+```
+
+The component receives two props:
+- `onRate`: A callback function that handles click events
+- `full`: A boolean that determines which star SVG to render
+
+**Advantages:**
+
+1. **Reusability**: The component can be used multiple times to create a rating system of any size
+2. **Separation of Concerns**: Each star is responsible only for its own rendering and click handling
+3. **Maintainability**: Changes to star appearance only need to be made in one place
+4. **Flexibility**: Easy to extend with additional features (hover states, half-stars, animations)
+5. **SVG Benefits**: Scalable vector graphics that look crisp at any size without additional assets
+
+**Disadvantages:**
+
+1. **SVG Complexity**: Inline SVG code can make the component harder to read
+2. **Performance**: Multiple SVG elements might impact performance with very large rating systems (though negligible for typical use cases)
+3. **Accessibility**: Requires additional work to make fully accessible (ARIA labels, keyboard navigation)
+4. **Styling Limitations**: Hardcoded styles make it less flexible for theming
+
+**When to Consider Alternatives:**
+
+- **Icon Libraries**: Consider using icon libraries (React Icons, Font Awesome) if you need many different icons or want to reduce bundle size
+- **Emoji Stars**: For simple use cases, emoji stars (⭐) might be sufficient and easier to implement
+- **Image Sprites**: For complex animations or many icon variations, image sprites might be more performant
+- **CSS-based Stars**: Pure CSS solutions can work but are less flexible for interactive states
+
+**Connection to Practical Implementation:**
+
+In this lesson, the Star component is created as a building block that will be used by `StarRating` to display multiple stars. The component uses conditional rendering (`full ? ... : ...`) to switch between filled and empty star SVGs, and accepts an `onRate` callback to handle user interactions. This pattern demonstrates the React principle of creating small, focused components that compose together to build more complex UIs.
+
+
+### ⚙️ 11.2 Updating code according the context:
+
+#### 11.2.1 Create `Star` component:
+```tsx
+/* src/Star.jsx */
+const starStyle = {
+  width: "48px",
+  height: "48px",
+  display: "block",
+  cursor: "pointer",
+};
+
+const Star = () => {
+  return (
+    <span role="button" style={starStyle}>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#000" stroke="#000">
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+      </svg>
+    </span>
+  );
+};
+export default Star;
+
+/*
+FULL STAR
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 20 20"
+  fill="#000"
+  stroke="#000"
+>
+  <path
+    d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+  />
+</svg>
+
+EMPTY STAR
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  fill="none"
+  viewBox="0 0 24 24"
+  stroke="#000"
+>
+  <path
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    strokeWidth="{2}"
+    d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+  />
+</svg>
+*/
+```
+
+#### 11.2.2 Import `Star` component into `StarRating.jsx`:
+```tsx
+/* src/StarRating.jsx */
+import Star from "./Star";  // 👈🏽 ✅
+const containerStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "16px",
+};
+const starContainerStyle = {
+  display: "flex",
+  // gap: "4px",  // 👈🏽 ✅
+};
+const textStyle = {
+  lineHeight: "1",
+  gap: "0",
+};
+const StarRating = ({ maxRating }) => {
+  return (
+    <div style={containerStyle}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star />  {/* 👈🏽 ✅ */}
+        ))}
+      </div>
+      <p style={textStyle}>10</p>
+    </div>
+  );
+};
+export default StarRating;
+```
+
+![Star Rating components](../img/section10_lecture116-001.png)
+
+#### 11.2.3 Focus on Rating number displayed:
+When user clicks on any of those stars, need to be display the current number in the paragraph element. So in case need to be rendered some in screen, using state is mandatory.
+```tsx
+/*  */
+import { useState } from "react";                 // 👈🏽 ✅
+import Star from "./Star";
+const containerStyle = {....};
+const starContainerStyle = {....};
+const textStyle = {....};
+
+const StarRating = ({ maxRating = 3 }) => {
+  const [rating, setRating] = useState(0);
+  return (
+    <div style={containerStyle}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star key={i} />
+        ))}
+      </div>
+      <p style={textStyle}>{rating || ""}</p>     {/* 👈🏽 ✅ */}
+    </div>
+  );
+};
+
+export default StarRating;
+```
+
+
+#### 11.2.4 Adding the `onClick` event handler in `StarRating` as well as `Star` components:
+![](../img/section10_lecture116-002.png)
+
+```jsx
+/* src/StarRating.jsx */
+import { useState } from "react";
+import Star from "./Star";
+const containerStyle = {....};
+const starContainerStyle = {....};
+const textStyle = {....};
+const StarRating = ({ maxRating = 3 }) => {
+  const [rating, setRating] = useState(1);                  // 👈🏽 ✅
+  return (
+    <div style={containerStyle}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star key={i} onClick={() => setRating(i + 1)} /> {/* 👈🏽 ✅ */}
+        ))}
+      </div>
+      <p style={textStyle}>{rating || ""}</p>
+    </div>
+  );
+};
+export default StarRating;
+```
+
+```tsx
+/* src/Star.jsx */
+const starStyle = {....};
+const Star = ({ onClick }) => {                                 // 👈🏽 ✅
+  return (
+    <span role="button" style={starStyle} onClick={onClick}>    {/* 👈🏽 ✅ */}
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#000" stroke="#000">
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+      </svg>
+    </span>
+  );
+};
+export default Star;
+```
+
+#### 11.2.5 Enhance this function due to confusing names:
+
+```tsx
+/* src/StarRating.jsx */
+import { useState } from "react";
+import Star from "./Star";
+const containerStyle = {....};
+const starContainerStyle = {....};
+const textStyle = {....};
+const StarRating = ({ maxRating = 3 }) => {
+  const [rating, setRating] = useState(1);
+  const handleRating = (rating) => {                            // 👈🏽 ✅
+    setRating(rating);
+  }
+  return (
+    <div style={containerStyle}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star key={i} onRate={() => handleRating(i + 1)} />  {/* 👈🏽 ✅ */}
+        ))}
+      </div>
+      <p style={textStyle}>{rating || ""}</p>
+    </div>
+  );
+};
+export default StarRating;
+```
+
+```tsx
+/* src/Star.jsx */
+const starStyle = {....};
+const Star = ({ onRate }) => {                                // 👈🏽 ✅
+  return (
+    <span role="button" style={starStyle} onClick={onRate}>   {/* 👈🏽 ✅ */}
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#000" stroke="#000">
+        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+      </svg>
+    </span>
+  );
+};
+
+export default Star;
+```
+
+
+#### 11.2.6 Handle the Full and Empty stars adding a `full` variable as prop:
+```tsx
+/* src/Star.jsx */
+const starStyle = {....};
+const Star = ({ onRate, full }) => {  // 👈🏽 ✅
+  return (
+    <span role="button" style={starStyle} onClick={onRate}>
+      {full ? (  {/* 👈🏽 ✅ */}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#000" stroke="#000">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      ) : (  {/* 👈🏽 ✅ */}
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#000">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="{2}"
+            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+          />
+        </svg>
+      )}
+    </span>
+  );
+};
+export default Star;
+```
+
+```tsx
+/* src/StarRating.jsx */
+import { useState } from "react";
+import Star from "./Star";
+const containerStyle = {....};
+const starContainerStyle = {....};
+const textStyle = {....};
+const StarRating = ({ maxRating = 3 }) => {
+  const [rating, setRating] = useState(1);
+  const handleRating = (rating) => {
+    setRating(rating);
+  };
+  return (
+    <div style={containerStyle}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star key={i} onRate={() => handleRating(i + 1)} full={rating >= i + 1} />  {/* 👈🏽 ✅ */}
+        ))}
+      </div>
+      <p style={textStyle}>{rating || ""}</p>
+    </div>
+  );
+};
+export default StarRating;
+```
+
+![full - rating & indix logic](../img/section10-lecture116-003.png)
+
+### 🐞 11.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Incorrect strokeWidth syntax** | ⚠️ Identified | In `src/Star.jsx` line 20, `strokeWidth="{2}"` uses curly braces inside quotes, which renders as the literal string `"{2}"` instead of the number `2`. Should be `strokeWidth={2}` or `strokeWidth="2"`. This causes the empty star to render incorrectly with an invalid stroke width. |
+| **Missing accessibility attributes** | ⚠️ Identified | The `Star` component in `src/Star.jsx` lacks essential accessibility features: no `aria-label` to describe the star's purpose, no `tabIndex` for keyboard navigation, and no `onKeyDown` handler for keyboard interaction. Users relying on screen readers or keyboard navigation cannot properly interact with the component. |
+| **No prop validation** | ⚠️ Identified | The `Star` component doesn't validate its props (`onRate`, `full`). Missing `onRate` could cause runtime errors, and `full` could be undefined/null leading to unexpected rendering. No PropTypes or TypeScript types are defined to catch these issues during development. |
+| **Missing error handling for onRate** | ⚠️ Identified | In `src/Star.jsx` line 10, `onClick={onRate}` will throw an error if `onRate` is undefined or null. The component should handle cases where the callback is not provided, either by providing a default no-op function or by conditionally rendering the click handler. |
+| **Hardcoded SVG colors** | ℹ️ Low Priority | Both star SVGs use hardcoded `fill="#000"` and `stroke="#000"` (black), making them difficult to theme or customize. Colors should be configurable via props or CSS variables for better flexibility. |
+| **Large SVG code blocks** | ℹ️ Low Priority | The inline SVG code in `src/Star.jsx` (lines 12-14 and 16-23) makes the component harder to read and maintain. Consider extracting SVGs to separate components or using an icon library for better code organization. |
+| **Commented SVG examples** | ℹ️ Low Priority | Lines 31-62 in `src/Star.jsx` contain commented-out SVG examples that add noise to the codebase. These should be moved to documentation or removed if no longer needed. |
+| **No hover state handling** | ℹ️ Low Priority | The component doesn't provide visual feedback on hover, which could improve user experience. Adding hover states would make the interactive nature of the stars more apparent to users. |
+| **Inconsistent viewBox values** | ℹ️ Low Priority | The full star uses `viewBox="0 0 20 20"` while the empty star uses `viewBox="0 0 24 24"`. This inconsistency might cause slight visual misalignment or scaling differences between the two states. |
+
+### 🧱 11.4 Pending Fixes (TODO)
+
+```md
+- [ ] Fix strokeWidth syntax in Star component: Change `strokeWidth="{2}"` to `strokeWidth={2}` in `src/Star.jsx` line 20 to properly set the stroke width for the empty star SVG
+- [ ] Add accessibility attributes to Star component: Add `aria-label`, `tabIndex="0"`, and `onKeyDown` handler in `src/Star.jsx` to support keyboard navigation and screen readers
+- [ ] Add prop validation: Implement PropTypes for `Star` component to validate `onRate` (function, required) and `full` (boolean, optional) props, or convert to TypeScript with proper type definitions
+- [ ] Add default handler for onRate: Provide a default no-op function or conditional rendering in `src/Star.jsx` to prevent errors when `onRate` prop is not provided
+- [ ] Make SVG colors configurable: Add `color` prop to `Star` component or use CSS variables to allow customization of star colors instead of hardcoded `#000`
+- [ ] Extract SVG code to separate components: Create `FullStarIcon` and `EmptyStarIcon` components to improve code readability and maintainability in `src/Star.jsx`
+- [ ] Remove or document commented SVG examples: Clean up commented code (lines 31-62) in `src/Star.jsx` by either removing it or moving to proper documentation
+- [ ] Add hover state styling: Implement hover effects (e.g., scale transform or color change) to provide visual feedback when users hover over stars
+- [ ] Standardize viewBox values: Use consistent `viewBox` dimensions for both full and empty star SVGs to ensure visual consistency
+- [ ] Add keyboard event handler: Implement `handleKeyDown` function in `Star` component to allow rating selection using Enter or Space keys for better accessibility
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ---
 
