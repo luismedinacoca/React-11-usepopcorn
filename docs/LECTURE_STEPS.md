@@ -3183,6 +3183,293 @@ export default StarRating;
 ```
 
 
+## 🔧 12. Lesson 117 — *Handling Hover Events*
+
+### 🧠 12.1 Context:
+
+Hover events in React provide a way to detect when a user's mouse pointer enters or leaves an element, enabling interactive UI feedback and preview functionality. This lesson focuses on implementing hover interactions in the `StarRating` component to provide visual feedback before a user commits to a rating selection.
+
+**What are hover events?**
+
+Hover events in React are handled through two primary event handlers:
+- `onMouseEnter`: Fires when the mouse pointer enters the element's boundaries
+- `onMouseLeave`: Fires when the mouse pointer leaves the element's boundaries
+
+These events are part of React's SyntheticEvent system, which wraps native browser events to provide a consistent API across different browsers.
+
+**When and why they're used:**
+
+Hover events are commonly used for:
+- **Preview functionality**: Showing what would happen if the user interacts with an element (e.g., previewing a rating before clicking)
+- **Visual feedback**: Highlighting interactive elements to indicate they're clickable
+- **Tooltips and hints**: Displaying additional information when hovering over elements
+- **Progressive disclosure**: Revealing hidden content or options on hover
+
+In this project, hover events enable a "preview" mode where users can see how many stars would be filled before actually clicking to set a rating. This improves the user experience by providing immediate visual feedback.
+
+**Examples from the project:**
+
+In `src/StarRating.jsx`, hover events are used to manage a temporary rating state:
+- `tempRating` state stores the preview rating while hovering
+- `onHoverIn` callback sets the temporary rating when entering a star
+- `onHoverOut` callback resets the temporary rating when leaving
+
+The component uses conditional logic to display either the temporary rating (while hovering) or the actual rating (when not hovering):
+```27:27:src/StarRating.jsx
+  const displayedRating = tempRating || rating || "";
+```
+
+In `src/Star.jsx`, the hover handlers are connected to React's mouse events:
+```15:17:src/Star.jsx
+      onMouseEnter={onHoverIn}
+      // onMouseLeave={() => console.log("Leave")}
+      onMouseLeave={onHoverOut}
+```
+
+**Advantages:**
+- **Improved UX**: Provides immediate visual feedback without requiring a click
+- **Reduced errors**: Users can preview their selection before committing
+- **Better discoverability**: Makes interactive elements more obvious
+- **Native browser support**: Works across all modern browsers without additional libraries
+- **Simple implementation**: Easy to add with minimal code changes
+
+**Disadvantages:**
+- **Not accessible on touch devices**: Hover events don't work on mobile/touch devices, requiring alternative interaction patterns
+- **Accessibility concerns**: Keyboard-only users cannot trigger hover states, potentially missing important information
+- **Potential performance issues**: Rapid mouse movements can trigger many events, though React's event delegation helps mitigate this
+- **State management complexity**: Requires managing temporary state that may not match the actual state
+
+**When to consider alternatives:**
+
+- **Touch devices**: Use `onTouchStart` or `onTouchEnd` for mobile interactions, or rely on click/tap events
+- **Keyboard accessibility**: Provide keyboard equivalents (e.g., `onFocus`/`onBlur`) for keyboard users
+- **Complex interactions**: For more sophisticated hover behaviors, consider libraries like Framer Motion or CSS `:hover` pseudo-classes
+- **Performance-critical scenarios**: If hover events cause performance issues, consider debouncing or throttling the handlers
+- **Accessibility-first applications**: Prioritize keyboard and screen reader support, using hover as an enhancement rather than a requirement
+
+**Connection to the lesson's practical implementation:**
+
+This lesson demonstrates how hover events can enhance a rating component by allowing users to preview their selection. The implementation shows the pattern of using temporary state (`tempRating`) that doesn't persist until the user clicks, creating a smooth, intuitive interaction pattern that's common in modern web applications.
+
+
+### ⚙️ 12.2 Updating code according the context:
+
+#### 12.2.1 Handle the event hovering the stars:
+```tsx
+/* src/StarRating.jsx */
+import { useState } from "react";
+import Star from "./Star";
+const containerStyle = {....};
+const starContainerStyle = {....};
+const textStyle = {....};
+const StarRating = ({ maxRating = 3 }) => {
+  const [rating, setRating] = useState(0);
+  const [tempRating, setTempRating] = useState(0);  // 👈🏽 ✅
+  const handleRating = (rating) => {
+    setRating(rating);
+  };
+  return (
+    <div style={containerStyle}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star key={i} onRate={() => handleRating(i + 1)} full={rating >= i + 1} />
+        ))}
+      </div>
+      <p style={textStyle}>{rating || ""}</p>
+    </div>
+  );
+};
+export default StarRating;
+```
+
+```tsx
+/* src/Star.jsx */
+const starStyle = {
+  width: "48px",
+  height: "48px",
+  display: "block",
+  cursor: "pointer",
+};
+const Star = ({ onRate, full }) => {
+  return (
+    <span
+      role="button"
+      style={starStyle}
+      onClick={onRate}
+      onMouseEnter={() => console.log("Enter")} {/* 👈🏽 ✅ */}
+      onMouseLeave={() => console.log("Leave")} {/* 👈🏽 ✅ */}
+    >
+      {full ? (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#000" stroke="#000">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      ) : (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#000">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="{2}"
+            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+          />
+        </svg>
+      )}
+    </span>
+  );
+};
+
+export default Star;
+```
+
+Testing hover in and out into any star:
+![Hover in and out a star](../img/section10-lecture117-001.png)
+
+#### 12.2.2 APply the `onHoverIn` and `onHoverOut`:
+```tsx
+/* src/StarRating.jsx */
+import { useState } from "react";
+import Star from "./Star";
+const containerStyle = {....};
+const starContainerStyle = {....};
+const textStyle = {....};
+const StarRating = ({ maxRating = 3 }) => {
+  const [rating, setRating] = useState(0);
+  const [tempRating, setTempRating] = useState(0);
+  const handleRating = (rating) => {
+    setRating(rating);
+  };
+  return (
+    <div style={containerStyle}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star
+            key={i}
+            onRate={() => handleRating(i + 1)}
+            full={rating >= i + 1}
+            onHoverIn={() => setTempRating(i + 1)}    {/* 👈🏽 ✅ */}
+            onHoverOut={() => setTempRating(0)}       {/* 👈🏽 ✅ */}
+          />
+        ))}
+      </div>
+      <p style={textStyle}>{rating || ""}</p>
+    </div>
+  );
+};
+export default StarRating;
+```
+
+In `Star.jsx` component:
+```jsx
+/* src/Star.jsx */
+const starStyle = {
+  width: "48px",
+  height: "48px",
+  display: "block",
+  cursor: "pointer",
+};
+const Star = ({ onRate, full, onHoverIn, onHoverOut }) => {
+  return (
+    <span
+      role="button"
+      style={starStyle}
+      onClick={onRate}
+      // onMouseEnter={() => console.log("Enter")}
+      onMouseEnter={onHoverIn}
+      // onMouseLeave={() => console.log("Leave")}
+      onMouseLeave={onHoverOut}
+    >
+      {full ? (
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="#000" stroke="#000">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      ) : (
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="#000">
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="{2}"
+            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+          />
+        </svg>
+      )}
+    </span>
+  );
+};
+
+export default Star;
+```
+
+#### 12.2.3 Working out with `tempRating` and the `fullStar`:
+```tsx
+/* src/StarRating.jsx */
+import { useState } from "react";
+import Star from "./Star";
+const containerStyle = {....};
+const starContainerStyle = {....};
+const textStyle = {....};
+const StarRating = ({ maxRating = 3 }) => {
+  const [rating, setRating] = useState(0);
+  const [tempRating, setTempRating] = useState(0);
+  const handleRating = (rating) => {
+    setRating(rating);
+  };
+  return (
+    <div style={containerStyle}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star
+            key={i}
+            onRate={() => handleRating(i + 1)}
+            full={tempRating ? tempRating >= i + 1 : rating >= i + 1} {/* 👈🏽 ✅ */}
+            onHoverIn={() => setTempRating(i + 1)}
+            onHoverOut={() => setTempRating(0)}   
+          />
+        ))}
+      </div>
+      <p style={textStyle}>{tempRating || rating || ""}</p>       {/* 👈🏽 ✅ */}
+    </div>
+  );
+};
+export default StarRating;
+```
+
+- Determines whether the `star` is filled or full.
+- While hovering, the temporary rating (`tempRating`) is used to _**preview**_ the selection.
+- When not hovering, the _**saved rating**_ (`rating`) is used instead.
+
+### 🐞 12.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Commented debug code in production** | ⚠️ Identified | In `src/Star.jsx` lines 14 and 16, there are commented-out `console.log` statements (`// onMouseEnter={() => console.log("Enter")}` and `// onMouseLeave={() => console.log("Leave")}`). These should be removed to keep the codebase clean and avoid confusion. Debug code should not remain in production code, even if commented. |
+| **Inconsistent use of displayedRating variable** | ⚠️ Identified | In `src/StarRating.jsx` line 27, `displayedRating` is calculated but not used consistently. The `full` prop uses `displayedRating >= i + 1` (line 36), but the text display uses `tempRating || rating || ""` directly (line 42). This inconsistency could lead to bugs if the logic changes. Should use `displayedRating` consistently throughout or remove the variable if not needed. |
+| **Missing default handlers for optional hover props** | ⚠️ Identified | The `Star` component in `src/Star.jsx` accepts `onHoverIn` and `onHoverOut` as props but doesn't provide default handlers. If these props are undefined, the component will pass `undefined` to `onMouseEnter` and `onMouseLeave`, which could cause runtime errors or unexpected behavior. Should provide default no-op functions: `onHoverIn = () => {}` and `onHoverOut = () => {}`. |
+| **No prop validation for hover handlers** | ⚠️ Identified | The `Star` component doesn't validate that `onHoverIn` and `onHoverOut` are functions. If incorrect prop types are passed (e.g., strings or numbers), the component will fail at runtime. Should implement PropTypes or TypeScript to catch these issues during development. |
+| **Hover state not accessible via keyboard** | ⚠️ Identified | The hover functionality only works with mouse interactions. Keyboard users cannot preview ratings using `onFocus`/`onBlur` events, creating an accessibility barrier. The component should provide equivalent functionality for keyboard navigation to ensure all users have the same experience. |
+| **Potential memory leak with inline arrow functions** | ℹ️ Low Priority | In `src/StarRating.jsx` lines 37-38, inline arrow functions are created on every render (`onHoverIn={() => setTempRating(i + 1)}`). While React's reconciliation handles this efficiently, it could be optimized using `useCallback` for better performance, especially if the component re-renders frequently. |
+| **No visual feedback for hover state** | ℹ️ Low Priority | While the hover events change the star fill state, there's no additional visual feedback (e.g., scale transform, color change, or shadow) to indicate the hover interaction. Adding CSS transitions or transform effects would enhance the user experience and make the hover state more obvious. |
+| **tempRating state persists after mouse leave** | ℹ️ Low Priority | The `tempRating` state is reset to 0 on `onMouseLeave`, but if the user moves the mouse quickly or the event doesn't fire properly, the temporary rating might persist. Consider adding a cleanup effect or ensuring the state resets reliably. |
+
+### 🧱 12.4 Pending Fixes (TODO)
+
+```md
+- [ ] Remove commented debug code: Delete commented `console.log` statements in `src/Star.jsx` lines 14 and 16 to clean up the codebase
+- [ ] Standardize displayedRating usage: Use `displayedRating` consistently in both the `full` prop logic and text display in `src/StarRating.jsx`, or remove the variable if direct `tempRating || rating || ""` is preferred
+- [ ] Add default handlers for hover props: Provide default no-op functions for `onHoverIn` and `onHoverOut` props in `src/Star.jsx` to prevent errors when props are undefined: `const Star = ({ onRate, full, onHoverIn = () => {}, onHoverOut = () => {} }) => { ... }`
+- [ ] Add prop validation for hover handlers: Implement PropTypes or TypeScript types in `src/Star.jsx` to validate that `onHoverIn` and `onHoverOut` are functions, ensuring type safety and catching errors early
+- [ ] Implement keyboard accessibility for hover: Add `onFocus` and `onBlur` event handlers in `src/Star.jsx` that mirror the hover functionality, allowing keyboard users to preview ratings by focusing on stars with Tab key
+- [ ] Optimize inline arrow functions: Wrap hover handlers in `useCallback` in `src/StarRating.jsx` to prevent unnecessary function recreation on each render, improving performance: `const handleHoverIn = useCallback((rating) => setTempRating(rating), [])`
+- [ ] Add visual hover feedback: Implement CSS transitions or transform effects (e.g., `transform: scale(1.1)` or color change) in `src/Star.jsx` to provide additional visual feedback when hovering over stars
+- [ ] Add cleanup for tempRating state: Ensure `tempRating` resets reliably by adding a `useEffect` cleanup or handling edge cases where `onMouseLeave` might not fire properly in `src/StarRating.jsx`
+```
+
+
+
+
+
+
+
+
+
 
 
 
