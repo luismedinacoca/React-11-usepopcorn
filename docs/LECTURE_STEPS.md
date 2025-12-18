@@ -3581,6 +3581,504 @@ In this lesson, we learn that props are not just a way to pass data—they are t
 ```
 
 
+## 🔧 14. Lesson 119 — *Improving Reusability with Props*
+
+### 🧠 14.1 Context:
+
+**Props (Properties)** are a fundamental mechanism in React for passing data from parent components to child components. They enable component reusability by allowing components to be configured differently based on the data they receive, rather than having hardcoded values.
+
+**When and Why Props are Used:**
+- **Component Configuration**: Props allow components to be configured with different values (colors, sizes, behaviors) without modifying the component's internal code
+- **Data Flow**: Props enable unidirectional data flow from parent to child, making the application's data flow predictable and easier to debug
+- **Reusability**: By accepting props, a single component can be used in multiple contexts with different configurations
+- **Separation of Concerns**: Props help separate component logic from component configuration, making components more maintainable
+
+**Examples from the Project:**
+
+In this lesson, the `StarRating` component was enhanced with multiple props to improve its reusability:
+
+```14:14:src/StarRating.jsx
+const StarRating = ({ maxRating = 3, color = "#fcc419", size = 48, className = "", messages = [], onSetRating }) => {
+```
+
+- **`maxRating`**: Controls how many stars are displayed (default: 3)
+- **`color`**: Customizes the star color (default: "#fcc419")
+- **`size`**: Controls the size of stars in pixels (default: 48)
+- **`className`**: Allows external CSS styling
+- **`messages`**: Array of custom messages to display instead of numeric rating
+- **`onSetRating`**: Callback function to handle rating changes externally
+
+The component is then reused with different configurations:
+
+```11:12:src/main.jsx
+    <StarRating maxRating={5} messages={["Terrible", "Bad", "Okay", "Good", "Excellent"]} />
+    <StarRating maxRating={5} size={24} color="red" className="test" />
+```
+
+**Advantages:**
+- ✅ **Reusability**: One component can serve multiple use cases
+- ✅ **Flexibility**: Components can be customized without code duplication
+- ✅ **Maintainability**: Changes to component logic only need to be made in one place
+- ✅ **Testability**: Components can be easily tested with different prop combinations
+- ✅ **Composition**: Components can be composed together to build complex UIs
+
+**Disadvantages:**
+- ❌ **Prop Drilling**: When props need to be passed through multiple component layers
+- ❌ **Complexity**: Too many props can make components harder to understand and use
+- ❌ **Type Safety**: Without TypeScript or PropTypes, prop types aren't enforced at runtime
+- ❌ **Default Values**: Need to carefully consider default values to avoid unexpected behavior
+
+**When to Consider Alternatives:**
+- **Context API**: When props need to be passed through many component layers (prop drilling)
+- **State Management Libraries**: For complex global state that many components need access to
+- **Composition Patterns**: When component behavior varies significantly, consider composition over many conditional props
+- **Render Props / Children**: When you need to pass rendering logic rather than just data
+
+**Connection to Practical Implementation:**
+
+The lesson demonstrates how adding props (`color`, `size`, `className`, `messages`, `onSetRating`) transforms `StarRating` from a hardcoded component into a flexible, reusable component that can be configured for different use cases throughout the application. The optional `onSetRating` prop also shows how to make components work both as controlled and uncontrolled components, further increasing flexibility.
+
+
+### ⚙️ 14.2 Updating code according the context:
+
+#### 14.2.1 Add `color` and `size` as props in `StarRating` and pass those props to `Star` component:
+```tsx
+/* src/StarRating.jsx */
+import { useState } from "react";
+import Star from "./Star";
+const containerStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "16px",
+};
+const starContainerStyle = {
+  display: "flex",
+};
+const StarRating = ({ maxRating = 3, color = "#fcc419", size = 48 }) => {  // 👈🏽 ✅
+  const [rating, setRating] = useState(0);
+  const [tempRating, setTempRating] = useState(0);
+  const handleRating = (rating) => {
+    setRating(rating);
+  };
+  const textStyle = {  // 👈🏽 ✅
+    lineHeight: "1",
+    gap: "0",
+    color,  // 👈🏽 ✅
+    fontSize: `${size / 1.5}px`,  // 👈🏽 ✅
+  };
+  const displayedRating = tempRating || rating || "";
+  return (
+    <div style={containerStyle}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star
+            key={i}
+            onRate={() => handleRating(i + 1)}
+            full={displayedRating >= i + 1}
+            onHoverIn={() => setTempRating(i + 1)}
+            onHoverOut={() => setTempRating(0)}
+            color={color}   {/* 👈🏽 ✅ */}
+            size={size}     {/* 👈🏽 ✅ */}
+          />
+        ))}
+      </div>
+      <p style={textStyle}>{tempRating || rating || ""}</p>
+    </div>
+  );
+};
+export default StarRating;
+```
+
+#### 14.2.2 Working with `color` and `size` as props in `Star` component:
+```tsx
+/* src/Star.jsx */
+const Star = ({ onRate, full, onHoverIn, onHoverOut, color, size }) => {
+  const starStyle = {  // 👈🏽 ✅
+    width: `${size}px`,  // 👈🏽 ✅
+    height: `${size}px`,  // 👈🏽 ✅
+    display: "block",
+    cursor: "pointer",
+  };
+  return (
+    <span role="button" style={starStyle} onClick={onRate} onMouseEnter={onHoverIn} onMouseLeave={onHoverOut}>
+      {full ? (
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          viewBox="0 0 20 20" 
+          fill={color}    {/* 👈🏽 ✅ */}
+          stroke={color}  {/* 👈🏽 ✅ */}
+        >
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      ) : (
+        <svg 
+          xmlns="http://www.w3.org/2000/svg" 
+          fill="none" 
+          viewBox="0 0 24 24" 
+          stroke={color}  {/* 👈🏽 ✅ */}
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth="{2}"
+            d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+          />
+        </svg>
+      )}
+    </span>
+  );
+};
+export default Star;
+```
+
+Meanwhile in `main.jsx` reuses the `StarRating` component:
+```jsx
+/* src/main.jsx */
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+// import './index.css'
+// import App from './App.jsx'
+import StarRating from "./StarRating.jsx";
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    {/* <App /> */}
+    <StarRating maxRating={5} />
+    <StarRating maxRating={5} size={24} color="red" />  {/* 👈🏽 ✅ */}
+  </StrictMode>
+);
+```
+![StarRating uses](../img/section10-lecture119-001.png)
+
+
+#### 14.2.3 Sending other props as `className` or `messages`:
+```tsx
+/* src/main.jsx */
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+// import './index.css'
+// import App from './App.jsx'
+import StarRating from "./StarRating.jsx";
+
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    {/* <App /> */}
+    <StarRating maxRating={5} messages={["Terrible", "Bad", "Okay", "Good", "Excellent"]} />  {/* 👈🏽 ✅ */}
+    <StarRating maxRating={5} size={24} color="red" className="test" />  {/* 👈🏽 ✅ */}
+  </StrictMode>
+);
+```
+
+
+In `StarRating`:
+```jsx
+/* src/StarRating.jsx */
+import { useState } from "react";
+import Star from "./Star";
+const containerStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "16px",
+};
+const starContainerStyle = {
+  display: "flex",
+};
+const StarRating = ({ 
+  maxRating = 3, 
+  color = "#fcc419", 
+  size = 48, 
+  className = "",     // 👈🏽 ✅
+  messages = []       // 👈🏽 ✅
+}) => {
+  const [rating, setRating] = useState(0);
+  const [tempRating, setTempRating] = useState(0);
+  const handleRating = (rating) => {
+    setRating(rating);
+  };
+  const textStyle = {
+    lineHeight: "1",
+    gap: "0",
+    color,
+    fontSize: `${size / 1.5}px`,
+  };
+  const displayedRating = tempRating || rating || "";
+  return (
+    <div style={containerStyle} className={className}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star
+            key={i}
+            onRate={() => handleRating(i + 1)}
+            full={displayedRating >= i + 1}
+            onHoverIn={() => setTempRating(i + 1)}
+            onHoverOut={() => setTempRating(0)}
+            color={color}
+            size={size}
+          />
+        ))}
+      </div>
+      <p style={textStyle}>
+        {messages.length === maxRating                              {/* 👈🏽 ✅ */}
+          ? messages[tempRating ? tempRating - 1 : rating - 1]      {/* 👈🏽 ✅ */}
+          : tempRating || rating || ""}                             {/* 👈🏽 ✅ */}
+      </p>
+    </div>
+  );
+};
+export default StarRating;
+```
+![One component applies the messages props only](../img/section10-lecture119-002.png)
+
+#### 14.2.3 Using the internal `rating` prop from `StarRating` for an external component:
+
+> Create `Test` component which has inside the `StarRating` component:
+```jsx
+/* src/main.jsx */
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+// import './index.css'
+// import App from './App.jsx'
+import StarRating from "./StarRating.jsx";
+import Test from "./components/Test.jsx";   // 👈🏽 ✅
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    {/* <App /> */}
+    <StarRating maxRating={5} messages={["Terrible", "Bad", "Okay", "Good", "Excellent"]} />
+    <StarRating maxRating={5} size={24} color="red" className="test" />
+    <Test />      {/* 👈🏽 ✅ */}
+  </StrictMode>
+);
+```
+
+
+```jsx
+/* src/components/Test.jsx 👈🏽 ✅ */
+import StarRating from "../StarRating";
+const Test = () => {
+  return (
+    <>
+      <StarRating maxRating={10} color="blue" />
+      <p>This movie was rate X stars</p>      {/* ⚠️ */}
+    </>
+  );
+};
+export default Test;
+```
+![issue](../img/section10-lecture119-003.png)
+
+#### 14.2.4 Sending the external `onSetRating={setMovieRating}` props into `StarRating` component:
+```jsx
+/* src/components/Test.jsx */
+import { useState } from "react";
+import StarRating from "../StarRating";
+
+const Test = () => {
+  const [movieRating, setMovieRating] = useState(0);  // 👈🏽 ✅
+  return (
+    <>
+      <StarRating maxRating={10} color="blue" onSetRating={setMovieRating}/>    {/* 👈🏽 ✅ */}
+      <p>This movie was rate {movieRating} stars</p>                            {/* 👈🏽 ✅ */}
+    </>
+  );
+};
+
+export default Test;
+```
+
+#### 14.2.5 Receiving the `onSetRating` prop in `StarRating`:
+```jsx
+/* src/StarRating.jsx */
+import { useState } from "react";
+import Star from "./Star";
+const containerStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "16px",
+};
+const starContainerStyle = {
+  display: "flex",
+};
+const StarRating = ({ 
+  maxRating = 3, 
+  color = "#fcc419", 
+  size = 48, 
+  className = "", 
+  messages = [], 
+  onSetRating   {/* 👈🏽 ✅ */}
+}) => {
+  const [rating, setRating] = useState(0);
+  const [tempRating, setTempRating] = useState(0);
+  const handleRating = (rating) => {
+    setRating(rating);
+    onSetRating(rating);    // 👈🏽 ✅
+  };
+  const textStyle = {
+    lineHeight: "1",
+    gap: "0",
+    color,
+    fontSize: `${size / 1.5}px`,
+  };
+  const displayedRating = tempRating || rating || "";
+  return (
+    <div style={containerStyle} className={className}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star
+            key={i}
+            onRate={() => handleRating(i + 1)}
+            full={displayedRating >= i + 1}
+            onHoverIn={() => setTempRating(i + 1)}
+            onHoverOut={() => setTempRating(0)}
+            color={color}
+            size={size}
+          />
+        ))}
+      </div>
+      <p style={textStyle}>
+        {messages.length === maxRating ? messages[tempRating ? tempRating - 1 : rating - 1] : tempRating || rating || ""}
+      </p>
+    </div>
+  );
+};
+export default StarRating;
+```
+![external prop sent](../img/section10-lecture119-004.png)
+
+#### 14.2.6 Issue in `onSetRating` props in other `StarRating` instances without `Test`
+
+![](../img/section10-lecture119-005.png)
+
+> Summary:
+* Instances without `onSetRating` → break on click
+* Because `onSetRating` is undefined
+
+> Fixing:
+```jsx
+/* src/StarRating.jsx */
+import { useState } from "react";
+import Star from "./Star";
+const containerStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "16px",
+};
+const starContainerStyle = {
+  display: "flex",
+};
+const StarRating = ({ 
+  maxRating = 3, 
+  color = "#fcc419", 
+  size = 48, 
+  className = "", 
+  messages = [], 
+  onSetRating,    // 👈🏽 ✅ may be 'undefined'
+}) => {
+  const [rating, setRating] = useState(0);
+  const [tempRating, setTempRating] = useState(0);
+  const handleRating = (rating) => {
+    setRating(rating);
+    onSetRating?.(rating);    // 👈🏽 ✅
+  };
+  const textStyle = {
+    lineHeight: "1",
+    gap: "0",
+    color,
+    fontSize: `${size / 1.5}px`,
+  };
+  const displayedRating = tempRating || rating || "";
+  return (
+    <div style={containerStyle} className={className}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star
+            key={i}
+            onRate={() => handleRating(i + 1)}
+            full={displayedRating >= i + 1}
+            onHoverIn={() => setTempRating(i + 1)}
+            onHoverOut={() => setTempRating(0)}
+            color={color}
+            size={size}
+          />
+        ))}
+      </div>
+      <p style={textStyle}>
+        {messages.length === maxRating ? messages[tempRating ? tempRating - 1 : rating - 1] : tempRating || rating || ""}
+      </p>
+    </div>
+  );
+};
+export default StarRating;
+```
+
+##### ✅ Option 1: Default function (recommended)
+You make sure onSetRating always exists:
+```jsx
+  const StarRating = ({
+    maxRating = 3,
+    color = "#fcc419",
+    size = 48,
+    className = "",
+    messages = [],
+    onSetRating = () => {}   // 👈🏽 empty function
+  }) => {
+```
+> ✔️ Advantages:
+* No errors
+* The component can be used as controlled or uncontrolled
+* Very common in reusable components
+
+##### ✅ Option 2 – Check before calling
+```jsx
+const handleRating = (rating) => {
+  setRating(rating);
+  if (onSetRating) {
+    onSetRating(rating);
+  }
+};
+```
+Or shorter:
+```jsx
+onSetRating?.(rating);
+```
+✔️ More explicit
+* ❌ A bit more internal logic
+
+##### ⚠️ Option 3 – Make it required (less flexible)
+If you ALWAYS want someone to handle the rating:
+```jsx
+if (!onSetRating) {
+  throw new Error("StarRating requires onSetRating prop");
+}
+```
+
+* ❌ Reduces reusability
+* ✔️ Useful in very specific components
+
+### 🐞 14.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Invalid strokeWidth prop value in Star component** | ⚠️ Identified | In `src/Star.jsx` line 20, `strokeWidth="{2}"` uses quotes around the number, making it a string instead of a number. Should be `strokeWidth={2}`. This may cause rendering inconsistencies in some browsers. |
+| **Missing prop validation** | ℹ️ Low Priority | `StarRating` and `Star` components lack PropTypes or TypeScript types, making it easy to pass incorrect prop types without runtime warnings. |
+| **No accessibility labels** | ⚠️ Identified | The `Star` component uses `role="button"` but lacks `aria-label` or `aria-describedby` attributes, making it less accessible for screen readers. |
+| **Potential array index out of bounds** | ⚠️ Identified | In `StarRating.jsx` line 48, accessing `messages[tempRating ? tempRating - 1 : rating - 1]` could fail if `rating` is 0 and messages array is not empty. The check `messages.length === maxRating` doesn't prevent this edge case. |
+| **Missing keyboard event handlers** | ⚠️ Identified | `Star` component only handles mouse events (`onClick`, `onMouseEnter`, `onMouseLeave`) but lacks keyboard support (`onKeyDown`) for accessibility compliance. |
+
+### 🧱 14.4 Pending Fixes (TODO)
+
+```md
+- [ ] Fix `strokeWidth` prop in `Star.jsx` line 20: Change `strokeWidth="{2}"` to `strokeWidth={2}` to use a number instead of a string
+- [ ] Add PropTypes or TypeScript types to `StarRating` component for prop validation (`maxRating`, `color`, `size`, `className`, `messages`, `onSetRating`)
+- [ ] Add PropTypes or TypeScript types to `Star` component for prop validation (`onRate`, `full`, `onHoverIn`, `onHoverOut`, `color`, `size`)
+- [ ] Add `aria-label` attribute to `Star` component's span element to improve accessibility for screen readers
+- [ ] Add keyboard event handler (`onKeyDown`) to `Star` component to support keyboard navigation (Enter/Space keys)
+- [ ] Fix potential array index out of bounds in `StarRating.jsx` line 48: Add validation to ensure `rating` is greater than 0 before accessing `messages` array
+- [ ] Add `tabIndex={0}` to `Star` component's span element to make it keyboard focusable
+- [ ] Consider adding `defaultProps` or using default parameters consistently for all optional props in `StarRating`
+- [ ] Add error boundary or validation for `messages` array length to ensure it matches `maxRating` when provided
+- [ ] Document prop types and usage examples in component comments or README
+```
+
 
 
 
