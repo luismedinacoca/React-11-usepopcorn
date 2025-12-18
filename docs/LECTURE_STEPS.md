@@ -3462,6 +3462,123 @@ export default StarRating;
 - [ ] Add cleanup for tempRating state: Ensure `tempRating` resets reliably by adding a `useEffect` cleanup or handling edge cases where `onMouseLeave` might not fire properly in `src/StarRating.jsx`
 ```
 
+## 🔧 13. Lesson 118 — *Props as a Component API*
+
+### 🧠 13.1 Context:
+
+**What is Props as a Component API?**
+
+Props as a Component API is a fundamental concept in React that treats component props as the public interface or "API" of a component. Just like a REST API defines how external systems interact with a service, component props define how parent components interact with and configure child components. The props you define determine what data a component accepts, what callbacks it can trigger, and how it can be customized.
+
+**When does this concept occur?**
+
+- When designing reusable components that need to be configurable from the outside
+- When creating component libraries or design systems
+- When establishing clear contracts between parent and child components
+- When deciding what should be configurable vs. hardcoded in a component
+- When documenting component usage and requirements
+
+**Examples from this project:**
+
+1. **StarRating Component** (`StarRating.jsx`): Demonstrates a well-designed component API with:
+   - **Configurable prop**: `maxRating` with a default value of 3, allowing customization
+   - **Clear interface**: The component accepts one prop that controls its behavior
+   ```19:19:src/StarRating.jsx
+   const StarRating = ({ maxRating = 3 }) => {
+   ```
+
+2. **Box Component** (`Box.jsx`): Shows a simple API that accepts content:
+   - **Single prop interface**: `element` prop defines what content to display
+   - **Stateful wrapper**: Manages its own `isOpen` state while accepting external content
+   ```3:3:src/components/Box.jsx
+   const Box = ({ element }) => {
+   ```
+
+3. **Movie Component** (`Movie.jsx`): Demonstrates a pure presentational component API:
+   - **Data prop**: Accepts `movie` object containing all necessary data
+   - **No configuration needed**: Simple, focused API for displaying movie information
+   ```1:1:src/components/Movie.jsx
+   const Movie = ({ movie }) => {
+   ```
+
+4. **Star Component** (`Star.jsx`): Shows callback-based API:
+   - **Multiple callback props**: `onRate`, `onHoverIn`, `onHoverOut` for user interactions
+   - **State prop**: `full` boolean to control visual state
+   - **Event-driven design**: Communicates user actions upward through callbacks
+   ```8:8:src/Star.jsx
+   const Star = ({ onRate, full, onHoverIn, onHoverOut }) => {
+   ```
+
+**Advantages of treating Props as a Component API:**
+
+- ✅ **Clear contracts**: Developers know exactly what props a component expects
+- ✅ **Reusability**: Well-designed prop APIs make components reusable across different contexts
+- ✅ **Maintainability**: Changes to component internals don't affect the public API
+- ✅ **Testability**: Components can be tested in isolation by passing mock props
+- ✅ **Documentation**: Props serve as self-documenting code when properly named
+- ✅ **Type safety**: With TypeScript or PropTypes, props can be validated at development time
+- ✅ **Flexibility**: Default values allow components to work with minimal configuration
+- ✅ **Separation of concerns**: Components focus on rendering, while props handle configuration
+
+**Disadvantages of treating Props as a Component API:**
+
+- ⚠️ **Prop drilling**: Can lead to passing props through many levels (though composition helps)
+- ⚠️ **API design complexity**: Poorly designed prop APIs can make components hard to use
+- ⚠️ **Over-engineering risk**: Simple components might not need extensive prop APIs
+- ⚠️ **Maintenance burden**: Changing prop APIs can break existing usage
+- ⚠️ **Lack of validation**: Without PropTypes or TypeScript, incorrect props can cause runtime errors
+- ⚠️ **Documentation overhead**: Complex APIs require more documentation
+
+**When to consider alternatives:**
+
+- **Use Context API when**: Multiple deeply nested components need the same data (avoiding prop drilling)
+- **Use composition when**: Structural components don't need to know about specific data
+- **Use state management libraries when**: Props need to be shared across distant components
+- **Use render props or hooks when**: Component logic needs to be shared but rendering varies
+- **Keep props simple when**: Component has a single, clear purpose that doesn't need extensive configuration
+
+**Best practices for Props as Component API:**
+
+1. **Use descriptive prop names**: `onRate` is clearer than `onClick` for a star rating
+2. **Provide default values**: Make optional props work without explicit values (`maxRating = 3`)
+3. **Keep APIs focused**: Each component should have a single responsibility
+4. **Use consistent naming**: Follow React conventions (`on*` for callbacks, `is*`/`has*` for booleans)
+5. **Document prop types**: Use PropTypes or TypeScript to validate and document expected props
+6. **Handle edge cases**: Consider what happens when props are `undefined`, `null`, or empty arrays
+
+**Connection to this lesson's practical implementation:**
+
+In this lesson, we learn that props are not just a way to pass data—they are the public interface of our components. A well-designed component API through props makes components predictable, reusable, and maintainable. The lesson emphasizes thinking about components as APIs: what inputs do they accept? What outputs do they produce? How can they be configured? This mindset helps create better component designs that are easier to use, test, and maintain.
+
+
+### ⚙️ 13.2 Updating code according the context:
+
+#### 13.2.1 Props as an API
+![](../img/section10-lecture118-001.png)
+
+### 🐞 13.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Missing PropTypes validation** | ⚠️ Identified | No PropTypes or TypeScript validation for component props. Components like `Movie`, `MovieList`, `WatchedSummary`, `WatchedMovieList`, `NumResult`, and `Box` don't validate prop types, which can lead to runtime errors if incorrect props are passed. Example: `Movie` expects `movie` prop but no validation ensures it's an object with required properties. |
+| **Inconsistent default prop values** | ⚠️ Identified | Only `StarRating` component uses default prop values (`maxRating = 3`). Other components like `Box`, `MovieList`, `WatchedSummary` don't handle undefined props gracefully. If `movies` is undefined in `MovieList`, the optional chaining (`movies?.map`) prevents errors but the component renders nothing without clear feedback. |
+| **Missing error handling for edge cases** | ⚠️ Identified | `WatchedSummary` component doesn't handle empty arrays or undefined `watched` prop. If `watched` is empty, it will calculate averages incorrectly (dividing by 0). The component should validate that `watched` exists and has items before performing calculations. Location: `src/components/WatchedSummary.jsx:4-6` |
+| **No prop documentation** | ℹ️ Low Priority | Components lack JSDoc comments or prop documentation explaining what each prop does, its expected type, and whether it's required or optional. This makes it harder for developers to understand component APIs without reading the implementation. |
+| **Inconsistent prop naming** | ℹ️ Low Priority | Some components use singular prop names (`movie` in `Movie`, `WatchedMovie`) while others use plural (`movies` in `MovieList`, `watched` in `WatchedSummary`). While not an error, consistent naming conventions would improve API clarity. |
+| **Missing required prop validation** | ⚠️ Identified | Components don't validate that required props are provided. For example, `Movie` component requires `movie` prop but will crash if it's undefined when accessing `movie.Poster`, `movie.Title`, etc. Should use PropTypes or default to empty object/early return. |
+
+### 🧱 13.4 Pending Fixes (TODO)
+
+```md
+- [ ] Add PropTypes validation to all components (`Movie`, `MovieList`, `WatchedSummary`, `WatchedMovieList`, `NumResult`, `Box`, `Star`, `StarRating`) to validate prop types and provide better error messages during development
+- [ ] Add default prop values where appropriate (e.g., `Box` component should handle `element` being undefined, `MovieList` should default `movies` to empty array)
+- [ ] Implement error handling in `WatchedSummary` component to handle empty `watched` array and prevent division by zero errors. Add early return or default values when `watched` is empty or undefined
+- [ ] Add JSDoc comments to all components documenting prop types, descriptions, and whether they're required or optional (e.g., `@param {Object} movie - Movie object with Poster, Title, Year properties`)
+- [ ] Add defensive checks in `Movie` and `WatchedMovie` components to handle undefined or null `movie` prop gracefully (early return or default empty object)
+- [ ] Consider adding PropTypes package to `package.json` if not already present, or migrate to TypeScript for better type safety
+- [ ] Add prop validation for `Star` component callbacks (`onRate`, `onHoverIn`, `onHoverOut`) to ensure they're functions before calling them
+- [ ] Review and standardize prop naming conventions across all components (singular vs plural) for consistency
+```
 
 
 
