@@ -4079,6 +4079,215 @@ if (!onSetRating) {
 - [ ] Document prop types and usage examples in component comments or README
 ```
 
+## 🔧 15. Lesson 120 — *PropTypes*
+
+### 🧠 15.1 Context:
+
+**PropTypes** is a runtime type-checking library for React that allows developers to validate the types of props passed to components. It provides a way to document and enforce the expected data types for component props, helping catch bugs during development and serving as inline documentation for component APIs.
+
+**What are PropTypes?**
+
+PropTypes is a separate package (`prop-types`) that enables type validation for React component props. It allows developers to specify the expected types for each prop (e.g., `string`, `number`, `array`, `object`, `function`) and whether they are required or optional. When props don't match the specified types, PropTypes emits warnings in the browser console during development.
+
+**When are PropTypes used?**
+
+- **During development**: To catch type mismatches and incorrect prop usage before they cause runtime errors
+- **For documentation**: To serve as self-documenting code that shows what props a component expects
+- **In JavaScript projects**: When not using TypeScript, PropTypes provides a way to add type safety
+- **For component libraries**: To help consumers understand the component API and catch errors early
+- **For team collaboration**: To make component contracts explicit and reduce bugs from miscommunication
+
+**Examples from this project:**
+
+1. **StarRating component** (`src/StarRating.jsx`): Demonstrates PropTypes implementation:
+   ```55:62:src/StarRating.jsx
+   StarRating.propTypes = {
+     maxRating: PropTypes.number,
+     color: PropTypes.string,
+     size: PropTypes.number,
+     className: PropTypes.string,
+     messages: PropTypes.arrayOf(PropTypes.string),
+     onSetRating: PropTypes.func,
+   };
+   ```
+   - Validates that `maxRating` and `size` are numbers
+   - Ensures `color` and `className` are strings
+   - Validates `messages` is an array of strings
+   - Confirms `onSetRating` is a function
+
+2. **Missing PropTypes in other components**: Components like `Movie`, `MovieList`, `Box`, `Star`, `WatchedSummary`, and `WatchedMovie` don't have PropTypes validation, which means:
+   - No type checking for props
+   - No warnings if incorrect types are passed
+   - Less clear component APIs
+
+**Advantages of PropTypes:**
+
+- ✅ **Early bug detection**: Catches type mismatches during development before they cause runtime errors
+- ✅ **Self-documenting code**: PropTypes serve as inline documentation showing expected prop types
+- ✅ **Better developer experience**: IDE autocomplete and warnings help developers use components correctly
+- ✅ **Team collaboration**: Makes component contracts explicit, reducing miscommunication
+- ✅ **Runtime validation**: Unlike TypeScript (compile-time), PropTypes validate at runtime
+- ✅ **Easy to add**: Simple to implement without major refactoring
+- ✅ **Flexible validation**: Supports custom validators for complex validation logic
+
+**Disadvantages of PropTypes:**
+
+- ⚠️ **React 19 limitation**: In React 19, PropTypes warnings are NOT displayed (React stopped calling `checkPropTypes` internally). This is expected behavior, not a bug
+- ⚠️ **Runtime overhead**: Adds small performance cost during development (though minimal)
+- ⚠️ **No compile-time checking**: Unlike TypeScript, errors are only caught at runtime
+- ⚠️ **Optional by default**: Props are optional unless explicitly marked as `.isRequired`
+- ⚠️ **Not removed in production**: PropTypes code remains in production builds (though it doesn't validate)
+- ⚠️ **Limited type system**: Less powerful than TypeScript's type system
+- ⚠️ **Maintenance burden**: Must be kept in sync with actual prop usage
+
+**When to consider alternatives:**
+
+- **Use TypeScript when**: You want compile-time type checking, better IDE support, and more powerful type system
+- **Use JSDoc comments when**: You want documentation without runtime validation overhead
+- **Skip PropTypes when**: Using TypeScript (redundant), or in React 19 where warnings don't appear
+- **Use default parameters when**: You want to provide fallback values but don't need type validation
+- **Use runtime validation libraries when**: You need more sophisticated validation (e.g., Yup, Zod)
+
+**Important note about React 19:**
+
+In React 19, PropTypes validation is effectively disabled. React no longer calls `checkPropTypes` internally, so:
+- No warnings are displayed in the console
+- No errors are thrown
+- The code doesn't break, but PropTypes are simply ignored
+- The import still works, but React doesn't execute the validation
+
+This means PropTypes in React 19 projects serve primarily as documentation rather than runtime validation. For actual type checking in React 19, TypeScript is the recommended approach.
+
+**Connection to this lesson's practical implementation:**
+
+In this lesson, we learn how to add PropTypes to React components to validate prop types. The lesson demonstrates adding PropTypes to the `StarRating` component, showing how to specify types for each prop. However, it's important to understand that in React 19, these validations won't produce warnings, making PropTypes more of a documentation tool than a validation tool. The lesson emphasizes the importance of type safety and component API documentation, even if the runtime validation aspect is limited in React 19.
+
+
+### ⚙️ 15.2 Updating code according the context:
+
+#### 15.2.1 Adding `PropTypes` in `StarRating` component:
+
+Previously run the following command:
+```bash
+npm install prop-types
+```
+And now in `StarRating`:
+```tsx
+/* src/StarRating.jsx */
+import { useState } from "react";
+import Star from "./Star";
+import PropTypes from "prop-types";  // 👈🏽 ✅
+const containerStyle = {
+  display: "flex",
+  alignItems: "center",
+  gap: "16px",
+};
+const starContainerStyle = {
+  display: "flex",
+};
+const StarRating = ({ maxRating = 3, color = "#fcc419", size = 48, className = "", messages = [], onSetRating }) => {
+  const [rating, setRating] = useState(0);
+  const [tempRating, setTempRating] = useState(0);
+  const handleRating = (rating) => {
+    setRating(rating);
+    onSetRating?.(rating);
+  };
+  const textStyle = {
+    lineHeight: "1",
+    gap: "0",
+    color,
+    fontSize: `${size / 1.5}px`,
+  };
+  const displayedRating = tempRating || rating || "";
+  return (
+    <div style={containerStyle} className={className}>
+      <div style={starContainerStyle}>
+        {Array.from({ length: maxRating }, (_, i) => (
+          <Star
+            key={i}
+            onRate={() => handleRating(i + 1)}
+            full={displayedRating >= i + 1}
+            onHoverIn={() => setTempRating(i + 1)}
+            onHoverOut={() => setTempRating(0)}
+            color={color}
+            size={size}
+          />
+        ))}
+      </div>
+      <p style={textStyle}>
+        {messages.length === maxRating ? messages[tempRating ? tempRating - 1 : rating - 1] : tempRating || rating || ""}
+      </p>
+    </div>
+  );
+};
+StarRating.propTypes = {  // 👈🏽 ✅
+  maxRating: PropTypes.number,
+  color: PropTypes.string,
+  size: PropTypes.number,
+  className: PropTypes.string,
+  messages: PropTypes.arrayOf(PropTypes.string),
+  onSetRating: PropTypes.func,
+};
+export default StarRating;
+```
+
+#### 15.2.2 Consider the following comments:
+👉 In React 19, `prop-types` does NOT emit warnings — neither in development mode nor in `StrictMode`.
+
+This is not a bug; it is expected behavior.
+
+#### 🧠 What actually happened (short and clear story)
+
+- `prop-types` still exists as a library
+- React 19 stopped calling it internally
+- React no longer executes `checkPropTypes`
+
+Because of this:
+
+- no warnings
+- no errors
+- no logs
+- even when the type is completely invalid (e.g. `"luiggie"`)
+
+📌 The import does not fail  
+📌 The code does not break  
+📌 React simply ignores it
+
+
+### 🐞 15.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **PropTypes not working in React 19** | ⚠️ Identified | React 19 no longer calls `checkPropTypes` internally, so PropTypes validation in `StarRating.jsx` (lines 55-62) doesn't emit warnings even when incorrect prop types are passed. This is expected behavior in React 19, not a bug. Example: Passing `maxRating="invalid"` (string instead of number) won't show any warning. |
+| **Missing PropTypes in most components** | ⚠️ Identified | Only `StarRating` component has PropTypes validation. Components like `Movie`, `MovieList`, `Box`, `Star`, `WatchedSummary`, `WatchedMovie`, `WatchedMovieList`, `NumResult`, `Search`, `Navbar`, and `Main` lack PropTypes, making their APIs unclear and prone to runtime errors if incorrect props are passed. |
+| **No required prop validation** | ⚠️ Identified | In `StarRating.propTypes`, all props are optional (no `.isRequired`). Critical props like `onSetRating` should be marked as required if they're essential for component functionality. Also, `Movie` component requires `movie` prop but has no validation, causing crashes if `movie` is undefined when accessing `movie.Poster`, `movie.Title`, etc. |
+| **Missing PropTypes for Star component** | ⚠️ Identified | `Star.jsx` component receives multiple props (`onRate`, `full`, `onHoverIn`, `onHoverOut`, `color`, `size`) but has no PropTypes validation. If incorrect types are passed (e.g., `full="true"` instead of boolean), no warning is shown. Location: `src/Star.jsx:1` |
+| **WatchedSummary lacks prop validation** | ⚠️ Identified | `WatchedSummary` component expects `watched` array but has no PropTypes. If `watched` is undefined or not an array, the component will crash when calling `watched.map()` (line 4). Additionally, empty arrays cause division by zero in the `average` function. Location: `src/components/WatchedSummary.jsx:1-6` |
+| **Movie and WatchedMovie missing object shape validation** | ⚠️ Identified | `Movie` and `WatchedMovie` components expect `movie` prop to be an object with specific properties (`Poster`, `Title`, `Year`, `imdbID`, etc.), but PropTypes only validate it's an object, not its shape. Should use `PropTypes.shape()` to validate required properties. Locations: `src/components/Movie.jsx:1`, `src/components/WatchedMovie.jsx:1` |
+| **Box component missing element prop validation** | ⚠️ Identified | `Box` component expects `element` prop (JSX element) but has no PropTypes. Should validate it's a valid React element using `PropTypes.element`. If `element` is undefined, the component renders nothing without clear feedback. Location: `src/components/Box.jsx:3` |
+| **MovieList doesn't validate movies array** | ⚠️ Identified | `MovieList` component expects `movies` array but has no PropTypes. Uses optional chaining (`movies?.map`) which prevents crashes but renders nothing silently if `movies` is undefined. Should validate array type and potentially array contents. Location: `src/components/MovieList.jsx:3` |
+| **PropTypes import present but ineffective** | ℹ️ Low Priority | `prop-types` package is installed (`package.json:13`) and imported in `StarRating.jsx` (line 3), but due to React 19 behavior, it serves only as documentation. Consider removing it or migrating to TypeScript for actual type checking. |
+| **Inconsistent prop type definitions** | ℹ️ Low Priority | `StarRating.propTypes` uses basic types but doesn't specify ranges or constraints (e.g., `maxRating` should be positive, `size` should be reasonable). Could use custom validators for more robust validation. Location: `src/StarRating.jsx:55-62` |
+
+### 🧱 15.4 Pending Fixes (TODO)
+
+```md
+- [ ] Add PropTypes validation to `Movie` component: Validate `movie` prop as required object with shape containing `Poster`, `Title`, `Year`, and `imdbID` properties using `PropTypes.shape()`. Location: `src/components/Movie.jsx`
+- [ ] Add PropTypes validation to `WatchedMovie` component: Validate `movie` prop as required object with shape containing `Poster`, `Title`, `imdbRating`, `userRating`, and `runtime` properties. Location: `src/components/WatchedMovie.jsx`
+- [ ] Add PropTypes validation to `MovieList` component: Validate `movies` prop as required array of objects. Consider using `PropTypes.arrayOf(PropTypes.object)` or more specific shape validation. Location: `src/components/MovieList.jsx:3`
+- [ ] Add PropTypes validation to `WatchedSummary` component: Validate `watched` prop as required array. Add defensive check to handle empty arrays and prevent division by zero in `average` function. Location: `src/components/WatchedSummary.jsx:1-6`
+- [ ] Add PropTypes validation to `Box` component: Validate `element` prop as required React element using `PropTypes.element`. Location: `src/components/Box.jsx:3`
+- [ ] Add PropTypes validation to `Star` component: Validate all props (`onRate`, `full`, `onHoverIn`, `onHoverOut`, `color`, `size`) with appropriate types. Mark callbacks as required functions. Location: `src/Star.jsx:1`
+- [ ] Mark required props in `StarRating.propTypes`: Add `.isRequired` to props that are essential for component functionality (e.g., `onSetRating` if it's always needed). Review which props should be required vs optional. Location: `src/StarRating.jsx:55-62`
+- [ ] Add custom validators for `StarRating` props: Add validation functions to ensure `maxRating` is positive, `size` is reasonable, and `messages` array length matches `maxRating` when provided. Use `PropTypes.oneOf()` or custom validator functions. Location: `src/StarRating.jsx:55-62`
+- [ ] Add PropTypes to remaining components: Add PropTypes validation to `WatchedMovieList`, `NumResult`, `Search`, `Navbar`, and `Main` components to complete type validation across the application
+- [ ] Consider migrating to TypeScript: Given React 19's limitation with PropTypes, evaluate migrating the project to TypeScript for compile-time type checking and better IDE support. This would provide actual type safety instead of documentation-only PropTypes
+- [ ] Add default prop values where appropriate: For components with optional props, consider adding `defaultProps` or default parameters to handle undefined values gracefully (e.g., `Box` component should handle `element` being undefined)
+- [ ] Document PropTypes limitations in React 19: Add comments or documentation explaining that PropTypes serve as documentation in React 19 and won't emit warnings, helping developers understand the current behavior
+- [ ] Add PropTypes validation for nested objects: Use `PropTypes.shape()` for complex objects like `movie` prop to validate nested properties and catch errors when accessing `movie.Poster`, `movie.Title`, etc.
+- [ ] Review and remove unused PropTypes: If migrating to TypeScript or deciding PropTypes aren't needed, remove `prop-types` dependency and PropTypes definitions to reduce bundle size
+```
+
 
 
 
