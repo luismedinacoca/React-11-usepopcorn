@@ -4288,6 +4288,126 @@ Because of this:
 - [ ] Review and remove unused PropTypes: If migrating to TypeScript or deciding PropTypes aren't needed, remove `prop-types` dependency and PropTypes definitions to reduce bundle size
 ```
 
+# ⚙️ Section #12: `Effects and Data Fetching`
+
+## 🔧 01. Lesson 141 — *The Component Lifecycle*
+
+### 🧠 01.1 Context:
+
+The **component lifecycle** (Component Lifecycle) in React refers to the different phases a component goes through from creation to destruction. Understanding the lifecycle is fundamental for handling side effects, optimizing performance, and managing resources correctly.
+
+#### **The Three Main Phases of the Lifecycle:**
+
+1. **Mount (Mounting/Initialization)**: When the component is created and inserted into the DOM for the first time.
+   - In functional components: The function body and hooks are executed in the order they are declared.
+   - In class components: `constructor()`, `render()`, and then `componentDidMount()` are executed.
+
+2. **Re-render (Update)**: When the component updates due to changes in props or state.
+   - Occurs whenever React detects changes that require a component update.
+   - In functional components: The function body is re-executed with the new values.
+   - In class components: `render()` and then `componentDidUpdate()` are executed.
+
+3. **Unmount (Unmounting)**: When the component is removed from the DOM.
+   - In functional components: The cleanup function of `useEffect` is executed if it exists.
+   - In class components: `componentWillUnmount()` is executed.
+
+#### **Lifecycle in Functional Components (Hooks):**
+
+In modern React with functional components, the lifecycle is primarily managed through hooks:
+
+- **`useState`**: Manages the component's local state. It is initialized on mount and can change on each re-render.
+- **`useEffect`**: Allows executing side effects at different moments of the lifecycle:
+  - Without dependencies `[]`: Executes only on mount (equivalent to `componentDidMount`).
+  - With dependencies `[dep1, dep2]`: Executes on mount and when dependencies change (equivalent to `componentDidUpdate`).
+  - With return function: Executes on unmount or before the next effect (equivalent to `componentWillUnmount`).
+
+#### **Examples in the Project:**
+
+**Example 1: `Box.jsx` Component - State that persists during the lifecycle:**
+```4:4:src/components/Box.jsx
+  const [isOpen, setIsOpen] = useState(true);
+```
+The `isOpen` state is initialized on mount with `true` and persists through all re-renders until the component unmounts.
+
+**Example 2: `StarRating.jsx` Component - Multiple states in the lifecycle:**
+```16:17:src/StarRating.jsx
+  const [rating, setRating] = useState(0);
+  const [tempRating, setTempRating] = useState(0);
+```
+Two independent states that are initialized on mount and can change during re-renders when the user interacts with the component.
+
+**Example 3: `WatchedSummary.jsx` Component - Calculations on each re-render:**
+```2:6:src/components/WatchedSummary.jsx
+  const average = (arr) => arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
+
+  const avgImdbRating = average(watched.map((movie) => movie.imdbRating));
+  const avgUserRating = average(watched.map((movie) => movie.userRating));
+  const avgRuntime = average(watched.map((movie) => movie.runtime));
+```
+These calculations execute on every component re-render, even if `watched` hasn't changed. This could be optimized with `useMemo`.
+
+#### **Advantages of Understanding the Lifecycle:**
+
+- **Precise control**: Allows executing code at specific moments of the lifecycle.
+- **Optimization**: Facilitates identifying when and how to optimize components.
+- **Resource management**: Allows cleaning up subscriptions, timers, and other resources when the component unmounts.
+- **Side effects**: Facilitates handling API calls, subscriptions, and other asynchronous operations.
+
+#### **Disadvantages and Considerations:**
+
+- **Complexity**: Incorrect lifecycle handling can lead to hard-to-debug bugs (memory leaks, updates on unmounted components).
+- **Unnecessary re-renders**: Without proper optimization, components can re-render more times than necessary.
+- **Learning curve**: Understanding when to use each hook and how to handle dependencies requires practice.
+
+#### **When to Consider Alternatives:**
+
+- **`useMemo`**: When calculations are expensive and should only execute when certain dependencies change.
+- **`useCallback`**: When functions are passed as props and you want to avoid unnecessary re-renders of child components.
+- **`React.memo`**: For components that receive the same props and don't need to re-render.
+- **`useRef`**: For values that must persist between renders but don't cause re-renders when they change.
+
+#### **Connection with Practical Implementation:**
+
+In this project, all components are functional and primarily use `useState` to manage state. The lifecycle is handled implicitly through:
+- State initialization on mount
+- Re-renders when props or state change
+- Automatic destruction when components unmount
+
+However, the project doesn't yet use `useEffect` for side effects like API calls, subscriptions, or resource cleanup, which would be necessary in a more complete application.
+
+
+### ⚙️ 01.2 Updating code/theory according the context:
+
+#### 01.2.1 Compoenent (Instance) **Lifecycle**:
+
+- mount/initial render
+- re-render
+- unmount
+
+![](../img/section12-lecture141-001.png)
+
+### 🐞 01.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Expensive calculations on each re-render in WatchedSummary** | ⚠️ Identified | `WatchedSummary.jsx` executes average calculations (`average`, `map`, `reduce`) on every re-render, even when `watched` hasn't changed. This can impact performance with large lists. Location: `src/components/WatchedSummary.jsx:2-6` |
+| **Missing side effect handling with useEffect** | ⚠️ Identified | The project doesn't use `useEffect` to handle side effects like API calls, subscriptions, or resource cleanup. Components like `App.jsx` and `MovieList.jsx` could benefit from `useEffect` to load data from an API. |
+| **Absence of cleanup in components with state** | ⚠️ Identified | Components like `Box.jsx` and `StarRating.jsx` manage state but don't have cleanup logic. If timers, subscriptions, or event listeners are added in the future, there's no mechanism to clean them up on unmount, which could cause memory leaks. |
+| **Unnecessary re-renders in child components** | ⚠️ Identified | Components like `Movie.jsx` and `Star.jsx` re-render every time the parent component updates, even if their props haven't changed. This could be optimized with `React.memo` to improve performance. |
+| **State initialized with calculated values on each render** | ℹ️ Low Priority | In `StarRating.jsx`, the `textStyle` style is recalculated on every render even though `color` and `size` don't change. This is minor but could be optimized with `useMemo` if the component becomes more complex. Location: `src/StarRating.jsx:24-29` |
+| **Missing prop validation before calculations** | ⚠️ Identified | `WatchedSummary.jsx` executes calculations on `watched` without validating if it's an array or if it's empty first. If `watched` is `undefined` or `null`, it will cause an error. Should be validated before executing `watched.map()`. Location: `src/components/WatchedSummary.jsx:4-6` |
+
+### 🧱 01.4 Pending Fixes (TODO)
+
+- [ ] Optimize calculations in `WatchedSummary.jsx`: Use `useMemo` to memoize the calculations of `avgImdbRating`, `avgUserRating`, and `avgRuntime` so they only execute when `watched` changes. Location: `src/components/WatchedSummary.jsx:2-6`
+- [ ] Add prop validation in `WatchedSummary.jsx`: Validate that `watched` is an array before executing calculations. Add handling for cases when `watched` is empty or `undefined`. Location: `src/components/WatchedSummary.jsx:1-6`
+- [ ] Implement `useEffect` in `App.jsx`: Add `useEffect` to load movie data from an API instead of using temporary data (`tempMovieData`). Include loading and error states. Location: `src/App.jsx:57-58`
+- [ ] Add cleanup in components with effects: If timers, subscriptions, or event listeners are implemented in components like `Box.jsx` or `StarRating.jsx`, add cleanup functions in `useEffect` to prevent memory leaks.
+- [ ] Optimize re-renders with `React.memo`: Wrap presentational components like `Movie.jsx` and `Star.jsx` with `React.memo` to avoid unnecessary re-renders when their props don't change. Locations: `src/components/Movie.jsx:1`, `src/Star.jsx:1`
+- [ ] Memoize calculated styles: In `StarRating.jsx`, use `useMemo` to memoize the `textStyle` object so it only recalculates when `color` or `size` change. Location: `src/StarRating.jsx:24-29`
+- [ ] Document lifecycle of key components: Add comments explaining the lifecycle in complex components like `App.jsx` and `StarRating.jsx` to facilitate future maintenance.
+- [ ] Consider `useCallback` for functions passed as props: If functions are identified that are passed as props and cause unnecessary re-renders, use `useCallback` to memoize them. Example: `handleRating` in `StarRating.jsx` could benefit if passed to multiple child components.
+
 
 
 
@@ -4315,7 +4435,7 @@ Because of this:
 ### 🧠 XX.1 Context:
 
 
-### ⚙️ XX.2 Updating code according the context:
+### ⚙️ XX.2 Updating code/theory according the context:
 
 #### XX.2.1
 ```tsx
