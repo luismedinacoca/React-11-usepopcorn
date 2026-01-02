@@ -54,19 +54,9 @@ const tempWatchedData = [
   },
 ];
 
-const KEY = "f84fc31d";
-
 function App() {
   const [movies, setMovies] = useState(tempMovieData);
   const [watched, setWatched] = useState(tempWatchedData);
-
-  // fetch component first render mount:
-  fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
-    .then((res) => res.json())
-    .then((data) => console.log(data));
-  //.then((data) => setMovies(data.Search));
-
-  //setWatched([]);
 
   return (
     <>

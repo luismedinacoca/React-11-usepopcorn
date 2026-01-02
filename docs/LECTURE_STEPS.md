@@ -4287,8 +4287,12 @@ Because of this:
 - [ ] Add PropTypes validation for nested objects: Use `PropTypes.shape()` for complex objects like `movie` prop to validate nested properties and catch errors when accessing `movie.Poster`, `movie.Title`, etc.
 - [ ] Review and remove unused PropTypes: If migrating to TypeScript or deciding PropTypes aren't needed, remove `prop-types` dependency and PropTypes definitions to reduce bundle size
 ```
+<br>
 
+---
 # ⚙️ Section #12: `Effects and Data Fetching`
+
+<br>
 
 ## 🔧 01. Lesson 141 — *The Component Lifecycle*
 
@@ -4409,6 +4413,229 @@ However, the project doesn't yet use `useEffect` for side effects like API calls
 - [ ] Consider `useCallback` for functions passed as props: If functions are identified that are passed as props and cause unnecessary re-renders, use `useCallback` to memoize them. Example: `handleRating` in `StarRating.jsx` could benefit if passed to multiple child components.
 
 
+<br>
+
+## 🔧 02. Lesson 142 — *How NOT to Fetch Data in React*
+
+### 🧠 02.1 Context:
+
+In React, **fetching data is a side effect**: it talks to the outside world (network), is async, and often leads to state updates. Because of that, it **must not run during render**.
+
+#### What “render must be pure” means
+- A component render should **only compute UI from props/state**.
+- The same inputs should always produce the same output (**no network calls, no subscriptions, no `setState`** during render).
+
+#### Why fetching in the component body is a bug (the “how NOT to”)
+When you call `fetch(...)` directly inside `App()` (component body), it runs on:
+- **Initial mount**
+- **Every re-render** (triggered by any state update that re-renders `App`)
+- **Twice in development with React Strict Mode** (React intentionally double-invokes render-related logic to help surface side effects). Strict Mode is enabled in this project in `src/main.jsx:8-15`.
+
+#### What goes wrong in practice
+- **Duplicate / infinite requests**:
+  - If you also call `setMovies(...)` from the fetch chain (as shown in `02.2.2`), you create a loop:
+    - render → fetch → `setMovies` → render → fetch → ...
+- **“Too many re-renders” errors**:
+  - Calling `setState(...)` directly during render (example shown later with `setWatched([])`) immediately triggers React’s safety error.
+- **Race conditions / stale responses**:
+  - Multiple overlapping requests can resolve out of order. Without cancellation/guards, stale results can overwrite newer ones.
+
+#### How it should be done (high level)
+- Put network calls inside `useEffect` (or a data fetching library) and control *when* it runs with the dependency array.
+- Add **loading** and **error** state, and use **AbortController** (or a request id guard) to prevent state updates from stale requests.
+- Consider alternatives for real apps (caching/deduping/retries): **TanStack Query** / **SWR**.
+
+### ⚙️ 02.2 Updating code/theory according the context:
+
+#### 02.2.1 Adding the `fetch` and console.log its data:
+```tsx
+/* src/App.jsx */
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+const tempMovieData = [...];
+const tempWatchedData = [...];
+const KEY = "f84fc31d";
+function App() {
+  // fetch component first render mount:
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+
+  fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)     // 👈🏽 ✅
+    .then((res) => res.json())                                      // 👈🏽 ✅
+    .then((data) => console.log(data));                             // 👈🏽 ✅
+  return (
+    <>
+      <Navbar>
+        <Search />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box element={<MovieList movies={movies} />} />
+        <Box
+          element={
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          }
+        />
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+![consoling the data from fetching](../img/section12-lecture142-001.png)
+
+#### 02.2.2 Replacing the `console.log(data.Search)` by `setMovies(data.Search)`:
+
+⚠️ Issue:
+setMovies() => Render the Component => execute the component => Fetch(...) => setMovies() ...
+
+```tsx
+/* src/App.jsx */
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+const tempMovieData = [...];
+const tempWatchedData = [...];
+const KEY = "f84fc31d";
+function App() {
+  // fetch component first render mount:
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
+    .then((res) => res.json())
+    .then((data) => setMovies(data.Search));
+  return (
+    <>
+      <Navbar>
+        <Search />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box element={<MovieList movies={movies} />} />
+        <Box
+          element={
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          }
+        />
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+![first issue - setMovies](../img/section12-lecture142-002.png)
+
+Note:
+* Running infinite number of requests.
+* it keeps going and it never really stop requesting.
+
+#### 02.2.3 Demonstrating a render-loop with `setState` (even without fetch)
+```tsx
+/* src/App.jsx */
+import { useState } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+const tempMovieData = [...];
+const tempWatchedData = [...];
+const KEY = "f84fc31d";
+function App() {
+  // fetch component first render mount:
+  const [movies, setMovies] = useState([]);           // 👈🏽 ✅
+  const [watched, setWatched] = useState([]);         // 👈🏽 ✅
+  fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
+    .then((res) => res.json())
+    .then((data) => setMovies(data.Search));
+  setWatched([]);  // 👈🏽 ✅
+  return (
+    <>
+      <Navbar>
+        <Search />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box element={<MovieList movies={movies} />} />
+        <Box
+          element={
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          }
+        />
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+![second issue - setWatched](../img/section12-lecture142-003.png)
+
+Issue:
+* ⚠️ Too many renders
+
+
+### 🐞 02.3 Issues:
+- **Main takeaway**: side effects (fetching) and state updates must not run during render; they must be coordinated with `useEffect` (or a data-fetching library) to avoid duplicate requests and render loops.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Fetching in render (side effect during render)** | ⚠️ Identified | `src/App.jsx:63-66` calls `fetch(...)` in the component body. This runs on every re-render and will also run twice on mount in dev because Strict Mode is enabled (`src/main.jsx:8-15`). Impact: duplicate requests, unpredictable behavior, hard-to-debug state. |
+| **Infinite request loop if setting state from fetch in render** | ⚠️ Identified | The snippet in `02.2.2` shows `.then((data) => setMovies(data.Search))`. If this runs during render, it creates a render loop: render → fetch → `setMovies` → render → fetch → ... leading to continuous requests. |
+| **Immediate “Too many re-renders” when calling `setState` in render** | ⚠️ Identified | The snippet in `02.2.3` shows `setWatched([])` executed in render. React will throw an error similar to: “Too many re-renders. React limits the number of renders to prevent an infinite loop.” |
+| **Missing loading/error handling around fetch** | ℹ️ Low Priority | Current code logs the response but doesn’t handle error states (`catch`) or a loading UI. Once the UI depends on fetched data, this becomes a UX bug. Location: `src/App.jsx:63-66`. |
+| **Inconsistent data source (temp data + fetch at the same time)** | ℹ️ Low Priority | `movies` is initialized with `tempMovieData` (`src/App.jsx:60`) while still fetching Interstellar in the background. This mixes “mock data mode” with “API mode”, which can confuse UX and debugging once the fetched data is rendered. |
+
+### 🧱 02.4 Pending Fixes (TODO)
+
+```md
+- [ ] Move the OMDb request into a `useEffect` in `src/App.jsx` so it runs only when intended (e.g. on mount, or when `query` changes), instead of executing in render. (Current anti-pattern: `src/App.jsx:63-66`)
+- [ ] Add `isLoading` and `error` state in `src/App.jsx` and render proper UI states in the movie list area (loading indicator + error message).
+- [ ] Add request cancellation (AbortController) or a stale-response guard to prevent setting state from outdated requests (important once search is user-driven).
+- [ ] Replace `http://www.omdbapi.com` with `https://www.omdbapi.com` and add a `catch` branch for fetch failures.
+- [ ] Decide on one mode: mock data vs API data. Either remove temp data initialization when fetching, or gate the fetch behind a flag to avoid mixing sources.
+- [ ] (Optional) Extract fetching into a reusable hook (e.g. `useMovies(query)`) or adopt a library (TanStack Query/SWR) once caching/deduping/retries are needed.
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -4429,6 +4656,8 @@ However, the project doesn't yet use `useEffect` for side effects like API calls
 ---
 
 🔥 🔥 🔥 
+
+<br>
 
 ## 🔧 XX. Lesson YYY — *{{TITLE_NAME}}*
 
@@ -4457,6 +4686,4 @@ However, the project doesn't yet use `useEffect` for side effects like API calls
 
 ### 🧱 XX.4 Pending Fixes (TODO)
 
-```md
 - [ ]
-```
