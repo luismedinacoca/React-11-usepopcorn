@@ -4625,6 +4625,175 @@ Issue:
 ```
 
 
+<br>
+
+## 🔧 03. Lesson 143 — *`useEffect` to the Rescue*
+
+### 🧠 03.1 Context:
+
+`useEffect` is React’s built-in hook for **synchronizing your component with the outside world** (a.k.a. “side effects”). A side effect is any operation that:
+
+- **Doesn’t belong in render** because it can’t be derived purely from props/state
+- **Touches external systems** (network requests, timers, subscriptions, DOM APIs, localStorage, etc.)
+
+In React, the render phase must stay **pure**: given the same props/state, it should always return the same UI and it must not trigger work like fetching or state updates *during render*. `useEffect` “rescues” us by scheduling that work **after React paints the UI**, preventing render loops and repeated work on every render.
+
+**When does an effect run?**
+
+- With **no dependency array**: runs after *every* render.
+- With **an empty dependency array** (`[]`): runs after the *initial mount*.
+- With **dependencies** (`[query]`): runs after mount and whenever any dependency changes.
+
+**Important dev behavior (Strict Mode):**
+
+When `StrictMode` is enabled in development, React intentionally mounts components and runs effects more than once to help detect unsafe side effects. In this project, `StrictMode` is enabled in `src/main.jsx:8-15`, so even an effect with `[]` may run twice in development (but not in production).
+
+**Project example (this lesson):**
+
+- The OMDb fetch is correctly moved into `useEffect` in `src/App.jsx:67-71`, so it doesn’t execute during render.
+
+**Advantages**
+
+- Prevents side effects from running during render (avoids render loops and duplicated work)
+- Gives you a clear, declarative way to re-run effects based on dependencies
+- Provides a place for **cleanup** (unsubscribe, clear timers, abort requests)
+
+**Disadvantages / common pitfalls**
+
+- Easy to create bugs with incorrect dependencies (stale state/props)
+- Extra complexity for async logic (loading/error, cancellation, race conditions)
+- In development Strict Mode, effects can run more than once (surprising until you know why)
+
+**When to consider alternatives**
+
+- **Event handlers** (click/submit) for user-driven side effects, instead of effects.
+- **Derived state** (computed values) should be calculated in render (or `useMemo`) rather than stored/updated in an effect.
+- For data fetching at scale: consider **TanStack Query** / **SWR** to handle caching, deduping, retries, and stale data.
+
+### ⚙️ 03.2 Updating code/theory according the context:
+
+#### 03.2.1 Adding and using `useEffect` hook:
+- Safely run side effects (like this `fetch`) **after** the component renders.
+- The second argument is the **dependency array**.
+- An empty array (`[]`) means “run on mount” (note: may run twice in dev with Strict Mode).
+
+```tsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";                // 👈🏽 ✅
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+const tempMovieData = [
+  {
+    imdbID: "tt1375666",
+    Title: "Inception",
+    Year: "2010",
+    Poster: "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+  },
+  {
+    imdbID: "tt0133093",
+    Title: "The Matrix",
+    Year: "1999",
+    Poster:
+      "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_SX300.jpg",
+  },
+  {
+    imdbID: "tt6751668",
+    Title: "Parasite",
+    Year: "2019",
+    Poster:
+      "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_SX300.jpg",
+  },
+];
+const tempWatchedData = [
+  {
+    imdbID: "tt1375666",
+    Title: "Inception",
+    Year: "2010",
+    Poster: "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_SX300.jpg",
+    runtime: 148,
+    imdbRating: 8.8,
+    userRating: 10,
+  },
+  {
+    imdbID: "tt0088763",
+    Title: "Back to the Future",
+    Year: "1985",
+    Poster:
+      "https://m.media-amazon.com/images/M/MV5BZmU0M2Y1OGUtZjIxNi00ZjBkLTg1MjgtOWIyNThiZWIwYjRiXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg",
+    runtime: 116,
+    imdbRating: 8.5,
+    userRating: 9,
+  },
+];
+const KEY = "f84fc31d";
+function App() {
+  const [movies, setMovies] = useState(tempMovieData);
+  const [watched, setWatched] = useState(tempWatchedData);
+  // fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
+  //   .then((res) => res.json())
+  //   .then((data) => setMovies(data.Search));
+  useEffect(() => {     // 👈🏽 ✅
+    fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
+      .then((res) => res.json())
+      .then((data) => setMovies(data.Search));
+  }, []);
+  return (
+    <>
+      <Navbar>
+        <Search />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box element={<MovieList movies={movies} />} />
+        <Box
+          element={
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          }
+        />
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+Note:
+* Not to run as the component renders
+- it runs after it has been painted onto the screen.
+- Empty array: this effect will only be executed as the component first mounts.
+
+![](../img/section12-lecture143-001.png)
+
+### 🐞 03.3 Issues:
+- **Main takeaway**: `useEffect` fixes “side effects in render”, but real-world fetching still needs guardrails (Strict Mode double-invocation in dev, error/loading handling, cancellation, and response validation).
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Effect may run twice in dev due to Strict Mode** | ⚠️ Identified | `src/main.jsx:8-15` enables `StrictMode`. In development, React can mount/unmount and re-run effects to detect unsafe effects. Impact: duplicate OMDb requests even with `[]` deps. This is expected behavior, but you must design effects to be idempotent and/or cancellable. |
+| **Insecure request protocol (`http`)** | ⚠️ Identified | `src/App.jsx:68` uses `http://www.omdbapi.com`. Use `https://` to avoid mixed content/security issues and align with best practice. |
+| **No loading/error state for async fetch** | ⚠️ Identified | `src/App.jsx:67-71` doesn’t set `isLoading`/`error`. Impact: UI can’t communicate request progress or failures; debugging becomes harder once `movies` is rendered from the API response. |
+| **No response validation (`res.ok`, API error payload)** | ⚠️ Identified | The code assumes `res.json()` returns a valid `data.Search`. If the API returns `{ Response: "False", Error: "Movie not found!" }`, `data.Search` is `undefined`, which may break downstream components expecting an array. Location: `src/App.jsx:69-70`. |
+| **No cancellation / stale-response protection** | ℹ️ Low Priority | If/when the fetch becomes dependent on a changing input (e.g. search `query`), requests can race and the UI can show stale results. You’ll want an `AbortController` cleanup or a guard to ignore outdated responses. Current location: `src/App.jsx:67-71`. |
+
+### 🧱 03.4 Pending Fixes (TODO)
+
+```md
+- [ ] Update the OMDb URL to `https://` in `src/App.jsx:68`.
+- [ ] Add `isLoading` + `error` state to `src/App.jsx`, and render appropriate UI in the list area (loading indicator + error message).
+- [ ] Validate the response: check `res.ok`, and handle OMDb’s `{ Response: "False", Error: "..." }` shape before calling `setMovies`. (Relevant: `src/App.jsx:69-70`)
+- [ ] Add request cancellation/stale protection inside the effect (cleanup with `AbortController`) to make the effect safe under Strict Mode and future “search as you type” behavior.
+- [ ] Decide whether this screen is in “mock data mode” or “API mode”: `movies` currently starts with `tempMovieData` but is overwritten by fetch on mount. Make this explicit (feature flag or remove temp init once API is used).
+```
+
 
 
 
