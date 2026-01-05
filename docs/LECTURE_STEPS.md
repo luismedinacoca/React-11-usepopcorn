@@ -4794,6 +4794,84 @@ Note:
 - [ ] Decide whether this screen is in “mock data mode” or “API mode”: `movies` currently starts with `tempMovieData` but is overwritten by fetch on mount. Make this explicit (feature flag or remove temp init once API is used).
 ```
 
+<br>
+
+## 🔧 04. Lesson 144 — *At first look at Effects*
+
+### 🧠 04.1 Context:
+
+In React, an **Effect** is code that runs **after React renders** (and commits the UI to the DOM) to **synchronize your component with something outside of React**. That “outside world” is usually:
+
+- **Network** (fetching data)
+- **Browser APIs** (timers, `localStorage`, `document.title`, event listeners)
+- **3rd-party libraries** that expect imperative calls (maps, charts, analytics)
+
+React rendering must be **pure**: given the same props/state, the component should return the same UI and **must not cause side effects during render** (e.g., fetching, subscriptions, mutations). That’s why `useEffect` exists: it provides a dedicated place for **side effects** that shouldn’t happen while React is calculating UI.
+
+**When to use `useEffect`**
+
+- Use it when you need to **sync with external systems** as a consequence of state/props changes.
+- If something can be derived from props/state, compute it during render instead of using an effect.
+- If something should happen **because the user did something** (click, typing, submit), prefer an **event handler** first; only reach for `useEffect` when you need automatic synchronization.
+
+**Dependency array mental model**
+
+- `useEffect(fn, [])`: run on **mount** (and cleanup on unmount). In development with `StrictMode`, React may mount/unmount and re-run effects to detect unsafe behavior.
+- `useEffect(fn, [a, b])`: re-run when **`a` or `b` changes** (and run cleanup before the next run).
+- Don’t “fight” dependencies; instead, structure state so the effect naturally depends on what it uses.
+
+**Examples from this project**
+
+- **Effect (external sync)**: `src/App.jsx:67-71` fetches OMDb data after mount and stores it in state via `setMovies`.
+- **Event handler (user-driven)**: `src/components/Search.jsx:6-12` updates `query` inside `onChange`, which is the correct place for immediate user-input reactions.
+
+**Advantages**
+
+- Clear separation between **rendering UI** and **interacting with external systems**
+- Provides a consistent place to implement **cleanup** (abort requests, remove listeners, clear timers)
+
+**Disadvantages / common pitfalls**
+
+- Incorrect dependencies can cause **stale values**, **infinite loops**, or missed updates
+- Async effects can lead to **race conditions** and updates after unmount if not guarded/cancelled
+- It’s easy to overuse effects for things that should be derived during render or handled in events
+
+**When to consider alternatives**
+
+- If the work is purely derived UI: compute it directly (or memoize with `useMemo` if necessary).
+- If it’s triggered by a user action: use an event handler, then set state.
+- If data fetching is central to the app: consider a data-fetching library (e.g., React Query) to avoid manual loading/error/caching plumbing.
+
+### ⚙️ 04.2 Updating code/theory according the context:
+
+#### 04.2.1 Where to create **side effects**
+
+![Where to create side effects](../img/section12-lecture144-001.png)
+
+#### 04.2.2 Event handlers **vs** Effects:
+
+![Event handlers vs Effects](../img/section12-lecture144-002.png)
+
+### 🐞 04.3 Issues:
+- **Main takeaway**: Effects belong to synchronization with external systems; user-driven logic belongs in event handlers. In this repo, the effect example works as a first look, but it still demonstrates common “first effect” pitfalls (hard-coded input, missing guardrails, and Strict Mode confusion).
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Hard-coded search term means the effect is not actually “syncing with state”** | ⚠️ Identified | `src/App.jsx:67-71` always fetches `s=interstellar`, while `src/components/Search.jsx:3-12` maintains `query` locally but doesn’t drive the fetch. Impact: lesson goal (“Effects react to state changes”) isn’t reflected in the current implementation. |
+| **Commented-out fetch-in-render is a footgun** | ℹ️ Low Priority | `src/App.jsx:63-65` shows a fetch inside render (commented). If uncommented, it would re-run on every render and can cause request storms. Keep it as a teaching example, but label it clearly as “never do this”. |
+| **Strict Mode can make effects appear to run twice in dev** | ⚠️ Identified | `src/main.jsx:8-15` uses `StrictMode`, which can mount/unmount and re-run effects in development to detect unsafe side effects. Impact: duplicate OMDb calls even with `[]` dependencies unless the effect is idempotent/cancellable. (See also: Lesson 143 notes on Strict Mode.) |
+| **No cleanup/cancellation for async effect** | ⚠️ Identified | `src/App.jsx:67-71` has no cleanup function. Impact: once the effect depends on changing inputs (like `query`), racing requests can show stale results; also increases confusion under Strict Mode. |
+| **No loading/error UI for a side effect that can fail** | ⚠️ Identified | `src/App.jsx:67-71` doesn’t handle `isLoading`/`error` and doesn’t validate OMDb error payloads. Impact: the UI can silently fail or propagate `undefined` lists to components. |
+
+### 🧱 04.4 Pending Fixes (TODO)
+
+```md
+- [ ] Connect `Search` query state to `App` (lift `query` up) and make the effect depend on `query` to demonstrate “sync with state” properly. Files: `src/components/Search.jsx:3-12`, `src/App.jsx:59-71`.
+- [ ] Add effect guardrails: `isLoading`, `error`, and response validation (`res.ok` + OMDb `{ Response: "False", Error: "..." }`) before calling `setMovies`. File: `src/App.jsx:67-71`.
+- [ ] Add cancellation/stale-response protection (cleanup with `AbortController`) so the effect is safe under Strict Mode and future “search as you type”. File: `src/App.jsx:67-71`.
+- [ ] Add a clear comment above the commented fetch-in-render snippet explaining *why it’s wrong* and that it should never be uncommented. File: `src/App.jsx:63-65`.
+```
+
 
 
 
