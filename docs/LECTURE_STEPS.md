@@ -4478,15 +4478,11 @@ function App() {
         <NumResult movies={movies} />
       </Navbar>
       <Main>
-        <Box element={<MovieList movies={movies} />} />
-        <Box
-          element={
-            <>
-              <WatchedSummary watched={watched} />
-              <WatchedMovieList watched={watched} />
-            </>
-          }
-        />
+        <Box><MovieList movies={movies} /></Box>
+        <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
       </Main>
     </>
   );
@@ -4529,15 +4525,11 @@ function App() {
         <NumResult movies={movies} />
       </Navbar>
       <Main>
-        <Box element={<MovieList movies={movies} />} />
-        <Box
-          element={
-            <>
-              <WatchedSummary watched={watched} />
-              <WatchedMovieList watched={watched} />
-            </>
-          }
-        />
+        <Box><MovieList movies={movies} /></Box>
+        <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
       </Main>
     </>
   );
@@ -4581,15 +4573,11 @@ function App() {
         <NumResult movies={movies} />
       </Navbar>
       <Main>
-        <Box element={<MovieList movies={movies} />} />
-        <Box
-          element={
-            <>
-              <WatchedSummary watched={watched} />
-              <WatchedMovieList watched={watched} />
-            </>
-          }
-        />
+        <Box><MovieList movies={movies} /></Box>
+        <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
       </Main>
     </>
   );
@@ -4750,15 +4738,11 @@ function App() {
         <NumResult movies={movies} />
       </Navbar>
       <Main>
-        <Box element={<MovieList movies={movies} />} />
-        <Box
-          element={
-            <>
-              <WatchedSummary watched={watched} />
-              <WatchedMovieList watched={watched} />
-            </>
-          }
-        />
+        <Box><MovieList movies={movies} /></Box>
+        <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
       </Main>
     </>
   );
@@ -4945,14 +4929,11 @@ import Box from "./components/Box";
 import MovieList from "./components/MovieList";
 import WatchedSummary from "./components/WatchedSummary";
 import WatchedMovieList from "./components/WatchedMovieList";
-
 const KEY = "f84fc31d";
-
 function App() {
   const [movies, setMovies] = useState([]);
   const [watched, setWatched] = useState([]);
   const query = "interstellar";
-
   useEffect(() => {
     const fetchData = async () => {
       const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
@@ -4961,7 +4942,7 @@ function App() {
       console.log("movies", movies); // stale value (closure) before React applies the state update
       console.log("data.Search", data.Search); // the fetched results
     };
-    fetchData();
+    fetchData();  // 👈🏽 ✅
   }, []);
 
   return (
@@ -4971,15 +4952,11 @@ function App() {
         <NumResult movies={movies} />
       </Navbar>
       <Main>
-        <Box element={<MovieList movies={movies} />} />
-        <Box
-          element={
-            <>
-              <WatchedSummary watched={watched} />
-              <WatchedMovieList watched={watched} />
-            </>
-          }
-        />
+        <Box><MovieList movies={movies} /></Box>
+        <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
       </Main>
     </>
   );
@@ -5042,6 +5019,147 @@ useEffect(() => {
 - [ ] If you want to log updated movies for debugging, move it to `useEffect(() => { console.log(movies); }, [movies])` instead of logging immediately after `setMovies`. File: `src/App.jsx`.
 ```
 
+
+<br>
+
+## 🔧 06. Lesson 146 — *Adding a Loading State*
+
+### 🧠 06.1 Context:
+
+A **loading state** is a piece of UI state that represents an **in-progress asynchronous operation** (most commonly: a network request). In React, we usually model it with a boolean like `isLoading` and use it to decide what the user should see while data is being fetched (spinner/loader, skeleton, disabled controls, etc.).
+
+**When and why it’s used**
+- **When**: Whenever rendering depends on data that arrives later (search results, pagination, initial app boot, details pages, etc.).
+- **Why**: Without it, users can see an empty screen, stale results, or UI that looks “broken” on slow connections. A loading indicator provides immediate feedback and sets expectations.
+
+**How it’s implemented (typical React pattern)**
+- Create state: `const [isLoading, setIsLoading] = useState(false)`
+- Start request: `setIsLoading(true)` right before the async work
+- Finish request: `setIsLoading(false)` once the async work completes
+- Render conditionally: show `<Loader />` while `isLoading` is true, otherwise render the real content
+
+**Project example**
+- `src/App.jsx:63-76` sets `isLoading` to `true` before fetching movies and back to `false` afterward.
+- `src/App.jsx:89-94` conditionally renders `<Loader />` or `<MovieList />` based on `isLoading`.
+- `src/components/Loader.jsx:1-5` is the current loading UI.
+
+**Advantages**
+- **Clear UX feedback** on slow networks (especially when throttling in DevTools).
+- **Prevents confusion**: users know the app is working.
+- **Enables better control**: you can disable actions while loading and reduce inconsistent UI states.
+
+**Disadvantages / gotchas**
+- **Extra state to manage** (loading + success + error often need to be handled together).
+- **Flicker** on very fast requests (may require delaying the loader or using skeletons).
+- **Stuck loaders** if errors aren’t handled and `setIsLoading(false)` is never reached.
+
+**When to consider alternatives**
+- **Skeleton screens** instead of a spinner for better perceived performance.
+- **Data fetching libraries** (React Query / SWR) that provide `isLoading`, caching, retries, and race-condition handling.
+- **Suspense-based fetching** (where applicable) to centralize loading behavior (often a more advanced setup).
+
+### ⚙️ 06.2 Updating code/theory according the context:
+
+#### 06.2.1 Thinking about very slow internet connection:
+* How to simulate slow network connection: 
+![simulate slow connection](../img/section12-lecture146-001.png)
+
+* Need to add a Loader component for this slow connection issues
+![add a Loader component for slow network connection](../img/section12-lecture146-002.png)
+
+#### 06.2.2 Adding a new `isLoading` state:
+```tsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";  // 👈🏽 ✅
+const tempMovieData = [....];
+const tempWatchedData = [....];
+const KEY = "f84fc31d";
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);  // 👈🏽 ✅
+  const query = "interstellar";
+  // fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
+  //   .then((res) => res.json())
+  //   .then((data) => setMovies(data.Search));
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);  // 👈🏽 ✅
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
+      const data = await resp.json();
+      setMovies(data.Search);
+      setIsLoading(false);  // 👈🏽 ✅
+      console.log("movies", movies); // stale movies before setMovies()
+      console.log("data.Search", data.Search); // updated movies
+    };
+    fetchData();
+  }, []);
+  return (
+    <>
+      <Navbar>
+        <Search />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {
+            isLoading  {/* 👈🏽 ✅ */}
+            ? <Loader /> {/* 👈🏽 ✅ */}
+            : <MovieList movies={movies} />
+          }
+        </Box>
+        <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+Adding the `Loader` component:
+
+```tsx
+/* src/components/Loader.jsx */
+const Loader = () => {
+  return <p className="loader">Loading...</p>;
+};
+export default Loader;
+```
+
+![](../img/section12-lecture146-003.png)
+
+### 🐞 06.3 Issues:
+- **Main takeaway**: The loading state works, but the current implementation can easily get stuck in a loading UI or crash in edge cases because it lacks error handling, safe defaults, and accessibility polish.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **`isLoading` can get stuck (no `try/catch/finally`)** | ⚠️ Identified | `src/App.jsx:70-81` sets `isLoading(true)` and later `setIsLoading(false)`, but if `fetch(...)` rejects, JSON parsing fails, or any exception occurs, the code never reaches `setIsLoading(false)` and the loader can remain forever. |
+| **No error state/UI for failed or empty OMDb responses** | ⚠️ Identified | `src/App.jsx:73-75` assumes a successful response. OMDb can return `{ Response: "False", Error: "Movie not found!" }`, and the UI has no path to render that message. |
+| **Potential runtime crash: `movies.length` when `movies` becomes `undefined`** | ⚠️ Identified | `src/App.jsx:75` sets `movies` from `data.Search` without a default. If `data.Search` is missing, `movies` becomes `undefined`, and `src/components/NumResult.jsx:1-7` crashes at `movies.length`. |
+| **Loader accessibility is minimal** | ℹ️ Low Priority | `src/components/Loader.jsx:1-5` renders a plain `<p>Loading...</p>`. Consider adding `role="status"` and `aria-live="polite"` so assistive tech announces loading changes. |
+| **Stale state logging can confuse learners** | ℹ️ Low Priority | `src/App.jsx:77` logs `movies` right after `setMovies(...)`, but React state updates are async so it logs the previous value. Prefer logging `data.Search` or using a separate `useEffect` on `[movies]`. |
+
+### 🧱 06.4 Pending Fixes (TODO)
+
+```md
+- [ ] Wrap the fetch flow in `try/catch/finally` and move `setIsLoading(false)` into `finally` to guarantee it runs. File: `src/App.jsx:70-81`.
+- [ ] Add an `error` state (e.g., `const [error, setError] = useState("")`) and render an error message in the movies `<Box>` when the request fails or OMDb returns `Response: "False"`. File: `src/App.jsx` (movies fetching + render branch).
+- [ ] Ensure `movies` is always an array: set `setMovies(data.Search ?? [])` and handle OMDb “False” responses by setting `[]`. File: `src/App.jsx:73-76`.
+- [ ] Make `NumResult` resilient by using `movies?.length ?? 0` (or keep the invariant that `movies` is always `[]`). File: `src/components/NumResult.jsx:1-7`.
+- [ ] Improve loader a11y with `role="status"` and `aria-live="polite"` (and optionally `aria-label`). File: `src/components/Loader.jsx:1-5`.
+```
 
 
 
