@@ -4873,6 +4873,175 @@ React rendering must be **pure**: given the same props/state, the component shou
 ```
 
 
+<br>
+
+## 🔧 05. Lesson 145 — *Using an async Function*
+
+### 🧠 05.1 Context:
+
+In React, you’ll often need to fetch data from an external API (network requests), which is a **side effect**. Since `fetch()` is asynchronous, the most readable way to handle it is typically with **`async/await`**.
+
+However, there’s an important React rule:
+
+- `useEffect`’s callback **must not be `async`**.  
+  React expects the effect callback to either return **nothing** (`undefined`) or a **cleanup function**. An `async` function always returns a **Promise**, which React could misinterpret as a cleanup value and it can lead to confusing behavior.
+
+So the recommended pattern is:
+
+- Define an **inner async function** inside the effect (or an async IIFE), then call it.
+- Handle **loading**, **errors**, and **cancellation** (e.g. `AbortController`) when appropriate—especially under **React Strict Mode** (dev) which can make effects run more than once during development to surface unsafe patterns.
+
+**Example from this project**
+
+- `src/App.jsx:68-77` uses the correct pattern: `useEffect(() => { const fetchData = async () => { ... }; fetchData(); }, [])`.
+
+**Advantages**
+
+- Clear sequential code with `await` (more readable than chained `.then()`).
+- Easier try/catch error handling.
+- Easier to add cancellation/guardrails.
+
+**Disadvantages / pitfalls**
+
+- Easy to forget dependency array correctness (stale closures / missing dependencies).
+- Easy to forget to handle errors and invalid responses (e.g., OMDb can return `{ Response: "False", Error: "..." }`).
+- Without cancellation, racing requests can overwrite state with stale results.
+
+**When to consider alternatives**
+
+- If data fetching becomes central (caching, retries, deduping, background refresh): use a library like **React Query / TanStack Query** to avoid manual loading/error/caching logic.
+- If the async work is triggered by a user action (e.g., “Search” button): prefer an **event handler** rather than an effect.
+
+### ⚙️ 05.2 Updating code/theory according the context:
+
+#### 05.2.1 Adding `Async/await`in fetch function:
+This is the **tempting** approach, but it’s **wrong**:
+
+```tsx
+useEffect(async () => {
+  const res = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`);
+  const data = await res.json();
+  setMovies(data.Search);
+}, []);
+// ❌ The effect callback is async, so it returns a Promise instead of a cleanup function.
+```
+
+React expects the effect callback to return **nothing** or a **cleanup function**. Returning a Promise is not what React wants here.
+
+![](../img/section12-lecture145-001.png)
+
+#### 05.2.2 `useEffect` hook returns a function which has an `async/await` function inside:
+
+✅ Correct pattern used in this repo (inner async function):
+
+```tsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+
+const KEY = "f84fc31d";
+
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const query = "interstellar";
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
+      const data = await resp.json();
+      setMovies(data.Search);
+      console.log("movies", movies); // stale value (closure) before React applies the state update
+      console.log("data.Search", data.Search); // the fetched results
+    };
+    fetchData();
+  }, []);
+
+  return (
+    <>
+      <Navbar>
+        <Search />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box element={<MovieList movies={movies} />} />
+        <Box
+          element={
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          }
+        />
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+![](../img/section12-lecture145-002.png)
+
+**Key takeaways**
+
+- The effect callback is **not async**.
+- The async logic lives inside `fetchData`.
+- Logging `movies` immediately after `setMovies(...)` prints a **stale** value due to React state updates being asynchronous.
+
+Optional upgrade (recommended once `query` becomes real state): add cancellation and proper dependencies.
+
+```tsx
+useEffect(() => {
+  const controller = new AbortController();
+
+  const fetchData = async () => {
+    try {
+      const res = await fetch(
+        `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`,
+        { signal: controller.signal }
+      );
+      const data = await res.json();
+      setMovies(data.Search ?? []);
+    } catch (err) {
+      if (err.name === "AbortError") return;
+      // setError(err.message) ...
+    }
+  };
+
+  fetchData();
+  return () => controller.abort();
+}, [query]);
+```
+
+### 🐞 05.3 Issues:
+- **Main takeaway**: The repo uses the correct “inner async function” pattern in `useEffect`, but it still has common async-effect pitfalls (dependencies, stale closures, and missing error/response handling). Also, this docs section currently demonstrates a wrong pattern as “✅”.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Docs example incorrectly marks `useEffect(async () => ...)` as correct** | ⚠️ Identified | `docs/LECTURE_STEPS.md:05.2.1` previously showed `useEffect(async () => { ... })` with a ✅. This is misleading because the effect callback returns a Promise, not a cleanup function. |
+| **Effect reads `query` but dependency array is empty** | ⚠️ Identified | `src/App.jsx:68-77` uses `query` but the deps are `[]`. It “works” only because `query` is a constant. Once `query` is lifted into state (e.g., from `Search`), the effect must depend on `[query]` to stay correct. |
+| **Potential crash: `setMovies(data.Search)` can set `movies` to `undefined`** | ⚠️ Identified | `src/App.jsx:69-75` sets movies from `data.Search` without guarding. When OMDb returns no results or an error, `data.Search` can be `undefined`, which breaks `src/components/NumResult.jsx:1-7` (`movies.length`). |
+| **Stale state log can confuse learners** | ℹ️ Low Priority | `src/App.jsx:73` logs `movies` right after `setMovies(...)`, but it logs the old value due to state updates being async. Better to log `data.Search`, or log `movies` in a separate `useEffect` that depends on `[movies]`. |
+| **No async guardrails: loading/error state and cancellation** | ⚠️ Identified | `src/App.jsx:68-77` has no `isLoading`/`error` and no cancellation. Under `StrictMode` in `src/main.jsx:8-14`, effects may run more than once in dev; without idempotency/cancellation, duplicate requests and race conditions become likely once the effect depends on user input. |
+
+### 🧱 05.4 Pending Fixes (TODO)
+
+```md
+- [ ] Fix Lesson 145 docs to clearly label `useEffect(async () => ...)` as ❌ and keep the “inner async function” pattern as the ✅ approach. File: `docs/LECTURE_STEPS.md` (Lesson 145).
+- [ ] Guard OMDb responses before setting state: handle `res.ok`, OMDb `{ Response: "False", Error: "..." }`, and default to `[]` when `data.Search` is missing. Files: `src/App.jsx:68-77`, `src/components/NumResult.jsx:1-7`.
+- [ ] Add `isLoading` + `error` state and render a small UI state (or disable result count) while loading / on error. Files: `src/App.jsx`, `src/components/MovieList.jsx`, `src/components/NumResult.jsx`.
+- [ ] Add request cancellation / stale-response protection with `AbortController` and return a cleanup function from the effect. File: `src/App.jsx:68-77`.
+- [ ] Lift `query` state to `App` and pass it to `Search` as a controlled input (`value`, `onChange`), then make the effect depend on `[query]`. Files: `src/components/Search.jsx:3-12`, `src/App.jsx:59-77`.
+- [ ] If you want to log updated movies for debugging, move it to `useEffect(() => { console.log(movies); }, [movies])` instead of logging immediately after `setMovies`. File: `src/App.jsx`.
+```
+
 
 
 
