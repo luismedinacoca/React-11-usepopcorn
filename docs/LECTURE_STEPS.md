@@ -5162,6 +5162,254 @@ export default Loader;
 ```
 
 
+<br>
+
+## 🔧 13. Lesson 147 — *Handling Errors*
+
+### 🧠 13.1 Context:
+
+In real-world applications, data fetching can fail for various reasons—network issues, server downtime, or invalid queries. It is crucial to handle these errors gracefully to provide a good user experience.
+
+- **`try...catch` Block**: We use this to catch errors during asynchronous operations (like `await fetch(...)`).
+- **`res.ok` Check**: The `fetch` API doesn't throw an error for HTTP error statuses (like 404 Not Found). We must manually check `res.ok` and throw an error if it's false.
+- **Error State**: We introduce a piece of state (`error`) to store the error message.
+- **Conditional Rendering**: We display the error message to the user when the `error` state is truthy.
+
+### ⚙️ 13.2 Updating code/theory according the context:
+
+#### 13.2.1 In case internet connection is flaky (try-catch block):
+Simulate internet connection issues:
+- network tab
+- disable cache select `"3G"` then when is almost to be load select `"Offline"`.
+
+```tsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+const tempMovieData = [....];
+const tempWatchedData = [....];
+const KEY = "f84fc31d";
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const query = "interstellar";
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {  // 👈🏽 ✅
+        setIsLoading(true);
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
+        // if the response is not ok, throw an error
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+        // if the response is ok, parse the json
+        const data = await resp.json();
+        setMovies(data.Search);
+        setIsLoading(false);
+        console.log("movies", movies); // stale movies before setMovies()
+        console.log("data.Search", data.Search); // updated movies
+      } catch (error) {  // 👈🏽 ✅
+        console.error(error.message);
+      }
+    };
+    fetchMovies();
+  }, []);
+  return (
+    <>
+      <Navbar>
+        <Search />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>{isLoading ? <Loader /> : <MovieList movies={movies} />}</Box>
+        <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+#### 13.2.2 Add a new `error` state:
+```tsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";  //👈🏽 ✅
+const KEY = "f84fc31d";
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");  //👈🏽 ✅
+  const query = "interstellar";
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
+        // if the response is not ok, throw an error
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+        // if the response is ok, parse the json
+        const data = await resp.json();
+        setMovies(data.Search);
+        setIsLoading(false);
+        console.log("data", data);
+        console.log("movies", movies); // stale movies before setMovies()
+        console.log("data.Search", data.Search); // updated movies
+      } catch (error) {
+        console.error("🔥 Error fetching movies:", error.message);
+        setError(error.message);  //👈🏽 ✅
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchMovies();
+  }, []);
+  return (
+    <>
+      <Navbar>
+        <Search />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} />}  {/* 👈🏽 ✅ */}
+          {error && <ErrorMessage message={error} />}  {/* 👈🏽 ✅ */}
+        </Box>
+        <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+The `ErrorMessage` component:
+```jsx
+/* src/components/ErrorMessage.jsx */
+const ErrorMessage = ({ message }) => {  //👈🏽 ✅
+  return (
+    <p className="error">
+      <span>⛔️</span> {message}
+    </p>
+  );
+};
+export default ErrorMessage;
+```
+
+#### 13.2.3 In case the movie query is not found:
+```jsx
+/*  */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+const KEY = "f84fc31d";
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const query = "fukjvdshñfliuhi";  // 👈🏽 ✅
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
+        // if the response is not ok, throw an error
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+        // if the response is ok, parse the json
+        const data = await resp.json();
+        if (data.Response === "False") throw new Error("Movie not found 😭");  // 👈🏽 ✅
+        setMovies(data.Search);
+        setIsLoading(false);
+        console.log("data", data);
+        console.log("movies", movies); // stale movies before setMovies()
+        console.log("data.Search", data.Search); // updated movies
+      } catch (error) {
+        console.error("🔥 Error fetching movies:", error.message);
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchMovies();
+  }, []);
+  return (
+    <>
+      <Navbar>
+        <Search />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+![](../img/section12-lecture147-001.png)
+
+### 🐞 13.3 Issues:
+
+- **Hardcoded Query**: The query "fukjvdshñfliuhi" is hardcoded to force a "Movie not found" error, breaking the functionality.
+- **Stale Error State**: The `error` state is not reset when a new fetch starts.
+- **Missing Dependency**: The `useEffect` dependency array is empty.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Hardcoded Query** | ⚠️ Identified | Code hardcodes `query = "fukjvdshñfliuhi"`. `src/App.jsx` |
+| **Stale Error State** | ⚠️ Identified | `setError("")` missing in `fetchMovies`. `src/App.jsx` |
+| **Missing Dependency** | ℹ️ Low Priority | `useEffect` depends on `query` but dep array is `[]`. `src/App.jsx` |
+
+### 🧱 13.4 Pending Fixes (TODO)
+
+- [ ] Reset error state: `setError("")` at start of `fetchMovies`. File: `src/App.jsx`.
+- [ ] Connect Search to query: Remove hardcoded query. File: `src/App.jsx`.
+- [ ] Add dependency to useEffect: `[query]`. File: `src/App.jsx`.
+
 
 
 
