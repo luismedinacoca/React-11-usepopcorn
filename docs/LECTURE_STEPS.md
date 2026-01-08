@@ -5411,6 +5411,75 @@ export default App;
 - [ ] Add dependency to useEffect: `[query]`. File: `src/App.jsx`.
 
 
+<br>
+
+## 🔧 14. Lesson 148 — *The useEffect dependency array*
+
+### 🧠 14.1 Context:
+
+The **dependency array** is the second argument passed to the `useEffect` hook. It serves as a control mechanism that tells React when to execute the effect function. By comparing the current values of the dependencies with their values during the previous render, React decides whether to skip or run the effect.
+
+- **When it is used**:
+  - **Empty array `[]`**: The effect runs only once, after the initial render (mount).
+  - **With dependencies `[prop, state]`**: The effect runs on mount and whenever any of the listed dependencies change.
+  - **No array**: The effect runs after every single render (usually avoided for performance).
+
+- **Examples from the project**:
+  - In `src/App.jsx`, `useEffect` is used to fetch movie data from the OMDb API.
+  - Currently, it uses `[]`, meaning it only fetches once. However, it relies on the `query` variable to build the URL.
+
+- **Advantages**:
+  - **Synchronization**: Ensures the component's side effects stay in sync with its props and state.
+  - **Optimization**: Prevents expensive operations (like API calls) from running on every render.
+
+- **Disadvantages**:
+  - **Complexity**: Requires careful management to avoid "stale closures" (where the effect uses old values).
+  - **Infinite Loops**: If a dependency is updated inside the effect without proper logic, it can trigger another render and re-run the effect indefinitely.
+
+- **When to consider alternatives**:
+  - Use `useMemo` or `useCallback` if your dependencies are objects or functions that are recreated on every render.
+  - Use `useLayoutEffect` if the effect needs to happen synchronously before the browser paints (e.g., measuring DOM elements).
+
+- **Connection to implementation**:
+  This lesson emphasizes that `useEffect` is not just a lifecycle hook (like `componentDidMount`) but a **synchronization mechanism**. The dependency array is the tool used to define what the effect should be synchronized with.
+
+### ⚙️ 14.2 Updating code/theory according the context:
+
+#### 14.2.0 Summary of Lesson 148 Implementation
+The project currently implements a side effect in `App.jsx` to fetch movie data using the `fetch` API inside an `async` function. The implementation handles the full request lifecycle, including loading states (`isLoading`) and error handling (`error`). While the effect is functional for the initial load, it lacks synchronization with the search query, as the dependency array is empty despite the effect using the `query` variable. The lesson materials provide a conceptual framework for understanding how React uses these dependencies to manage the execution of effects relative to the component lifecycle.
+
+#### 14.2.1 What's the useEffect **Dependency** array?
+
+![What's the useEffect Depenency array](../img/section12-lecture148-001.png)
+
+#### 14.2.2 useEffect is a **Synchronization** mechanism:
+
+![useEffect is a Synchronization mechanism](../img/section12-lecture148-002.png)
+
+#### 14.2.3 Synchronization **and** lifecycle
+
+![Synchronization and lifecycle](../img/section12-lecture148-003.png)
+
+#### 14.2.4 When are effects **executed**?
+
+![When are effects executed](../img/section12-lecture148-004.png)
+
+
+### 🐞 14.3 Issues:
+- **Missing Hook Dependency**: The `useEffect` in `App.jsx` uses the `query` variable but it's not included in the dependency array.
+- **Stale State in Logs**: `console.log("movies", movies)` shows the state from the previous render cycle, not the newly set value.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Missing Dependency | ⚠️ Identified | `src/App.jsx` line 55: `useEffect` missing `query` in `[]`. |
+| Stale State Access | ℹ️ Low Priority | `src/App.jsx` line 45: Logging `movies` immediately after `setMovies` shows stale data. |
+
+### 🧱 14.4 Pending Fixes (TODO)
+
+- [ ] Add `query` to the dependency array in `src/App.jsx` to ensure data re-fetches when the search term changes.
+- [ ] Implement a cleanup function or `AbortController` to handle race conditions if multiple fetches are triggered.
+- [ ] Clean up debug `console.log` statements in the `fetchMovies` function.
+
 
 
 
