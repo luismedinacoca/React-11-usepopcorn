@@ -18,17 +18,29 @@ function App() {
   const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  //const query = "interstellar";
-  const query = "fukjvdshñfliuhi";
+  const [query, setQuery] = useState("");
+  const tempQuery = "interstellar";
 
-  // fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=interstellar`)
-  //   .then((res) => res.json())
-  //   .then((data) => setMovies(data.Search));
+  /*
+  useEffect(() => {
+    console.log(" 🏁 After initial render");
+  }, []);
 
+  useEffect(() => {
+    console.log(" ∞ After every render");
+  });
+
+  useEffect(() => {
+    console.log(" 🔎 Every time query changes, this runs");
+  }, [query]);
+
+  console.log(" 🎬 Rendering...");
+  */
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         setIsLoading(true);
+        setError("");
         const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
 
         // if the response is not ok, throw an error
@@ -41,28 +53,30 @@ function App() {
 
         setMovies(data.Search);
         setIsLoading(false);
-        console.log("data", data);
-        console.log("movies", movies); // stale movies before setMovies()
-        console.log("data.Search", data.Search); // updated movies
       } catch (error) {
-        console.error("🔥 Error fetching movies:", error.message);
         setError(error.message);
       } finally {
         setIsLoading(false);
       }
     };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
     fetchMovies();
-  }, []);
+  }, [query]);
 
   return (
     <>
       <Navbar>
-        <Search />
+        <Search query={query} setQuery={setQuery} />
         <NumResult movies={movies} />
       </Navbar>
       <Main>
         <Box>
-          {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
           {isLoading && <Loader />}
           {!isLoading && !error && <MovieList movies={movies} />}
           {error && <ErrorMessage message={error} />}
