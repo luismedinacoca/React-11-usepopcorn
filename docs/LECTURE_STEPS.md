@@ -6196,6 +6196,276 @@ export default MovieDetails;
 - [ ] Clean up unused variables and commented-out code (`setWatched`, `tempQuery`) in `src/App.jsx`.
 
 
+<br>
+
+## 🔧 151. Lesson 151 — *Loading Movie Details*
+
+### 🧠 151.1 Context:
+- **Definition**: Dynamic data fetching refers to the process of retrieving specific information from an external source (like an API) based on a unique identifier (ID) provided at runtime.
+- **When it occurs/is used**: It is used in "Master-Detail" patterns where a list of items is displayed, and clicking an item reveals a detailed view with more comprehensive data.
+- **Examples from the project**: In `App.jsx`, when a user clicks a movie in the `MovieList`, the `selectedId` state is updated. The `MovieDetails` component then uses this ID to fetch the full movie details from the OMDb API.
+- **Advantages**: 
+  - **Efficiency**: Only fetches detailed data when requested, saving bandwidth.
+  - **Separation of Concerns**: Keeps the list data light and the detail view rich.
+  - **User Experience**: Provides a focused view for specific content.
+- **Disadvantages**: 
+  - **Latency**: Requires an additional network request which can introduce a delay.
+  - **State Management**: Requires careful handling of loading, error, and empty states.
+- **When to consider alternatives**: If the dataset is small and static, it might be better to fetch all data at once. If SEO is critical, server-side rendering (SSR) might be preferred.
+- **Connection to the lesson's practical implementation**: This lesson demonstrates how to synchronize React state (`selectedId`) with an external side effect (`fetch`) using `useEffect` and its dependency array.
+
+### ⚙️ 151.2 Updating code/theory according the context:
+
+#### Summary
+This section covers the implementation of the `MovieDetails` component, focusing on fetching movie data from the OMDb API when a user selects a movie. It demonstrates how to use `useEffect` with a dependency to sync the UI with the selected movie ID and how to manage the loading state for a smoother UX.
+
+#### 151.2.1 Looking for `MovieDetails` data or information:
+**Subsection Summary**
+- Initial setup of the `MovieDetails` component.
+- Implementing a basic `useEffect` to fetch data by ID (`selectedId`).
+- Logging the API response to verify the data structure.
+```tsx
+/* src/components/MovieDetails.jsx */
+import { useEffect } from "react";    // 👈🏽 ✅
+const MovieDetails = ({ selectedId, onCloseMovie }) => {
+  const KEY = "f84fc31d";   // 👈🏽 ✅
+  useEffect(() => {   // 👈🏽 ✅
+    const getMovieDetails = async () => {
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      console.log("🎥 data", data);
+    };
+    getMovieDetails();
+  }, []);
+  return (
+    <div className="details">
+      <button className="btn-back" onClick={onCloseMovie}>
+        &larr;
+      </button>
+      {selectedId}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+![](../img/section12-lecture151-001.png)
+
+
+#### 151.2.2 Adding `useState` in order to get the movie details:
+**Subsection Summary**
+- Introducing the `movie` state to store the fetched object.
+- Destructuring properties from the movie object with aliases for cleaner usage.
+- Demonstrating the flow from API fetch to state update.
+```tsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useState } from "react";    // 👈🏽 ✅
+const MovieDetails = ({ selectedId, onCloseMovie }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});   // 👈🏽 ✅
+  const {   // 👈🏽 ✅
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+  console.log(title, year);   // 👈🏽 ✅
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      console.log("🎥 data", data);
+      setMovie(data);
+    };
+    getMovieDetails();
+  }, []);
+  return (
+    <div className="details">
+      <button className="btn-back" onClick={onCloseMovie}>
+        &larr;
+      </button>
+      {selectedId}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+
+#### 151.2.3 Adding movie date in the movie details component:
+**Subsection Summary**
+- Designing the UI layout for movie details including header and section.
+- Mapping state properties to JSX elements (poster, title, plot, etc.).
+- Identifying initial issues with component re-rendering and persistence.
+```tsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useState } from "react";
+import StarRating from "../StarRating";
+const MovieDetails = ({ selectedId, onCloseMovie }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const {   // 👈🏽 ✅
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+  console.log(title, year);
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      console.log("🎥 data", data);
+      setMovie(data);
+    };
+    getMovieDetails();
+  }, []);
+  return (    // 👈🏽 ✅
+    <div className="details">
+      <header>
+        <button className="btn-back" onClick={onCloseMovie}>
+          &larr;
+        </button>
+        <img src={poster} alt={`Poster of ${movie}`} />
+        <div className="details-overview">
+          <h2>{title}</h2>
+          <p>
+            {released} &bull; {runtime}
+          </p>
+          <p>{Genre}</p>
+          <p>
+            <span>⭐️</span>
+            {imdbRating} IMDb rating
+          </p>
+        </div>
+      </header>
+      <section>
+        <div className="rating">
+          <StarRating maxRating={10} size={24} />
+        </div>
+        <p>{plot}</p>
+        <p>Starring {actors}</p>
+        <p>Directed by {director}</p>
+      </section>
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+![](../img/section12-lecture151-002.png)
+
+#### 151.2.4 Fixing switing between movies issue and adding `<Loader>` component
+**Subsection Summary**
+- Adding `selectedId` to the `useEffect` dependency array to trigger re-fetches when a different movie is selected.
+- Implementing a loading state (`isLoading`) to improve user feedback.
+- Conditional rendering of the `<Loader>` component during data acquisition.
+```tsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";   // 👈🏽 ✅
+const MovieDetails = ({ selectedId, onCloseMovie }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);   // 👈🏽 ✅
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+  console.log(title, year);
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);   // 👈🏽 ✅
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      console.log("🎥 data", data);
+      setMovie(data);
+      setIsLoading(false);    // 👈🏽 ✅
+    };
+    getMovieDetails();
+  }, [selectedId]);   // 👈🏽 ✅
+  return (
+    <div className="details">
+      {isLoading ? (    // 👈🏽 ✅
+        <Loader />    {/* 👈🏽 ✅ */}
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${movie}`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+          <section>
+            <div className="rating">
+              <StarRating maxRating={10} size={24} />
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+[🎥 Ver video](../img/section12-lecture151-003.mp4)
+
+### 🐞 151.3 Issues:
+- **Dependency Missing**: The `useEffect` hook in `MovieDetails` initially lacked `selectedId` in its dependency array, preventing details from updating when a new movie was clicked.
+- **Missing Loading State**: Without an `isLoading` state, the UI was blank or showed old data while fetching the new movie.
+- **Object in Alt Text**: The `alt` attribute for the poster image uses the `movie` object instead of a string, resulting in `[object Object]` being displayed.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Movie details not updating | ✅ Fixed | Dependency array in `useEffect` now includes `selectedId`. |
+| Missing loading feedback | ✅ Fixed | Added `isLoading` state and `<Loader />` component. |
+| Star rating persistence | ⚠️ Identified | Ratings are lost on component unmount; state needs to move up or use local storage. |
+| Incorrect alt text | ✅ Fixed | `alt={`Poster of ${movie}`}` in `MovieDetails.jsx:44` was updated to use `title`. |
+
+### 🧱 151.4 Pending Fixes (TODO)
+
+- [ ] Add a `try...catch` block to the `getMovieDetails` fetch request to handle potential network errors.
+- [ ] Implement a mechanism to persist the star rating when switching between movies (future lesson).
+
+
+
+
 
 
 
