@@ -10,6 +10,7 @@ import WatchedSummary from "./components/WatchedSummary";
 import WatchedMovieList from "./components/WatchedMovieList";
 import Loader from "./components/Loader";
 import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
 
 const KEY = "f84fc31d";
 
@@ -19,23 +20,17 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [query, setQuery] = useState("");
-  const tempQuery = "interstellar";
+  const [selectedId, setSelectedId] = useState(null);
+  //const tempQuery = "interstellar";
 
-  /*
-  useEffect(() => {
-    console.log(" 🏁 After initial render");
-  }, []);
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
 
-  useEffect(() => {
-    console.log(" ∞ After every render");
-  });
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
 
-  useEffect(() => {
-    console.log(" 🔎 Every time query changes, this runs");
-  }, [query]);
-
-  console.log(" 🎬 Rendering...");
-  */
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -52,7 +47,7 @@ function App() {
         if (data.Response === "False") throw new Error("Movie not found 😭");
 
         setMovies(data.Search);
-        setIsLoading(false);
+        console.log("🍿🍿🍿 data.Search", data.Search);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -78,12 +73,18 @@ function App() {
       <Main>
         <Box>
           {isLoading && <Loader />}
-          {!isLoading && !error && <MovieList movies={movies} />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
           {error && <ErrorMessage message={error} />}
         </Box>
         <Box>
-          <WatchedSummary watched={watched} />
-          <WatchedMovieList watched={watched} />
+          {selectedId ? (
+            <MovieDetails selectedId={selectedId} onCloseMovie={handleCloseMovie} />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          )}
         </Box>
       </Main>
     </>

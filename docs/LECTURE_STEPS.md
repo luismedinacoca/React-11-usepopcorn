@@ -5799,6 +5799,405 @@ export default App;
 - [ ] Ensure that errors caused by request cancellation (e.g., `AbortError`) are handled gracefully and not displayed as user-facing errors.
 
 
+<br>
+
+## 🔧 150. Lesson 150 — *Selecting a Movie*
+
+### 🧠 150.1 Context:
+
+Selecting an item from a list to display its details (often called the **Master-Detail pattern**) is a fundamental UI/UX pattern in modern web applications. It allows users to browse a collection of items and "deep dive" into a specific one without losing their place in the list, effectively managing screen real estate and cognitive load.
+
+#### Definition and Explanation:
+The Master-Detail pattern consists of a "Master" list (search results) and a "Detail" view (movie information). When a "Master" item is selected, its identifier is used to fetch or display "Detail" data.
+
+#### When and Why it's used:
+This pattern is used when each item in a list contains more information than can be reasonably displayed in the list view itself. It's essential for data-heavy applications, dashboards, and catalogs. It provides a hierarchical navigation structure that is intuitive for users.
+
+#### Examples from the project:
+In `usePopcorn`, clicking on a movie card in the search results list updates the `selectedId` state in `App.jsx`. This triggers a conditional rendering change in the right-hand column, swapping the "Watched Movies" summary with the `MovieDetails` component for the selected movie.
+
+#### Advantages:
+- **Focus**: Users can see detailed information without distraction.
+- **Context Preservation**: The main list remains visible, allowing for quick switching between items.
+- **Efficient Screen Usage**: Dynamically updating parts of the UI rather than navigating to a whole new page.
+- **Reduced Latency**: Only the detail section needs to update, rather than the entire page.
+
+#### Disadvantages:
+- **State Complexity**: Requires lifting state to a common ancestor (`App.jsx`) to coordinate between the list and the details view.
+- **Prop Drilling**: Handlers must be passed through several component layers (`App` -> `MovieList` -> `Movie`).
+- **Synchronicity**: Ensuring the detail view stays in sync with the selection (e.g., loading states).
+
+#### When to consider alternatives:
+- **Modals**: Better when the detail view is a temporary "interruption" or requires a focus shift.
+- **Routing/Separate Pages**: Better for SEO, deep-linking, or very complex detail views.
+- **Accordions/Expandable Rows**: Better for small amounts of extra data within the list item itself.
+
+#### Connection to Lesson 150:
+In this lesson, we implement the state lifting and conditional rendering logic necessary to make the UI interactive. We transition from a static summary to a dynamic view that responds to user input, establishing the foundation for fetching specific movie data in subsequent lessons.
+
+### ⚙️ 150.2 Updating code/theory according the context:
+
+#### Summary
+This section covers the transition from a static movie list to a dynamic Master-Detail interface. We solve the problem of displaying detailed movie data without navigating away from the search results. The implementation involves lifting state to `App.jsx`, creating a reusable `MovieDetails` component, and managing user interactions like selecting, closing, and toggling movie details through prop drilling.
+
+#### Subsection Summary
+- **Function**: Identifies the unique identifier (`imdbID`) from the API response and initializes state.
+- **Responsibility**: Tracks the active movie selection in the top-level state.
+- **Concepts**: State management using `useState` and inspecting API data structures.
+
+#### 150.2.1 Searching for `imdbID` in each movie:
+```tsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+const KEY = "f84fc31d";
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState("tt0088763");   // 👈🏽 ✅
+  const tempQuery = "interstellar";
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+        const data = await resp.json();
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+        setMovies(data.Search);
+        console.log("🍿🍿🍿 data.Search", data.Search);   // 👈🏽 ✅
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+    fetchMovies();
+  }, [query]);
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          <WatchedSummary watched={watched} />
+          <WatchedMovieList watched={watched} />
+        </Box>
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+![data.Search - imdbID](../img/section12-lecture150-001.png)
+
+#### Subsection Summary
+- **Function**: Creates the skeletal structure for the detail view.
+- **Responsibility**: Displays basic information (currently just the ID) of the selected movie.
+- **Concepts**: Component isolation and prop reception.
+
+#### 150.2.2 Create `MovieDetails` component:
+```tsx
+/* src/components/MovieDetails.jsx */
+const MovieDetails = ({ selectedId }) => {
+  return (
+    <div className="details">
+      {selectedId}
+    </div>
+  )
+};
+export default MovieDetails;
+```
+
+#### Subsection Summary
+- **Function**: Implements conditional rendering and passes the selection handler down the component tree.
+- **Responsibility**: Switches the UI view based on `selectedId` and enables item interactivity.
+- **Concepts**: Prop drilling, conditional rendering (ternary operator), and event propagation.
+
+#### 150.2.3 Add `MovieDetails` component in `Box` component from `App`:
+```tsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+const KEY = "f84fc31d";
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  //const tempQuery = "interstellar";
+  const handleSelectMovie = (id) => {   // 👈🏽 ✅
+    setSelectedId(id);
+  };
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+        const data = await resp.json();
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+        setMovies(data.Search);
+        console.log("🍿🍿🍿 data.Search", data.Search);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+    fetchMovies();
+  }, [query]);
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}    {/* 👈🏽 ✅ */}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails selectedId={selectedId} />    {/* 👈🏽 ✅ */}
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+Meanwhile:
+```jsx
+/* src/components/MovieList.jsx */
+import Movie from "./Movie";
+const MovieList = ({ movies, handleSelectMovie }) => {    // 👈🏽 ✅
+  return (
+    <ul className="list">
+      {movies?.map((movie) => (
+        <Movie movie={movie} key={movie.imdbID} handleSelectMovie={handleSelectMovie} />    {/* 👈🏽 ✅ */}
+      ))}
+    </ul>
+  );
+};
+export default MovieList;
+```
+
+and
+
+```jsx
+/* src/components/Movie.jsx */
+const Movie = ({ movie, handleSelectMovie }) => {   // 👈🏽 ✅
+  return (
+    <li onClick={() => handleSelectMovie(movie.imdbID)}>    {/* 👈🏽 ✅ */}
+      <img src={movie.Poster} alt={`${movie.Title} poster`} />
+      <h3>{movie.Title}</h3>
+      <div>
+        <p>
+          <span>🗓</span>
+          <span>{movie.Year}</span>
+        </p>
+      </div>
+    </li>
+  );
+};
+
+export default Movie;
+```
+
+#### Subsection Summary
+- **Function**: Adds a back button and a close handler.
+- **Responsibility**: Provides a way to clear the `selectedId` state and return to the summary view.
+- **Concepts**: Resetting state, callback props, and UI navigation patterns.
+
+#### 150.2.4 Adding `Left Arrow` button inside the `MovieDetails` to close it:
+```tsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+const KEY = "f84fc31d";
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  //const tempQuery = "interstellar";
+  const handleSelectMovie = (id) => {
+    setSelectedId(id);
+  };
+  const handleCloseMovie = () => {    // 👈🏽 ✅
+    setSelectedId(null);
+  };
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
+        // if the response is not ok, throw an error
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+        // if the response is ok, parse the json
+        const data = await resp.json();
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+        setMovies(data.Search);
+        console.log("🍿🍿🍿 data.Search", data.Search);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+    fetchMovies();
+  }, [query]);
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails selectedId={selectedId} onCloseMovie={handleCloseMovie} />    {/* 👈🏽 ✅ */}
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+And in `MovieDetails` component:
+```jsx
+/* src/components/MovieDetails.jsx */
+const MovieDetails = ({ selectedId, onCloseMovie }) => {    // 👈🏽 ✅
+  return (
+    <div className="details">
+      <button className="btn-back" onClick={onCloseMovie}>    {/* 👈🏽 ✅ */}
+        &larr;
+      </button>
+      {selectedId}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+#### Subsection Summary
+- **Function**: Enhances the selection logic with a toggle feature.
+- **Responsibility**: Ensures that clicking an already selected movie closes its details.
+- **Concepts**: Functional state updates (using the previous state value).
+
+#### 150.2.5 When click twice on same `Movie`, details must not be seen:
+```jsx
+/*  */
+....
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+....
+```
+
+### 🐞 150.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| **Lack of Keyboard Accessibility** | ⚠️ Identified | The `li` elements in `Movie.jsx` are clickable but not focusable via keyboard (`tabindex`) and lack `onKeyDown` handlers, making the selection feature unusable for keyboard-only users. |
+| **Prop Drilling Complexity** | ℹ️ Low Priority | `handleSelectMovie` is passed through `MovieList` just to reach `Movie`. While acceptable here, as the project grows, this might warrant a Context API implementation. |
+| **Basic Detail View** | ✅ Fixed | The initial `MovieDetails` component was just a placeholder. It has been updated to include a back button and basic ID display in `src/components/MovieDetails.jsx`. |
+| **Unused State Setter** | ⚠️ Identified | `setWatched` is defined in `App.jsx` (L19) but never used, as the "watched" list is currently static and not yet updatable. |
+
+### 🧱 150.4 Pending Fixes (TODO)
+
+- [ ] Implement accessibility features in `src/components/Movie.jsx`: Add `tabIndex="0"` and `handleKeyDown` to the `li` element.
+- [ ] Add `aria-label` to the back button in `src/components/MovieDetails.jsx` for screen readers.
+- [ ] Ensure `MovieDetails` handles the "loading" state when fetching full movie data (future improvement).
+- [ ] Clean up unused variables and commented-out code (`setWatched`, `tempQuery`) in `src/App.jsx`.
+
+
+
+
 
 
 
