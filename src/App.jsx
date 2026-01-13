@@ -31,6 +31,14 @@ function App() {
     setSelectedId(null);
   };
 
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
   useEffect(() => {
     const fetchMovies = async () => {
       try {
@@ -38,16 +46,13 @@ function App() {
         setError("");
         const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
 
-        // if the response is not ok, throw an error
         if (!resp.ok) throw new Error("Something went wrong with fetching movies");
 
-        // if the response is ok, parse the json
         const data = await resp.json();
 
         if (data.Response === "False") throw new Error("Movie not found 😭");
 
         setMovies(data.Search);
-        console.log("🍿🍿🍿 data.Search", data.Search);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -78,11 +83,16 @@ function App() {
         </Box>
         <Box>
           {selectedId ? (
-            <MovieDetails selectedId={selectedId} onCloseMovie={handleCloseMovie} />
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
           ) : (
             <>
               <WatchedSummary watched={watched} />
-              <WatchedMovieList watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
             </>
           )}
         </Box>

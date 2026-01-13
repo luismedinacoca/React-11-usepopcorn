@@ -6464,6 +6464,717 @@ export default MovieDetails;
 - [ ] Implement a mechanism to persist the star rating when switching between movies (future lesson).
 
 
+<br>
+
+## 🔧 152. Lesson 152 — *Adding a Watched Movie*
+
+### 🧠 152.1 Context:
+
+In this lesson, we implement the core functionality of "Adding a Watched Movie" to the application. This process involves **State Lifting**, where the `watched` state is maintained in the common ancestor (`App`) so it can be shared between the selection interface (`MovieDetails`) and the display interface (`WatchedMovieList`).
+
+- **When to use**: State lifting is necessary when multiple sibling components need to access or modify the same data.
+- **Project Example**: The `watched` state is defined in `App`, but modified in `MovieDetails` and displayed in `WatchedSummary` and `WatchedMovieList`.
+- **Advantages**: Ensures a single source of truth, simplifies data flow between siblings, and keeps the UI in sync.
+- **Disadvantages**: Can lead to "prop drilling" where data is passed through multiple layers of components that don't directly use it.
+- **Alternatives**: For more complex state trees, React Context or specialized state management libraries (like Redux or Zustand) are preferred.
+
+Connection to implementation: We use a callback function (`handleAddWatched`) passed from `App` to `MovieDetails` to allow a child component to update the parent's state.
+
+
+### ⚙️ 152.2 Updating code/theory according the context:
+
+**Summary**
+This section focuses on the end-to-end implementation of managing a "Watched" movie list. It covers state initialization, creating movie objects from API data, integrating user ratings, preventing duplicates, and implementing a deletion mechanism. The different subsections show the evolution from basic state management to a refined UI with error prevention and list management.
+
+#### 152.2.1 Working with `setWatched` function:
+**Subsection Summary**
+- Initializes the `watched` state as an empty array in the `App` component.
+- Implements the `handleAddWatched` handler to append new movies using the functional state update pattern.
+- Passes the handler down to the `MovieDetails` component via props.
+```tsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+const KEY = "f84fc31d";
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);   // 👈🏽 ✅
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  //const tempQuery = "interstellar";
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
+  const handleAddWatched = (movie) => {   // 👈🏽 ✅
+    setWatched((watched) => [...watched, movie]);   // 👈🏽 ✅
+  };
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+        const data = await resp.json();
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+        setMovies(data.Search);
+        console.log("🍿🍿🍿 data.Search", data.Search);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+    fetchMovies();
+  }, [query]);
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails 
+              selectedId={selectedId} 
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}   {/* 👈🏽 ✅ */}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+#### 152.2.2 Add this `onAddWatched` function as prop into `MovieDetails` component:
+**Subsection Summary**
+- Receives the `onAddWatched` callback and uses it to add a new movie object to the list.
+- Transforms the API movie data into a simplified local object format (e.g., parsing runtime to a number).
+- Triggers an automatic UI transition by closing the movie details view after a successful add.
+```tsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched }) => {    // 👈🏽 ✅ (1)
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+  const handleAdd = () => {    // 👈🏽 ✅ (2)
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+    };
+    onAddWatched(newWatchedMovie);    // 👈🏽 ✅ (3)
+    onCloseMovie();    // 👈🏽 ✅ (5)
+  };
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+    getMovieDetails();
+  }, [selectedId]);
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+          <section>
+            <div className="rating">
+              <StarRating maxRating={10} size={24} />
+              <button className="btn-add" onClick={handleAdd}>    {/* 👈🏽 ✅ (2) */}
+                + Add to list
+              </button>
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+
+some changes into `WatchedMovie` component:
+```jsx
+/* src/components/WatchedMovie.jsx */
+const WatchedMovie = ({ movie }) => {
+  return (
+    <li>
+      <img src={movie.poster} alt={`${movie.title} poster`} />
+      <h3>{movie.title}</h3>
+      <div>
+        <p>
+          <span>⭐️</span>
+          <span>{movie.imdbRating}</span>
+        </p>
+        <p>
+          <span>🌟</span>
+          <span>{movie.userRating}</span>
+        </p>
+        <p>
+          <span>⏳</span>
+          <span>{movie.runtime} min</span>
+        </p>
+      </div>
+    </li>
+  );
+};
+export default WatchedMovie;
+```
+
+#### 152.2.3 Working with the `StarRating` component:
+**Subsection Summary**
+- Integrates the `StarRating` component to allow users to provide their own rating.
+- Implements a `userRating` state to track the selection locally before confirming the addition.
+- Adds conditional rendering to only show the "Add to list" button once a rating has been selected.
+```tsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);    // 👈🏽 ✅ (1)
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,    // 👈🏽 ✅ (2)
+    };
+    onAddWatched(newWatchedMovie);
+    onCloseMovie();
+  };
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+    getMovieDetails();
+  }, [selectedId]);
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+          <section>
+            <div className="rating">
+              <StarRating maxRating={10} size={24} onSetRating={setUserRating} />   {/* 👈🏽 ✅ (1) */}
+              {userRating > 0 && (    // 👈🏽 ✅ (3)
+                <button className="btn-add" onClick={handleAdd}>
+                  + Add to list
+                </button>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+Issue:
+* User can rating same movie so many times.
+![rating same movie more than once](../img/section12-lecture152-001.png)
+
+
+#### 152.2.4 Fixing previous issue:
+**Subsection Summary**
+- Implements a check to determine if the selected movie is already present in the `watched` list.
+- Switches the UI from a rating selector to a "You rated this movie" message for already watched items.
+- Extracts and displays the previously given rating from the `watched` list data.
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+const KEY = "f84fc31d";
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  //const tempQuery = "interstellar";
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+  };
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+        const data = await resp.json();
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+        setMovies(data.Search);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+    fetchMovies();
+  }, [query]);
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}   {/* 👈🏽 ✅ (1) */}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+
+Meanwhile in `MovieDetails` component:
+```jsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);    // 👈🏽 ✅ (1)
+  //console.log(isWatched);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;   // 👈🏽 ✅ (3)
+  //console.log(watchedUserRating);
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+    };
+    onAddWatched(newWatchedMovie);
+    onCloseMovie();
+  };
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+
+    getMovieDetails();
+  }, [selectedId]);
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+          <section>
+            <div className="rating">
+              {!isWatched ? (   // 👈🏽 ✅ (2)
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                // <p>
+                //   You rated this movie   {/* 👈🏽 ✅ (2) */}
+                // </p>
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span>   {/* 👈🏽 ✅ (4) */}
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+
+#### 152.2.5 Adding the delete function:
+**Subsection Summary**
+- Introduces `handleDeleteWatched` in `App.jsx` using the `filter` method to remove movies by ID.
+- Chains the deletion callback through multiple component layers to reach the individual movie item.
+- Enhances the `WatchedMovie` component with a delete button to allow users to manage their list.
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+const KEY = "f84fc31d";
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  //const tempQuery = "interstellar";
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+  };
+  const handleDeleteWatched = (id) => {   // 👈🏽 ✅ (1)
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`);
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+        const data = await resp.json();
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+        setMovies(data.Search);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+    fetchMovies();
+  }, [query]);
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList 
+                watched={watched}
+                onDeleteWatched={handleDeleteWatched}   {/* 👈🏽 ✅ (2) */} 
+              />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+In `WatchedMovieList` component:
+```jsx
+/* src/components/WatchedMovieList.jsx */
+import WatchedMovie from "./WatchedMovie";
+const WatchedMovieList = ({ watched, onDeleteWatched }) => {    // 👈🏽 ✅ (1)
+  return (
+    <ul className="list">
+      {watched.map((movie) => (
+        <WatchedMovie 
+          movie={movie} 
+          key={movie.imdbID} 
+          onDeleteWatched={onDeleteWatched}   {/* 👈🏽 ✅ (2) */}
+        />
+      ))}
+    </ul>
+  );
+};
+export default WatchedMovieList;
+```
+
+In `WatchedMovie` component:
+```jsx
+/* src/components/WatchedMovie.jsx */
+const WatchedMovie = ({ movie, onDeleteWatched }) => {    // 👈🏽 ✅ (1)
+  return (
+    <li>
+      <img src={movie.poster} alt={`${movie.title} poster`} />
+      <h3>{movie.title}</h3>
+      <div>
+        <p>
+          <span>⭐️</span>
+          <span>{movie.imdbRating}</span>
+        </p>
+        <p>
+          <span>🌟</span>
+          <span>{movie.userRating}</span>
+        </p>
+        <p>
+          <span>⏳</span>
+          <span>{movie.runtime} min</span>
+        </p>
+        <button className="btn-delete" onClick={() => onDeleteWatched(movie.imdbID)}>   {/* 👈🏽 ✅ (2) */}
+          X
+        </button>
+      </div>
+    </li>
+  );
+};
+export default WatchedMovie;
+```
+
+![](../img/section12-lecture152-002.png)
+
+### 🐞 152.3 Issues:
+
+In this lesson, we identified and addressed several logical issues related to collection management and user experience.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Duplicate Entries | ✅ Fixed | Users could add the same movie multiple times. Fixed by checking `isWatched` before showing the "Add" button. |
+| Missing User Rating | ✅ Fixed | The "Add to list" button was visible even if no rating was selected. Fixed with conditional rendering `userRating > 0`. |
+| Unsaved User Rating | ⚠️ Identified | The rating selected in `MovieDetails` is not persisted if the component unmounts before adding to the list. |
+| List Management | ✅ Fixed | Initially, there was no way to remove a movie once it was added to the watched list. |
+
+### 🧱 152.4 Pending Fixes (TODO)
+
+- [ ] `src/App.jsx`: Persist the `watched` state to `localStorage` to prevent data loss on page reload.
+- [ ] `src/components/MovieDetails.jsx`: Add a "Loading..." state or disabled attribute to the "Add to list" button to prevent multiple rapid clicks.
+- [ ] `src/components/WatchedMovie.jsx`: Add a confirmation dialog or a slight delay/undo option when deleting a movie to prevent accidental removals.
+- [ ] `src/components/MovieDetails.jsx`: Allow users to update their rating for a movie that is already in the watched list.
+
+
+
+
 
 
 
@@ -6499,6 +7210,10 @@ export default MovieDetails;
 
 
 ---
+<br>
+<br>
+<br>
+<br>
 
 🔥 🔥 🔥 
 
