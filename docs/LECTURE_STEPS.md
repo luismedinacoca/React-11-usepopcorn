@@ -7173,6 +7173,219 @@ In this lesson, we identified and addressed several logical issues related to co
 - [ ] `src/components/MovieDetails.jsx`: Allow users to update their rating for a movie that is already in the watched list.
 
 
+<br>
+
+## 🔧 153. Lesson 153 - *Adding a New Effect: Changing Page Title*
+
+### 🧠 153.1 Context:
+
+`useEffect` is the standard React hook for running side effects after render. Updating the browser tab title (`document.title`) is a classic side effect because it touches global browser state outside React. In this lesson, the effect runs inside `MovieDetails` to reflect the currently selected movie in the tab title.
+
+**When and why to use it**
+- Use it when UI state should be mirrored in browser metadata (e.g., selected movie name, page section, unread counts).
+- It improves navigation context, bookmarking, and multitasking across tabs.
+
+**Examples from this project**
+- `src/components/MovieDetails.jsx`: `useEffect` updates the tab title to `Movie | ${title}` when the movie data arrives.
+
+**Advantages**
+- Clearer user context while browsing multiple tabs.
+- Simple, direct integration with React state.
+
+**Disadvantages**
+- Global mutable state: easy to forget cleanup and leave a stale title.
+- Multiple components can conflict if they set `document.title` without coordination.
+
+**When to consider alternatives**
+- Use a head manager (e.g., React Helmet) if many routes/components need consistent title handling.
+- Prefer routing metadata (e.g., React Router `useMatches`) for multi-page apps to centralize title logic.
+
+
+### ⚙️ 153.2 Updating code/theory according the context:
+
+#### 153.2 Summary
+- **Summary**: This section introduces a `useEffect` in `MovieDetails` to update the page title, then evolves it to depend on the movie title and guard against undefined data.
+- **Summary**: Each subsection progressively refines the effect from a static title to a dynamic, dependency-aware title update.
+
+#### 153.2.1 Adding a useEffect inside `MovieDetails` component:
+**Subsection Summary**
+- Sets a static page title when the component mounts.
+- Demonstrates a minimal, no-dependency `useEffect`.
+- Establishes the baseline behavior before making it dynamic.
+```tsx
+/* src/components/MovieDetails.jsx */
+  useEffect(() => {
+    document.title = "TEST";
+  }, []);
+```
+
+* Before clicking on a movie:
+![](../img/section12-lecture153-001.png)
+
+* After clicking on a movie:
+![](../img/section12-lecture153-002.png)
+
+#### 153.2.2 Side effect when `title` is added
+**Subsection Summary**
+- Builds the title string from the movie title.
+- Shows how effects read state derived from fetched data.
+- Highlights that missing dependencies can cause stale values.
+```tsx
+/* src/components/MovieDetails.jsx */
+  console.log(title);
+
+  useEffect(() => {
+    document.title = `Movie | ${title}`;
+  }, []);
+```
+
+![](../img/section12-lecture153-003.png)
+
+
+#### 153.2.3 Adding `title` as dependency:
+**Subsection Summary**
+- Adds `title` as a dependency so the effect re-runs with new data.
+- Ensures the tab title stays in sync with the fetched movie.
+- Exposes the temporary `undefined` title while data is loading.
+```tsx
+/* src/components/MovieDetails.jsx */
+  useEffect(() => {
+    document.title = `Movie | ${title}`;
+  }, [title]);
+```
+
+![](../img/section12-lecture153-004.png)
+
+Issue:
+* Novie is temporarily set to `undefined`.
+
+#### 153.2.4 Fixing this temporarily issue:
+**Subsection Summary**
+- Guards the effect to avoid updating the title before data is ready.
+- Prevents the `undefined` title during the loading phase.
+- Shows the full component context where the effect lives.
+```tsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+  console.log(title);   // 👈🏽 ✅
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+    };
+    onAddWatched(newWatchedMovie);
+    onCloseMovie();
+  };
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+    getMovieDetails();
+  }, [selectedId]);
+
+  useEffect(() => {   // 👈🏽 ✅
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+  }, [title]);
+
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+          <section>
+            <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span>
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+Issue:
+*  Close movie details but title still keeps visible in tab.
+
+![](../img/section12-lecture153-005.png)
+
+### 🐞 153.3 Issues:
+| Issue | Status | Log/Error |
+|---|---|---|
+| Page title not restored on close | ⚠️ Identified | `MovieDetails` sets `document.title` but does not reset it on unmount, so after closing the details view the tab still shows `Movie | ${title}` instead of the default title (see `src/components/MovieDetails.jsx`). |
+| Debug log left in component | ℹ️ Low Priority | `console.log(title)` runs on every render in `MovieDetails`, creating noisy logs and potential performance overhead. |
+
+### 🧱 153.4 Pending Fixes (TODO)
+
+- [ ] `src/components/MovieDetails.jsx`: Add a cleanup to restore the previous/default `document.title` when the component unmounts.
+- [ ] `src/components/MovieDetails.jsx`: Remove `console.log(title)` or guard it behind a development check.
+
 
 
 
