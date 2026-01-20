@@ -7388,6 +7388,67 @@ Issue:
 
 
 
+<br>
+
+## 🔧 154. Lesson 154 — *The useEffect cleanup function*
+
+### 🧠 154.1 Context:
+
+The `useEffect` cleanup function is the optional function you return from an effect to undo side effects. React runs it **before** the next effect execution (when dependencies change) and **when the component unmounts**. This is essential for effects that subscribe to something, start timers, or mutate global state.
+
+In this project, `MovieDetails` updates `document.title` based on the selected movie. Without a cleanup, the title stays as `Movie | ${title}` after the details view is closed. A cleanup can restore the previous/default title. Similarly, the data-fetching effect can use an `AbortController` in cleanup to avoid updating state after unmount.
+
+**Advantages**
+- Prevents memory leaks and stale UI state.
+- Keeps global state (like `document.title`) consistent.
+- Makes effects safer in concurrent and unmount scenarios.
+
+**Disadvantages**
+- Adds extra bookkeeping and complexity.
+- Incorrect cleanup can cancel needed work or cause flicker.
+
+**When to consider alternatives**
+- If the effect only derives state from props, prefer pure rendering.
+- For data fetching, consider libraries like React Query that handle cancellation automatically.
+- For global title changes, a parent component or a dedicated head manager can centralize updates.
+
+### ⚙️ 154.2 Updating code/theory according the context:
+
+**Summary**
+- Explains **when** effects run and why their timing matters for cleanup.
+- Shows **what** the cleanup function is and where it fits in the effect lifecycle.
+- Connects the timeline (154.2.1) to practical cleanup responsibilities (154.2.2).
+
+#### 154.2.1 When are effects **executed**?
+
+**Subsection Summary**
+- Effects run after render/paint, not during render.
+- On dependency changes, React runs cleanup first, then re-runs the effect.
+- On unmount, cleanup runs once to tear down side effects.
+
+![When are effects executed](../img/section12-lecture154-001.png)
+
+#### 154.2.2 The **Cleanup** function
+
+**Subsection Summary**
+- Cleanup is the function returned from `useEffect`.
+- It should reverse subscriptions, timers, and global mutations.
+- In this project, cleanup should restore `document.title` and optionally abort fetches.
+
+![the Cleanup function](../img/section12-lecture154-002.png)
+
+### 🐞 154.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Missing cleanup for document title | ⚠️ Identified | `MovieDetails` sets `document.title` but never restores it on unmount, so the tab title remains `Movie | ${title}` after closing. See the `useEffect` that depends on `title` in `src/components/MovieDetails.jsx`. |
+| No abort/cancel for fetch effect | ℹ️ Low Priority | The movie details fetch effect does not cancel in-flight requests when `selectedId` changes or the component unmounts, which can lead to stale updates or React warnings on slow networks. See the fetch `useEffect` in `src/components/MovieDetails.jsx`. |
+
+### 🧱 154.4 Pending Fixes (TODO)
+
+- [ ] `src/components/MovieDetails.jsx` (title `useEffect`): store the previous title and restore it in a cleanup return function.
+- [ ] `src/components/MovieDetails.jsx` (fetch `useEffect`): add `AbortController` and skip state updates on aborted requests.
+
 
 
 
