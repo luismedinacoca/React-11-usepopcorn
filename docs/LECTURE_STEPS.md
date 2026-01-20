@@ -7644,6 +7644,216 @@ Notes:
 
 
 
+<br>
+
+## 🔧 156. Lesson 156 — *Cleaning Up Data Fetching*
+
+### 🧠 156.1 Context:
+
+Cleaning up data fetching means canceling in-flight requests and preventing stale or aborted responses from updating UI state. This is especially important in React when a component unmounts or when new input replaces older queries (e.g., rapid typing). In this lesson, cleanup focuses on using `AbortController` to cancel previous requests, and on filtering `AbortError` so the UI does not show false errors.
+
+**When/why it’s used**
+- When user input changes rapidly (search-as-you-type).
+- When a component unmounts while a request is still in progress.
+- When multiple requests can overlap and return out of order.
+
+**Examples in this project**
+- `src/App.jsx`: search requests are aborted on query changes using `AbortController`.
+- `src/components/MovieDetails.jsx`: details fetch does not use cleanup yet, so it can still suffer from overlapping requests.
+
+**Advantages**
+- Prevents stale data from overwriting newer results.
+- Reduces wasted network traffic.
+- Avoids showing error state for intentionally aborted requests.
+
+**Disadvantages**
+- Adds extra logic and error handling.
+- Requires awareness of abort behavior in `fetch` and other APIs.
+
+**When to consider alternatives**
+- Use debouncing/throttling to reduce request frequency.
+- Use data-fetching libraries (React Query/SWR) for caching, request deduping, and built-in cancellation.
+- For complex flows, consider request IDs or state machines to manage concurrency.
+
+### ⚙️ 156.2 Updating code/theory according the context:
+
+**Summary**
+- Explains why rapid search input causes overlapping requests and stale UI updates.
+- Introduces `AbortController` to cancel previous requests when new ones start.
+- Shows how to ignore `AbortError` so aborted requests don’t surface as user errors.
+
+#### 156.2.1 A waterwall searching and fetching process:
+
+**Subsection Summary**
+- Illustrates how each keystroke triggers a new fetch request.
+- Highlights the race condition where slower responses can override newer searches.
+- Motivates the need for cancellation or request coordination.
+
+![](../img/section12-lecture156-001.png)
+
+Notes:
+* There is a search or fetch request for each new letter typed into the search field.
+* Documents are downloaded for each search.
+* The last search is the one displayed on the screen, and if one of them is delayed or takes longer than expected, that search’s data will be shown even when the word is not yet complete.
+
+
+#### 156.2.2 Adding the `AbortController`:
+**Subsection Summary**
+- Adds an `AbortController` per effect run to cancel the previous request.
+- Passes `controller.signal` to `fetch` so the browser can abort it.
+- Returns a cleanup function that calls `controller.abort()` on dependency change/unmount.
+
+```tsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+const KEY = "f84fc31d";
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+  };
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+  useEffect(() => {
+    const controller = new AbortController();   // 👈🏽 ✅ (1)
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(
+          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, 
+          { signal: controller.signal }   // 👈🏽 ✅ (2)
+        );
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+        const data = await resp.json();
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+        setMovies(data.Search);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+    fetchMovies();
+    return () => controller.abort();   // 👈🏽 ✅ (3)
+  }, [query]);
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+export default App;
+```
+
+![Abort controller used](../img/section12-lecture156-002.png)
+
+Note:
+* Each cancel searching is taking as Error.
+
+#### 156.2.3 Fixing the `Abort Error`:
+**Subsection Summary**
+- Filters out `AbortError` so aborted requests don’t show as errors.
+- Keeps real network or API errors visible to the user.
+- Leaves loading state cleanup in `finally` for consistent UX.
+
+```tsx
+/* src/App.jsx */
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(
+          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, 
+          { signal: controller.signal }
+        );
+
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+        const data = await resp.json();
+
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+
+        setMovies(data.Search);
+      } catch (error) {
+        console.log(error.message);
+        if(error.name !== "AbortError"){    // 👈🏽 ✅
+          setError(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+```
+
+![Abort Error fixed](../img/section12-lecture156-003.png)
+
+### 🐞 156.3 Issues:
+| Issue | Status | Log/Error |
+|---|---|---|
+| Movie details fetch has no cleanup | ⚠️ Identified | `src/components/MovieDetails.jsx` fetches details without `AbortController`. Rapidly switching movies can cause stale details to render or wasted requests. |
+| Abort errors still logged to console | ℹ️ Low Priority | `src/App.jsx` logs `error.message` for all errors, including `AbortError`. This is noisy during rapid typing; consider logging only non‑abort errors. |
+
+### 🧱 156.4 Pending Fixes (TODO)
+
+- [ ] `src/components/MovieDetails.jsx` (details `useEffect`): add `AbortController`, pass `signal` to `fetch`, and abort in cleanup to prevent stale responses when `selectedId` changes.
+- [ ] `src/App.jsx` (search `useEffect`): avoid logging `AbortError` (move `console.log` inside the non‑abort branch or remove it).
+
 
 
 
