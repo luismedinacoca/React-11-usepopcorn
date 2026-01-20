@@ -8,9 +8,7 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
   const [userRating, setUserRating] = useState(0);
 
   const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
-  //console.log(isWatched);
   const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
-  //console.log(watchedUserRating);
   const {
     Title: title,
     Year: year,
@@ -23,8 +21,6 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
     Director: director,
     Genre: Genre,
   } = movie;
-
-  console.log(title);
 
   const handleAdd = () => {
     const newWatchedMovie = {
@@ -39,6 +35,7 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
     onAddWatched(newWatchedMovie);
     onCloseMovie();
   };
+
   useEffect(() => {
     const getMovieDetails = async () => {
       setIsLoading(true);
@@ -54,6 +51,11 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
   useEffect(() => {
     if (!title) return;
     document.title = `Movie | ${title}`;
+
+    return () => {
+      document.title = 'usePopcorn';
+      console.log(`Clean up effect for movie ${title}`);
+    }
   }, [title]);
 
   return (

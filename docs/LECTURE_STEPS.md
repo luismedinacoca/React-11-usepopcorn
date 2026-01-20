@@ -7450,6 +7450,198 @@ In this project, `MovieDetails` updates `document.title` based on the selected m
 - [ ] `src/components/MovieDetails.jsx` (fetch `useEffect`): add `AbortController` and skip state updates on aborted requests.
 
 
+<br>
+
+## 🔧 155. Lesson 155 — *Cleaning Up the Title*
+
+### 🧠 155.1 Context:
+
+Cleaning up the document title means restoring `document.title` when a component unmounts or when an effect re-runs, so global UI state stays consistent. In React, this is handled by returning a cleanup function from `useEffect`, which runs before the next effect and on unmount.
+
+In this project, `MovieDetails` sets the tab title to `Movie | ${title}` when a movie is selected. The cleanup should revert the title when the details panel closes so the app returns to its default branding. This behavior prevents stale titles after navigating between movies or closing the details view.
+
+Advantages:
+- Keeps global side effects (like the browser title) in sync with UI state.
+- Prevents stale or misleading titles after unmounts.
+- Encourages predictable effect lifecycles and clearer component responsibilities.
+
+Disadvantages:
+- Hardcoding a fallback title can overwrite a title set elsewhere.
+- Cleanup runs on every dependency change, which can cause brief flicker if not handled carefully.
+- Extra effect logic can add noise if many components manage global state.
+
+Consider alternatives when:
+- Multiple components might set the title. Prefer a shared `useDocumentTitle` hook that stores and restores the previous title.
+- You need immediate title updates before paint. Consider `useLayoutEffect`.
+- You want centralized page-level title management. Use a router-level title configuration instead of per-component effects.
+
+### ⚙️ 155.2 Updating code/theory according the context:
+
+**Summary**
+- Adds a cleanup function to the title-setting effect so the tab title resets when the details view closes.
+- Demonstrates how the cleanup captures `title` via closure and logs when it runs.
+- The screenshots illustrate the title state when the movie details panel is open vs. closed.
+
+#### 155.2.1 Adding the `clean-up` function inside the `useEffect` in `MovieDetails` component:
+**Subsection Summary**
+- Updates the `useEffect` that sets `document.title` to return a cleanup function.
+- The cleanup restores the app title when the component unmounts.
+- This keeps the browser tab aligned with the UI state when the details view closes.
+```tsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+    };
+    onAddWatched(newWatchedMovie);
+    onCloseMovie();
+  };
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+    getMovieDetails();
+  }, [selectedId]);
+  useEffect(() => {                     // 👈🏽 ✅
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+
+    return () => {                      // 👈🏽 ✅
+      document.title = 'usePopcorn';    // 👈🏽 ✅
+    }
+
+  }, [title]);
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+          <section>
+            <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span>
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+
+* When a movie details is selected:
+![movie details selected](../img/section12-lecture155-001.png)
+
+* When a movie details is closed:
+![movie details closed](../img/section12-lecture155-002.png)
+
+
+
+#### 155.2.2 How `closure` works in this `useEffect`:
+**Subsection Summary**
+- Shows that the cleanup function retains access to `title` through closure.
+- Logs the movie title during cleanup to demonstrate which value is captured.
+- Helps explain why cleanup runs with the previous `title` when the effect re-runs.
+```tsx
+/* src/components/MovieDetails.jsx */
+....
+  useEffect(() => {                     
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+
+    return () => {                      
+      document.title = 'usePopcorn';    
+      console.log(`Clean up effect for movie ${title}`);    // 👈🏽 ✅
+    }
+
+  }, [title]);
+....
+```
+
+![console log for each closing movie details](../img/section12-lecture155-003.png)
+
+Notes:
+* review `closure`.
+
+### 🐞 155.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Title cleanup uses a hardcoded fallback | ⚠️ Identified | `MovieDetails` resets the title to `'usePopcorn'` in the cleanup, which can overwrite a title set elsewhere. See the title `useEffect` in `src/components/MovieDetails.jsx`. |
+| Debug logging left in cleanup | ℹ️ Low Priority | The cleanup logs `Clean up effect for movie ${title}` on every dependency change/unmount. This is noisy in production and can be removed or gated. See the same `useEffect` in `src/components/MovieDetails.jsx`. |
+
+### 🧱 155.4 Pending Fixes (TODO)
+
+- [ ] `src/components/MovieDetails.jsx` (title `useEffect`): store the previous `document.title` before setting it, and restore that value in the cleanup instead of a hardcoded string.
+- [ ] `src/components/MovieDetails.jsx` (cleanup log): remove the `console.log` or guard it behind a dev-only flag.
+
 
 
 
