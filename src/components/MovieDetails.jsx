@@ -49,12 +49,23 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
   }, [selectedId]);
 
   useEffect(() => {
+    const callback = (e) => {
+      if (e.code === 'Escape') {
+        onCloseMovie();
+      }
+    }
+    document.addEventListener('keydown', callback);
+    return () => {
+      document.removeEventListener('keydown', callback);
+    }
+  }, [onCloseMovie]);
+
+  useEffect(() => {
     if (!title) return;
     document.title = `Movie | ${title}`;
-
     return () => {
       document.title = 'usePopcorn';
-      console.log(`Clean up effect for movie ${title}`);
+      //console.log(`Clean up effect for movie ${title}`);
     }
   }, [title]);
 

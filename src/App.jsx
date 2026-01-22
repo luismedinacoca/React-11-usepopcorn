@@ -39,6 +39,15 @@ function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   };
 
+  // useEffect(() => {
+  //   document.addEventListener('keydown', (e) => {
+  //     if (e.code === 'Escape') {
+  //       handleCloseMovie();
+  //       console.log('CLOSING MOVIE')
+  //     }
+  //   });
+  // }, [])
+
   useEffect(() => {
     const controller = new AbortController();
     const fetchMovies = async () => {
@@ -73,6 +82,7 @@ function App() {
       return;
     }
 
+    handleCloseMovie();
     fetchMovies();
     return () => controller.abort();
   }, [query]);
