@@ -103,6 +103,8 @@ usePopcorn is a modern React application that allows users to discover, search, 
 └── 📁 node_modules/
 ```
 
+<br>
+
 ## 🧳 Section 10: Thinking in React: Components, Composition and Reusability
 
 ### 📑 Table of Contents
@@ -8189,6 +8191,216 @@ This section demonstrates the evolution of implementing a keyboard event listene
 - [ ] **Test edge cases**: Verify behavior when multiple modals might be open simultaneously (though current design prevents this)
 
 
+<br>
+
+## 🧳 Section 13: *Custom Hooks, Refs and More State*
+
+
+<br>
+
+## 🔧 160. Lesson 160 — *React Hooks and their Rules*
+
+### 🧠 160.1 Context:
+
+**React Hooks** are special built-in functions introduced in React 16.8 that allow functional components to "hook" into React's internal features. Before hooks, only class components could manage state and lifecycle methods.
+
+#### What are Hooks?
+- **Special functions** that start with the prefix "use" (e.g., `useState`, `useEffect`, `useRef`)
+- Allow access to React's internal mechanisms:
+  - Creating and accessing **state** from the Fiber tree
+  - Registering **side effects** in the Fiber tree
+  - Manual **DOM selections** via refs
+- Enable **reusing non-visual logic** by composing multiple hooks into custom hooks
+- Give **function components** the ability to own state and run side effects at different lifecycle points
+
+#### Why Hooks Matter
+Hooks solve several problems that existed before React 16.8:
+1. **Reusing stateful logic** between components was difficult (required patterns like HOCs or render props)
+2. **Complex components** became hard to understand with lifecycle methods scattered across the class
+3. **Classes** confused both people and machines (different `this` binding behavior)
+
+#### The Two Rules of Hooks
+These rules are **automatically enforced** by React's ESLint plugin (`eslint-plugin-react-hooks`):
+
+**Rule #1: Only call hooks at the top level**
+- Do NOT call hooks inside conditionals, loops, nested functions, or after early returns
+- This ensures hooks are always called in the **same order** on every render
+- React relies on the call order to correctly associate state and effects with their hooks
+
+**Rule #2: Only call hooks from React functions**
+- Only call hooks inside **function components** or **custom hooks**
+- Never call hooks from regular JavaScript functions or class components
+
+#### How React Tracks Hooks (The Linked List)
+React stores hooks in a **linked list** attached to each component's Fiber node:
+1. On initial render, React builds the linked list based on hook call order
+2. On re-renders, React traverses the linked list in the same order
+3. If a hook is conditionally called, the order changes and React loses track of which hook corresponds to which state
+
+#### Built-in Hooks Overview (React 18.x)
+
+**Most Used:**
+- `useState` - Manage component state
+- `useEffect` - Synchronize with external systems (side effects)
+- `useReducer` - Complex state logic
+- `useContext` - Subscribe to context values
+
+**Less Used:**
+- `useRef` - Persist values without re-renders, DOM references
+- `useCallback` - Memoize callback functions
+- `useMemo` - Memoize expensive computations
+- `useTransition` - Mark state updates as non-urgent
+- `useDeferredValue` - Defer updating part of the UI
+- `useLayoutEffect` - Like useEffect but fires synchronously after DOM mutations
+- `useDebugValue` - Display label for custom hooks in DevTools
+- `useImperativeHandle` - Customize ref handle exposed to parent
+- `useId` - Generate unique IDs for accessibility
+
+**Only for Libraries:**
+- `useSyncExternalStore` - Subscribe to external stores
+- `useInsertionEffect` - Insert styles before DOM mutations
+
+#### Advantages of Following Hook Rules
+- Predictable behavior across renders
+- Proper state management and updates
+- No bugs from mismatched hook states
+- ESLint catches violations at development time
+
+#### Common Mistakes to Avoid
+1. Calling hooks inside `if` statements
+2. Calling hooks inside loops
+3. Calling hooks inside nested functions or event handlers
+4. Calling hooks after an early `return` statement
+5. Calling hooks from regular JavaScript functions
+
+#### Project Examples
+In this **usePopcorn** project, hooks are used throughout:
+
+**App.jsx** - Uses multiple `useState` for state management and `useEffect` for data fetching:
+```jsx
+const [movies, setMovies] = useState([]);
+const [watched, setWatched] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+const [error, setError] = useState("");
+const [query, setQuery] = useState("");
+const [selectedId, setSelectedId] = useState(null);
+
+useEffect(() => {
+  // Data fetching logic with AbortController
+}, [query]);
+```
+
+**MovieDetails.jsx** - Uses multiple `useEffect` hooks for different purposes:
+```jsx
+// Effect for fetching movie details
+useEffect(() => {
+  const getMovieDetails = async () => { /* ... */ };
+  getMovieDetails();
+}, [selectedId]);
+
+// Effect for keyboard event listener
+useEffect(() => {
+  const callback = (e) => { /* Escape key handling */ };
+  document.addEventListener('keydown', callback);
+  return () => document.removeEventListener('keydown', callback);
+}, [onCloseMovie]);
+
+// Effect for document title
+useEffect(() => {
+  if (!title) return;
+  document.title = `Movie | ${title}`;
+  return () => { document.title = 'usePopcorn'; };
+}, [title]);
+```
+
+**StarRating.jsx** - Uses `useState` for rating state:
+```jsx
+const [rating, setRating] = useState(0);
+const [tempRating, setTempRating] = useState(0);
+```
+
+### ⚙️ 160.2 Updating code/theory according the context:
+
+**Summary:**
+This section provides a comprehensive theoretical overview of React Hooks. It covers the fundamental definition of hooks, a complete catalog of built-in hooks in React 18.x, the two critical rules that govern hook usage, and a detailed explanation of why these rules exist through the lens of React's internal linked list implementation. The subsections build upon each other to create a complete understanding of hooks architecture.
+
+#### 160.2.1 What are hooks?
+
+**Subsection Summary:**
+- Defines React Hooks as special built-in functions that "hook" into React internals
+- Explains the four main capabilities: state access, side effects, DOM selections, and more
+- Highlights the naming convention (always starts with "use")
+- Emphasizes the composability feature for creating custom hooks
+- Notes the historical significance: before v16.8, these features were only in class components
+
+![What are hooks](../img/section13-lecture160-001.png)
+
+#### 160.2.2 Overview of all **built-in** hooks
+
+**Subsection Summary:**
+- Categorizes all React 18.x built-in hooks into three groups: Most Used, Less Used, and Only for Libraries
+- Uses visual indicators to show learning status: already learned, will learn, and will not learn in this course
+- Most Used hooks include: `useState`, `useEffect`, `useReducer`, `useContext`
+- Less Used hooks include: `useRef`, `useCallback`, `useMemo`, `useTransition`, `useDeferredValue`, `useLayoutEffect`, `useDebugValue`, `useImperativeHandle`, `useId`
+- Library-only hooks: `useSyncExternalStore`, `useInsertionEffect`
+
+![Overview of all built-in hooks](../img/section13-lecture160-002.png)
+
+#### 160.2.3 The **Rules** of Hooks
+
+**Subsection Summary:**
+- Presents the two fundamental rules of hooks
+- **Rule #1**: Only call hooks at the top level - prohibits calling hooks inside conditionals, loops, nested functions, or after early returns
+- **Rule #2**: Only call hooks from React functions - limits hook calls to function components and custom hooks only
+- Explains that these rules ensure hooks are called in the same order on every render
+- Notes that ESLint automatically enforces these rules
+
+![The Rules of Hooks](../img/section13-lecture160-003.png)
+
+#### 160.2.4 Hooks Rely on **call order**
+
+**Subsection Summary:**
+- Illustrates WHY Rule #1 exists through React's internal architecture
+- Shows how React Element Tree converts to Fiber Tree on initial render
+- Explains that each Fiber node contains a "List of hooks" stored as a linked list
+- Demonstrates a **hypothetical bad example** where `useState` is called inside an `if` condition
+- Shows the consequence: when condition changes, the linked list breaks and hooks become mismatched
+- Key takeaway: hooks MUST be called in the same order on every render
+
+![Hooks Rely on call order](../img/section13-lecture160-004.png)
+
+#### 160.2.5 Hooks Rely on **call order** (2)
+
+**Subsection Summary:**
+- Shows the **correct implementation** contrasting with the previous bad example
+- Demonstrates that removing the conditional wrapper ensures consistent hook call order
+- The order number uniquely identifies each hook in the linked list
+- On re-renders, the same order is maintained, preserving the linked list integrity
+- Reinforces the principle: "Hooks can only be called at top level"
+- Shows visual representation of how the linked list remains stable across renders
+
+![Hooks Rely on call order - part 02](../img/section13-lecture160-005.png)
+
+
+### 🐞 160.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Missing error handling in MovieDetails fetch | ⚠️ Identified | `src/components/MovieDetails.jsx:39-48` - The `getMovieDetails` async function lacks try-catch error handling. Network failures or API errors are not caught, which could leave the component in a loading state indefinitely. |
+| onCloseMovie function reference stability | ℹ️ Low Priority | `src/components/MovieDetails.jsx:61` - The `onCloseMovie` is in useEffect dependency array but is not wrapped in `useCallback` in the parent component. While it works currently, it may cause unnecessary effect re-runs if the parent re-renders and creates a new function reference. |
+| Missing useRef for search input focus | ℹ️ Low Priority | `src/components/Search.jsx` - The search input could benefit from `useRef` to implement auto-focus on mount or keyboard shortcuts (like pressing "/" to focus), enhancing UX. |
+| API key hardcoded in multiple files | ⚠️ Identified | `src/App.jsx:15` and `src/components/MovieDetails.jsx:5` - The OMDB API key is duplicated. Should be centralized in an environment variable or config file. |
+
+### 🧱 160.4 Pending Fixes (TODO)
+
+- [ ] Add try-catch error handling to `getMovieDetails` in `src/components/MovieDetails.jsx` (lines 40-48)
+- [ ] Consider wrapping `handleCloseMovie` in `useCallback` in `src/App.jsx` to ensure stable function reference
+- [ ] Add `useRef` to `src/components/Search.jsx` for auto-focus functionality on component mount
+- [ ] Extract API key to environment variable (`.env`) and import it in `App.jsx` and `MovieDetails.jsx`
+- [ ] Review all hooks in the codebase to ensure they follow the two rules of hooks (no hooks in conditionals, loops, or after early returns)
+
+
+
 
 ---
 <br>
@@ -8197,6 +8409,7 @@ This section demonstrates the evolution of implementing a keyboard event listene
 <br>
 
 🔥 🔥 🔥 
+
 
 <br>
 
