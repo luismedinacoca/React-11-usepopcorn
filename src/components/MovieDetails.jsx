@@ -36,6 +36,12 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
     onCloseMovie();
   };
 
+  /* 🔥 Hook inside a Conditional expression */
+  // if (imdbRating > 8) [isTop, setIsTop] = useState(true);
+
+  /* 🔥 Early  Return */
+  if (imdbRating > 8) return <p>Top rated movie</p>;
+
   useEffect(() => {
     const getMovieDetails = async () => {
       setIsLoading(true);
@@ -50,23 +56,23 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
 
   useEffect(() => {
     const callback = (e) => {
-      if (e.code === 'Escape') {
+      if (e.code === "Escape") {
         onCloseMovie();
       }
-    }
-    document.addEventListener('keydown', callback);
+    };
+    document.addEventListener("keydown", callback);
     return () => {
-      document.removeEventListener('keydown', callback);
-    }
+      document.removeEventListener("keydown", callback);
+    };
   }, [onCloseMovie]);
 
   useEffect(() => {
     if (!title) return;
     document.title = `Movie | ${title}`;
     return () => {
-      document.title = 'usePopcorn';
+      document.title = "usePopcorn";
       //console.log(`Clean up effect for movie ${title}`);
-    }
+    };
   }, [title]);
 
   return (

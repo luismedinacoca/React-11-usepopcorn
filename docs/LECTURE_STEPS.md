@@ -8400,6 +8400,393 @@ This section provides a comprehensive theoretical overview of React Hooks. It co
 - [ ] Review all hooks in the codebase to ensure they follow the two rules of hooks (no hooks in conditionals, loops, or after early returns)
 
 
+<br>
+
+## 🔧 161. Lesson 161 — *The Rules of Hooks in Practice*
+
+### 🧠 161.1 Context:
+
+**The Rules of Hooks** are fundamental principles that React enforces to ensure hooks work correctly. These rules exist because React relies on the **order of hook calls** to associate state and effects with the correct component instance across renders.
+
+#### The Two Main Rules:
+
+1. **Only Call Hooks at the Top Level**
+   - Don't call hooks inside loops, conditions, or nested functions
+   - Always call hooks at the top level of your React function
+   - This ensures hooks are called in the same order each time a component renders
+
+2. **Only Call Hooks from React Functions**
+   - Call hooks from React function components
+   - Call hooks from custom hooks (functions starting with `use`)
+   - Don't call hooks from regular JavaScript functions
+
+#### Why These Rules Matter:
+
+React tracks hooks by their **call order** during each render. When you use `useState` or `useEffect`, React stores the state/effect in an internal array, indexed by the order the hook was called.
+
+```
+Render 1:              Render 2 (with conditional):
+[0] useState(movie)    [0] useState(movie)
+[1] useState(loading)  [1] useState(loading)  
+[2] useState(rating)   [2] useState(rating)
+[3] useEffect(...)     [3] ❌ NEW useState(true) ← mismatch!
+```
+
+If a hook is conditionally called, the order changes, and React gets confused about which state belongs to which hook.
+
+#### When Violations Occur:
+
+| Violation | Example | Problem |
+|-----------|---------|---------|
+| **Conditional Hook** | `if (condition) useState(...)` | Hook may not be called on every render |
+| **Early Return Before Hook** | `if (x) return <p>text</p>; useEffect(...)` | Hooks after return never execute |
+| **Hook in Loop** | `for(...) { useState(...) }` | Different number of hooks per render |
+| **Hook in Nested Function** | `function inner() { useState(...) }` | Call order unpredictable |
+
+#### Advantages of Following the Rules:
+- Predictable component behavior across renders
+- React can correctly preserve state between renders
+- Easier debugging and maintenance
+- Better performance (React optimizes based on consistent hook order)
+
+#### Disadvantages / Gotchas:
+- Can't conditionally use hooks (need to use conditional logic inside hooks instead)
+- Must restructure code to avoid early returns before hooks
+- Requires understanding React's internal hook tracking mechanism
+
+#### When to Consider Alternatives:
+- If you need conditional state, initialize with a default value and update it later
+- If you need conditional effects, put the condition inside the `useEffect` callback
+- For complex conditional rendering, consider splitting into separate components
+
+### ⚙️ 161.2 Updating code/theory according the context:
+
+#### **Summary**
+This section demonstrates two common violations of React's Rules of Hooks:
+1. **Placing a hook inside a conditional expression** — causes React to lose track of hook order
+2. **Placing hooks after an early return** — hooks are never called when the return executes
+
+Both examples show how React's hook tracking breaks when the call order is inconsistent between renders.
+
+---
+
+#### 161.2.1 Adding a Hook inside a conditions expression:
+
+**Subsection Summary**
+- Demonstrates placing `useState` inside an `if` statement
+- Shows React DevTools screenshots comparing renders when condition is `false` vs `true`
+- Illustrates how a new `useState` appears unexpectedly, replacing `useEffect` in React's internal hook list
+- Key concept: Conditional hooks break the hook index mapping
+```tsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+    };
+    onAddWatched(newWatchedMovie);
+    onCloseMovie();
+  };
+
+  if (imdbRating > 8) [isTop, setIsTop] = useState(true);   // 👈🏽 ✅
+
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+    getMovieDetails();
+  }, [selectedId]);
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    };
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+    return () => {
+      document.title = "usePopcorn";
+    };
+  }, [title]);
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+          <section>
+            <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span>
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+* When condition is `false`:
+
+![Hook in conditional expression when fails](../img/section13-lecture161-002.png)
+
+* When condition is `true`:
+![Hook in conditional expression when pass](../img/section13-lecture161-003.png)
+
+- A new `useState` appears instead of the expected `useEffect`.
+
+---
+
+#### 161.2.2 Hooks after an `Early Return`:
+
+**Subsection Summary**
+- Demonstrates placing an early `return` statement before `useEffect` hooks
+- When `imdbRating > 8`, the component returns early and skips all `useEffect` calls
+- React detects fewer hooks than expected, causing a "Rendered fewer hooks than expected" error
+- Key concept: All hooks must be called on every render, regardless of conditional rendering needs
+```tsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+    };
+    onAddWatched(newWatchedMovie);
+    onCloseMovie();
+  };
+
+  /* 🔥 Hook inside a Conditional expression */
+  // if (imdbRating > 8) [isTop, setIsTop] = useState(true);
+
+  /* 🔥 Early  Return */
+  if (imdbRating > 8) return <p>Top rated movie</p>;    // 👈🏽 ✅
+
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+    getMovieDetails();
+  }, [selectedId]);
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    };
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+    return () => {
+      document.title = "usePopcorn";
+    };
+  }, [title]);
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+          <section>
+            <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span>
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+![Early return](../img/section13-lecture161-004.png)
+
+### 🐞 161.3 Issues:
+
+- **Early Return Before Hooks**: The current `MovieDetails.jsx` file has an early return statement (`if (imdbRating > 8) return <p>Top rated movie</p>;`) placed before the `useEffect` hooks, which violates the Rules of Hooks.
+
+- **Commented Conditional Hook**: There's a commented-out conditional hook that should remain commented or be removed to avoid accidental uncommenting.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Early return before `useEffect` | ⚠️ Identified | `src/components/MovieDetails.jsx:43` — `if (imdbRating > 8) return <p>Top rated movie</p>;` placed before 3 `useEffect` hooks (lines 45-76). When `imdbRating > 8`, React throws: "Rendered fewer hooks than expected. This may be caused by an accidental early return statement." |
+| Conditional hook (commented) | ℹ️ Informational | `src/components/MovieDetails.jsx:40` — `// if (imdbRating > 8) [isTop, setIsTop] = useState(true);` is correctly commented for demonstration purposes. If uncommented, would cause hook order mismatch error. |
+| ESLint rules-of-hooks warning | ⚠️ Expected | ESLint `react-hooks/rules-of-hooks` rule should flag the early return before hooks. Error: "React Hook 'useEffect' is called conditionally. React Hooks must be called in the exact same order in every component render." |
+
+### 🧱 161.4 Pending Fixes (TODO)
+
+- [ ] **Move early return after all hooks** — `src/components/MovieDetails.jsx:43`: Move the `if (imdbRating > 8) return <p>Top rated movie</p>;` statement to **after** all `useEffect` declarations (after line 76) to comply with Rules of Hooks.
+
+- [ ] **Consider removing demo code for production** — `src/components/MovieDetails.jsx:39-43`: The commented conditional hook and early return are for learning purposes. In a production codebase, either remove them or clearly mark as intentional demo code with a more detailed comment.
+
+- [ ] **Alternative implementation for conditional rendering**: Instead of early return, use conditional rendering inside the JSX:
+  ```jsx
+  // Move this logic inside the return statement
+  {imdbRating > 8 ? (
+    <p>Top rated movie</p>
+  ) : (
+    <div className="details">...</div>
+  )}
+  ```
+
+- [ ] **Ensure ESLint rules-of-hooks is enabled** — Verify `eslint-plugin-react-hooks` is installed and configured to catch these violations during development.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ---
@@ -8409,7 +8796,6 @@ This section provides a comprehensive theoretical overview of React Hooks. It co
 <br>
 
 🔥 🔥 🔥 
-
 
 <br>
 
@@ -8441,5 +8827,3 @@ This section provides a comprehensive theoretical overview of React Hooks. It co
 ### 🧱 YYY.4 Pending Fixes (TODO)
 
 - [ ]
-
-
