@@ -25,143 +25,150 @@ usePopcorn is a modern React application that allows users to discover, search, 
 ## 📑 Table of Contents
 - [👨🏾‍💻 Project: usePopcorn - Movie Rating and Discovery App](#-project-usepopcorn---movie-rating-and-discovery-app)
   - [📋 Project Overview](#-project-overview)
-    - [What This Project Does](#what-this-project-does)
-    - [Technology Stack](#technology-stack)
-    - [Key Components](#key-components)
   - [📑 Table of Contents](#-table-of-contents)
   - [📁 Visual Project Tree](#-visual-project-tree)
-  - [🧳 Section 10: Thinking in React: Components, Composition and Reusability](#-section-10-thinking-in-react-components-composition-and-reusability)
-    - [📚 Lecture 106: Setting Up the "usePopcorn" project](#-lecture-106-setting-up-the-usepopcorn-project)
-    - [📚 Lecture 107: How to split a UI into components](#-lecture-107-how-to-split-a-ui-into-components)
-    - [📚 Lecture 108: Splitting Components in Practice](#-lecture-108-splitting-components-in-practice)
-    - [📚 Lecture 109: Component Categories](#-lecture-109-component-categories)
-    - [📚 Lecture 110: Prop Drilling](#-lecture-110-prop-drilling)
-    - [📚 Lecture 111: Component Composition](#-lecture-111-component-composition)
-    - [📚 Lecture 112: Fixing Prop Drilling With Composition (And Building a Layout)](#-lecture-112-fixing-prop-drilling-with-composition-and-building-a-layout)
-    - [📚 Lecture 113: Using Composition to Make a Reusable Box](#-lecture-113-using-composition-to-make-a-reusable-box)
-    - [📚 Lecture 114: Passing Elements as Props (Alternative to children)](#-lecture-114-passing-elements-as-props-alternative-to-children)
-    - [📚 Lecture 115: Building a Reusable Star Rating Component](#-lecture-115-building-a-reusable-star-rating-component)
-    - [📚 Lecture 116: Creating the Stars](#-lecture-116-creating-the-stars)
-    - [📚 Lecture 117: Handling Hover Events](#-lecture-117-handling-hover-events)
-    - [📚 Lecture 118: Props as a Component API](#-lecture-118-props-as-a-component-api)
-    - [📚 Lecture 119: Improving Reusability with Props](#-lecture-119-improving-reusability-with-props)
-    - [📚 Lecture 120: PropTypes](#-lecture-120-proptypes)
-  - [🧳 Section 12: Effects and Data Fetching](#-section-12-effects-and-data-fetching)
-    - [📚 Lecture 141: The Component Lifecycle](#-lecture-141-the-component-lifecycle)
-    - [📚 Lecture 142: How NOT to Fetch Data in React](#-lecture-142-how-not-to-fetch-data-in-react)
-    - [📚 Lecture 143: useEffect to the Rescue](#-lecture-143-useeffect-to-the-rescue)
-    - [📚 Lecture 144: At first look at Effects](#-lecture-144-at-first-look-at-effects)
-    - [📚 Lecture 145: Using an async Function](#-lecture-145-using-an-async-function)
-    - [📚 Lecture 146: Adding a Loading State](#-lecture-146-adding-a-loading-state)
-    - [📚 Lecture 147: Handling Errors](#-lecture-147-handling-errors)
-    - [📚 Lecture 148: The useEffect dependency array](#-lecture-148-the-useeffect-dependency-array)
-    - [📚 Lecture 149: Synchronizing Queries With Movie Data](#-lecture-149-synchronizing-queries-with-movie-data)
-    - [📚 Lecture 150: Selecting a Movie](#-lecture-150-selecting-a-movie)
-    - [📚 Lecture 151: Loading Movie Details](#-lecture-151-loading-movie-details)
-    - [📚 Lecture 152: Adding a Watched Movie](#-lecture-152-adding-a-watched-movie)
-    - [📚 Lecture 153: Adding a New Effect: Changing Page Title](#-lecture-153-adding-a-new-effect-changing-page-title)
-    - [📚 Lecture 154: The useEffect cleanup function](#-lecture-154-the-useeffect-cleanup-function)
-    - [📚 Lecture 155: Cleaning Up the Title](#-lecture-155-cleaning-up-the-title)
-    - [📚 Lecture 156: Cleaning Up Data Fetching](#-lecture-156-cleaning-up-data-fetching)
+  - [🧳 Section 10: *Thinking in React: Components, Composition and Reusability*](#-section-10-thinking-in-react-components-composition-and-reusability)
+    <details>
+    <summary>Section 10 - Lessons</summary>
+
+      * [📚 Lesson 106: Setting Up the "usePopcorn" project](#-106-lesson-106--setting-up-the-usepopcorn-project)
+      * [📚 Lesson 107: How to split a UI into components](#-107-lesson-107--how-to-split-a-ui-into-components)
+      * [📚 Lesson 108: Splitting Components in Practice](#-108-lesson-108--splitting-components-in-practice)
+      * [📚 Lesson 109: Component Categories](#-109-lesson-109--component-categories)
+      * [📚 Lesson 110: Prop Drilling](#-110-lesson-110--prop-drilling)
+      * [📚 Lesson 111: Component Composition](#-111-lesson-111--component-composition)
+      * [📚 Lesson 112: Fixing Prop Drilling With Composition (And Building a Layout)](#-112-lesson-112--fixing-prop-drilling-with-composition-and-building-a-layout)
+      * [📚 Lesson 113: Using Composition to Make a Reusable Box](#-113-lesson-113--using-composition-to-make-a-reusable-box)
+      * [📚 Lesson 114: Passing Elements as Props (Alternative to children)](#-114-lesson-114--passing-elements-as-props-alternative-to-children)
+      * [📚 Lesson 115: Building a Reusable Star Rating Component](#-115-lesson-115--building-a-reusable-star-rating-component)
+      * [📚 Lesson 116: Creating the Stars](#-116-lesson-116--creating-the-stars)
+      * [📚 Lesson 117: Handling Hover Events](#-117-lesson-117--handling-hover-events)
+      * [📚 Lesson 118: Props as a Component API](#-118-lesson-118--props-as-a-component-api)
+      * [📚 Lesson 119: Improving Reusability with Props](#-119-lesson-119--improving-reusability-with-props)
+      * [📚 Lesson 120: PropTypes](#-120-lesson-120--proptypes)
+    </details>
+  - [🧳 Section 12: *Effects and Data Fetching*](#-section-12-effects-and-data-fetching)
+    <details>
+    <summary>Section 12 - Lessons</summary>
+
+      * [📚 Lesson 141: The Component Lifecycle](#-141-lesson-141--the-component-lifecycle)
+      * [📚 Lesson 142: How NOT to Fetch Data in React](#-142-lesson-142--how-not-to-fetch-data-in-react)
+      * [📚 Lesson 143: useEffect to the Rescue](#-143-lesson-143--useeffect-to-the-rescue)
+      * [📚 Lesson 144: At first look at Effects](#-144-lesson-144--at-first-look-at-effects)
+      * [📚 Lesson 145: Using an async Function](#-145-lesson-145--using-async-function)
+      * [📚 Lesson 146: Adding a Loading State](#-146-lesson-146--adding-loading-state)
+      * [📚 Lesson 147: Handling Errors](#-147-lesson-147--handling-errors)
+      * [📚 Lesson 148: The useEffect dependency array](#-148-lesson-148--the-useeffect-dependency-array)
+      * [📚 Lesson 149: Synchronizing Queries With Movie Data](#-149-lesson-149--synchronizing-queries-with-movie-data)
+      * [📚 Lesson 150: Selecting a Movie](#-150-lesson-150--selecting-movie)
+      * [📚 Lesson 151: Loading Movie Details](#-151-lesson-151--loading-movie-details)
+      * [📚 Lesson 152: Adding a Watched Movie](#-152-lesson-152--adding-watched-movie)
+      * [📚 Lesson 153: Adding a New Effect: Changing Page Title](#-153-lesson-153--adding-new-effect-changing-page-title)
+      * [📚 Lesson 154: The useEffect cleanup function](#-154-lesson-154--the-useeffect-cleanup-function)
+      * [📚 Lesson 155: Cleaning Up the Title](#-155-lesson-155--cleaning-up-title)
+      * [📚 Lesson 156: Cleaning Up Data Fetching](#-156-lesson-156--cleaning-up-data-fetching)
+    </details>
+  - [🧳 Section 13: *Custom Hooks, Refs and More State*](#-section-13-custom-hooks-refs-and-more-state)
+    <details>
+    <summary>Section 13 - Lessons</summary>
+
+      * [📚 Lesson 157: One More Effect: Listening to a Keypress](#-157-lesson-157--one-more-effect-listening-to-keypress)
+      * [📚 Lesson 158: React Hooks: Summary and Rules](#-158-lesson-158--react-hooks-summary-and-rules)
+      * [📚 Lesson 159: Summary of Rules](#-159-lesson-159--summary-of-rules)
+      * [📚 Lesson 160: The "usePopcorn" Project](#-160-lesson-160--the-usepopcorn-project)
+      * [📚 Lesson 161: Starting the "usePopcorn" project](#-161-lesson-161--starting-the-usepopcorn-project)
+      * [📚 Lesson 162: More Details of useState](#-162-lesson-162--more-details-of-usestate)
+    </details>
 
 ## 📁 Visual Project Tree
-```
+
+```bash
 📁 11-usepopcorn/
-├── 📄 index.html
-├── 📄 package.json
-├── 📄 vite.config.js
-├── 📄 eslint.config.js
-├── 📄 README.md
-├── 📁 src/
-│   ├── 📄 main.jsx
-│   ├── 📄 App.jsx
-│   ├── 📄 StarRating.jsx
-│   ├── 📁 components/
-│   │   ├── 📄 Navbar.jsx
-│   │   ├── 📄 Main.jsx
-│   │   ├── 📄 Search.jsx
-│   │   ├── 📄 NumResult.jsx
-│   │   ├── 📄 Box.jsx
-│   │   ├── 📄 MovieList.jsx
-│   │   ├── 📄 Movie.jsx
-│   │   ├── 📄 MovieDetails.jsx
-│   │   ├── 📄 WatchedSummary.jsx
-│   │   ├── 📄 WatchedMovieList.jsx
-│   │   ├── 📄 WatchedMovie.jsx
-│   │   ├── 📄 Loader.jsx
-│   │   ├── 📄 ErrorMessage.jsx
-│   │   ├── 📄 Logo.jsx
-│   │   └── 📄 Test.jsx
-│   └── 📁 assets/
-│       ├── 📄 App.js
-│       └── 📄 index.css
-├── 📁 docs/
-│   ├── 📄 LECTURE_STEPS.md
-│   └── 📄 LECTURE_STEPS copy.md
-├── 📁 img/
-│   └── 📄 [various lecture images]
-└── 📁 node_modules/
+├── 📄 index.html             # Main HTML entry point
+├── 📄 package.json           # Project manifest and dependencies
+├── 📄 vite.config.js         # Vite build configuration
+├── 📄 eslint.config.js       # Linting rules
+├── 📄 README.md              # Project overview
+├── 📁 src/                   # Source code directory
+│   ├── 📄 main.jsx           # React app entry point
+│   ├── 📄 App.jsx            # Multi-component root
+│   ├── 📄 StarRating.jsx     # Reusable rating component
+│   └── 📁 components/        # Isolated UI components
+│       ├── 📄 Navbar.jsx
+│       ├── 📄 Main.jsx
+│       ├── 📄 Search.jsx
+│       ├── 📄 MovieDetails.jsx
+│       └── ...
+├── 📁 docs/                  # Educational documentation
+│   └── 📄 LECTURE_STEPS.md   # Detailed step-by-step notes
+└── 📁 img/                   # Visual aids and screenshots
 ```
 
 <br>
 
-## 🧳 Section 10: Thinking in React: Components, Composition and Reusability
+## 🧳 Section 10: *Thinking in React: Components, Composition and Reusability*
 
 ### 📑 Table of Contents
-- [📚 Lecture 106: Setting Up the "usePopcorn" project](#lecture-106-setting-up-the-usepopcorn-project)
-- [📚 Lecture 107: How to split a UI into components](#lecture-107-how-to-split-a-ui-into-components)
-- [📚 Lecture 108: Splitting Components in Practice](#lecture-108-splitting-components-in-practice)
-- [📚 Lecture 109: Component Categories](#lecture-109-component-categories)
-- [📚 Lecture 110: Prop Drilling](#lecture-110-prop-drilling)
-- [📚 Lecture 111: Component Composition](#lecture-111-component-composition)
-- [📚 Lecture 112: Fixing Prop Drilling With Composition (And Building a Layout)](#lecture-112-fixing-prop-drilling-with-composition-and-building-a-layout)
-- [📚 Lecture 113: Using Composition to Make a Reusable Box](#lecture-113-using-composition-to-make-a-reusable-box)
-- [📚 Lecture 114: Passing Elements as Props (Alternative to children)](#lecture-114-passing-elements-as-props-alternative-to-children)
-- [📚 Lecture 115: Building a Reusable Star Rating Component](#lecture-115-building-a-reusable-star-rating-component)
-- [📚 Lecture 116: Creating the Stars](#lecture-116-creating-the-stars)
-- [📚 Lecture 117: Handling Hover Events](#lecture-117-handling-hover-events)
-- [📚 Lecture 118: Props as a Component API](#lecture-118-props-as-a-component-api)
-- [📚 Lecture 119: Improving Reusability with Props](#lecture-119-improving-reusability-with-props)
-- [📚 Lecture 120: PropTypes](#lecture-120-proptypes)
+- [📑 Table of Contents](#-table-of-contents-1)
+  - [📚 Lesson 106: Setting Up the "usePopcorn" project](#-106-lesson-106--setting-up-the-usepopcorn-project)
+  - [📚 Lesson 107: How to split a UI into components](#-107-lesson-107--how-to-split-a-ui-into-components)
+  - [📚 Lesson 108: Splitting Components in Practice](#-108-lesson-108--splitting-components-in-practice)
+  - [📚 Lesson 109: Component Categories](#-109-lesson-109--component-categories)
+  - [📚 Lesson 110: Prop Drilling](#-110-lesson-110--prop-drilling)
+  - [📚 Lesson 111: Component Composition](#-111-lesson-111--component-composition)
+  - [📚 Lesson 112: Fixing Prop Drilling With Composition (And Building a Layout)](#-112-lesson-112--fixing-prop-drilling-with-composition-and-building-a-layout)
+  - [📚 Lesson 113: Using Composition to Make a Reusable Box](#-113-lesson-113--using-composition-to-make-a-reusable-box)
+  - [📚 Lesson 114: Passing Elements as Props (Alternative to children)](#-114-lesson-114--passing-elements-as-props-alternative-to-children)
+  - [📚 Lesson 115: Building a Reusable Star Rating Component](#-115-lesson-115--building-a-reusable-star-rating-component)
+  - [📚 Lesson 116: Creating the Stars](#-116-lesson-116--creating-the-stars)
+  - [📚 Lesson 117: Handling Hover Events](#-117-lesson-117--handling-hover-events)
+  - [📚 Lesson 118: Props as a Component API](#-118-lesson-118--props-as-a-component-api)
+  - [📚 Lesson 119: Improving Reusability with Props](#-119-lesson-119--improving-reusability-with-props)
+  - [📚 Lesson 120: PropTypes](#-120-lesson-120--proptypes)
 
 ---
 
-## 📚 Lecture 106: Setting Up the "usePopcorn" project
+## 🔧 106. Lesson 106 — *Setting Up the "usePopcorn" project*
 
-- [Lecture 106: Setting Up the "usePopcorn" project](#lecture-106-setting-up-the-usepopcorn-project)
+- [Lecture 106: Setting Up the "usePopcorn" project](#-106-lesson-106--setting-up-the-usepopcorn-project)
 - [106.1 Context](#1061-context)
 - [106.2 Updating code according the context](#1062-updating-code-according-the-context)
-- [106.3 Pending Fixes (TODO)](#1063-pending-fixes-todo)
+- [106.3 Issues](#1063-issues)
+- [106.4 Pending Fixes (TODO)](#1064-pending-fixes-todo)
 
-### 🧠 106.1 Context
+### 🧠 106.1 Context:
 This lesson focuses on setting up the initial project structure for "usePopcorn", a movie rating and discovery application. We'll initialize a new React project using Vite, configure the development environment, and establish the foundation for building a component-based application. The project will demonstrate React best practices including component composition, state management, and reusability patterns. This setup phase is crucial as it establishes the project architecture and development workflow that will be used throughout the section.
 
-### ⚙️ 106.2 Updating code according the context
+### ⚙️ 106.2 Updating code according the context:
 
 Visit [UsePoCorn app](https://usepopcorn.netlify.app/) here!.
 
 ### 🐞 106.3 Issues:
 
+- No issues encountered during project initialization.
+
 | Issue | Status | Log/Error |
 |---|---|---|
+| N/A | ✅ Resolved | Project initialized successfully with Vite. |
 
-### 🧱 106.4 Pending Fixes (TODO)
+### 🧱 106.4 Pending Fixes (TODO):
 
-- [ ] Set up project scaffolding with Vite
-- [ ] Configure development environment
-- [ ] Establish project architecture foundation
+- [x] Set up project scaffolding with Vite
+- [x] Configure development environment
+- [x] Establish project architecture foundation
 
-## 📚 Lecture 107: How to split a UI into components
+## 🔧 107. Lesson 107 — *How to split a UI into components*
 
-- [Lecture 107: How to split a UI into components](#lecture-107-how-to-split-a-ui-into-components)
+- [Lecture 107: How to split a UI into components](#-107-lesson-107--how-to-split-a-ui-into-components)
 - [107.1 Context](#1071-context)
 - [107.2 Updating code according the context](#1072-updating-code-according-the-context)
-- [107.3 Pending Fixes (TODO)](#1073-pending-fixes-todo)
+- [107.3 Issues](#1073-issues)
+- [107.4 Pending Fixes (TODO)](#1074-pending-fixes-todo)
 
-### 🧠 107.1 Context
+### 🧠 107.1 Context:
 This lesson teaches the fundamental skill of breaking down a user interface into logical, reusable React components. We'll explore the principles of component design, including when to create new components, how to determine appropriate component size, and strategies for identifying component boundaries. The lesson covers practical guidelines for component composition, emphasizing the balance between too-small components (over-engineering) and too-large components (monolithic code). Understanding these concepts is essential for building maintainable, scalable React applications and is a core skill in "thinking in React".
 
-### ⚙️ 107.2 Updating code according the context
+### ⚙️ 107.2 Updating code according the context:
 
 ![Component size matters](../img/section10-lecture106-001.png)
 ![Component size matters: no small neither huge components](../img/section10-lecture106-002.png)
@@ -170,23 +177,32 @@ This lesson teaches the fundamental skill of breaking down a user interface into
 ![Some more general GUIDELINES](../img/section10-lecture106-005.png)
 ![Any App has components of different sizes and reusability](../img/section10-lecture106-006.png)
 
-### 🧱 107.3 Pending Fixes (TODO)
+### 🐞 107.3 Issues:
 
-- [ ] Learn component design principles
-- [ ] Understand component size guidelines
-- [ ] Practice identifying component boundaries
+- No technical issues identified in this theoretical overview.
 
-## 📚 Lecture 108: Splitting Components in Practice
+| Issue | Status | Log/Error |
+|---|---|---|
+| N/A | ✅ Resolved | Theoretical concepts explained with visual aids. |
 
-- [Lecture 108: Splitting Components in Practice](#lecture-108-splitting-components-in-practice)
+### 🧱 107.4 Pending Fixes (TODO):
+
+- [x] Learn component design principles
+- [x] Understand component size guidelines
+- [x] Practice identifying component boundaries
+
+## 🔧 108. Lesson 108 — *Splitting Components in Practice*
+
+- [Lecture 108: Splitting Components in Practice](#-108-lesson-108--splitting-components-in-practice)
 - [108.1 Context](#1081-context)
 - [108.2 Updating code according the context](#1082-updating-code-according-the-context)
-- [108.3 Pending Fixes (TODO)](#1083-pending-fixes-todo)
+- [108.3 Issues](#1083-issues)
+- [108.4 Pending Fixes (TODO)](#1084-pending-fixes-todo)
 
-### 🧠 108.1 Context
+### 🧠 108.1 Context:
 This lesson applies the theoretical concepts from Lesson 107 by practically splitting a monolithic React component into smaller, reusable, and maintainable components. We start with a single `App.jsx` file containing all the UI logic and progressively break it down into logical component pieces. The refactoring process demonstrates the step-by-step approach to component decomposition, showing how to identify component boundaries, extract reusable UI elements, and manage component composition. This hands-on practice reinforces the principles of "thinking in React" by transforming a complex single-component application into a well-structured component hierarchy. The lesson covers creating container components, presentational components, and understanding when to lift state up or keep it local, establishing a solid foundation for building scalable React applications.
 
-### ⚙️ 108.2 Updating code according the context
+### ⚙️ 108.2 Updating code according the context:
 
 #### 1. Provided Code:
 ```jsx
@@ -1636,10 +1652,16 @@ App.jsx (Root Component)
 | `WatchedBox.jsx` | Collapsible box component for displaying watched movies |
 | `WatchedSummary.jsx` | Summary statistics component showing averages (ratings, runtime, count) |
 | `WatchedMovieList.jsx` | List container component that maps over watched movies array |
-| `WatchedMovie.jsx` | Individual watched movie item component with ratings and runtime |
+| `WatchedMovie.jsx` | Individual watched movie item component with ratings and runtime |### 🐞 108.3 Issues:
 
+- **Monolithic Component**: Initial `App.jsx` contained all UI logic, making it difficult to maintain and test.
+- **Code Duplication**: Similar UI structures (like movie items) were repeated instead of being extracted into separate components.
 
-### 🧱 108.3 Pending Fixes (TODO)
+| Issue | Status | Log/Error |
+|---|---|---|
+| Large `App.jsx` | ✅ Resolved | Successfully refactored into smaller, focused components like `Navbar`, `Main`, `MovieList`, etc. |
+
+### 🧱 108.4 Pending Fixes (TODO)
 
 - [ ] Fix import naming in `WatchedBox.jsx`: Change `WatchedList` to `WatchedMovieList` to match the actual component export
 - [ ] Remove unused `useState` import from `Main.jsx` component
@@ -1653,11 +1675,15 @@ App.jsx (Root Component)
 
 <br>
 
-## 📚 Lecture 109: Component Categories
+## 🔧 109. Lesson 109 — *Component Categories*
 
-- [Lecture 109: Component Categories](#lecture-109-component-categories)
+- [Lecture 109: Component Categories](#-109-lesson-109--component-categories)
+- [109.1 Context](#1091-context)
+- [109.2 Updating code according the context](#1092-updating-code-according-the-context)
+- [109.3 Issues](#1093-issues)
+- [109.4 Pending Fixes (TODO)](#1094-pending-fixes-todo)
 
-### 🧠 109.1 Context
+### 🧠 109.1 Context:
 
 In React, components can be classified into different categories based on their responsibility and how they handle state. This lesson explores the three main component categories: **stateless/presentational components**, **stateful components**, and **structural components**. Understanding these categories is fundamental for designing scalable and maintainable component architectures, as each type has a specific purpose and different usage patterns. This classification helps developers make informed decisions about where to place state logic, how to structure component hierarchies, and how to maximize code reusability.
 
@@ -1706,16 +1732,30 @@ Structural components are components that define the structure and layout of the
 
 ![Component Categories](../img/section10-lecture109-001.png)
 
+### 🐞 109.3 Issues:
+
+- No technical issues identified in this classification overview.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| N/A | ✅ Resolved | Component categories defined and categorized for the project. |
+
+### 🧱 109.4 Pending Fixes (TODO):
+
+- [x] Understand presentational components
+- [x] Understand stateful components
+- [x] Understand structural components
 
 
-## 📚 Lecture 110: Prop Drilling
 
-- [Lecture 110: Prop Drilling](#lecture-110-prop-drilling)
+## 🔧 110. Lesson 110 — *Prop Drilling*
+
 - [110.1 Context](#1101-context)
 - [110.2 Updating code according the context](#1102-updating-code-according-the-context)
-- [110.3 Pending Fixes (TODO)](#1103-pending-fixes-todo)
+- [110.3 Issues](#1103-issues)
+- [110.4 Pending Fixes (TODO)](#1104-pending-fixes-todo)
 
-### 🧠 110.1 Context
+### 🧠 110.1 Context:
 
 Prop Drilling is a pattern in React where data (props) are passed through multiple levels of intermediate components that don't need that data, just to reach the component that actually needs it. This pattern is common when state is located in a parent component (like `App.jsx`) and needs to be accessed by deeply nested components in the component tree.
 
@@ -1934,21 +1974,25 @@ export default Movie;
 ```
 
 
-![prop drilling path](../img/section10-lecture110-004.png)
+### 🐞 110.3 Issues:
 
-### 🧱 110.3 Pending Fixes (TODO)
+- **Intermediate Coupling**: Components like `Navbar` and `Main` are forced to receive props (`movies`) just to pass them deeper, making them less reusable.
+- **Refactoring difficulty**: Changing the structure of the component tree requires updating many intermediate components.
 
-#### Technical Issues Identified:
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Excessive prop drilling for `movies`** | ⚠️ Identified | The `movies` prop is passed through 4 levels (App → Navbar → NumResult) and 5 levels (App → Main → ListBox → MovieList → Movie). Although functional, this can become difficult to maintain if the structure grows |
-| **Intermediate components receive props they don't use** | ⚠️ Identified | `Navbar.jsx` and `Main.jsx` receive `movies` only to pass it to their children, they don't use it directly. This is characteristic of prop drilling but may indicate the need for Context API |
-| **Inconsistency in prop names** | ⚠️ Identified | `WatchedBox.jsx` receives `tempWatchedData` while `ListBox.jsx` receives `movies`. Should be consistent: both should receive the same type of prop (without the `temp` prefix) |
-| **Potential duplicate state** | ⚠️ Identified | `ListBox.jsx` could have its own local `movies` state (as seen in previous lessons), but now receives `movies` as a prop. Needs verification to avoid state duplication |
-| **Incorrect import in WatchedBox.jsx** | ⚠️ Identified | Line 3: `import WatchedList from "./WatchedMovieList";` should be `import WatchedMovieList from "./WatchedMovieList";` - The import name doesn't match the component export |
-| **Uncleaned commented code** | ℹ️ Low Priority | `WatchedBox.jsx` contains commented code (lines 7, 10-14, 22-42, 45-66) that should be removed to keep the code clean |
+| Deep Nesting | ✅ Resolved | Prop drilling implemented successfully (from `App` down to `Movie`). |
 
-#### Action Items:
+### 🧱 110.4 Pending Fixes (TODO):
+
+- [ ] Resolving excessive prop drilling for `movies` (App → Navbar → NumResult and App → Main → ListBox → MovieList → Movie)
+- [ ] Refactor intermediate components (`Navbar.jsx`, `Main.jsx`) to avoid receiving unused props
+- [ ] Standardize prop names (e.g., remove `temp` prefix from `tempWatchedData`)
+- [ ] Verify `ListBox.jsx` doesn't have duplicate local state for `movies`
+- [ ] Fix incorrect import in `WatchedBox.jsx` (should be `import WatchedMovieList from "./WatchedMovieList"`)
+- [ ] Remove uncleaned commented code in `WatchedBox.jsx`
+- [ ] Implement prop drilling for movie search and results
+- [ ] Verify component hierarchy as per visual tree
 - [ ] Fix import in `WatchedBox.jsx`: Change `WatchedList` to `WatchedMovieList` to match the exported component name
 - [ ] Standardize prop names: Change `tempWatchedData` to `watched` or `watchedMovies` to maintain consistency with `movies` in other components
 - [ ] Verify and remove duplicate state: Ensure that `ListBox.jsx` doesn't have local `movies` state that conflicts with the received prop
@@ -1960,14 +2004,15 @@ export default Movie;
 
 
 
-## 📚 Lecture 111: Component Composition
+## 🔧 111. Lesson 111 — *Component Composition*
 
-- [Lecture 111: Component Composition](#lecture-111-component-composition)
+- [Lecture 111: Component Composition](#-111-lesson-111--component-composition)
 - [111.1 Context](#1111-context)
 - [111.2 Updating code according the context](#1112-updating-code-according-the-context)
-- [111.3 Pending Fixes (TODO)](#1113-pending-fixes-todo)
+- [111.3 Issues](#1113-issues)
+- [111.4 Pending Fixes (TODO)](#1114-pending-fixes-todo)
 
-### 🧠 111.1 Context
+### 🧠 111.1 Context:
 
 Component Composition is a powerful React pattern that allows building complex UIs by combining smaller, reusable components. Instead of creating monolithic components with many props, composition enables flexible and maintainable component architectures by using the `children` prop and other composition techniques.
 
@@ -2031,9 +2076,8 @@ In this lesson, we identify that `ListBox.jsx` and `WatchedBox.jsx` share the sa
 ![React component vs Component Composition](../img/section10_lecture111-001.png)
 ![Component Composition use](../img/section10_lecture111-002.png)
 
-### 🧱 111.3 Pending Fixes (TODO)
+### 🐞 111.3 Issues:
 
-#### Technical Issues Identified:
 | Issue | Status | Log/Error |
 |---|---|---|
 | **Code duplication between ListBox and WatchedBox** | ⚠️ Identified | Both `ListBox.jsx` (lines 7-13) and `WatchedBox.jsx` (lines 16-20) have identical structure: `<div className="box">`, toggle button with `isOpen` state, and conditional rendering. This violates DRY principle and makes maintenance harder |
@@ -2045,7 +2089,7 @@ In this lesson, we identify that `ListBox.jsx` and `WatchedBox.jsx` share the sa
 | **Inconsistent prop naming** | ⚠️ Identified | `WatchedBox.jsx` receives `tempWatchedData` while `ListBox.jsx` receives `movies`. Should standardize prop naming conventions (remove `temp` prefix) |
 | **Missing composition pattern** | ⚠️ Identified | Components don't leverage the `children` prop pattern for flexible content composition, missing an opportunity to create more reusable and flexible components |
 
-#### Action Items:
+### 🧱 111.4 Pending Fixes (TODO)
 - [ ] Fix import naming in `WatchedBox.jsx`: Change `WatchedList` to `WatchedMovieList` on line 3 to match the actual component export
 - [ ] Create generic `Box` component: Extract the collapsible box pattern from `ListBox.jsx` and `WatchedBox.jsx` into a reusable `Box.jsx` component that accepts `children` prop
 - [ ] Refactor `ListBox.jsx` to use composition: Replace the box structure with `<Box><MovieList movies={movies} /></Box>` pattern
@@ -2058,7 +2102,13 @@ In this lesson, we identify that `ListBox.jsx` and `WatchedBox.jsx` share the sa
 - [ ] Consider additional composition opportunities: Review other components (`Navbar`, `Main`) for potential composition improvements using `children` prop
 
 
-## 📚 Lecture 112: Fixing Prop Drilling With Composition (And Building a Layout)
+## 🔧 112. Lesson 112 — *Fixing Prop Drilling With Composition (And Building a Layout)*
+
+- [Lecture 112: Fixing Prop Drilling With Composition (And Building a Layout)](#-112-lesson-112--fixing-prop-drilling-with-composition-and-building-a-layout)
+- [112.1 Context](#1121-context)
+- [112.2 Updating code according the context](#1122-updating-code-according-the-context)
+- [112.3 Issues](#1123-issues)
+- [112.4 Pending Fixes (TODO)](#1124-pending-fixes-todo)
 
 ### 🧠 112.1 Context:
 
@@ -2266,32 +2316,33 @@ function App() {
   );
 }
 export default App;
-```
+```### 🐞 112.3 Issues:
 
-
-### 🐞 112.3 Issues:
+- **Intermediate structural coupling**: `Navbar` and `Main` were acting as data-passers, which violates the principle of separation of concerns between structure and data.
+- **Manual children handling**: Initial implementation required explicit child rendering, which was refactored to use the idiomatic `{children}` pattern.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Syntax error in documentation example** | ⚠️ Identified | Line 1991 in documentation shows `{children}.` with a trailing dot, but actual code in `Navbar.jsx` is correct without the dot. Documentation should be updated to match the actual implementation |
-| **WatchedBox still uses prop drilling pattern** | ⚠️ Identified | `WatchedBox.jsx` receives `tempWatchedData` directly from `App.jsx` instead of using composition pattern. It could be refactored to accept `children` like `Navbar` and `Main` for consistency. Current: `<WatchedBox tempWatchedData={tempWatchedData} />` |
-| **Inconsistent prop naming convention** | ⚠️ Identified | `WatchedBox` receives `tempWatchedData` while other components receive `movies`. The `temp` prefix suggests temporary data and should be removed for consistency. Location: `src/App.jsx:69` and `src/components/WatchedBox.jsx:5` |
-| **Search component not connected to movies state** | ℹ️ Low Priority | `Search.jsx` has its own local state but doesn't filter or update the `movies` state in `App.jsx`. This means search functionality is not implemented, only the UI exists. Future enhancement needed |
-| **Composition pattern not fully applied** | ⚠️ Identified | While `Navbar` and `Main` use composition, `WatchedBox` still follows the old prop drilling pattern. For complete consistency, `WatchedBox` should be refactored to accept `WatchedSummary` and `WatchedMovieList` as children |
+| Redundant Props | ✅ Resolved | `Navbar` and `Main` no longer receive `movies` or other data props; they now use `children`. |
 
-### 🧱 112.4 Pending Fixes (TODO)
+### 🧱 112.4 Pending Fixes (TODO):
 
-```md
-- [ ] Fix documentation syntax error: Remove trailing dot from `{children}.` example in section 7.2.1 (line 1991) to match actual code implementation
-- [ ] Refactor WatchedBox to use composition pattern: Change `WatchedBox.jsx` to accept `children` prop instead of `tempWatchedData`, allowing `WatchedSummary` and `WatchedMovieList` to be composed in `App.jsx` similar to how `Navbar` and `Main` work
-- [ ] Update App.jsx composition: After refactoring `WatchedBox`, update `App.jsx` to compose `WatchedSummary` and `WatchedMovieList` as children of `WatchedBox`, passing `watched` state directly to these components
-- [ ] Rename tempWatchedData prop: Remove `temp` prefix from `tempWatchedData` variable and prop name for consistency with `movies` naming convention. Update in `src/App.jsx` and `src/components/WatchedBox.jsx`
-- [ ] Implement search functionality: Connect `Search.jsx` component to `movies` state in `App.jsx` to enable actual movie filtering/searching functionality (currently only UI exists)
-- [ ] Verify composition pattern consistency: Ensure all structural components (`Navbar`, `Main`, `ListBox`, `WatchedBox`) follow the same composition pattern using `children` prop for better code consistency and maintainability
-- [ ] Update component documentation: Add comments explaining the composition pattern usage in refactored components (`Navbar.jsx`, `Main.jsx`, `ListBox.jsx`) for future developers
-```
+- [ ] Fix documentation syntax error: Remove trailing dot from `{children}.` example in section 7.2.1
+- [ ] Refactor `WatchedBox` to use composition pattern (accept `children` instead of `tempWatchedData`)
+- [ ] Update `App.jsx` to compose `WatchedSummary` and `WatchedMovieList` as children of `WatchedBox`
+- [ ] Rename `tempWatchedData` prop to `watched` or `watchedMovies` for consistency
+- [ ] Implement search functionality (connect `Search.jsx` to `movies` state in `App.jsx`)
+- [ ] Ensure all structural components (`Navbar`, `Main`, `ListBox`, `WatchedBox`) follow the same composition pattern
+- [ ] Add comments explaining the composition pattern usage in refactored components
+- [ ] Verify `WatchedBox` is properly composed in the application
 
-## 📚 Lecture 113: Using Composition to Make a Reusable Box
+## 🔧 113. Lesson 113 — *Using Composition to Make a Reusable Box*
+
+- [Lecture 113: Using Composition to Make a Reusable Box](#-113-lesson-113--using-composition-to-make-a-reusable-box)
+- [113.1 Context](#1131-context)
+- [113.2 Updating code according the context](#1132-updating-code-according-the-context)
+- [113.3 Issues](#1133-issues)
+- [113.4 Pending Fixes (TODO)](#1134-pending-fixes-todo)
 
 ### 🧠 113.1 Context:
 
@@ -2518,35 +2569,26 @@ export default App;
 
 ### 🐞 113.3 Issues:
 
+- **Component Redundancy**: Having both `ListBox` and `WatchedBox` created unnecessary code duplication.
+- **State duplication**: The toggle logic was repeated in every box-like component.
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Unused ListBox component** | ⚠️ Identified | `ListBox.jsx` still exists in the codebase but is no longer used in `App.jsx` after refactoring to use `Box.jsx`. The component should be removed or documented as deprecated. Location: `src/components/ListBox.jsx` |
-| **Unused WatchedBox component** | ⚠️ Identified | `WatchedBox.jsx` still exists but is no longer used in `App.jsx` after refactoring to use `Box.jsx`. The component should be removed since `Box.jsx` now handles this functionality. Location: `src/components/WatchedBox.jsx` |
-| **Multiple commented code blocks in App.jsx** | ⚠️ Identified | `App.jsx` contains multiple commented code blocks: lines 69-71 (alternative `Box` usage with `children`), line 72 (`WatchedBox` usage), and lines 81-84 (alternative `Box` usage). Commented code should be removed for code cleanliness. Location: `src/App.jsx:69-71,72,81-84` |
-| **Commented code in ListBox.jsx** | ⚠️ Identified | Line 11 in `ListBox.jsx` contains commented code: `{/* isOpen && <MovieList movies={movies} /> */}`. Since `ListBox` is no longer used, this file should be removed entirely. Location: `src/components/ListBox.jsx:11` |
-| **Commented code in Main.jsx** | ⚠️ Identified | `Main.jsx` contains commented imports (lines 1-2) and commented JSX (line 7) related to deprecated `ListBox` and `WatchedBox` components. Should be cleaned up. Location: `src/components/Main.jsx:1-2,7` |
-| **Commented code in WatchedMovieList.jsx** | ⚠️ Identified | Lines 6-23 in `WatchedMovieList.jsx` contain commented-out code that duplicates the `WatchedMovie` component implementation. Should be cleaned up. Location: `src/components/WatchedMovieList.jsx:6-23` |
-| **Unused state setters** | ⚠️ Identified | `setMovies` and `setWatched` are declared but never used in `App.jsx`. Linter error: "Assigned a value but never used". These should either be used or prefixed with underscore if intentionally unused. Location: `src/App.jsx:58-59` |
-| **Missing watched state in documentation example** | ⚠️ Identified | The code example in section 8.2.4 shows `watched` variable being used but doesn't show where it's defined. The actual `App.jsx` has `const [watched, setWatched] = useState(tempWatchedData);` but the documentation example omits this. Location: Documentation section 8.2.4 |
-| **Inconsistent variable naming** | ℹ️ Low Priority | `App.jsx` uses `tempWatchedData` and `tempMovieData` as initial state but stores them in `watched` and `movies` state. The `temp` prefix suggests temporary data and should be removed for consistency. Consider renaming to `initialWatchedData`/`initialMovieData` or `watchedData`/`movieData`. Location: `src/App.jsx:12-55,58-59` |
+| Code Duplication | ✅ Resolved | Replaced `ListBox` and `WatchedBox` with a single, reusable `Box` component. |
 
-### 🧱 113.4 Pending Fixes (TODO)
+### 🧱 113.4 Pending Fixes (TODO):
 
-```md
-- [ ] Remove unused `ListBox.jsx` component: Delete the file since `Box.jsx` now handles its functionality. Verify no other files import it before deletion
-- [ ] Remove unused `WatchedBox.jsx` component: Delete the file since `Box.jsx` with composition pattern replaces it. Verify no other files import it before deletion
-- [ ] Clean up commented code in `App.jsx`: Remove the commented `WatchedBox` usage on line 71 (`{/* <WatchedBox tempWatchedData={tempWatchedData} /> */}`)
-- [ ] Clean up commented code in `WatchedMovieList.jsx`: Remove commented-out code blocks (lines 6-23) that duplicate `WatchedMovie` component implementation
-- [ ] Update documentation example: Add missing `watched` state declaration in section 8.2.4 code example to match actual implementation: `const [watched, setWatched] = useState(tempWatchedData);`
-- [ ] Standardize variable naming: Consider renaming `tempWatchedData` to `initialWatchedData` or `watchedData` throughout the codebase for better clarity and consistency
-- [ ] Update component documentation: Document that `Box.jsx` is the reusable component for collapsible containers, replacing the previous `ListBox` and `WatchedBox` components
-- [ ] Verify Box component usage: Ensure all instances of collapsible boxes in the application use the `Box` component for consistency
-- [ ] Add PropTypes or TypeScript: Consider adding type validation to `Box.jsx` to ensure `children` prop is properly typed
-- [ ] Review component imports: Check all component files to ensure no stale imports of `ListBox` or `WatchedBox` exist
-```
+- [ ] Remove unused `ListBox.jsx` and `WatchedBox.jsx` components as `Box.jsx` replaces them
+- [ ] Clean up commented-out code in `App.jsx`, `Main.jsx`, and `WatchedMovieList.jsx`
+- [ ] Update documentation example in section 8.2.4 to include missing `watched` state declaration
+- [ ] Standardize variable naming (e.g., rename `tempWatchedData` to `initialWatchedData`)
+- [ ] Document that `Box.jsx` is the primary reusable component for collapsible containers
+- [ ] Verify all collapsible boxes use the `Box` component
+- [ ] Consider adding PropTypes or TypeScript for `children` prop validation in `Box.jsx`
+- [ ] Review all component imports to ensure no stale references to `ListBox` or `WatchedBox`
 
 
-## 📚 Lecture 114: Passing Elements as Props (Alternative to children)
+## 🔧 114. Lesson 114 — *Passing Elements as Props (Alternative to children)*
 
 ### 🧠 114.1 Context:
 
@@ -2608,9 +2650,11 @@ There is **no meaningful performance difference** between using `children` and n
 
 In this lesson, we demonstrate that while passing elements as props (`element`) is technically possible and works identically to `children`, the `children` prop is the recommended and idiomatic React pattern. The lesson shows both approaches side-by-side to illustrate that `children` is more composable, scalable, and follows React conventions. The final verdict is that `children` should be used when a component "wraps" content, which is the case for the `Box` component.
 
-### ⚙️ 114.2 Updating code according the context:
+### ⚙️ 114.2 Updating Code According the Context:
 
-#### 9.2.1 Changing `children` by `element` in order to send a prop.
+This section demonstrates how to change the `Box` component to accept an `element` prop instead of `children`, and how to apply this change in `App.jsx`.
+
+#### Changing `children` by `element` in order to send a prop.
 ```tsx
 /* src/components/Box.jsx */
 import { useState } from "react";
@@ -2631,7 +2675,7 @@ const Box = ({ element }) => {  // 👈🏽 ✅
 export default Box;
 ```
 
-#### 9.2.2 Applying this element in `App.jsx` component:
+#### Applying this element in `App.jsx` component:
 ```tsx
 /* src/App.jsx */
 import { useState } from "react";
@@ -2704,29 +2748,31 @@ If your component “wraps” content → use `children`
 
 ### 🐞 114.3 Issues:
 
+- **API Rigidity**: Using named props for single elements is less flexible than `children`.
+- **Developer Confusion**: Mixing `children` and named elements can lead to inconsistent component APIs.
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Box component uses non-idiomatic `element` prop** | ⚠️ Identified | `Box.jsx` currently uses `element` prop instead of `children`, which is less idiomatic React. While functionally equivalent, `children` is the recommended pattern for components that wrap content. Location: `src/components/Box.jsx:3,11` |
-| **Inconsistent composition patterns across components** | ⚠️ Identified | `Box.jsx` uses `element` prop while `Navbar.jsx`, `Main.jsx`, and `ListBox.jsx` use `children` prop. This inconsistency makes the codebase harder to understand and maintain. Location: Multiple files |
-| **Commented code showing alternative `children` usage** | ⚠️ Identified | `App.jsx` contains commented code blocks (lines 69-71, 81-84) showing how `Box` would be used with `children` prop. This suggests uncertainty about which pattern to use and should be cleaned up. Location: `src/App.jsx:69-71,81-84` |
-| **Missing documentation on prop choice** | ⚠️ Identified | No comments or documentation explaining why `element` prop was chosen over `children` in `Box.jsx`. Future developers may not understand the reasoning. Location: `src/components/Box.jsx` |
-| **Potential confusion for React developers** | ℹ️ Low Priority | Using `element` instead of `children` may confuse developers familiar with React conventions, as `children` is the standard pattern for wrapper components. This could impact code readability and onboarding |
+| Non-idiomatic API | ℹ️ Discussion | `element` prop works but is less standard than `children` for simple wrappers. |
 
-### 🧱 114.4 Pending Fixes (TODO)
+### 🧱 114.4 Pending Fixes (TODO):
 
-```md
-- [ ] Refactor `Box.jsx` to use `children` prop: Change `element` prop back to `children` to follow idiomatic React patterns and improve code consistency with other components (`Navbar`, `Main`, `ListBox`)
-- [ ] Update `App.jsx` to use `children` pattern: Replace `<Box element={...} />` with `<Box>{...}</Box>` syntax to match React conventions and improve readability
-- [ ] Remove commented code in `App.jsx`: Clean up commented code blocks showing alternative `children` usage (lines 69-71, 81-84) to keep codebase clean
-- [ ] Standardize composition patterns: Ensure all wrapper components (`Box`, `Navbar`, `Main`, `ListBox`) use the same `children` prop pattern for consistency
-- [ ] Add component documentation: Add comments in `Box.jsx` explaining why `children` is preferred over named props for wrapper components
-- [ ] Update component hierarchy documentation: Document that `Box` component uses `children` prop pattern in the component hierarchy section
-- [ ] Consider multiple content sections: If `Box` needs to support multiple distinct sections in the future (e.g., header, footer), consider using multiple named props (`header`, `footer`) while keeping `children` for main content
-- [ ] Review other components: Check if any other components could benefit from using `children` prop instead of specific named props for better React idiomaticity
-```
+- [ ] Refactor `Box.jsx` to use `children` prop (current `element` prop is non-idiomatic)
+- [ ] Update `App.jsx` to use standard `children` pattern instead of named `element` prop
+- [ ] Clean up commented-out code in `App.jsx` regarding `children` usage
+- [ ] Standardize composition patterns across all wrapper components (`Box`, `Navbar`, `Main`)
+- [ ] Add documentation explaining the preference for `children` over named props for wrappers
+- [ ] Consider using multiple named props ONLY if the component needs distinct header/footer sections
+- [ ] Review all components for idiomatic React patterns
 
 
-## 📚 Lecture 115: Building a Reusable Star Rating Component
+## 🔧 115. Lesson 115 — *Building a Reusable Star Rating Component*
+
+- [Lecture 115: Building a Reusable Star Rating Component](#-115-lesson-115--building-a-reusable-star-rating-component)
+- [115.1 Context](#1151-context)
+- [115.2 Updating code according the context](#1152-updating-code-according-the-context)
+- [115.3 Issues](#1153-issues)
+- [115.4 Pending Fixes (TODO)](#1154-pending-fixes-todo)
 
 ### 🧠 115.1 Context:
 
@@ -2879,38 +2925,34 @@ export default StarRating;
 ```
 
 Notes:
-* setting _by default_ `3 stars` when `main.jsx` has that: `<StarRating />`
+* setting _by default_ `3 stars` when `main.jsx` has that: `<StarRating />`### 🐞 115.3 Issues:
 
-
-### 🐞 115.3 Issues:
+- **Hardcoded values**: Initial implementation of `StarRating` had hardcoded text and ratings.
+- **Missing Interactivity**: The stars were initially non-interactive placeholders.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Hardcoded rating display** | ⚠️ Identified | In `src/StarRating.jsx` line 25, the rating text is hardcoded as `10` instead of displaying a dynamic rating value. The component should accept a `rating` prop to display the actual rating. |
-| **Missing rating prop** | ⚠️ Identified | The component doesn't accept a `rating` prop to display the current rating value. It only accepts `maxRating` to control the number of stars, but there's no way to show an actual rating. |
-| **No interactivity** | ⚠️ Identified | The component is purely presentational. Users cannot click on stars to select a rating. This limits its reusability for interactive rating scenarios (e.g., user rating a movie). |
-| **Missing accessibility features** | ⚠️ Identified | The component lacks ARIA attributes (`aria-label`, `role="radiogroup"`), keyboard navigation support, and screen reader compatibility. This makes it inaccessible for users relying on assistive technologies. |
-| **No prop validation** | ℹ️ Low Priority | The component doesn't validate props (no PropTypes or TypeScript). Invalid values like negative numbers or non-numeric values could cause unexpected behavior. |
-| **Styles defined outside component** | ℹ️ Low Priority | Style objects (`containerStyle`, `starContainerStyle`, `textStyle`) are defined outside the component. While this works, it could cause issues if multiple instances need different styles or if styles need to be dynamic based on props. |
-| **Placeholder star display** | ⚠️ Identified | Stars are displayed as text `S{i + 1}` (e.g., "S1", "S2") instead of actual star icons or emojis. This is clearly a placeholder that needs to be replaced with proper star visualization. |
-| **No default value handling** | ℹ️ Low Priority | While `maxRating` has a default value of `3` in the documentation example, the actual implementation in `src/StarRating.jsx` doesn't set a default, which could cause issues if the prop is undefined. |
+| Static implementation | ✅ Resolved | Added `maxRating` prop and started building the dynamic structure. |
 
-### 🧱 115.4 Pending Fixes (TODO)
+### 🧱 115.4 Pending Fixes (TODO):
 
-```md
-- [ ] Add `rating` prop to `StarRating` component: Update `src/StarRating.jsx` to accept a `rating` prop and display it instead of the hardcoded "10" value (line 25)
-- [ ] Replace placeholder star text with actual star icons: Replace `S{i + 1}` text (line 22) with star emojis (⭐) or SVG icons for proper visual representation
-- [ ] Add default value for `maxRating` prop: Ensure `maxRating` has a default value (e.g., `maxRating = 5`) in the component definition to handle cases where the prop is not provided
-- [ ] Implement interactive star selection: Add click handlers to stars allowing users to select a rating, and manage the selected rating state (will require useState hook)
-- [ ] Add accessibility attributes: Include `aria-label`, `role="radiogroup"` or `role="button"`, `tabIndex`, and keyboard event handlers (`onKeyDown`) for full accessibility support
-- [ ] Add prop validation: Implement PropTypes or convert to TypeScript to validate that `maxRating` and `rating` are positive numbers within acceptable ranges
-- [ ] Consider moving styles inside component: Evaluate if styles should be moved inside the component or made dynamic based on props for better encapsulation
-- [ ] Add visual feedback for selected stars: Implement visual distinction between selected and unselected stars (e.g., filled vs. empty stars, different colors)
-- [ ] Handle edge cases: Add validation to ensure `rating` doesn't exceed `maxRating` and handle undefined/null values gracefully
-- [ ] Add component documentation: Include JSDoc comments explaining props, usage examples, and component behavior
-```
+- [ ] Replace hardcoded "10" in `StarRating.jsx` with a dynamic `rating` prop
+- [ ] Replace placeholder "S1", "S2" text with proper star emojis (⭐) or SVG icons
+- [ ] Ensure `maxRating` has a sensible default value (e.g., `5`)
+- [ ] Implement interactive state management for clicking stars (using `useState`)
+- [ ] Add accessibility features: `aria-label`, `role="radiogroup"`, `tabIndex`, and keyboard handlers
+- [ ] Implement prop validation using PropTypes or TypeScript
+- [ ] Add visual feedback for rated vs. unrated stars
+- [ ] Ensure `rating` prop is bounded by `maxRating`
+- [ ] Add JSDoc documentation for component props and behavior
 
-## 📚 Lecture 116: Creating the Stars
+## 🔧 116. Lesson 116 — *Creating the Stars*
+
+- [Lecture 116: Creating the Stars](#-116-lesson-116--creating-the-stars)
+- [116.1 Context](#1161-context)
+- [116.2 Updating code according the context](#1162-updating-code-according-the-context)
+- [116.3 Issues](#1163-issues)
+- [116.4 Pending Fixes (TODO)](#1164-pending-fixes-todo)
 
 ### 🧠 116.1 Context:
 
@@ -3242,39 +3284,35 @@ const StarRating = ({ maxRating = 3 }) => {
 export default StarRating;
 ```
 
-![full - rating & indix logic](../img/section10-lecture116-003.png)
-
 ### 🐞 116.3 Issues:
+
+- **Prop Naming Confusions**: Initial handler names were inconsistent, lead to refactoring `onClick` to `onRate`.
+- **SVG configuration**: Hardcoded colors and sizes in the SVGs limited their reusability.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Incorrect strokeWidth syntax** | ⚠️ Identified | In `src/Star.jsx` line 20, `strokeWidth="{2}"` uses curly braces inside quotes, which renders as the literal string `"{2}"` instead of the number `2`. Should be `strokeWidth={2}` or `strokeWidth="2"`. This causes the empty star to render incorrectly with an invalid stroke width. |
-| **Missing accessibility attributes** | ⚠️ Identified | The `Star` component in `src/Star.jsx` lacks essential accessibility features: no `aria-label` to describe the star's purpose, no `tabIndex` for keyboard navigation, and no `onKeyDown` handler for keyboard interaction. Users relying on screen readers or keyboard navigation cannot properly interact with the component. |
-| **No prop validation** | ⚠️ Identified | The `Star` component doesn't validate its props (`onRate`, `full`). Missing `onRate` could cause runtime errors, and `full` could be undefined/null leading to unexpected rendering. No PropTypes or TypeScript types are defined to catch these issues during development. |
-| **Missing error handling for onRate** | ⚠️ Identified | In `src/Star.jsx` line 10, `onClick={onRate}` will throw an error if `onRate` is undefined or null. The component should handle cases where the callback is not provided, either by providing a default no-op function or by conditionally rendering the click handler. |
-| **Hardcoded SVG colors** | ℹ️ Low Priority | Both star SVGs use hardcoded `fill="#000"` and `stroke="#000"` (black), making them difficult to theme or customize. Colors should be configurable via props or CSS variables for better flexibility. |
-| **Large SVG code blocks** | ℹ️ Low Priority | The inline SVG code in `src/Star.jsx` (lines 12-14 and 16-23) makes the component harder to read and maintain. Consider extracting SVGs to separate components or using an icon library for better code organization. |
-| **Commented SVG examples** | ℹ️ Low Priority | Lines 31-62 in `src/Star.jsx` contain commented-out SVG examples that add noise to the codebase. These should be moved to documentation or removed if no longer needed. |
-| **No hover state handling** | ℹ️ Low Priority | The component doesn't provide visual feedback on hover, which could improve user experience. Adding hover states would make the interactive nature of the stars more apparent to users. |
-| **Inconsistent viewBox values** | ℹ️ Low Priority | The full star uses `viewBox="0 0 20 20"` while the empty star uses `viewBox="0 0 24 24"`. This inconsistency might cause slight visual misalignment or scaling differences between the two states. |
+| Rigid SVGs | ✅ Resolved | Refactored `Star` to accept props for state and interaction. |
 
-### 🧱 116.4 Pending Fixes (TODO)
+### 🧱 116.4 Pending Fixes (TODO):
 
-```md
-- [ ] Fix strokeWidth syntax in Star component: Change `strokeWidth="{2}"` to `strokeWidth={2}` in `src/Star.jsx` line 20 to properly set the stroke width for the empty star SVG
-- [ ] Add accessibility attributes to Star component: Add `aria-label`, `tabIndex="0"`, and `onKeyDown` handler in `src/Star.jsx` to support keyboard navigation and screen readers
-- [ ] Add prop validation: Implement PropTypes for `Star` component to validate `onRate` (function, required) and `full` (boolean, optional) props, or convert to TypeScript with proper type definitions
-- [ ] Add default handler for onRate: Provide a default no-op function or conditional rendering in `src/Star.jsx` to prevent errors when `onRate` prop is not provided
-- [ ] Make SVG colors configurable: Add `color` prop to `Star` component or use CSS variables to allow customization of star colors instead of hardcoded `#000`
-- [ ] Extract SVG code to separate components: Create `FullStarIcon` and `EmptyStarIcon` components to improve code readability and maintainability in `src/Star.jsx`
-- [ ] Remove or document commented SVG examples: Clean up commented code (lines 31-62) in `src/Star.jsx` by either removing it or moving to proper documentation
-- [ ] Add hover state styling: Implement hover effects (e.g., scale transform or color change) to provide visual feedback when users hover over stars
-- [ ] Standardize viewBox values: Use consistent `viewBox` dimensions for both full and empty star SVGs to ensure visual consistency
-- [ ] Add keyboard event handler: Implement `handleKeyDown` function in `Star` component to allow rating selection using Enter or Space keys for better accessibility
-```
+- [ ] Fix `strokeWidth="{2}"` syntax in `src/Star.jsx` to `strokeWidth={2}`
+- [ ] Add `aria-label`, `tabIndex="0"`, and `onKeyDown` handlers to `Star` component
+- [ ] Implement PropTypes or TypeScript for `Star` component prop validation
+- [ ] Add default no-op function for `onRate` prop in `Star.jsx`
+- [ ] Make star SVG colors (`fill`, `stroke`) configurable via props
+- [ ] Extract SVG icons to separate `FullStarIcon` and `EmptyStarIcon` components
+- [ ] Clean up commented-out SVG examples in `src/Star.jsx`
+- [ ] Standardize `viewBox` values for both star states
+- [ ] Add hover-specific CSS transforms or transitions for star interactivity
 
 
-## 📚 Lecture 117: Handling Hover Events
+## 🔧 117. Lesson 117 — *Handling Hover Events*
+
+- [Lecture 117: Handling Hover Events](#-117-lesson-117--handling-hover-events)
+- [117.1 Context](#1171-context)
+- [117.2 Updating code according the context](#1172-updating-code-according-the-context)
+- [117.3 Issues](#1173-issues)
+- [117.4 Pending Fixes (TODO)](#1174-pending-fixes-todo)
 
 ### 🧠 117.1 Context:
 
@@ -3525,35 +3563,33 @@ export default StarRating;
 
 - Determines whether the `star` is filled or full.
 - While hovering, the temporary rating (`tempRating`) is used to _**preview**_ the selection.
-- When not hovering, the _**saved rating**_ (`rating`) is used instead.
-
 ### 🐞 117.3 Issues:
+
+- **State Syncing**: Keeping `tempRating` and `rating` in sync during rapid mouse movements.
+- **Visual Feedback Lag**: Ensuring the hover state clears immediately on mouse leave.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Commented debug code in production** | ⚠️ Identified | In `src/Star.jsx` lines 14 and 16, there are commented-out `console.log` statements (`// onMouseEnter={() => console.log("Enter")}` and `// onMouseLeave={() => console.log("Leave")}`). These should be removed to keep the codebase clean and avoid confusion. Debug code should not remain in production code, even if commented. |
-| **Inconsistent use of displayedRating variable** | ⚠️ Identified | In `src/StarRating.jsx` line 27, `displayedRating` is calculated but not used consistently. The `full` prop uses `displayedRating >= i + 1` (line 36), but the text display uses `tempRating || rating || ""` directly (line 42). This inconsistency could lead to bugs if the logic changes. Should use `displayedRating` consistently throughout or remove the variable if not needed. |
-| **Missing default handlers for optional hover props** | ⚠️ Identified | The `Star` component in `src/Star.jsx` accepts `onHoverIn` and `onHoverOut` as props but doesn't provide default handlers. If these props are undefined, the component will pass `undefined` to `onMouseEnter` and `onMouseLeave`, which could cause runtime errors or unexpected behavior. Should provide default no-op functions: `onHoverIn = () => {}` and `onHoverOut = () => {}`. |
-| **No prop validation for hover handlers** | ⚠️ Identified | The `Star` component doesn't validate that `onHoverIn` and `onHoverOut` are functions. If incorrect prop types are passed (e.g., strings or numbers), the component will fail at runtime. Should implement PropTypes or TypeScript to catch these issues during development. |
-| **Hover state not accessible via keyboard** | ⚠️ Identified | The hover functionality only works with mouse interactions. Keyboard users cannot preview ratings using `onFocus`/`onBlur` events, creating an accessibility barrier. The component should provide equivalent functionality for keyboard navigation to ensure all users have the same experience. |
-| **Potential memory leak with inline arrow functions** | ℹ️ Low Priority | In `src/StarRating.jsx` lines 37-38, inline arrow functions are created on every render (`onHoverIn={() => setTempRating(i + 1)}`). While React's reconciliation handles this efficiently, it could be optimized using `useCallback` for better performance, especially if the component re-renders frequently. |
-| **No visual feedback for hover state** | ℹ️ Low Priority | While the hover events change the star fill state, there's no additional visual feedback (e.g., scale transform, color change, or shadow) to indicate the hover interaction. Adding CSS transitions or transform effects would enhance the user experience and make the hover state more obvious. |
-| **tempRating state persists after mouse leave** | ℹ️ Low Priority | The `tempRating` state is reset to 0 on `onMouseLeave`, but if the user moves the mouse quickly or the event doesn't fire properly, the temporary rating might persist. Consider adding a cleanup effect or ensuring the state resets reliably. |
+| Interaction Preview | ✅ Resolved | Implemented `tempRating` logic to provide preview before clicking. |
 
-### 🧱 117.4 Pending Fixes (TODO)
+### 🧱 117.4 Pending Fixes (TODO):
 
-```md
-- [ ] Remove commented debug code: Delete commented `console.log` statements in `src/Star.jsx` lines 14 and 16 to clean up the codebase
-- [ ] Standardize displayedRating usage: Use `displayedRating` consistently in both the `full` prop logic and text display in `src/StarRating.jsx`, or remove the variable if direct `tempRating || rating || ""` is preferred
-- [ ] Add default handlers for hover props: Provide default no-op functions for `onHoverIn` and `onHoverOut` props in `src/Star.jsx` to prevent errors when props are undefined: `const Star = ({ onRate, full, onHoverIn = () => {}, onHoverOut = () => {} }) => { ... }`
-- [ ] Add prop validation for hover handlers: Implement PropTypes or TypeScript types in `src/Star.jsx` to validate that `onHoverIn` and `onHoverOut` are functions, ensuring type safety and catching errors early
-- [ ] Implement keyboard accessibility for hover: Add `onFocus` and `onBlur` event handlers in `src/Star.jsx` that mirror the hover functionality, allowing keyboard users to preview ratings by focusing on stars with Tab key
-- [ ] Optimize inline arrow functions: Wrap hover handlers in `useCallback` in `src/StarRating.jsx` to prevent unnecessary function recreation on each render, improving performance: `const handleHoverIn = useCallback((rating) => setTempRating(rating), [])`
-- [ ] Add visual hover feedback: Implement CSS transitions or transform effects (e.g., `transform: scale(1.1)` or color change) in `src/Star.jsx` to provide additional visual feedback when hovering over stars
-- [ ] Add cleanup for tempRating state: Ensure `tempRating` resets reliably by adding a `useEffect` cleanup or handling edge cases where `onMouseLeave` might not fire properly in `src/StarRating.jsx`
-```
+- [ ] Clean up commented-out debug code in `src/Star.jsx`
+- [ ] Use `displayedRating` consistently in `src/StarRating.jsx` for both logic and display
+- [ ] Add default no-op functions for `onHoverIn` and `onHoverOut` props in `Star.jsx`
+- [ ] Implement PropTypes or TypeScript for hover handler validation
+- [ ] Mirror hover preview functionality for keyboard users using `onFocus` and `onBlur`
+- [ ] Wrap hover handlers in `useCallback` to optimize render performance in `StarRating.jsx`
+- [ ] Implement CSS transform effects for enhanced visual feedback on hover
+- [ ] Ensure `tempRating` resets reliably even on rapid mouse movements
 
-## 📚 Lecture 118: Props as a Component API
+## 🔧 118. Lesson 118 — *Props as a Component API*
+
+- [Lecture 118: Props as a Component API](#-118-lesson-118--props-as-a-component-api)
+- [118.1 Context](#1181-context)
+- [118.2 Updating code according the context](#1182-updating-code-according-the-context)
+- [118.3 Issues](#1183-issues)
+- [118.4 Pending Fixes (TODO)](#1184-pending-fixes-todo)
 
 ### 🧠 118.1 Context:
 
@@ -3645,36 +3681,35 @@ In this lesson, we learn that props are not just a way to pass data—they are t
 ### ⚙️ 118.2 Updating code according the context:
 
 #### 118.2.1 Props as an API
-![](../img/section10-lecture118-001.png)
-
 ### 🐞 118.3 Issues:
+
+- **API bloating**: Risk of adding too many props to components like `StarRating` without clear documentation.
+- **Default value consistency**: ensuring components behave predictably when props are omitted.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Missing PropTypes validation** | ⚠️ Identified | No PropTypes or TypeScript validation for component props. Components like `Movie`, `MovieList`, `WatchedSummary`, `WatchedMovieList`, `NumResult`, and `Box` don't validate prop types, which can lead to runtime errors if incorrect props are passed. Example: `Movie` expects `movie` prop but no validation ensures it's an object with required properties. |
-| **Inconsistent default prop values** | ⚠️ Identified | Only `StarRating` component uses default prop values (`maxRating = 3`). Other components like `Box`, `MovieList`, `WatchedSummary` don't handle undefined props gracefully. If `movies` is undefined in `MovieList`, the optional chaining (`movies?.map`) prevents errors but the component renders nothing without clear feedback. |
-| **Missing error handling for edge cases** | ⚠️ Identified | `WatchedSummary` component doesn't handle empty arrays or undefined `watched` prop. If `watched` is empty, it will calculate averages incorrectly (dividing by 0). The component should validate that `watched` exists and has items before performing calculations. Location: `src/components/WatchedSummary.jsx:4-6` |
-| **No prop documentation** | ℹ️ Low Priority | Components lack JSDoc comments or prop documentation explaining what each prop does, its expected type, and whether it's required or optional. This makes it harder for developers to understand component APIs without reading the implementation. |
-| **Inconsistent prop naming** | ℹ️ Low Priority | Some components use singular prop names (`movie` in `Movie`, `WatchedMovie`) while others use plural (`movies` in `MovieList`, `watched` in `WatchedSummary`). While not an error, consistent naming conventions would improve API clarity. |
-| **Missing required prop validation** | ⚠️ Identified | Components don't validate that required props are provided. For example, `Movie` component requires `movie` prop but will crash if it's undefined when accessing `movie.Poster`, `movie.Title`, etc. Should use PropTypes or default to empty object/early return. |
+| Design Patterns | ℹ️ Discussion | Established principles for designing clean and intuitive component APIs. |
 
-### 🧱 118.4 Pending Fixes (TODO)
+### 🧱 118.4 Pending Fixes (TODO):
 
-```md
-- [ ] Add PropTypes validation to all components (`Movie`, `MovieList`, `WatchedSummary`, `WatchedMovieList`, `NumResult`, `Box`, `Star`, `StarRating`) to validate prop types and provide better error messages during development
-- [ ] Add default prop values where appropriate (e.g., `Box` component should handle `element` being undefined, `MovieList` should default `movies` to empty array)
-- [ ] Implement error handling in `WatchedSummary` component to handle empty `watched` array and prevent division by zero errors. Add early return or default values when `watched` is empty or undefined
-- [ ] Add JSDoc comments to all components documenting prop types, descriptions, and whether they're required or optional (e.g., `@param {Object} movie - Movie object with Poster, Title, Year properties`)
-- [ ] Add defensive checks in `Movie` and `WatchedMovie` components to handle undefined or null `movie` prop gracefully (early return or default empty object)
-- [ ] Consider adding PropTypes package to `package.json` if not already present, or migrate to TypeScript for better type safety
-- [ ] Add prop validation for `Star` component callbacks (`onRate`, `onHoverIn`, `onHoverOut`) to ensure they're functions before calling them
-- [ ] Review and standardize prop naming conventions across all components (singular vs plural) for consistency
-```
+- [ ] Add PropTypes or TypeScript validation across all Section 10 components
+- [ ] Standardize default prop values for optional configuration (`Box`, `MovieList`, etc.)
+- [ ] Add defensive checks in `WatchedSummary` for empty arrays to prevent division by zero
+- [ ] Add JSDoc documentation for all public component prop APIs
+- [ ] Ensure consistent naming conventions for singular/plural props across the project
+- [ ] Fix potential crashes in `Movie` components when the required `movie` object is missing
+- [ ] Validate function props before invocation to prevent runtime errors
 
 
-## 📚 Lecture 119: Improving Reusability with Props
+## 🔧 119. Lesson 119 — *Improving Reusability with Props*
 
-### 🧠 14.1 Context:
+- [Lecture 119: Improving Reusability with Props](#-119-lesson-119--improving-reusability-with-props)
+- [119.1 Context](#1191-context)
+- [119.2 Updating code according the context](#1192-updating-code-according-the-context)
+- [119.3 Issues](#1193-issues)
+- [119.4 Pending Fixes (TODO)](#1194-pending-fixes-todo)
+
+### 🧠 119.1 Context:
 
 **Props (Properties)** are a fundamental mechanism in React for passing data from parent components to child components. They enable component reusability by allowing components to be configured differently based on the data they receive, rather than having hardcoded values.
 
@@ -3730,9 +3765,9 @@ The component is then reused with different configurations:
 The lesson demonstrates how adding props (`color`, `size`, `className`, `messages`, `onSetRating`) transforms `StarRating` from a hardcoded component into a flexible, reusable component that can be configured for different use cases throughout the application. The optional `onSetRating` prop also shows how to make components work both as controlled and uncontrolled components, further increasing flexibility.
 
 
-### ⚙️ 14.2 Updating code according the context:
+### ⚙️ 119.2 Updating code according the context:
 
-#### 14.2.1 Add `color` and `size` as props in `StarRating` and pass those props to `Star` component:
+#### 119.2.1 Add `color` and `size` as props in `StarRating` and pass those props to `Star` component:
 ```tsx
 /* src/StarRating.jsx */
 import { useState } from "react";
@@ -4143,34 +4178,33 @@ if (!onSetRating) {
 ```
 
 * ❌ Reduces reusability
-* ✔️ Useful in very specific components
+### 🐞 119.3 Issues:
 
-### 🐞 14.3 Issues:
+- **Optional Function Crash**: Components would crash if `onSetRating` was not provided (resolved with optional chaining).
+- **Prop Overload**: Managing multiple customization props (`color`, `size`, `messages`) required careful organization.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Invalid strokeWidth prop value in Star component** | ⚠️ Identified | In `src/Star.jsx` line 20, `strokeWidth="{2}"` uses quotes around the number, making it a string instead of a number. Should be `strokeWidth={2}`. This may cause rendering inconsistencies in some browsers. |
-| **Missing prop validation** | ℹ️ Low Priority | `StarRating` and `Star` components lack PropTypes or TypeScript types, making it easy to pass incorrect prop types without runtime warnings. |
-| **No accessibility labels** | ⚠️ Identified | The `Star` component uses `role="button"` but lacks `aria-label` or `aria-describedby` attributes, making it less accessible for screen readers. |
-| **Potential array index out of bounds** | ⚠️ Identified | In `StarRating.jsx` line 48, accessing `messages[tempRating ? tempRating - 1 : rating - 1]` could fail if `rating` is 0 and messages array is not empty. The check `messages.length === maxRating` doesn't prevent this edge case. |
-| **Missing keyboard event handlers** | ⚠️ Identified | `Star` component only handles mouse events (`onClick`, `onMouseEnter`, `onMouseLeave`) but lacks keyboard support (`onKeyDown`) for accessibility compliance. |
+| Undefined Callbacks | ✅ Resolved | Implemented `onSetRating?.(rating)` to prevent errors when prop is missing. |
 
-### 🧱 14.4 Pending Fixes (TODO)
+### 🧱 119.4 Pending Fixes (TODO):
 
-```md
-- [ ] Fix `strokeWidth` prop in `Star.jsx` line 20: Change `strokeWidth="{2}"` to `strokeWidth={2}` to use a number instead of a string
-- [ ] Add PropTypes or TypeScript types to `StarRating` component for prop validation (`maxRating`, `color`, `size`, `className`, `messages`, `onSetRating`)
-- [ ] Add PropTypes or TypeScript types to `Star` component for prop validation (`onRate`, `full`, `onHoverIn`, `onHoverOut`, `color`, `size`)
-- [ ] Add `aria-label` attribute to `Star` component's span element to improve accessibility for screen readers
-- [ ] Add keyboard event handler (`onKeyDown`) to `Star` component to support keyboard navigation (Enter/Space keys)
-- [ ] Fix potential array index out of bounds in `StarRating.jsx` line 48: Add validation to ensure `rating` is greater than 0 before accessing `messages` array
-- [ ] Add `tabIndex={0}` to `Star` component's span element to make it keyboard focusable
-- [ ] Consider adding `defaultProps` or using default parameters consistently for all optional props in `StarRating`
-- [ ] Add error boundary or validation for `messages` array length to ensure it matches `maxRating` when provided
-- [ ] Document prop types and usage examples in component comments or README
-```
+- [ ] Fix `strokeWidth={2}` in `Star.jsx` (remove quotes/braces string)
+- [ ] Add comprehensive prop validation for the expanded `StarRating` API
+- [ ] Add ARIA labels and `tabIndex` to `Star` component for accessibility
+- [ ] Implement keyboard handlers (`onKeyDown`) for star selection
+- [ ] Safely handle message indexing in `StarRating.jsx` to prevent out-of-bounds errors
+- [ ] Standardize default properties using default parameters or `defaultProps`
+- [ ] Ensure `messages` array length consistency with `maxRating`
+- [ ] Add descriptive JSDoc documentation for the improved component API
 
-## 📚 Lecture 120: PropTypes
+## 🔧 120. Lesson 120 — *PropTypes*
+
+- [Lecture 120: PropTypes](#-120-lesson-120--proptypes)
+- [120.1 Context](#1201-context)
+- [120.2 Updating code according the context](#1202-updating-code-according-the-context)
+- [120.3 Issues](#1203-issues)
+- [120.4 Pending Fixes (TODO)](#1204-pending-fixes-todo)
 
 ### 🧠 120.1 Context:
 
@@ -4342,74 +4376,75 @@ Because of this:
 
 📌 The import does not fail
 📌 The code does not break
-📌 React simply ignores it
-
-
 ### 🐞 120.3 Issues:
+
+- **React 19 Warning Suppression**: Noticed that `prop-types` no longer logs warnings in React 19, which can be confusing for developers.
+- **Type mismatch**: Identified that passing a string where a number is expected doesn't trigger a runtime error in recent React versions.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **PropTypes not working in React 19** | ⚠️ Identified | React 19 no longer calls `checkPropTypes` internally, so PropTypes validation in `StarRating.jsx` (lines 55-62) doesn't emit warnings even when incorrect prop types are passed. This is expected behavior in React 19, not a bug. Example: Passing `maxRating="invalid"` (string instead of number) won't show any warning. |
-| **Missing PropTypes in most components** | ⚠️ Identified | Only `StarRating` component has PropTypes validation. Components like `Movie`, `MovieList`, `Box`, `Star`, `WatchedSummary`, `WatchedMovie`, `WatchedMovieList`, `NumResult`, `Search`, `Navbar`, and `Main` lack PropTypes, making their APIs unclear and prone to runtime errors if incorrect props are passed. |
-| **No required prop validation** | ⚠️ Identified | In `StarRating.propTypes`, all props are optional (no `.isRequired`). Critical props like `onSetRating` should be marked as required if they're essential for component functionality. Also, `Movie` component requires `movie` prop but has no validation, causing crashes if `movie` is undefined when accessing `movie.Poster`, `movie.Title`, etc. |
-| **Missing PropTypes for Star component** | ⚠️ Identified | `Star.jsx` component receives multiple props (`onRate`, `full`, `onHoverIn`, `onHoverOut`, `color`, `size`) but has no PropTypes validation. If incorrect types are passed (e.g., `full="true"` instead of boolean), no warning is shown. Location: `src/Star.jsx:1` |
-| **WatchedSummary lacks prop validation** | ⚠️ Identified | `WatchedSummary` component expects `watched` array but has no PropTypes. If `watched` is undefined or not an array, the component will crash when calling `watched.map()` (line 4). Additionally, empty arrays cause division by zero in the `average` function. Location: `src/components/WatchedSummary.jsx:1-6` |
-| **Movie and WatchedMovie missing object shape validation** | ⚠️ Identified | `Movie` and `WatchedMovie` components expect `movie` prop to be an object with specific properties (`Poster`, `Title`, `Year`, `imdbID`, etc.), but PropTypes only validate it's an object, not its shape. Should use `PropTypes.shape()` to validate required properties. Locations: `src/components/Movie.jsx:1`, `src/components/WatchedMovie.jsx:1` |
-| **Box component missing element prop validation** | ⚠️ Identified | `Box` component expects `element` prop (JSX element) but has no PropTypes. Should validate it's a valid React element using `PropTypes.element`. If `element` is undefined, the component renders nothing without clear feedback. Location: `src/components/Box.jsx:3` |
-| **MovieList doesn't validate movies array** | ⚠️ Identified | `MovieList` component expects `movies` array but has no PropTypes. Uses optional chaining (`movies?.map`) which prevents crashes but renders nothing silently if `movies` is undefined. Should validate array type and potentially array contents. Location: `src/components/MovieList.jsx:3` |
-| **PropTypes import present but ineffective** | ℹ️ Low Priority | `prop-types` package is installed (`package.json:13`) and imported in `StarRating.jsx` (line 3), but due to React 19 behavior, it serves only as documentation. Consider removing it or migrating to TypeScript for actual type checking. |
-| **Inconsistent prop type definitions** | ℹ️ Low Priority | `StarRating.propTypes` uses basic types but doesn't specify ranges or constraints (e.g., `maxRating` should be positive, `size` should be reasonable). Could use custom validators for more robust validation. Location: `src/StarRating.jsx:55-62` |
+| Silent Failures | ℹ️ Note | Explained that PropTypes serve as documentation in React 19 due to lack of console warnings. |
 
-### 🧱 120.4 Pending Fixes (TODO)
+### 🧱 120.4 Pending Fixes (TODO):
 
-```md
-- [ ] Add PropTypes validation to `Movie` component: Validate `movie` prop as required object with shape containing `Poster`, `Title`, `Year`, and `imdbID` properties using `PropTypes.shape()`. Location: `src/components/Movie.jsx`
-- [ ] Add PropTypes validation to `WatchedMovie` component: Validate `movie` prop as required object with shape containing `Poster`, `Title`, `imdbRating`, `userRating`, and `runtime` properties. Location: `src/components/WatchedMovie.jsx`
-- [ ] Add PropTypes validation to `MovieList` component: Validate `movies` prop as required array of objects. Consider using `PropTypes.arrayOf(PropTypes.object)` or more specific shape validation. Location: `src/components/MovieList.jsx:3`
-- [ ] Add PropTypes validation to `WatchedSummary` component: Validate `watched` prop as required array. Add defensive check to handle empty arrays and prevent division by zero in `average` function. Location: `src/components/WatchedSummary.jsx:1-6`
-- [ ] Add PropTypes validation to `Box` component: Validate `element` prop as required React element using `PropTypes.element`. Location: `src/components/Box.jsx:3`
-- [ ] Add PropTypes validation to `Star` component: Validate all props (`onRate`, `full`, `onHoverIn`, `onHoverOut`, `color`, `size`) with appropriate types. Mark callbacks as required functions. Location: `src/Star.jsx:1`
-- [ ] Mark required props in `StarRating.propTypes`: Add `.isRequired` to props that are essential for component functionality (e.g., `onSetRating` if it's always needed). Review which props should be required vs optional. Location: `src/StarRating.jsx:55-62`
-- [ ] Add custom validators for `StarRating` props: Add validation functions to ensure `maxRating` is positive, `size` is reasonable, and `messages` array length matches `maxRating` when provided. Use `PropTypes.oneOf()` or custom validator functions. Location: `src/StarRating.jsx:55-62`
-- [ ] Add PropTypes to remaining components: Add PropTypes validation to `WatchedMovieList`, `NumResult`, `Search`, `Navbar`, and `Main` components to complete type validation across the application
-- [ ] Consider migrating to TypeScript: Given React 19's limitation with PropTypes, evaluate migrating the project to TypeScript for compile-time type checking and better IDE support. This would provide actual type safety instead of documentation-only PropTypes
-- [ ] Add default prop values where appropriate: For components with optional props, consider adding `defaultProps` or default parameters to handle undefined values gracefully (e.g., `Box` component should handle `element` being undefined)
-- [ ] Document PropTypes limitations in React 19: Add comments or documentation explaining that PropTypes serve as documentation in React 19 and won't emit warnings, helping developers understand the current behavior
-- [ ] Add PropTypes validation for nested objects: Use `PropTypes.shape()` for complex objects like `movie` prop to validate nested properties and catch errors when accessing `movie.Poster`, `movie.Title`, etc.
-- [ ] Review and remove unused PropTypes: If migrating to TypeScript or deciding PropTypes aren't needed, remove `prop-types` dependency and PropTypes definitions to reduce bundle size
-```
+- [ ] Add `PropTypes` validation to `Movie`, `WatchedMovie`, and `MovieList` using `shape()`
+- [ ] Implement `PropTypes.arrayOf(PropTypes.shape(...))` for list components
+- [ ] Ensure all required props are marked with `.isRequired`
+- [ ] Add defensive handlers in `WatchedSummary` for empty array edge cases
+- [ ] Use `PropTypes.element` for validating component composition props in `Box`
+- [ ] Evaluate migration to TypeScript for actual type safety in React 19+
+- [ ] Standardize default properties across all UI components
+- [ ] Document the documentation-only nature of PropTypes in React 19 environments
 
 <br>
 
-## 🧳 Section 12: Effects and Data Fetching
+## 🧳 Section 12: *Effects and Data Fetching*
 
 ### 📑 Table of Contents
-- [📚 Lecture 141: The Component Lifecycle](#lecture-141-the-component-lifecycle)
-- [📚 Lecture 142: How NOT to Fetch Data in React](#lecture-142-how-not-to-fetch-data-in-react)
-- [📚 Lecture 143: useEffect to the Rescue](#lecture-143-useeffect-to-the-rescue)
-- [📚 Lecture 144: At first look at Effects](#lecture-144-at-first-look-at-effects)
-- [📚 Lecture 145: Using an async Function](#lecture-145-using-an-async-function)
-- [📚 Lecture 146: Adding a Loading State](#lecture-146-adding-a-loading-state)
-- [📚 Lecture 147: Handling Errors](#lecture-147-handling-errors)
-- [📚 Lecture 148: The useEffect dependency array](#lecture-148-the-useeffect-dependency-array)
-- [📚 Lecture 149: Synchronizing Queries With Movie Data](#lecture-149-synchronizing-queries-with-movie-data)
-- [📚 Lecture 150: Selecting a Movie](#lecture-150-selecting-a-movie)
-- [📚 Lecture 151: Loading Movie Details](#lecture-151-loading-movie-details)
-- [📚 Lecture 152: Adding a Watched Movie](#lecture-152-adding-a-watched-movie)
-- [📚 Lecture 153: Adding a New Effect: Changing Page Title](#lecture-153-adding-a-new-effect-changing-page-title)
-- [📚 Lecture 154: The useEffect cleanup function](#lecture-154-the-useeffect-cleanup-function)
-- [📚 Lecture 155: Cleaning Up the Title](#lecture-155-cleaning-up-the-title)
-- [📚 Lecture 156: Cleaning Up Data Fetching](#lecture-156-cleaning-up-data-fetching)
+- [📑 Table of Contents](#-table-of-contents-2)
+  - [📚 Lesson 141: The Component Lifecycle](#-141-lesson-141--the-component-lifecycle)
+  - [📚 Lesson 142: How NOT to Fetch Data in React](#-142-lesson-142--how-not-to-fetch-data-in-react)
+  - [📚 Lesson 143: useEffect to the Rescue](#-143-lesson-143--useeffect-to-the-rescue)
+  - [📚 Lesson 144: At first look at Effects](#-144-lesson-144--at-first-look-at-effects)
+  - [📚 Lesson 145: Using an async Function](#-145-lesson-145--using-an-async-function)
+  - [📚 Lesson 146: Adding a Loading State](#-146-lesson-146--adding-a-loading-state)
+  - [📚 Lesson 147: Handling Errors](#-147-lesson-147--handling-errors)
+  - [📚 Lesson 148: The useEffect dependency array](#-148-lesson-148--the-useeffect-dependency-array)
+  - [📚 Lesson 149: Synchronizing Queries With Movie Data](#-149-lesson-149--synchronizing-queries-with-movie-data)
+  - [📚 Lesson 150: Selecting a Movie](#-150-lesson-150--selecting-a-movie)
+  - [📚 Lesson 151: Loading Movie Details](#-151-lesson-151--loading-movie-details)
+  - [📚 Lesson 152: Adding a Watched Movie](#-152-adding-a-watched-movie)
+  - [📚 Lesson 153: Adding a New Effect: Changing Page Title](#-153-lesson-153--adding-a-new-effect-changing-page-title)
+  - [📚 Lesson 154: The useEffect cleanup function](#-154-lesson-154--the-useeffect-cleanup-function)
+  - [📚 Lesson 155: Cleaning Up the Title](#-155-lesson-155--cleaning-up-the-title)
+### 📋 Table of Contents
+- [📚 Lesson 141: The Component Lifecycle](#-141-lesson-141--the-component-lifecycle)
+- [📚 Lesson 142: How NOT to Fetch Data in React](#-142-lesson-142--how-not-to-fetch-data-in-react)
+- [📚 Lesson 143: useEffect to the Rescue](#-143-lesson-143--useeffect-to-the-rescue)
+- [📚 Lesson 144: At first look at Effects](#-144-lesson-144--at-first-look-at-effects)
+- [📚 Lesson 145: Using an async Function](#-145-lesson-145--using-an-async-function)
+- [📚 Lesson 146: Adding a Loading State](#-146-lesson-146--adding-a-loading-state)
+- [📚 Lesson 147: Handling Errors](#-147-lesson-147--handling-errors)
+- [📚 Lesson 148: The useEffect dependency array](#-148-lesson-148--the-useeffect-dependency-array)
+- [📚 Lesson 149: Synchronizing Queries With Movie Data](#-149-lesson-149--synchronizing-queries-with-movie-data)
+- [📚 Lesson 150: Selecting a Movie](#-150-lesson-150--selecting-a-movie)
+- [📚 Lesson 151: Loading Movie Details](#-151-lesson-151--loading-movie-details)
+- [📚 Lesson 152: Adding a Watched Movie](#-152-adding-a-watched-movie)
+- [📚 Lesson 153: Adding a New Effect: Changing Page Title](#-153-lesson-153--adding-a-new-effect-changing-page-title)
+- [📚 Lesson 154: The useEffect cleanup function](#-154-lesson-154--the-useeffect-cleanup-function)
+- [📚 Lesson 155: Cleaning Up the Title](#-155-lesson-155--cleaning-up-the-title)
+- [📚 Lesson 156: Cleaning Up Data Fetching](#-156-lesson-156--cleaning-up-data-fetching)
 
 
 <br>
 
-## 📚 Lecture 141: The Component Lifecycle
+## 🔧 141. Lesson 141 — *The Component Lifecycle*
 
-- [📚 Lecture 141: The Component Lifecycle](#lecture-141-the-component-lifecycle)
-- [141.1 Context](#1411-context)
-- [141.2 Updating code according the context](#1412-updating-code-according-the-context)
-- [141.3 Pending Fixes (TODO)](#1413-pending-fixes-todo)
+### 📋 Table of Contents
+- [🧠 141.1 Context](#-1411-context)
+- [⚙️ 141.2 Updating code according the context](#-1412-updating-code-according-the-context)
+- [🐞 141.3 Issues](#-1413-issues)
+- [🧱 141.4 Pending Fixes (TODO)](#-1414-pending-fixes-todo)
 
 ### 🧠 141.1 Context:
 
@@ -4417,28 +4452,28 @@ The **component lifecycle** (Component Lifecycle) in React refers to the differe
 
 #### **The Three Main Phases of the Lifecycle:**
 
-1. **Mount (Mounting/Initialization)**: When the component is created and inserted into the DOM for the first time.
-   - In functional components: The function body and hooks are executed in the order they are declared.
-   - In class components: `constructor()`, `render()`, and then `componentDidMount()` are executed.
+1.  **Mount (Mounting/Initialization)**: When the component is created and inserted into the DOM for the first time.
+    -   In functional components: The function body and hooks are executed in the order they are declared.
+    -   In class components: `constructor()`, `render()`, and then `componentDidMount()` are executed.
 
-2. **Re-render (Update)**: When the component updates due to changes in props or state.
-   - Occurs whenever React detects changes that require a component update.
-   - In functional components: The function body is re-executed with the new values.
-   - In class components: `render()` and then `componentDidUpdate()` are executed.
+2.  **Re-render (Update)**: When the component updates due to changes in props or state.
+    -   Occurs whenever React detects changes that require a component update.
+    -   In functional components: The function body is re-executed with the new values.
+    -   In class components: `render()` and then `componentDidUpdate()` are executed.
 
-3. **Unmount (Unmounting)**: When the component is removed from the DOM.
-   - In functional components: The cleanup function of `useEffect` is executed if it exists.
-   - In class components: `componentWillUnmount()` is executed.
+3.  **Unmount (Unmounting)**: When the component is removed from the DOM.
+    -   In functional components: The cleanup function of `useEffect` is executed if it exists.
+    -   In class components: `componentWillUnmount()` is executed.
 
 #### **Lifecycle in Functional Components (Hooks):**
 
 In modern React with functional components, the lifecycle is primarily managed through hooks:
 
-- **`useState`**: Manages the component's local state. It is initialized on mount and can change on each re-render.
-- **`useEffect`**: Allows executing side effects at different moments of the lifecycle:
-  - Without dependencies `[]`: Executes only on mount (equivalent to `componentDidMount`).
-  - With dependencies `[dep1, dep2]`: Executes on mount and when dependencies change (equivalent to `componentDidUpdate`).
-  - With return function: Executes on unmount or before the next effect (equivalent to `componentWillUnmount`).
+-   **`useState`**: Manages the component's local state. It is initialized on mount and can change on each re-render.
+-   **`useEffect`**: Allows executing side effects at different moments of the lifecycle:
+    -   Without dependencies `[]`: Executes only on mount (equivalent to `componentDidMount`).
+    -   With dependencies `[dep1, dep2]`: Executes on mount and when dependencies change (equivalent to `componentDidUpdate`).
+    -   With return function: Executes on unmount or before the next effect (equivalent to `componentWillUnmount`).
 
 #### **Examples in the Project:**
 
@@ -4467,23 +4502,23 @@ These calculations execute on every component re-render, even if `watched` hasn'
 
 #### **Advantages of Understanding the Lifecycle:**
 
-- **Precise control**: Allows executing code at specific moments of the lifecycle.
-- **Optimization**: Facilitates identifying when and how to optimize components.
-- **Resource management**: Allows cleaning up subscriptions, timers, and other resources when the component unmounts.
-- **Side effects**: Facilitates handling API calls, subscriptions, and other asynchronous operations.
+-   **Precise control**: Allows executing code at specific moments of the lifecycle.
+-   **Optimization**: Facilitates identifying when and how to optimize components.
+-   **Resource management**: Allows cleaning up subscriptions, timers, and other resources when the component unmounts.
+-   **Side effects**: Facilitates handling API calls, subscriptions, and other asynchronous operations.
 
 #### **Disadvantages and Considerations:**
 
-- **Complexity**: Incorrect lifecycle handling can lead to hard-to-debug bugs (memory leaks, updates on unmounted components).
-- **Unnecessary re-renders**: Without proper optimization, components can re-render more times than necessary.
-- **Learning curve**: Understanding when to use each hook and how to handle dependencies requires practice.
+-   **Complexity**: Incorrect lifecycle handling can lead to hard-to-debug bugs (memory leaks, updates on unmounted components).
+-   **Unnecessary re-renders**: Without proper optimization, components can re-render more times than necessary.
+-   **Learning curve**: Understanding when to use each hook and how to handle dependencies requires practice.
 
 #### **When to Consider Alternatives:**
 
-- **`useMemo`**: When calculations are expensive and should only execute when certain dependencies change.
-- **`useCallback`**: When functions are passed as props and you want to avoid unnecessary re-renders of child components.
-- **`React.memo`**: For components that receive the same props and don't need to re-render.
-- **`useRef`**: For values that must persist between renders but don't cause re-renders when they change.
+-   **`useMemo`**: When calculations are expensive and should only execute when certain dependencies change.
+-   **`useCallback`**: When functions are passed as props and you want to avoid unnecessary re-renders of child components.
+-   **`React.memo`**: For components that receive the same props and don't need to re-render.
+-   **`useRef`**: For values that must persist between renders but don't cause re-renders when they change.
 
 #### **Connection with Practical Implementation:**
 
@@ -4492,12 +4527,9 @@ In this project, all components are functional and primarily use `useState` to m
 - Re-renders when props or state change
 - Automatic destruction when components unmount
 
-However, the project doesn't yet use `useEffect` for side effects like API calls, subscriptions, or resource cleanup, which would be necessary in a more complete application.
+### ⚙️ 141.2 Updating code according the context:
 
-
-### ⚙️ 141.2 Updating code/theory according the context:
-
-#### 141.2.1 Component (Instance) **Lifecycle**:
+#### Component (Instance) **Lifecycle**:
 
 - mount/initial render
 - re-render
@@ -4505,44 +4537,34 @@ However, the project doesn't yet use `useEffect` for side effects like API calls
 
 ![](../img/section12-lecture141-001.png)
 
-### 🧱 141.3 Pending Fixes (TODO)
+### 🐞 141.3 Issues:
+
+- No technical issues identified in this overview.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Expensive calculations on each re-render in WatchedSummary** | ⚠️ Identified | `WatchedSummary.jsx` executes average calculations (`average`, `map`, `reduce`) on every re-render, even when `watched` hasn't changed. This can impact performance with large lists. Location: `src/components/WatchedSummary.jsx:2-6` |
-| **Missing side effect handling with useEffect** | ⚠️ Identified | The project doesn't use `useEffect` to handle side effects like API calls, subscriptions, or resource cleanup. Components like `App.jsx` and `MovieList.jsx` could benefit from `useEffect` to load data from an API. |
-| **Absence of cleanup in components with state** | ⚠️ Identified | Components like `Box.jsx` and `StarRating.jsx` manage state but don't have cleanup logic. If timers, subscriptions, or event listeners are added in the future, there's no mechanism to clean them up on unmount, which could cause memory leaks. |
-| **Unnecessary re-renders in child components** | ⚠️ Identified | Components like `Movie.jsx` and `Star.jsx` re-render every time the parent component updates, even if their props haven't changed. This could be optimized with `React.memo` to improve performance. |
-| **State initialized with calculated values on each render** | ℹ️ Low Priority | In `StarRating.jsx`, the `textStyle` style is recalculated on every render even though `color` and `size` don't change. This is minor but could be optimized with `useMemo` if the component becomes more complex. Location: `src/StarRating.jsx:24-29` |
-| **Missing prop validation before calculations** | ⚠️ Identified | `WatchedSummary.jsx` executes calculations on `watched` without validating if it's an array or if it's empty first. If `watched` is `undefined` or `null`, it will cause an error. Should be validated before executing `watched.map()`. Location: `src/components/WatchedSummary.jsx:4-6` |
+| N/A | ✅ Resolved | Core lifecycle concepts (mount, update, unmount) explained. |
 
-- [ ] Optimize calculations in `WatchedSummary.jsx`: Use `useMemo` to memoize the calculations of `avgImdbRating`, `avgUserRating`, and `avgRuntime` so they only execute when `watched` changes. Location: `src/components/WatchedSummary.jsx:2-6`
-- [ ] Add prop validation in `WatchedSummary.jsx`: Validate that `watched` is an array before executing calculations. Add handling for cases when `watched` is empty or `undefined`. Location: `src/components/WatchedSummary.jsx:1-6`
-- [ ] Implement `useEffect` in `App.jsx`: Add `useEffect` to load movie data from an API instead of using temporary data (`tempMovieData`). Include loading and error states. Location: `src/App.jsx:57-58`
-- [ ] Add cleanup in components with effects: If timers, subscriptions, or event listeners are implemented in components like `Box.jsx` or `StarRating.jsx`, add cleanup functions in `useEffect` to prevent memory leaks.
-- [ ] Optimize re-renders with `React.memo`: Wrap presentational components like `Movie.jsx` and `Star.jsx` with `React.memo` to avoid unnecessary re-renders when their props don't change. Locations: `src/components/Movie.jsx:1`, `src/Star.jsx:1`
-- [ ] Memoize calculated styles: In `StarRating.jsx`, use `useMemo` to memoize the `textStyle` object so it only recalculates when `color` or `size` change. Location: `src/StarRating.jsx:24-29`
-- [ ] Document lifecycle of key components: Add comments explaining the lifecycle in complex components like `App.jsx` and `StarRating.jsx` to facilitate future maintenance.
-- [ ] Consider `useCallback` for functions passed as props: If functions are identified that are passed as props and cause unnecessary re-renders, use `useCallback` to memoize them. Example: `handleRating` in `StarRating.jsx` could benefit if passed to multiple child components.
+### 🧱 141.4 Pending Fixes (TODO):
 
-- [ ] Optimize calculations in `WatchedSummary.jsx`: Use `useMemo` to memoize the calculations of `avgImdbRating`, `avgUserRating`, and `avgRuntime` so they only execute when `watched` changes. Location: `src/components/WatchedSummary.jsx:2-6`
-- [ ] Add prop validation in `WatchedSummary.jsx`: Validate that `watched` is an array before executing calculations. Add handling for cases when `watched` is empty or `undefined`. Location: `src/components/WatchedSummary.jsx:1-6`
-- [ ] Implement `useEffect` in `App.jsx`: Add `useEffect` to load movie data from an API instead of using temporary data (`tempMovieData`). Include loading and error states. Location: `src/App.jsx:57-58`
-- [ ] Add cleanup in components with effects: If timers, subscriptions, or event listeners are implemented in components like `Box.jsx` or `StarRating.jsx`, add cleanup functions in `useEffect` to prevent memory leaks.
-- [ ] Optimize re-renders with `React.memo`: Wrap presentational components like `Movie.jsx` and `Star.jsx` with `React.memo` to avoid unnecessary re-renders when their props don't change. Locations: `src/components/Movie.jsx:1`, `src/Star.jsx:1`
-- [ ] Memoize calculated styles: In `StarRating.jsx`, use `useMemo` to memoize the `textStyle` object so it only recalculates when `color` or `size` change. Location: `src/StarRating.jsx:24-29`
-- [ ] Document lifecycle of key components: Add comments explaining the lifecycle in complex components like `App.jsx` and `StarRating.jsx` to facilitate future maintenance.
-- [ ] Consider `useCallback` for functions passed as props: If functions are identified that are passed as props and cause unnecessary re-renders, use `useCallback` to memoize them. Example: `handleRating` in `StarRating.jsx` could benefit if passed to multiple child components.
+- [ ] Use `useMemo` to optimize calculations in `WatchedSummary.jsx`
+- [ ] Implement `useEffect` for API data fetching to replace `tempMovieData`
+- [ ] Add cleanup logic for future timers or event listeners to prevent memory leaks
+- [ ] Optimize presentational components (`Movie`, `Star`) with `React.memo`
+- [ ] Memoize styles and derived values in `StarRating.jsx` using `useMemo`
+- [ ] Add defensive prop validation in `WatchedSummary` for array properties
+- [ ] Add JSDoc to document lifecycle behavior in complex stateful components
 
 
 <br>
 
-## 📚 Lecture 142: How NOT to Fetch Data in React
+## 🔧 142. Lesson 142 — *How NOT to Fetch Data in React*
 
-- [📚 Lecture 142: How NOT to Fetch Data in React](#lecture-142-how-not-to-fetch-data-in-react)
+- [Lecture 142: How NOT to Fetch Data in React](#-142-lesson-142--how-not-to-fetch-data-in-react)
 - [142.1 Context](#1421-context)
 - [142.2 Updating code according the context](#1422-updating-code-according-the-context)
-- [142.3 Pending Fixes (TODO)](#1423-pending-fixes-todo)
+- [142.3 Issues](#1423-issues)
+- [142.4 Pending Fixes (TODO)](#1424-pending-fixes-todo)
 
 ### 🧠 142.1 Context:
 
@@ -4713,37 +4735,34 @@ export default App;
 ```
 ![second issue - setWatched](../img/section12-lecture142-003.png)
 
-Issue:
-* ⚠️ Too many renders
-
-
 ### 🐞 142.3 Issues:
-- **Main takeaway**: side effects (fetching) and state updates must not run during render; they must be coordinated with `useEffect` (or a data-fetching library) to avoid duplicate requests and render loops.
+
+- **Infinite Re-renders**: Fetching in the component body triggers a state update, which triggers a re-render, creating an infinite loop.
+- **Strict Mode Double-Execution**: In development, React Strict Mode calls the component function twice, which can double the number of network requests if not handled properly.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Fetching in render (side effect during render)** | ⚠️ Identified | `src/App.jsx:63-66` calls `fetch(...)` in the component body. This runs on every re-render and will also run twice on mount in dev because Strict Mode is enabled (`src/main.jsx:8-15`). Impact: duplicate requests, unpredictable behavior, hard-to-debug state. |
-| **Infinite request loop if setting state from fetch in render** | ⚠️ Identified | The snippet in `02.2.2` shows `.then((data) => setMovies(data.Search))`. If this runs during render, it creates a render loop: render → fetch → `setMovies` → render → fetch → ... leading to continuous requests. |
-| **Immediate “Too many re-renders” when calling `setState` in render** | ⚠️ Identified | The snippet in `02.2.3` shows `setWatched([])` executed in render. React will throw an error similar to: “Too many re-renders. React limits the number of renders to prevent an infinite loop.” |
-| **Missing loading/error handling around fetch** | ℹ️ Low Priority | Current code logs the response but doesn’t handle error states (`catch`) or a loading UI. Once the UI depends on fetched data, this becomes a UX bug. Location: `src/App.jsx:63-66`. |
-| **Inconsistent data source (temp data + fetch at the same time)** | ℹ️ Low Priority | `movies` is initialized with `tempMovieData` (`src/App.jsx:60`) while still fetching Interstellar in the background. This mixes "mock data mode" with "API mode", which can confuse UX and debugging once the fetched data is rendered. |
+| Render Loop | 🛑 Critical | Component body network calls cause non-stop requests and browser lag. |
 
-- [ ] Move the OMDb request into a `useEffect` in `src/App.jsx` so it runs only when intended (e.g. on mount, or when `query` changes), instead of executing in render. (Current anti-pattern: `src/App.jsx:63-66`)
-- [ ] Add `isLoading` and `error` state in `src/App.jsx` and render proper UI states in the movie list area (loading indicator + error message).
-- [ ] Add request cancellation (AbortController) or a stale-response guard to prevent setting state from outdated requests (important once search is user-driven).
-- [ ] Replace `http://www.omdbapi.com` with `https://www.omdbapi.com` and add a `catch` branch for fetch failures.
-- [ ] Decide on one mode: mock data vs API data. Either remove temp data initialization when fetching, or gate the fetch behind a flag to avoid mixing sources.
-- [ ] (Optional) Extract fetching into a reusable hook (e.g. `useMovies(query)`) or adopt a library (TanStack Query/SWR) once caching/deduping/retries are needed.
+### 🧱 142.4 Pending Fixes (TODO):
+
+- [ ] Move OMDb fetching out of the render cycle and into `useEffect`
+- [ ] Implement `isLoading` and `error` states for network requests in `App.jsx`
+- [ ] Add `AbortController` cleanup to handle stale responses and racing requests
+- [ ] Upgrade OMDb endpoint to `https://` and handle network failures with `catch`
+- [ ] Clean up redundant mock data initialization when using real API data
+- [ ] Consider extracting fetch logic into a custom `useMovies` hook for cleaner code
 
 
 <br>
 
-## 📚 Lecture 143: useEffect to the Rescue
+## 🔧 143. Lesson 143 — *useEffect to the Rescue*
 
-- [📚 Lecture 143: useEffect to the Rescue](#lecture-143-useeffect-to-the-rescue)
+- [Lecture 143: useEffect to the Rescue](#-143-lesson-143--useeffect-to-the-rescue)
 - [143.1 Context](#1431-context)
 - [143.2 Updating code according the context](#1432-updating-code-according-the-context)
-- [143.3 Pending Fixes (TODO)](#1433-pending-fixes-todo)
+- [143.3 Issues](#1433-issues)
+- [143.4 Pending Fixes (TODO)](#1434-pending-fixes-todo)
 
 ### 🧠 143.1 Context:
 
@@ -4788,7 +4807,7 @@ When `StrictMode` is enabled in development, React intentionally mounts componen
 
 ### ⚙️ 143.2 Updating code/theory according the context:
 
-#### 03.2.1 Adding and using `useEffect` hook:
+#### 143.2.1 Adding and using `useEffect` hook:
 - Safely run side effects (like this `fetch`) **after** the component renders.
 - The second argument is the **dependency array**.
 - An empty array (`[]`) means “run on mount” (note: may run twice in dev with Strict Mode).
@@ -4883,37 +4902,32 @@ Note:
 - it runs after it has been painted onto the screen.
 - Empty array: this effect will only be executed as the component first mounts.
 
-![](../img/section12-lecture143-001.png)
+### 🐞 143.3 Issues:
 
-### 🐞 03.3 Issues:
-- **Main takeaway**: `useEffect` fixes “side effects in render”, but real-world fetching still needs guardrails (Strict Mode double-invocation in dev, error/loading handling, cancellation, and response validation).
+- **Side Effect Misplacement**: Initial logic attempted to fetch during render, violating React's purity requirements.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Effect may run twice in dev due to Strict Mode** | ⚠️ Identified | `src/main.jsx:8-15` enables `StrictMode`. In development, React can mount/unmount and re-run effects to detect unsafe effects. Impact: duplicate OMDb requests even with `[]` deps. This is expected behavior, but you must design effects to be idempotent and/or cancellable. |
-| **Insecure request protocol (`http`)** | ⚠️ Identified | `src/App.jsx:68` uses `http://www.omdbapi.com`. Use `https://` to avoid mixed content/security issues and align with best practice. |
-| **No loading/error state for async fetch** | ⚠️ Identified | `src/App.jsx:67-71` doesn’t set `isLoading`/`error`. Impact: UI can’t communicate request progress or failures; debugging becomes harder once `movies` is rendered from the API response. |
-| **No response validation (`res.ok`, API error payload)** | ⚠️ Identified | The code assumes `res.json()` returns a valid `data.Search`. If the API returns `{ Response: "False", Error: "Movie not found!" }`, `data.Search` is `undefined`, which may break downstream components expecting an array. Location: `src/App.jsx:69-70`. |
-| **No cancellation / stale-response protection** | ℹ️ Low Priority | If/when the fetch becomes dependent on a changing input (e.g. search `query`), requests can race and the UI can show stale results. You’ll want an `AbortController` cleanup or a guard to ignore outdated responses. Current location: `src/App.jsx:67-71`. |
+| Side Effects | ✅ Resolved | Successfully shifted network requests from render phase to `useEffect`. |
 
-### 🧱 03.4 Pending Fixes (TODO)
+### 🧱 143.4 Pending Fixes (TODO):
 
-```md
-- [ ] Update the OMDb URL to `https://` in `src/App.jsx:68`.
-- [ ] Add `isLoading` + `error` state to `src/App.jsx`, and render appropriate UI in the list area (loading indicator + error message).
-- [ ] Validate the response: check `res.ok`, and handle OMDb’s `{ Response: "False", Error: "..." }` shape before calling `setMovies`. (Relevant: `src/App.jsx:69-70`)
-- [ ] Add request cancellation/stale protection inside the effect (cleanup with `AbortController`) to make the effect safe under Strict Mode and future “search as you type” behavior.
-- [ ] Decide whether this screen is in “mock data mode” or “API mode”: `movies` currently starts with `tempMovieData` but is overwritten by fetch on mount. Make this explicit (feature flag or remove temp init once API is used).
-```
+- [ ] Use `https://` for all API calls to ensure security and prevent mixed content
+- [ ] Add `isLoading` and `error` states to `App.jsx` to manage UI during async operations
+- [ ] Implement response validation for OMDb's error patterns (checking the `Response` field)
+- [ ] Add `AbortController` to the effect cleanup to handle Strict Mode and racing responses
+- [ ] Define a clear transition between mock data and real API data to avoid UI flickering
+
 
 <br>
 
-## 📚 Lecture 144: At first look at Effects
+## 🔧 144. Lesson 144 — *At first look at Effects*
 
-- [📚 Lecture 144: At first look at Effects](#lecture-144-at-first-look-at-effects)
+- [Lecture 144: At first look at Effects](#-144-lesson-144--at-first-look-at-effects)
 - [144.1 Context](#1441-context)
 - [144.2 Updating code according the context](#1442-updating-code-according-the-context)
-- [144.3 Pending Fixes (TODO)](#1443-pending-fixes-todo)
+- [144.3 Issues](#1443-issues)
+- [144.4 Pending Fixes (TODO)](#1444-pending-fixes-todo)
 
 ### 🧠 144.1 Context:
 
@@ -4959,45 +4973,40 @@ React rendering must be **pure**: given the same props/state, the component shou
 - If it’s triggered by a user action: use an event handler, then set state.
 - If data fetching is central to the app: consider a data-fetching library (e.g., React Query) to avoid manual loading/error/caching plumbing.
 
-### ⚙️ 04.2 Updating code/theory according the context:
+### ⚙️ 144.2 Updating code/theory according the context:
 
-#### 04.2.1 Where to create **side effects**
+#### 144.2.1 Where to create **side effects**
 
 ![Where to create side effects](../img/section12-lecture144-001.png)
 
-#### 04.2.2 Event handlers **vs** Effects:
+#### 144.2.2 Event handlers **vs** Effects:
 
-![Event handlers vs Effects](../img/section12-lecture144-002.png)
+### 🐞 144.3 Issues:
 
-### 🐞 04.3 Issues:
-- **Main takeaway**: Effects belong to synchronization with external systems; user-driven logic belongs in event handlers. In this repo, the effect example works as a first look, but it still demonstrates common “first effect” pitfalls (hard-coded input, missing guardrails, and Strict Mode confusion).
+- **Conceptual distinction**: Difficulty distinguishing between event-driven logic and synchronization-driven logic.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Hard-coded search term means the effect is not actually “syncing with state”** | ⚠️ Identified | `src/App.jsx:67-71` always fetches `s=interstellar`, while `src/components/Search.jsx:3-12` maintains `query` locally but doesn’t drive the fetch. Impact: lesson goal (“Effects react to state changes”) isn’t reflected in the current implementation. |
-| **Commented-out fetch-in-render is a footgun** | ℹ️ Low Priority | `src/App.jsx:63-65` shows a fetch inside render (commented). If uncommented, it would re-run on every render and can cause request storms. Keep it as a teaching example, but label it clearly as “never do this”. |
-| **Strict Mode can make effects appear to run twice in dev** | ⚠️ Identified | `src/main.jsx:8-15` uses `StrictMode`, which can mount/unmount and re-run effects in development to detect unsafe side effects. Impact: duplicate OMDb calls even with `[]` dependencies unless the effect is idempotent/cancellable. (See also: Lesson 143 notes on Strict Mode.) |
-| **No cleanup/cancellation for async effect** | ⚠️ Identified | `src/App.jsx:67-71` has no cleanup function. Impact: once the effect depends on changing inputs (like `query`), racing requests can show stale results; also increases confusion under Strict Mode. |
-| **No loading/error UI for a side effect that can fail** | ⚠️ Identified | `src/App.jsx:67-71` doesn’t handle `isLoading`/`error` and doesn’t validate OMDb error payloads. Impact: the UI can silently fail or propagate `undefined` lists to components. |
+| Coordination | ℹ️ Theory | Clarified that effects are for synchronization, events are for user actions. |
 
-### 🧱 04.4 Pending Fixes (TODO)
+### 🧱 144.4 Pending Fixes (TODO):
 
-```md
-- [ ] Connect `Search` query state to `App` (lift `query` up) and make the effect depend on `query` to demonstrate “sync with state” properly. Files: `src/components/Search.jsx:3-12`, `src/App.jsx:59-71`.
-- [ ] Add effect guardrails: `isLoading`, `error`, and response validation (`res.ok` + OMDb `{ Response: "False", Error: "..." }`) before calling `setMovies`. File: `src/App.jsx:67-71`.
-- [ ] Add cancellation/stale-response protection (cleanup with `AbortController`) so the effect is safe under Strict Mode and future “search as you type”. File: `src/App.jsx:67-71`.
-- [ ] Add a clear comment above the commented fetch-in-render snippet explaining *why it’s wrong* and that it should never be uncommented. File: `src/App.jsx:63-65`.
-```
+- [ ] Lift `query` state to `App.jsx` to drive the fetching effect with dynamic inputs
+- [ ] Implement `isLoading`, `error`, and response validation logic in the movie fetch effect
+- [ ] Add `AbortController` for request cleanup and stale-response protection
+- [ ] Add warning comments to the anti-pattern fetch-in-render snippet to prevent misuse
+- [ ] Ensure the effect consistently handles both mount and dependency-triggered executions
 
 
 <br>
 
-## 📚 Lecture 145: Using an async Function
+## 🔧 145. Lesson 145 — *Using an async Function*
 
-- [📚 Lecture 145: Using an async Function](#lecture-145-using-an-async-function)
+- [Lecture 145: Using an async Function](#-145-lesson-145--using-an-async-function)
 - [145.1 Context](#1451-context)
 - [145.2 Updating code according the context](#1452-updating-code-according-the-context)
-- [145.3 Pending Fixes (TODO)](#1453-pending-fixes-todo)
+- [145.3 Issues](#1453-issues)
+- [145.4 Pending Fixes (TODO)](#1454-pending-fixes-todo)
 
 ### 🧠 145.1 Context:
 
@@ -5034,9 +5043,9 @@ So the recommended pattern is:
 - If data fetching becomes central (caching, retries, deduping, background refresh): use a library like **React Query / TanStack Query** to avoid manual loading/error/caching logic.
 - If the async work is triggered by a user action (e.g., “Search” button): prefer an **event handler** rather than an effect.
 
-### ⚙️ 05.2 Updating code/theory according the context:
+### ⚙️ 145.2 Updating code/theory according the context:
 
-#### 05.2.1 Adding `Async/await`in fetch function:
+#### 145.2.1 Adding `Async/await`in fetch function:
 This is the **tempting** approach, but it’s **wrong**:
 
 ```tsx
@@ -5052,7 +5061,7 @@ React expects the effect callback to return **nothing** or a **cleanup function*
 
 ![](../img/section12-lecture145-001.png)
 
-#### 05.2.2 `useEffect` hook returns a function which has an `async/await` function inside:
+#### 145.2.2 `useEffect` hook returns a function which has an `async/await` function inside:
 
 ✅ Correct pattern used in this repo (inner async function):
 
@@ -5135,7 +5144,7 @@ useEffect(() => {
 }, [query]);
 ```
 
-### 🐞 05.3 Issues:
+### 🐞 145.3 Issues:
 - **Main takeaway**: The repo uses the correct “inner async function” pattern in `useEffect`, but it still has common async-effect pitfalls (dependencies, stale closures, and missing error/response handling). Also, this docs section currently demonstrates a wrong pattern as “✅”.
 
 | Issue | Status | Log/Error |
@@ -5146,7 +5155,7 @@ useEffect(() => {
 | **Stale state log can confuse learners** | ℹ️ Low Priority | `src/App.jsx:73` logs `movies` right after `setMovies(...)`, but it logs the old value due to state updates being async. Better to log `data.Search`, or log `movies` in a separate `useEffect` that depends on `[movies]`. |
 | **No async guardrails: loading/error state and cancellation** | ⚠️ Identified | `src/App.jsx:68-77` has no `isLoading`/`error` and no cancellation. Under `StrictMode` in `src/main.jsx:8-14`, effects may run more than once in dev; without idempotency/cancellation, duplicate requests and race conditions become likely once the effect depends on user input. |
 
-### 🧱 05.4 Pending Fixes (TODO)
+### 🧱 145.4 Pending Fixes (TODO)
 
 ```md
 - [ ] Fix Lesson 145 docs to clearly label `useEffect(async () => ...)` as ❌ and keep the “inner async function” pattern as the ✅ approach. File: `docs/LECTURE_STEPS.md` (Lesson 145).
@@ -5160,12 +5169,13 @@ useEffect(() => {
 
 <br>
 
-## 📚 Lecture 146: Adding a Loading State
+## 🔧 146. Lesson 146 — *Adding a Loading State*
 
-- [📚 Lecture 146: Adding a Loading State](#lecture-146-adding-a-loading-state)
+- [Lecture 146: Adding a Loading State](#-146-lesson-146--adding-a-loading-state)
 - [146.1 Context](#1461-context)
 - [146.2 Updating code according the context](#1462-updating-code-according-the-context)
-- [146.3 Pending Fixes (TODO)](#1463-pending-fixes-todo)
+- [146.3 Issues](#1463-issues)
+- [146.4 Pending Fixes (TODO)](#1464-pending-fixes-todo)
 
 ### 🧠 146.1 Context:
 
@@ -5201,7 +5211,7 @@ A **loading state** is a piece of UI state that represents an **in-progress asyn
 - **Data fetching libraries** (React Query / SWR) that provide `isLoading`, caching, retries, and race-condition handling.
 - **Suspense-based fetching** (where applicable) to centralize loading behavior (often a more advanced setup).
 
-### ⚙️ 06.2 Updating code/theory according the context:
+### ⚙️ 146.2 Updating code/theory according the context:
 
 #### 06.2.1 Thinking about very slow internet connection:
 * How to simulate slow network connection: 
@@ -5281,38 +5291,32 @@ const Loader = () => {
 export default Loader;
 ```
 
-![](../img/section12-lecture146-003.png)
+### 🐞 146.3 Issues:
 
-### 🐞 06.3 Issues:
-- **Main takeaway**: The loading state works, but the current implementation can easily get stuck in a loading UI or crash in edge cases because it lacks error handling, safe defaults, and accessibility polish.
+- **Empty State Confusion**: Without loading indicators, a blank screen during fetch can be mistaken for an application crash.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **`isLoading` can get stuck (no `try/catch/finally`)** | ⚠️ Identified | `src/App.jsx:70-81` sets `isLoading(true)` and later `setIsLoading(false)`, but if `fetch(...)` rejects, JSON parsing fails, or any exception occurs, the code never reaches `setIsLoading(false)` and the loader can remain forever. |
-| **No error state/UI for failed or empty OMDb responses** | ⚠️ Identified | `src/App.jsx:73-75` assumes a successful response. OMDb can return `{ Response: "False", Error: "Movie not found!" }`, and the UI has no path to render that message. |
-| **Potential runtime crash: `movies.length` when `movies` becomes `undefined`** | ⚠️ Identified | `src/App.jsx:75` sets `movies` from `data.Search` without a default. If `data.Search` is missing, `movies` becomes `undefined`, and `src/components/NumResult.jsx:1-7` crashes at `movies.length`. |
-| **Loader accessibility is minimal** | ℹ️ Low Priority | `src/components/Loader.jsx:1-5` renders a plain `<p>Loading...</p>`. Consider adding `role="status"` and `aria-live="polite"` so assistive tech announces loading changes. |
-| **Stale state logging can confuse learners** | ℹ️ Low Priority | `src/App.jsx:77` logs `movies` right after `setMovies(...)`, but React state updates are async so it logs the previous value. Prefer logging `data.Search` or using a separate `useEffect` on `[movies]`. |
+| User Feedback | ✅ Resolved | Implemented `isLoading` state to drive conditional rendering of a Loader component. |
 
-### 🧱 06.4 Pending Fixes (TODO)
+### 🧱 146.4 Pending Fixes (TODO):
 
-```md
-- [ ] Wrap the fetch flow in `try/catch/finally` and move `setIsLoading(false)` into `finally` to guarantee it runs. File: `src/App.jsx:70-81`.
-- [ ] Add an `error` state (e.g., `const [error, setError] = useState("")`) and render an error message in the movies `<Box>` when the request fails or OMDb returns `Response: "False"`. File: `src/App.jsx` (movies fetching + render branch).
-- [ ] Ensure `movies` is always an array: set `setMovies(data.Search ?? [])` and handle OMDb “False” responses by setting `[]`. File: `src/App.jsx:73-76`.
-- [ ] Make `NumResult` resilient by using `movies?.length ?? 0` (or keep the invariant that `movies` is always `[]`). File: `src/components/NumResult.jsx:1-7`.
-- [ ] Improve loader a11y with `role="status"` and `aria-live="polite"` (and optionally `aria-label`). File: `src/components/Loader.jsx:1-5`.
-```
+- [ ] Wrap the fetch flow in `try/catch/finally` and move `setIsLoading(false)` into `finally` to guarantee it runs.
+- [ ] Add an `error` state (e.g., `const [error, setError] = useState("")`) and render an error message in the movies `<Box>` when the request fails or OMDb returns `Response: "False"`.
+- [ ] Ensure `movies` is always an array: set `setMovies(data.Search ?? [])` and handle OMDb “False” responses by setting `[]`.
+- [ ] Make `NumResult` resilient by using `movies?.length ?? 0` (or keep the invariant that `movies` is always `[]`).
+- [ ] Improve loader accessibility with `role="status"` and `aria-live="polite"`.
 
 
 <br>
 
-## 📚 Lecture 147: Handling Errors
+## 🔧 147. Lesson 147 — *Handling Errors*
 
-- [📚 Lecture 147: Handling Errors](#lecture-147-handling-errors)
+- [Lecture 147: Handling Errors](#-147-lesson-147--handling-errors)
 - [147.1 Context](#1471-context)
 - [147.2 Updating code according the context](#1472-updating-code-according-the-context)
-- [147.3 Pending Fixes (TODO)](#1473-pending-fixes-todo)
+- [147.3 Issues](#1473-issues)
+- [147.4 Pending Fixes (TODO)](#1474-pending-fixes-todo)
 
 ### 🧠 147.1 Context:
 
@@ -5323,7 +5327,7 @@ In real-world applications, data fetching can fail for various reasons—network
 - **Error State**: We introduce a piece of state (`error`) to store the error message.
 - **Conditional Rendering**: We display the error message to the user when the `error` state is truthy.
 
-### ⚙️ 13.2 Updating code/theory according the context:
+### ⚙️ 147.2 Updating code/theory according the context:
 
 #### 13.2.1 In case internet connection is flaky (try-catch block):
 Simulate internet connection issues:
@@ -5538,31 +5542,31 @@ function App() {
 export default App;
 ```
 
-![](../img/section12-lecture147-001.png)
-
 ### 🐞 147.3 Issues:
+
+- **Invisible Errors**: `fetch` doesn't throw on 404/500, leading to silent failures if `res.ok` is not checked.
+- **Malformed Query Crashes**: Certain invalid search terms could cause the application to crash if the response shape wasn't validated.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Hardcoded Query** | ⚠️ Identified | Code hardcodes `query = "fukjvdshñfliuhi"`. `src/App.jsx` |
-| **Stale Error State** | ⚠️ Identified | `setError("")` missing in `fetchMovies`. `src/App.jsx` |
-| **Missing Dependency** | ℹ️ Low Priority | `useEffect` depends on `query` but dep array is `[]`. `src/App.jsx` |
+| Error Visibility | ✅ Resolved | Added `ErrorMessage` component and comprehensive `try-catch` logic. |
 
-### 🧱 147.4 Pending Fixes (TODO)
+### 🧱 147.4 Pending Fixes (TODO):
 
-- [ ] Reset error state: `setError("")` at start of `fetchMovies`. File: `src/App.jsx`.
-- [ ] Connect Search to query: Remove hardcoded query. File: `src/App.jsx`.
-- [ ] Add dependency to useEffect: `[query]`. File: `src/App.jsx`.
+- [ ] Reset error state by calling `setError("")` at the beginning of `fetchMovies`
+- [ ] Remove the hardcoded query and connect the `Search` component's state to drive the fetch
+- [ ] Add `query` as a dependency to the `useEffect` hook to synchronize it with state changes
 
 
 <br>
 
-## 📚 Lecture 148: The useEffect dependency array
+## 🔧 148. Lesson 148 — *The useEffect dependency array*
 
-- [📚 Lecture 148: The useEffect dependency array](#lecture-148-the-useeffect-dependency-array)
+- [Lecture 148: The useEffect dependency array](#-148-lesson-148--the-useeffect-dependency-array)
 - [148.1 Context](#1481-context)
 - [148.2 Updating code according the context](#1482-updating-code-according-the-context)
-- [148.3 Pending Fixes (TODO)](#1483-pending-fixes-todo)
+- [148.3 Issues](#1483-issues)
+- [148.4 Pending Fixes (TODO)](#1484-pending-fixes-todo)
 
 ### 🧠 148.1 Context:
 
@@ -5592,7 +5596,7 @@ The **dependency array** is the second argument passed to the `useEffect` hook. 
 - **Connection to implementation**:
   This lesson emphasizes that `useEffect` is not just a lifecycle hook (like `componentDidMount`) but a **synchronization mechanism**. The dependency array is the tool used to define what the effect should be synchronized with.
 
-### ⚙️ 14.2 Updating code/theory according the context:
+### ⚙️ 148.2 Updating code/theory according the context:
 
 #### 14.2.0 Summary of Lesson 148 Implementation
 The project currently implements a side effect in `App.jsx` to fetch movie data using the `fetch` API inside an `async` function. The implementation handles the full request lifecycle, including loading states (`isLoading`) and error handling (`error`). While the effect is functional for the initial load, it lacks synchronization with the search query, as the dependency array is empty despite the effect using the `query` variable. The lesson materials provide a conceptual framework for understanding how React uses these dependencies to manage the execution of effects relative to the component lifecycle.
@@ -5611,33 +5615,30 @@ The project currently implements a side effect in `App.jsx` to fetch movie data 
 
 #### 14.2.4 When are effects **executed**?
 
-![When are effects executed](../img/section12-lecture148-004.png)
+### 🐞 148.3 Issues:
 
-
-### 🐞 14.3 Issues:
-- **Missing Hook Dependency**: The `useEffect` in `App.jsx` uses the `query` variable but it's not included in the dependency array.
-- **Stale State in Logs**: `console.log("movies", movies)` shows the state from the previous render cycle, not the newly set value.
+- **Missing dependencies**: Warning from ESLint about missing variables in the dependency array.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| Missing Dependency | ⚠️ Identified | `src/App.jsx` line 55: `useEffect` missing `query` in `[]`. |
-| Stale State Access | ℹ️ Low Priority | `src/App.jsx` line 45: Logging `movies` immediately after `setMovies` shows stale data. |
+| Linter Warning | ⚠️ Warning | Identified that `query` should be in the array to stay in sync. |
 
-### 🧱 14.4 Pending Fixes (TODO)
+### 🧱 148.4 Pending Fixes (TODO):
 
-- [ ] Add `query` to the dependency array in `src/App.jsx` to ensure data re-fetches when the search term changes.
-- [ ] Implement a cleanup function or `AbortController` to handle race conditions if multiple fetches are triggered.
-- [ ] Clean up debug `console.log` statements in the `fetchMovies` function.
+- [ ] Add `query` to the dependency array in `src/App.jsx` for proper re-fetching
+- [ ] Implement `AbortController` in the cleanup function to prevent race conditions
+- [ ] Remove debug `console.log` statements from the `fetchMovies` function
 
 
 <br>
 
-## 📚 Lecture 149: Synchronizing Queries With Movie Data
+## 🔧 149. Lesson 149 — *Synchronizing Queries With Movie Data*
 
-- [📚 Lecture 149: Synchronizing Queries With Movie Data](#lecture-149-synchronizing-queries-with-movie-data)
+- [Lecture 149: Synchronizing Queries With Movie Data](#-149-lesson-149--synchronizing-queries-with-movie-data)
 - [149.1 Context](#1491-context)
 - [149.2 Updating code according the context](#1492-updating-code-according-the-context)
-- [149.3 Pending Fixes (TODO)](#1493-pending-fixes-todo)
+- [149.3 Issues](#1493-issues)
+- [149.4 Pending Fixes (TODO)](#1494-pending-fixes-todo)
 
 ### 🧠 149.1 Context:
 
@@ -5667,8 +5668,6 @@ Synchronization in React refers to the process of keeping a component's state in
 
 
 ### ⚙️ 149.2 Updating code/theory according the context:
-
-#### 15.2.0 Summary of Implementation
 This lesson focuses on synchronizing the application state with external movie data using the `useEffect` hook. By lifting the `query` state to the `App` component and adding it as a dependency to the effect, the application automatically triggers a fetch request whenever the search input changes. The implementation includes basic input validation (minimum 3 characters), handling of loading and error states, and logging to demonstrate the React component lifecycle and effect execution timing.
 
 #### 149.2.1 Lift up the `query` & `setQuery` from `Search` component to `App` component:
@@ -5757,7 +5756,7 @@ function App() {
 export default App;
 ```
 
-#### 15.2.2 Some `useEffect` examples working with its `dependency array`:
+#### 149.2.2 Some `useEffect` examples working with its `dependency array`:
 
 * `main` file:
 ```tsx
@@ -5861,7 +5860,7 @@ export default App;
 * Rendering `Search` when "Inter" is entered in this input.
 ![when search is rendered](../img/section12-lecture149-002.png)
 
-#### 15.2.3 Adding `setError("")` before fetch and an early validation in `query` length:
+#### 149.2.3 Adding `setError("")` before fetch and an early validation in `query` length:
 
 ```tsx
 /* src/App.jsx */
@@ -5936,31 +5935,30 @@ function App() {
   );
 }
 export default App;
-```
-
 ### 🐞 149.3 Issues:
+
+- **Race Conditions**: Rapid typing triggers multiple simultaneous fetch requests, potentially resulting in stale data displayed last.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Race Conditions** | ⚠️ Identified | Rapid typing triggers multiple fetch requests. If an earlier request finishes after a later one, the UI will display incorrect (stale) data. |
-| **No Request Cancellation** | ⚠️ Identified | Fetch requests are not aborted when the component unmounts or when a new search begins, wasting network resources. |
-| **Lack of Cleanup Function** | ⚠️ Identified | The `useEffect` does not return a cleanup function to handle the cancellation of the ongoing asynchronous operation. |
+| Data Consistency | ⚠️ Warning | Observed multiple network requests in the network tab during rapid search input. |
 
-### 🧱 149.4 Pending Fixes (TODO)
+### 🧱 149.4 Pending Fixes (TODO):
 
-- [ ] Implement `AbortController` in the `fetchMovies` function within `src/App.jsx` to cancel stale requests.
-- [ ] Add a cleanup function to the `useEffect` in `App.jsx` that calls `controller.abort()`.
-- [ ] Ensure that errors caused by request cancellation (e.g., `AbortError`) are handled gracefully and not displayed as user-facing errors.
+- [ ] Implement `AbortController` to cancel stale fetch requests during rapid typing
+- [ ] Add a cleanup function to `useEffect` that calls `controller.abort()` to manage resources
+- [ ] Gracefully handle `AbortError` to prevent misleading error messages in the UI
 
 
 <br>
 
-## 📚 Lecture 150: Selecting a Movie
+## 🔧 150. Lesson 150 — *Selecting a Movie*
 
-- [📚 Lecture 150: Selecting a Movie](#lecture-150-selecting-a-movie)
+- [Lecture 150: Selecting a Movie](#-150-lesson-150--selecting-a-movie)
 - [150.1 Context](#1501-context)
 - [150.2 Updating code according the context](#1502-updating-code-according-the-context)
-- [150.3 Pending Fixes (TODO)](#1503-pending-fixes-todo)
+- [150.3 Issues](#1503-issues)
+- [150.4 Pending Fixes (TODO)](#1504-pending-fixes-todo)
 
 ### 🧠 150.1 Context:
 
@@ -6340,29 +6338,30 @@ export default MovieDetails;
 
 ### 🐞 150.3 Issues:
 
+- **Prop Drilling**: Passing `handleSelectMovie` through `MovieList` to `Movie` creates extra layers of props.
+- **State Selection Interaction**: Initially, clicking a movie always set the state, but we needed a toggle behavior (click again to close).
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Lack of Keyboard Accessibility** | ⚠️ Identified | The `li` elements in `Movie.jsx` are clickable but not focusable via keyboard (`tabindex`) and lack `onKeyDown` handlers, making the selection feature unusable for keyboard-only users. |
-| **Prop Drilling Complexity** | ℹ️ Low Priority | `handleSelectMovie` is passed through `MovieList` just to reach `Movie`. While acceptable here, as the project grows, this might warrant a Context API implementation. |
-| **Basic Detail View** | ✅ Fixed | The initial `MovieDetails` component was just a placeholder. It has been updated to include a back button and basic ID display in `src/components/MovieDetails.jsx`. |
-| **Unused State Setter** | ⚠️ Identified | `setWatched` is defined in `App.jsx` (L19) but never used, as the "watched" list is currently static and not yet updatable. |
+| Toggle Behavior | ✅ Resolved | Implemented `setSelectedId((id) => (id === selectedId ? null : id))`. |
 
-### 🧱 150.4 Pending Fixes (TODO)
+### 🧱 150.4 Pending Fixes (TODO):
 
-- [ ] Implement accessibility features in `src/components/Movie.jsx`: Add `tabIndex="0"` and `handleKeyDown` to the `li` element.
-- [ ] Add `aria-label` to the back button in `src/components/MovieDetails.jsx` for screen readers.
-- [ ] Ensure `MovieDetails` handles the "loading" state when fetching full movie data (future improvement).
-- [ ] Clean up unused variables and commented-out code (`setWatched`, `tempQuery`) in `src/App.jsx`.
+- [ ] Add keyboard accessibility (`tabIndex`, `onKeyDown`) to the `li` items in `Movie.jsx`
+- [ ] Include an `aria-label` for the back button in `MovieDetails.jsx` for screen readers
+- [ ] Implement a loading state in `MovieDetails` for the full data fetch transition
+- [ ] Clean up unused variables (`setWatched`, `tempQuery`) and comments in `App.jsx`
 
 
 <br>
 
-## 📚 Lecture 151: Loading Movie Details
+## 🔧 151. Lesson 151 — *Loading Movie Details*
 
-- [📚 Lecture 151: Loading Movie Details](#lecture-151-loading-movie-details)
+- [Lecture 151: Loading Movie Details](#-151-lesson-151--loading-movie-details)
 - [151.1 Context](#1511-context)
 - [151.2 Updating code according the context](#1512-updating-code-according-the-context)
-- [151.3 Pending Fixes (TODO)](#1513-pending-fixes-todo)
+- [151.3 Issues](#1513-issues)
+- [151.4 Pending Fixes (TODO)](#1514-pending-fixes-todo)
 
 ### 🧠 151.1 Context:
 - **Definition**: Dynamic data fetching refers to the process of retrieving specific information from an external source (like an API) based on a unique identifier (ID) provided at runtime.
@@ -6611,31 +6610,29 @@ export default MovieDetails;
 [🎥 Ver video](../img/section12-lecture151-003.mp4)
 
 ### 🐞 151.3 Issues:
-- **Dependency Missing**: The `useEffect` hook in `MovieDetails` initially lacked `selectedId` in its dependency array, preventing details from updating when a new movie was clicked.
-- **Missing Loading State**: Without an `isLoading` state, the UI was blank or showed old data while fetching the new movie.
-- **Object in Alt Text**: The `alt` attribute for the poster image uses the `movie` object instead of a string, resulting in `[object Object]` being displayed.
+
+- **Stale Detail View**: Without adding `selectedId` to the `useEffect` dependency array, opening a second movie would still show the first movie's details.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| Movie details not updating | ✅ Fixed | Dependency array in `useEffect` now includes `selectedId`. |
-| Missing loading feedback | ✅ Fixed | Added `isLoading` state and `<Loader />` component. |
-| Star rating persistence | ⚠️ Identified | Ratings are lost on component unmount; state needs to move up or use local storage. |
-| Incorrect alt text | ✅ Fixed | `alt={`Poster of ${movie}`}` in `MovieDetails.jsx:44` was updated to use `title`. |
+| Effect Sync | ✅ Resolved | Added `[selectedId]` to the dependency array in `MovieDetails.jsx`. |
 
-### 🧱 151.4 Pending Fixes (TODO)
+### 🧱 151.4 Pending Fixes (TODO):
 
-- [ ] Add a `try...catch` block to the `getMovieDetails` fetch request to handle potential network errors.
-- [ ] Implement a mechanism to persist the star rating when switching between movies (future lesson).
+- [ ] Implement `try...catch` in `getMovieDetails` to handle network failures gracefully
+- [ ] Store/persist the star rating when navigating between different movie details
+- [ ] Update `alt` text in `MovieDetails.jsx` to use the movie title instead of the object
 
 
 <br>
 
-## 📚 Lecture 152: Adding a Watched Movie
+## 🔧 152. Lesson 152 — *Adding a Watched Movie*
 
-- [📚 Lecture 152: Adding a Watched Movie](#lecture-152-adding-a-watched-movie)
+- [Lecture 152: Adding a Watched Movie](#-152-lesson-152--adding-a-watched-movie)
 - [152.1 Context](#1521-context)
 - [152.2 Updating code according the context](#1522-updating-code-according-the-context)
-- [152.3 Pending Fixes (TODO)](#1523-pending-fixes-todo)
+- [152.3 Issues](#1523-issues)
+- [152.4 Pending Fixes (TODO)](#1524-pending-fixes-todo)
 
 ### 🧠 152.1 Context:
 
@@ -7325,31 +7322,30 @@ export default WatchedMovie;
 
 ### 🐞 152.3 Issues:
 
-In this lesson, we identified and addressed several logical issues related to collection management and user experience.
+- **Duplicate Ratings**: Users could rate the same movie multiple times if the UI didn't check the `watched` list.
+- **State Synchronization**: Needing to pass the `watched` list down to `MovieDetails` just to check if it's already there (more prop drilling).
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| Duplicate Entries | ✅ Fixed | Users could add the same movie multiple times. Fixed by checking `isWatched` before showing the "Add" button. |
-| Missing User Rating | ✅ Fixed | The "Add to list" button was visible even if no rating was selected. Fixed with conditional rendering `userRating > 0`. |
-| Unsaved User Rating | ⚠️ Identified | The rating selected in `MovieDetails` is not persisted if the component unmounts before adding to the list. |
-| List Management | ✅ Fixed | Initially, there was no way to remove a movie once it was added to the watched list. |
+| Duplication | ✅ Resolved | Conditional rendering added to show "You rated this movie" instead of the rating stars. |
 
-### 🧱 152.4 Pending Fixes (TODO)
+### 🧱 152.4 Pending Fixes (TODO):
 
-- [ ] `src/App.jsx`: Persist the `watched` state to `localStorage` to prevent data loss on page reload.
-- [ ] `src/components/MovieDetails.jsx`: Add a "Loading..." state or disabled attribute to the "Add to list" button to prevent multiple rapid clicks.
-- [ ] `src/components/WatchedMovie.jsx`: Add a confirmation dialog or a slight delay/undo option when deleting a movie to prevent accidental removals.
-- [ ] `src/components/MovieDetails.jsx`: Allow users to update their rating for a movie that is already in the watched list.
+- [ ] Sync the `watched` state with `localStorage` to avoid data loss on refresh
+- [ ] Disable the "Add to list" button during processing to prevent duplicate calls
+- [ ] Add a deletion confirmation or undo capability to the `WatchedMovie` items
+- [ ] Enable updating existing ratings for movies already in the watched list
 
 
 <br>
 
-## 📚 Lecture 153: Adding a New Effect: Changing Page Title
+## 🔧 153. Lesson 153 — *Adding a New Effect: Changing Page Title*
 
-- [📚 Lecture 153: Adding a New Effect: Changing Page Title](#lecture-153-adding-a-new-effect-changing-page-title)
+- [Lecture 153: Adding a New Effect: Changing Page Title](#-153-lesson-153--adding-a-new-effect-changing-page-title)
 - [153.1 Context](#1531-context)
 - [153.2 Updating code according the context](#1532-updating-code-according-the-context)
-- [153.3 Pending Fixes (TODO)](#1533-pending-fixes-todo)
+- [153.3 Issues](#1533-issues)
+- [153.4 Pending Fixes (TODO)](#1534-pending-fixes-todo)
 
 ### 🧠 153.1 Context:
 
@@ -7550,26 +7546,29 @@ Issue:
 ![](../img/section12-lecture153-005.png)
 
 ### 🐞 153.3 Issues:
+
+- **Document Title Pollution**: Once the title was changed by `MovieDetails`, it stayed changed even after the component was unmounted.
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| Page title not restored on close | ⚠️ Identified | `MovieDetails` sets `document.title` but does not reset it on unmount, so after closing the details view the tab still shows `Movie | ${title}` instead of the default title (see `src/components/MovieDetails.jsx`). |
-| Debug log left in component | ℹ️ Low Priority | `console.log(title)` runs on every render in `MovieDetails`, creating noisy logs and potential performance overhead. |
+| Side Effect Leak | ⚠️ Identified | Title doesn't revert to "usePopcorn" when details are closed. |
 
-### 🧱 153.4 Pending Fixes (TODO)
+### 🧱 153.4 Pending Fixes (TODO):
 
-- [ ] `src/components/MovieDetails.jsx`: Add a cleanup to restore the previous/default `document.title` when the component unmounts.
-- [ ] `src/components/MovieDetails.jsx`: Remove `console.log(title)` or guard it behind a development check.
+- [ ] Restore the default `document.title` when `MovieDetails` unmounts (cleanup)
+- [ ] Remove or conditionalize the `console.log(title)` call to reduce noise
 
 
 
 <br>
 
-## 📚 Lecture 154: The useEffect cleanup function
+## 🔧 154. Lesson 154 — *The useEffect cleanup function*
 
-- [📚 Lecture 154: The useEffect cleanup function](#lecture-154-the-useeffect-cleanup-function)
+- [Lecture 154: The useEffect cleanup function](#-154-lesson-154--the-useeffect-cleanup-function)
 - [154.1 Context](#1541-context)
 - [154.2 Updating code according the context](#1542-updating-code-according-the-context)
-- [154.3 Pending Fixes (TODO)](#1543-pending-fixes-todo)
+- [154.3 Issues](#1543-issues)
+- [154.4 Pending Fixes (TODO)](#1544-pending-fixes-todo)
 
 ### 🧠 154.1 Context:
 
@@ -7618,25 +7617,27 @@ In this project, `MovieDetails` updates `document.title` based on the selected m
 
 ### 🐞 154.3 Issues:
 
+- **Conceptual Overhead**: Understanding that cleanup runs *before* the next execution, not just on unmount, is a common hurdle.
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| Missing cleanup for document title | ⚠️ Identified | `MovieDetails` sets `document.title` but never restores it on unmount, so the tab title remains `Movie | ${title}` after closing. See the `useEffect` that depends on `title` in `src/components/MovieDetails.jsx`. |
-| No abort/cancel for fetch effect | ℹ️ Low Priority | The movie details fetch effect does not cancel in-flight requests when `selectedId` changes or the component unmounts, which can lead to stale updates or React warnings on slow networks. See the fetch `useEffect` in `src/components/MovieDetails.jsx`. |
+| Lifecycle Timing | ℹ️ Theory | Clarified the "cleanup → effect" cycle for dependency changes. |
 
-### 🧱 154.4 Pending Fixes (TODO)
+### 🧱 154.4 Pending Fixes (TODO):
 
-- [ ] `src/components/MovieDetails.jsx` (title `useEffect`): store the previous title and restore it in a cleanup return function.
-- [ ] `src/components/MovieDetails.jsx` (fetch `useEffect`): add `AbortController` and skip state updates on aborted requests.
+- [ ] Implement `document.title` restoration in the `MovieDetails` effect cleanup
+- [ ] Add `AbortController` cleanup to the movie details fetch effect
 
 
 <br>
 
-## 📚 Lecture 155: Cleaning Up the Title
+## 🔧 155. Lesson 155 — *Cleaning Up the Title*
 
-- [📚 Lecture 155: Cleaning Up the Title](#lecture-155-cleaning-up-the-title)
+- [Lecture 155: Cleaning Up the Title](#-155-lesson-155--cleaning-up-the-title)
 - [155.1 Context](#1551-context)
 - [155.2 Updating code according the context](#1552-updating-code-according-the-context)
-- [155.3 Pending Fixes (TODO)](#1553-pending-fixes-todo)
+- [155.3 Issues](#1553-issues)
+- [155.4 Pending Fixes (TODO)](#1554-pending-fixes-todo)
 
 ### 🧠 155.1 Context:
 
@@ -7816,26 +7817,28 @@ Notes:
 
 ### 🐞 155.3 Issues:
 
+- **Race Condition in Cleanup**: If `title` changes very quickly, the cleanup logs might show overlapping titles due to closure behavior.
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| Title cleanup uses a hardcoded fallback | ⚠️ Identified | `MovieDetails` resets the title to `'usePopcorn'` in the cleanup, which can overwrite a title set elsewhere. See the title `useEffect` in `src/components/MovieDetails.jsx`. |
-| Debug logging left in cleanup | ℹ️ Low Priority | The cleanup logs `Clean up effect for movie ${title}` on every dependency change/unmount. This is noisy in production and can be removed or gated. See the same `useEffect` in `src/components/MovieDetails.jsx`. |
+| Closure Capture | ✅ Resolved | Verified that cleanup correctly captures the `title` from its specific render via closure. |
 
-### 🧱 155.4 Pending Fixes (TODO)
+### 🧱 155.4 Pending Fixes (TODO):
 
-- [ ] `src/components/MovieDetails.jsx` (title `useEffect`): store the previous `document.title` before setting it, and restore that value in the cleanup instead of a hardcoded string.
-- [ ] `src/components/MovieDetails.jsx` (cleanup log): remove the `console.log` or guard it behind a dev-only flag.
+- [ ] Use a dynamic fallback for `document.title` cleanup instead of a hardcoded string
+- [ ] Clean up redundant `console.log` statements in the effect cleanup logic
 
 
 
 <br>
 
-## 📚 Lecture 156: Cleaning Up Data Fetching
+## 🔧 156. Lesson 156 — *Cleaning Up Data Fetching*
 
-- [📚 Lecture 156: Cleaning Up Data Fetching](#lecture-156-cleaning-up-data-fetching)
+- [Lecture 156: Cleaning Up Data Fetching](#-156-lesson-156--cleaning-up-data-fetching)
 - [156.1 Context](#1561-context)
 - [156.2 Updating code according the context](#1562-updating-code-according-the-context)
-- [156.3 Pending Fixes (TODO)](#1563-pending-fixes-todo)
+- [156.3 Issues](#1563-issues)
+- [156.4 Pending Fixes (TODO)](#1564-pending-fixes-todo)
 
 ### 🧠 156.1 Context:
 
@@ -8033,22 +8036,37 @@ Note:
 ![Abort Error fixed](../img/section12-lecture156-003.png)
 
 ### 🐞 156.3 Issues:
+
+- **Abort Signal Noise**: Every aborted fetch was being logged as an error until we explicitly filtered for `AbortError`.
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| Movie details fetch has no cleanup | ⚠️ Identified | `src/components/MovieDetails.jsx` fetches details without `AbortController`. Rapidly switching movies can cause stale details to render or wasted requests. |
-| Abort errors still logged to console | ℹ️ Low Priority | `src/App.jsx` logs `error.message` for all errors, including `AbortError`. This is noisy during rapid typing; consider logging only non‑abort errors. |
+| Log Pollution | ✅ Resolved | Added `if (error.name !== "AbortError")` check to the catch block. |
 
-### 🧱 156.4 Pending Fixes (TODO)
+### 🧱 156.4 Pending Fixes (TODO):
 
-- [ ] `src/components/MovieDetails.jsx` (details `useEffect`): add `AbortController`, pass `signal` to `fetch`, and abort in cleanup to prevent stale responses when `selectedId` changes.
-- [ ] `src/App.jsx` (search `useEffect`): avoid logging `AbortError` (move `console.log` inside the non‑abort branch or remove it).
+- [ ] Implement `AbortController` in `MovieDetails.jsx` for the details fetch effect
+- [ ] Avoid logging `AbortError` in `App.jsx` to reduce console noise during typing
+
 
 
 <br>
 
-## 🔧 157. Lesson 157 — *One More Effect: Listening to a Keypress*
+## 🧳 Section 13: *Custom Hooks, Refs and More State*
 
-- [🔧 157. Lesson 157 — *One More Effect: Listening to a Keypress*](#-157-lesson-157--one-more-effect-listening-to-a-keypress)
+### 📑 Table of Contents
+- [📑 Table of Contents](#-table-of-contents-3)
+  - [📚 Lesson 157: One More Effect: Listening to a Keypress](#-157-lesson-157--one-more-effect-listening-to-a-keypress)
+  - [📚 Lesson 158: React Hooks: Summary and Rules](#-158-react-hooks-summary-and-rules)
+  - [📚 Lesson 159: Summary of Rules](#-159-summary-of-rules)
+  - [📚 Lesson 160: The \"usePopcorn\" Project](#-160-the-usepopcorn-project)
+  - [📚 Lesson 161: Starting the \"usePopcorn\" project](#-161-starting-the-usepopcorn-project)
+  - [📚 Lesson 162: More Details of useState](#-162-lesson-162--more-details-of-usestate)
+
+<br>
+
+### 📋 Lecture TOC
+- [Lecture 157: One More Effect: Listening to a Keypress](#-157-lesson-157--one-more-effect-listening-to-a-keypress)
 - [157.1 Context](#1571-context)
 - [157.2 Updating code according the context](#1572-updating-code-according-the-context)
 - [157.3 Pending Fixes (TODO)](#1573-pending-fixes-todo)
@@ -8191,14 +8209,17 @@ This section demonstrates the evolution of implementing a keyboard event listene
 - [ ] **Test edge cases**: Verify behavior when multiple modals might be open simultaneously (though current design prevents this)
 
 
-<br>
-
-## 🧳 Section 13: *Custom Hooks, Refs and More State*
 
 
 <br>
 
 ## 🔧 160. Lesson 160 — *React Hooks and their Rules*
+
+### 📋 Lecture TOC
+- [Lecture 160: React Hooks and their Rules](#-160-lesson-160--react-hooks-and-their-rules)
+- [160.1 Context](#1601-context)
+- [160.2 Updating code according the context](#1602-updating-code-according-the-context)
+- [160.3 Pending Fixes (TODO)](#1603-pending-fixes-todo)
 
 ### 🧠 160.1 Context:
 
@@ -8403,6 +8424,12 @@ This section provides a comprehensive theoretical overview of React Hooks. It co
 <br>
 
 ## 🔧 161. Lesson 161 — *The Rules of Hooks in Practice*
+
+- [Lecture 161: The Rules of Hooks in Practice](#-161-lesson-161--the-rules-of-hooks-in-practice)
+- [161.1 Context](#1611-context)
+- [161.2 Updating code according the context](#1612-updating-code-according-the-context)
+- [161.3 Issues](#1613-issues)
+- [161.4 Pending Fixes (TODO)](#1614-pending-fixes-todo)
 
 ### 🧠 161.1 Context:
 
@@ -8771,59 +8798,335 @@ export default MovieDetails;
 
 - [ ] **Ensure ESLint rules-of-hooks is enabled** — Verify `eslint-plugin-react-hooks` is installed and configured to catch these violations during development.
 
+<br>
+
+## 🔧 162. Lesson 162 — *More Details of useState*
+
+- [Lecture 162: More Details of useState](#-162-lesson-162--more-details-of-usestate)
+- [162.1 Context](#1621-context)
+- [162.2 Updating code according the context](#1622-updating-code-according-the-context)
+  - [162.2.1 Add a new useState for isTop when imdbRating > 8](#-16221-add-a-new-usestate-for-istop-when-imdbrating--8)
+  - [162.2.2 Pseudo fixing using useEffect](#-16222-pseudo-fixing-using-useeffect)
+  - [162.2.3 Using the right approach: Derived State](#-16223-using-the-right-approach-derived-state)
+  - [162.2.4 Another situation with this async issue, in handleAdd](#-16224-another-situation-with-this-async-issue-in-handleadd)
+  - [162.2.5 Using the userRating](#-16225-using-the-userrating)
+  - [162.2.6 Fixing this avgRating issue by passing a callback function](#-16226-fixing-this-avgrating-issue-by-passing-a-callback-function)
+- [162.3 Issues](#1623-issues)
+- [162.4 Pending Fixes (TODO)](#1624-pending-fixes-todo)
+
+### 🧠 162.1 Context:
+
+**useState** is the primary hook for adding state to functional components. While it seems straightforward, there are several subtle details regarding how it handles initial state, stale closures, and updates that are critical for building reliable React applications.
+
+#### Key Concepts:
+
+1. **Initial State Logic**:
+   - The value passed to `useState(initialValue)` is only used during the **initial mount**.
+   - On subsequent re-renders, React ignores the initial value and uses the current state.
+   - If the initial value depends on a prop or another state that changes, it will **not** automatically update the state (see "Derived State" below).
+
+2. **Functional Updates (Updater Callback)**:
+   - When updating state based on its previous value, it's safer to use the functional form: `setState((prevState) => prevState + 1)`.
+   - This ensures you are always working with the most recent state value, avoiding issues with stale closures or multiple rapid updates.
+
+3. **Derived State vs. State**:
+   - Always prefer **derived state** (calculating a value during render) over storing that value in its own state.
+   - If a value can be computed from existing props or state, don't use `useState` for it. This prevents "out of sync" bugs and unnecessary re-renders.
+
+4. **Async Nature of State Updates**:
+   - State updates are not immediate. Calling `setCount(count + 1)` and then `console.log(count)` will show the **old** value.
+   - React batches updates for performance, and the updated state is only available in the next render.
+
+5. **Lazy Initial State (Initializer Function)**:
+   - If the initial state is the result of an expensive computation, you can pass a function to `useState`: `useState(() => getExpensiveValue())`.
+   - React will only call this function during the initial mount, improving performance on re-renders.
+
+#### Advantages:
+- Encapsulates local component state.
+- Simple API for straightforward state management.
+- Supports complex logic through functional updates.
+
+#### Disadvantages/Gotchas:
+- Initial state is "frozen" after mount; doesn't react to prop changes automatically.
+- Stale closures can lead to bugs if not using updater functions.
+- Overusing state for values that could be derived increases complexity.
+
+#### When to Consider Alternatives:
+- Use **useReducer** for state that involves complex transitions or multiple sub-values.
+- Use **useMemo** or simple variables for **derived state** instead of syncing state with `useEffect`.
+- Use **Ref** (`useRef`) if you need to persist a value across renders without triggering a re-render.
 
 
+### ⚙️ 162.2 Updating code/theory according the context:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#### **Summary**
+This section explores the nuances of `useState` through practical examples in the `MovieDetails` component. It demonstrates:
+1. The common pitfall of trying to initialize state from a fluctuating prop (`imdbRating`).
+2. The comparison between fixing this with `useEffect` (manual syncing) vs. the superior approach of **Derived State**.
+3. How to correctly handle multiple state updates that depend on each other using **functional updater callbacks** to avoid stale state issues.
 
 ---
-<br>
-<br>
-<br>
-<br>
 
-🔥 🔥 🔥 
+#### 162.2.1 Add a new `useState` for `isTop` when `imdbRating > 8`:
 
-<br>
-
-## 🔧 YYY. Lesson YYY — *{{TITLE_NAME}}*
-
-### 🧠 YYY.1 Context:
-
-
-### ⚙️ YYY.2 Updating code/theory according the context:
-
-#### YYY.2.1
+**Subsection Summary**
+- Demonstrates an attempt to track if a movie is "top rated" using a new `isTop` state.
+- Shows that since `imdbRating` is fetched asynchronously (initially `undefined`), `isTop` gets initialized to `false` and stays there even after the rating is loaded.
+- Highlights that `useState` only uses its initial value once.
 ```tsx
-/*  */
-
+/* src/components/MovieDetails.jsx */
+....
+const [isTop, setIsTop] = useState(imdbRating > 8);
+  console.log("💫 isTop", isTop);
+....
 ```
 
-#### YYY.2.2
-```tsx
-/*  */
+![useState working with the initial state](../img/section13-lecture162-001.png)
 
+* `imdbRating` initial state is `indefined` so `imbdRating > 8` is always `false`.
+
+#### 162.2.2 Pseudo fixing using `useEffect`:
+
+**Subsection Summary**
+- Attempts to fix the "frozen initial state" problem by using `useEffect` to manually sync `isTop` whenever `imdbRating` changes.
+- While it works, it's labeled a "pseudo fix" because it introduces an unnecessary extra render and increases code complexity.
+```tsx
+/* src/components/MovieDetails.jsx */
+....
+const [isTop, setIsTop] = useState(imdbRating > 8);
+  console.log("💫 isTop", isTop);
+
+useEffect(() => {
+  setIsTop(imdbRating > 8);
+}, [imdbRating]);
+....
 ```
 
-### 🐞 YYY.3 Issues:
-- **first issue**: something..
+![fixing the isTop with a useEffect hook](../img/section13-lecture162-002.png)
+
+#### 162.2.3 Using the right approach: Derived State
+
+**Subsection Summary**
+- Shows the best practice: calculating `isTop` directly in the component body during render.
+- No `useState` or `useEffect` is needed.
+- This ensures `isTop` is always in sync with `imdbRating` and reduces the number of state variables to manage.
+```tsx
+/* src/components/MovieDetails.jsx */
+....
+// const [isTop, setIsTop] = useState(imdbRating > 8);
+//   console.log("💫 isTop", isTop);
+
+// useEffect(() => {
+//   setIsTop(imdbRating > 8);
+// }, [imdbRating]);
+const isTop = imdbRating > 8;
+console.log("🫵🏽 isTop", isTop)
+....
+```
+
+![using the right state](../img/section13-lecture162-003.png)
+* imdbRating is mont twice.
+
+#### 162.2.4 Another situation with this async issue, in `handleAdd`:
+
+**Subsection Summary**
+- Introduces `avgRating` state to demonstrate state update timing.
+- Shows that calling `setAvgRating(Number(imdbRating))` and immediately alerting `avgRating` results in the **stale** value (initial state `0`).
+- Reinforces that state updates are asynchronous from the perspective of the current function execution.
+```tsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+
+  const [avgRating, setAvgRating] = useState(0);    // 👈🏽 ✅ (1)
+
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+    };
+    onAddWatched(newWatchedMovie);
+    //onCloseMovie();   // 👈🏽 ✅ (1)
+
+    // setting the current imdbRating value to avgRating:
+    setAvgRating(Number(imdbRating));   // 👈🏽 ✅ (3)
+    alert(avgRating);   // 👈🏽 ✅ (3)
+  };
+
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+
+    getMovieDetails();
+  }, [selectedId]);
+
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    };
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
+
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+    return () => {
+      document.title = "usePopcorn";
+      //console.log(`Clean up effect for movie ${title}`);
+    };
+  }, [title]);
+
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+
+          <p>🍺 {avgRating}</p>  {/* 👈🏽 ✅ (2) */}
+
+          <section>
+            <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span> 
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+![alert is shows the initial value](../img/section13-lecture162-004.png)
+
+* It only considers the `avgRating` initial value.
+* `imdbRating` value is never considered.
+
+#### 162.2.5 Using the `userRating`:
+
+**Subsection Summary**
+- Shows another attempt at updating `avgRating` by combining it with `userRating`.
+- Illustrates how multiple updates using the current state variable (`avgRating + userRating`) fail because each call sees the same stale value from the current "snapshot" of the component.
+```tsx
+/* src/components/MovieDetails.jsx */
+    // setting the current imdbRating value to avgRating:
+    setAvgRating(Number(imdbRating));
+    //alert(avgRating);
+    setAvgRating(Number(avgRating + userRating) / 2);   // 👈🏽 ✅
+```
+
+![alert is shows the initial value](../img/section13-lecture162-005.png)
+
+* it only consider the `userRating` value.
+* `imdbRating`/`avgRating` is never considered.
+* It only considers the `avgRating` initial value.
+
+#### 162.2.6 Fixing this `avgRating` issue by passing a callback function:
+
+**Subsection Summary**
+- Demonstrates the correct way to perform multiple updates: using the **functional updater form**.
+- React ensures the callback receives the most up-to-date state from the previous update in the batch.
+- This allows for "chained" updates that correctly accumulate results.
+```tsx
+/* src/components/MovieDetails.jsx */
+....
+  // setting the current imdbRating value to avgRating:
+  setAvgRating(Number(imdbRating));
+  //alert(avgRating);
+  setAvgRating((avgRating) => (avgRating + userRating) / 2);
+....
+```
+
+![](../img/section13-lecture162-006.png)
+
+* `setAvgRating(Number(imdbRating))` must be there as previous setting a value.
+* it considers the `imdbRating` as well as `userRating` values.
+
+### 🐞 162.3 Issues:
+
+- **State Syncing Anti-pattern**: The `avgRating` state in `MovieDetails.jsx` is being updated manually in `handleAdd` based on other states.
+- **Stale State Awareness**: Initial attempt to alert state immediately after setting it demonstrates a misunderstanding of React's update batching.
+- **Redundant State**: The `isTop` variable was almost made into a state when it should have been derived.
 
 | Issue | Status | Log/Error |
 |---|---|---|
+| Manual state syncing | ℹ️ Low Priority | `src/components/MovieDetails.jsx:25, 41-43` - `avgRating` is being manually managed. While it demonstrates functional updates, this value could potentially be derived if the data structure allowed. |
+| Console logs left in code | ℹ️ Low Priority | `src/components/MovieDetails.jsx:42` - Commented out `alert` and console logs should be cleaned up for production. |
+| Unused state `avgRating` | ⚠️ Identified | `src/components/MovieDetails.jsx:103` - `avgRating` is displayed but doesn't persist beyond the component's unmount, which might not be the intended behavior for an "average rating". |
 
-### 🧱 YYY.4 Pending Fixes (TODO)
+### 🧱 162.4 Pending Fixes (TODO)
 
-- [ ]
+- [ ] **Cleanup Demo Code** — `src/components/MovieDetails.jsx`: Remove commented-out code and logs from lines 38-43 once the learning objective is met.
+- [ ] **Refactor to Derived State where possible** — Review all `useState` calls and ensure they aren't better suited as derived variables.
+- [ ] **Verify Functional Updates** — Ensure all state updates that depend on previous state (like counters or accumulators) use the callback form `(s) => s + 1`.
+- [ ] **Standardize API key usage** — (Carry over from previous lessons) Centralize the hardcoded API key from line 5.

@@ -22,6 +22,8 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
     Genre: Genre,
   } = movie;
 
+  const [avgRating, setAvgRating] = useState(0);
+
   const handleAdd = () => {
     const newWatchedMovie = {
       imdbID: selectedId,
@@ -33,14 +35,13 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
       userRating,
     };
     onAddWatched(newWatchedMovie);
-    onCloseMovie();
+    //onCloseMovie();
+
+    // setting the current imdbRating value to avgRating:
+    setAvgRating(Number(imdbRating));
+    //alert(avgRating);
+    setAvgRating((avgRating) => (avgRating + userRating) / 2);
   };
-
-  /* 🔥 Hook inside a Conditional expression */
-  // if (imdbRating > 8) [isTop, setIsTop] = useState(true);
-
-  /* 🔥 Early  Return */
-  if (imdbRating > 8) return <p>Top rated movie</p>;
 
   useEffect(() => {
     const getMovieDetails = async () => {
@@ -98,6 +99,9 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
               </p>
             </div>
           </header>
+
+          <p>🍺 {avgRating}</p>
+
           <section>
             <div className="rating">
               {!isWatched ? (
