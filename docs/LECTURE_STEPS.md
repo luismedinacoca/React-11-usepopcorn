@@ -9130,3 +9130,486 @@ export default MovieDetails;
 - [ ] **Refactor to Derived State where possible** — Review all `useState` calls and ensure they aren't better suited as derived variables.
 - [ ] **Verify Functional Updates** — Ensure all state updates that depend on previous state (like counters or accumulators) use the callback form `(s) => s + 1`.
 - [ ] **Standardize API key usage** — (Carry over from previous lessons) Centralize the hardcoded API key from line 5.
+
+
+
+<br>
+
+## 🔧 163. Lesson 163 — *Initializing State With a Callback (Lazy Initial State)*
+
+- [163.1 Context](#1631-context)
+- [163.2 Updating code/theory according the context](#1632-updating-code-theory-according-the-context)
+  - [163.2.1 Adding `localStorage` in `handleAddWatched` function](#16321-adding-localstorage-in-handleaddwatched-function)
+  - [163.2.2 Adding a `useEffect` in charge of handling the watched movies in local storage](#16322-adding-a-useeffect-in-charge-of-handling-the-watched-movies-in-local-storage)
+  - [163.2.3 Retrieving the local storage data](#16323-retrieving-the-local-storage-data)
+- [163.3 Issues](#1633-issues)
+- [163.4 Pending Fixes (TODO)](#1634-pending-fixes-todo)
+
+### 🧠 163.1 Context:
+
+This lesson introduces the concept of **Lazy Initial State** in React's `useState` hook. When the initial value of a state variable requires an expensive computation (like reading from `localStorage` and parsing JSON), passing a callback function to `useState` ensures that the calculation only runs once during the initial component render.
+
+#### **Key Concepts**
+1. **Initial State Callback**: Instead of passing a value directly to `useState(value)`, you pass a function `useState(() => value)`.
+2. **One-Time Execution**: React executes the callback function only during the initial mount of the component.
+3. **Pure Functions**: The initialization function should be pure and not have side effects (except for the computation itself).
+4. **State Persistence**: Using `localStorage` combined with lazy initialization allows application state to persist across page refreshes.
+
+#### **Advantages**
+- **Performance Optimization**: Prevents expensive computations (I/O, large data processing) from running on every re-render.
+- **Cleaner Initialization**: Logical separation of complex initialization from the component's main body.
+
+#### **Disadvantages/Gotchas**
+- **Reference Error**: If you call the function inside `useState(getValue())`, it will still run on every render. You must pass the reference: `useState(getValue)`.
+- **SSR Concerns**: `localStorage` is not available on the server; ensure checks like `typeof window !== 'undefined'` if using frameworks like Next.js.
+
+#### **When to Consider Alternatives**
+- If the initial state is simple (e.g., `0`, `""`, `[]`), lazy initialization is unnecessary and slightly adds overhead.
+- Use `useEffect` for data that needs to be fetched from an API rather than being available synchronously at mount.
+
+### ⚙️ 163.2 Updating code/theory according the context:
+
+#### **Summary**
+- Explores strategies for persisting the "Watched Movies" list using the browser's `localStorage`.
+- Demonstrates why synchronizing state with local storage in event handlers vs. `useEffect` matters for consistency.
+- Implements the **Lazy Initial State** pattern to retrieve stored data efficiently during component mount.
+
+#### 163.2.1 Adding `localStorage` in `handleAddWatched` function:
+
+**Subsection Summary**
+- Initially attempts to persist data within the `handleAddWatched` event handler.
+- Uses `localStorage.setItem` to save the updated movie list as a JSON string.
+- Highlights a limitation: This approach is manual and must be repeated in every function that modifies the `watched` state (e.g., delete) => adding the deleted movie logic from localstorage in `handleDeleteWatched`.
+
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+
+const KEY = "f84fc31d";
+
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  //const tempQuery = "interstellar";
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+
+    localStorage.setItem("watched", JSON.stringify([...watched, movie]));   // 👈🏽 ✅
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+        const data = await resp.json();
+
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+
+        setMovies(data.Search);
+      } catch (error) {
+        console.log(error.message);
+        if (error.name !== "AbortError") {
+          setError(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
+    handleCloseMovie();
+    fetchMovies();
+    return () => controller.abort();
+  }, [query]);
+
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+![local storage added in Watched movie](../img/section13-lecture163-001.png)
+
+#### 163.2.2 Adding a `useEffect` in charge of handling the watched movies in local storage:
+
+**Subsection Summary**
+- Refactors persistence logic into a dedicated `useEffect` hook.
+- Synchronizes the `watched` state with `localStorage` whenever the state changes.
+- Ensures a "Single Source of Truth" for persistence, removing the need for `localStorage` calls in individual handlers like `handleAddWatched`.
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+
+const KEY = "f84fc31d";
+
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [watched, setWatched] = useState([]);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  //const tempQuery = "interstellar";
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+    //localStorage.setItem("watched", JSON.stringify([...watched, movie]));
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);    {/* 👈🏽 ✅ */}
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+        const data = await resp.json();
+
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+
+        setMovies(data.Search);
+      } catch (error) {
+        console.log(error.message);
+        if (error.name !== "AbortError") {
+          setError(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
+    handleCloseMovie();
+    fetchMovies();
+    return () => controller.abort();
+  }, [query]);
+
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+#### 163.2.3 Retrieving the local storage data:
+
+**Subsection Summary**
+- Implements **Lazy Initial State** by passing a callback function to `useState`.
+- Reads and parses data from `localStorage` once when the `App` component is first initialized.
+- Provides a fallback to an empty array `[]` if no data exists in storage.
+- Fixes the issue where the UI would reset on page refresh even if data existed in `localStorage`.
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+
+const KEY = "f84fc31d";
+
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  //const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(() => {
+    const storedValue = localStorage.getItem("watched");
+    return storedValue ? JSON.parse(storedValue) : [];
+  });   // 👈🏽 ✅ 
+  //const tempQuery = "interstellar";
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+    //localStorage.setItem("watched", JSON.stringify([...watched, movie]));
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+        const data = await resp.json();
+
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+
+        setMovies(data.Search);
+      } catch (error) {
+        console.log(error.message);
+        if (error.name !== "AbortError") {
+          setError(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
+    handleCloseMovie();
+    fetchMovies();
+    return () => controller.abort();
+  }, [query]);
+
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+> Issue fixed, after refreshing the page
+
+* localstorage still have the watched movies list.
+* WatchedMovie component still shows the watched movies.
+
+![issue fixed - after refreshing WatchedMovie shows watched movies](../img/section13-lecture163-002.png)
+
+### 🐞 163.3 Issues:
+
+- **State Desync on Refresh**: Initially, moving data to `localStorage` didn't reflect in the UI upon refresh because the state was still initialized as an empty array `[]`.
+- **Manual Persistence**: Calling `localStorage.setItem` inside event handlers is error-prone and leads to code duplication across add/delete actions.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Persistent state not loading | ✅ Fixed | UI starts with `[]` instead of reading from `localStorage` at `src/App.jsx:9413`. |
+| Manual Syncing | ✅ Fixed | Refactored to use `useEffect` for automatic synchronization at `src/App.jsx:9436`. |
+
+### 🧱 163.4 Pending Fixes (TODO)
+
+- [ ] Add error handling (try/catch) inside the lazy initializer to handle corrupted JSON in `localStorage`.
+- [ ] Implement a custom hook `useLocalStorageState` to encapsulate the persistence logic (upcoming lesson).
+- [ ] Optimize `JSON.stringify` calls if the list becomes very large.
+
+<br>
+<br>
+<br>
+<br>
+
+🔥 🔥 🔥 
+
+<br>
+
+## 🔧 XXX. Lesson XXX — *{{TITLE_NAME}}*
+
+### 🧠 XXX.1 Context:
+
+### ⚙️ XXX.2 Updating code/theory according the context:
+
+#### XXX.2.1
+```jsx
+/*  */
+
+```
+
+#### XXX.2.2
+```jsx
+/*  */
+
+```
+
+### 🐞 XXX.3 Issues:
+- **first issue**: something..
+
+| Issue | Status | Log/Error |
+|---|---|---|
+
+### 🧱 XXX.4 Pending Fixes (TODO)
+
+- [ ]
