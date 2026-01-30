@@ -9578,6 +9578,74 @@ export default App;
 - [ ] Optimize `JSON.stringify` calls if the list becomes very large.
 
 <br>
+
+## 🔧 164. Lesson 164 — *useState summary*
+
+- [164.1 Context](#1641-context)
+- [164.2 Updating code/theory according the context](#1642-updating-code-theory-according-the-context)
+  - [164.2.1 Creating State vs Updating State](#16421-creating-state-vs-updating-state)
+- [164.3 Issues](#1643-issues)
+- [164.4 Pending Fixes (TODO)](#1644-pending-fixes-todo)
+
+### 🧠 164.1 Context:
+
+This lesson provides a comprehensive summary of the `useState` hook, consolidating the rules, patterns, and best practices covered throughout the section. `useState` is the primary tool for adding "memory" to React components, allowing them to track data that changes over time and trigger re-renders when those changes occur.
+
+#### **Key Concepts**
+1. **State Ownership**: State belongs to the component where it's declared and is private by default.
+2. **Re-rendering**: Updating state via its setter function triggers a re-render of the component and its children.
+3. **Asynchronous Updates**: State updates are batched and don't immediately change the variable in the current execution context.
+4. **Functional Updates**: When the new state depends on the previous state, always use a callback function: `setState(prev => prev + 1)`.
+5. **Lazy Initialization**: Use a function for expensive initial state computations: `useState(() => expensiveFunc())`.
+
+#### **Advantages**
+- **Reactive UI**: Automatically keeps the UI in sync with underlying data.
+- **Simplicity**: Easy-to-use API for managing local component state.
+- **Performance**: React's batching mechanism ensures efficient UI updates.
+
+#### **Disadvantages/Gotchas**
+- **Stale Closures**: Relying on stale state variables inside async functions or effects instead of functional updates.
+- **Object Mutations**: Never mutate state objects or arrays directly; always return a new copy.
+- **Over-use**: Using state for values that can be derived from existing state or props (e.g., calculated totals).
+
+#### **When to Consider Alternatives**
+- **useReducer**: For complex state objects with multiple related sub-values or transition logic.
+- **useRef**: For values that should persist between renders but **don't** need to trigger a re-render when changed.
+- **Context API/Redux**: For global state shared across many deeply nested components.
+
+### ⚙️ 164.2 Updating code/theory according the context:
+
+#### **Summary**
+- Provides a high-level overview of the `useState` mental model.
+- Illustrates the distinction between the initialization phase and the update phase.
+- Acts as a quick reference guide for debugging state-related issues in `usePopcorn`.
+
+#### 164.2.1 Creating State vs Updating State:
+
+**Subsection Summary**
+- Visualizes the lifecycle of state within a component.
+- Highlights that state is preserved across renders by React.
+- Explains that calling the setter function is the **only** way to trigger a reactive update in a standard functional component.
+
+![Creating State vs Updating State](../img/section13-lecture164-001.png)
+
+### 🐞 164.3 Issues:
+
+- **Redundant State Callbacks**: Use of lazy initialization for simple values (e.g., primitive `0` or `""`) is technically valid but adds unnecessary complexity.
+- **Direct Mutation Pitfalls**: Potential risks when updating the `watched` or `movies` lists if the "no-mutation" rule is violated.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Informational Summary | ✅ Informational | Consolidated `useState` knowledge base for the project. |
+
+### 🧱 164.4 Pending Fixes (TODO)
+
+- [ ] Audit `src/App.jsx` to ensure all state updates depending on prior values use the functional form (e.g., `setWatched(w => [...w, movie])`).
+- [ ] Verify that no derived data is being stored in state (like `numResults`, which should just be `movies.length`).
+- [ ] Consider refactoring complex `useState` logic in `App.jsx` into a custom hook (e.g., `useLocalStorageState`).
+
+
+<br>
 <br>
 <br>
 <br>
