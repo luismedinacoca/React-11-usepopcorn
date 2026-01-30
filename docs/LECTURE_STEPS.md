@@ -78,6 +78,9 @@ usePopcorn is a modern React application that allows users to discover, search, 
       * [📚 Lesson 160: The "usePopcorn" Project](#-160-lesson-160--the-usepopcorn-project)
       * [📚 Lesson 161: Starting the "usePopcorn" project](#-161-lesson-161--starting-the-usepopcorn-project)
       * [📚 Lesson 162: More Details of useState](#-162-lesson-162--more-details-of-usestate)
+      * [📚 Lesson 163: Initializing State With a Callback (Lazy Initial State)](#-163-lesson-163--initializing-state-with-a-callback-lazy-initial-state)
+      * [📚 Lesson 164: useState summary](#-164-lesson-164--usestate-summary)
+      * [📚 Lesson 165: How NOT to Select DOM Elements in React](#-165-lesson-165--how-not-to-select-dom-elements-in-react)
     </details>
 
 ## 📁 Visual Project Tree
@@ -8062,6 +8065,9 @@ Note:
   - [📚 Lesson 160: The \"usePopcorn\" Project](#-160-the-usepopcorn-project)
   - [📚 Lesson 161: Starting the \"usePopcorn\" project](#-161-starting-the-usepopcorn-project)
   - [📚 Lesson 162: More Details of useState](#-162-lesson-162--more-details-of-usestate)
+  - [📚 Lesson 163: Initializing State With a Callback (Lazy Initial State)](#-163-lesson-163--initializing-state-with-a-callback-lazy-initial-state)
+  - [📚 Lesson 164: useState summary](#-164-lesson-164--usestate-summary)
+  - [📚 Lesson 165: How NOT to Select DOM Elements in React](#-165-lesson-165--how-not-to-select-dom-elements-in-react)
 
 <br>
 
@@ -9643,6 +9649,107 @@ This lesson provides a comprehensive summary of the `useState` hook, consolidati
 - [ ] Audit `src/App.jsx` to ensure all state updates depending on prior values use the functional form (e.g., `setWatched(w => [...w, movie])`).
 - [ ] Verify that no derived data is being stored in state (like `numResults`, which should just be `movies.length`).
 - [ ] Consider refactoring complex `useState` logic in `App.jsx` into a custom hook (e.g., `useLocalStorageState`).
+
+
+
+<br>
+
+## 🔧 165. Lesson 165 — *How NOT to Select DOM Elements in React*
+
+- [How NOT to Select DOM Elements in React](#-165-lesson-165--how-not-to-select-dom-elements-in-react)
+- [165.1 Context](#1651-context)
+- [165.2 Updating code/theory according the context](#1652-updating-codetheory-according-the-context)
+  - [165.2.1 DOM manipulation of Search component](#16521-dom-manipulation-of-search-component)
+- [165.3 Issues](#1653-issues)
+- [165.4 Pending Fixes (TODO)](#1654-pending-fixes-todo)
+
+### 🧠 165.1 Context:
+
+In standard web development (Vanilla JavaScript), we often use `document.querySelector()` or `document.getElementById()` to interact with DOM elements (e.g., to focus an input field or change a style). However, in React, this approach is discouraged because it bypasses React's declarative nature and its virtual DOM management. React should be the only one responsible for managing the DOM to ensure that state and UI stay in sync.
+
+#### **Key Concepts**
+1. **Declarative vs. Imperative**: React is declarative; you describe *what* the UI should look like based on state, rather than *how* to change it. Manual DOM selection is imperative.
+2. **Virtual DOM**: React uses a virtual representation of the DOM to optimize updates. Direct manipulation confuses React's tracking system.
+3. **Component Reusability**: Using classes or IDs for selection (like `.search`) makes components less reusable because multiple instances of the component will share the same identifier, leading to unexpected behavior.
+4. **Side Effects**: DOM manipulation is a side effect and should always be handled inside `useEffect`.
+
+#### **Advantages of the React Way (Refs)**
+- **Isolation**: Each component instance has its own private reference to its DOM elements.
+- **Safety**: Avoids conflicts between components or third-party libraries.
+- **Predictability**: Follows the unidirectional data flow and React lifecycle.
+
+#### **When to Consider Alternatives**
+- **Vanilla JavaScript**: Only use manual DOM selection in non-React environments or very specific legacy integrations where React has no control.
+- **React Refs**: Use the `useRef` hook for any imperative DOM interaction (focus, scroll, measurements).
+
+---
+
+### ⚙️ 165.2 Updating code/theory according the context:
+
+#### **Summary**
+- Explains why manual DOM selection via `document.querySelector` is problematic in React.
+- Demonstrates an imperative approach to focusing an element within a `useEffect` hook.
+- Highlights the conflict between declarative React and imperative DOM manipulation.
+
+#### **165.2.1 DOM manipulation of Search component:**
+
+**Subsection Summary**
+- Shows a common mistake: using `document.querySelector(".search")` to focus an input.
+- Demonstrates how this approach depends on specific CSS classes, making the component fragile.
+- Illustrates that while it "works," it breaks React's abstraction and reusability.
+
+- React is all about being declarative.
+- Manually selecting the DOM like this is not really the React way.
+```jsx
+/* src/components/Search.jsx */
+import { useEffect } from "react";
+
+const Search = ({ query, setQuery }) => {
+  useEffect(() => {   // 👈🏽 ✅
+    // ❌ Imperative and non-React way
+    const el = document.querySelector(".search");
+    console.log(el);
+
+    el.focus();
+  }, [query])
+  return (
+    <input
+      className="search"
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+    />
+  );
+};
+
+export default Search;
+```
+
+![adding search as className or IDs](../img/section13-lecture165-001.png)
+
+### 🐞 165.3 Issues:
+
+- **Imperative DOM Selection**: Using `document.querySelector` is an imperative escape hatch that bypasses React's state management.
+- **Fragile Selectors**: The code depends on the `.search` class being present and unique, which fails if multiple search bars exist.
+- **Violates React Principles**: Direct DOM manipulation can lead to bugs where the UI state and the actual DOM are out of sync.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Manual DOM manipulation | ⚠️ Identified | Using `document.querySelector(".search")` in `src/components/Search.jsx:9667`. |
+| Loss of Component Isolation | ⚠️ Identified | Multiple `Search` components would conflict over the same `.search` selector. |
+
+### 🧱 165.4 Pending Fixes (TODO)
+
+- [ ] Replace `document.querySelector` with `useRef` in `src/components/Search.jsx`.
+- [ ] Implement focus logic using the `ref.current.focus()` method within `useEffect`.
+- [ ] Remove the dependency on the `.search` CSS class for functional logic.
+
+
+
+
+
+
 
 
 <br>
