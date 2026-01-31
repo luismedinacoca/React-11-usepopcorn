@@ -9746,6 +9746,346 @@ export default Search;
 - [ ] Remove the dependency on the `.search` CSS class for functional logic.
 
 
+<br>
+
+## 🔧 166. Lesson 166 — *Introducing Another Hook: useRef*
+
+- [166. Lesson 166 — *Introducing Another Hook: useRef*](#-166-lesson-166--introducing-another-hook-useref)
+- [166.1 Context](#1661-context)
+- [166.2 Updating code/theory according the context](#1662-updating-codetheory-according-the-context)
+  - [166.2.1 What are **REFS**?](#16621-what-are-refs)
+  - [166.2.2 State **vs** Refs](#16622-state-vs-refs)
+  - [166.2.3 Different example level of useRef applying](#16623-different-example-level-of-useref-applying)
+- [166.3 Issues](#1663-issues)
+- [166.4 Pending Fixes (TODO)](#1664-pending-fixes-todo)
+
+### 🧠 166.1 Context:
+
+`useRef` is a React Hook that allows you to persist values between renders without triggering a re-render. It is most commonly known for accessing DOM elements directly, but its utility extends to storing any mutable value that the component needs to "remember" without needing to display it in the UI.
+
+**Key Concepts:**
+1. **Mutable Box**: `useRef` returns a plain JavaScript object with a single `current` property. You can store any value in this property, and it will persist across the component's entire lifecycle.
+2. **No Re-renders**: Unlike `useState`, changing the `current` value of a ref does **not** cause React to re-render the component. This makes it ideal for values that are "internal" to the component's logic but not the UI.
+3. **DOM Access**: By passing a ref object to the `ref` attribute of a JSX element, React will automatically set the `current` property to that DOM element once it is mounted.
+4. **Synchronous Updates**: Updates to `ref.current` happen immediately (synchronously), whereas state updates are scheduled and async.
+
+**Advantages:**
+- Efficiently stores data that doesn't affect the visual output (e.g., timer IDs, previous prop values).
+- Provides a "declarative" way to interact with the "imperative" DOM API.
+- Useful for integrating with non-React libraries (e.g., Google Maps, D3.js).
+
+**Disadvantages/Gotchas:**
+- **Don't use for UI state**: If a value needs to be reflected in the JSX, use `useState`.
+- **Avoid rendering logic usage**: Do not read or write `ref.current` during the actual rendering phase of the component (except for lazy initialization), as it makes the component's behavior unpredictable.
+- **Not for prop drilling**: Passing refs down deep component trees can lead to fragile code; consider `forwardRef` for controlled access.
+
+**When to Consider Alternatives:**
+- Use `useState` if the data change should trigger a UI update.
+- Use `useMemo` or `useCallback` if you are trying to memoize a value or function to prevent unnecessary child re-renders.
+
+### ⚙️ 166.2 Updating code/theory according the context:
+
+#### **Summary**
+- **Core Purpose**: Introduces the `useRef` hook as a specialized tool for persisting mutable data that does not trigger component re-renders.
+- **Bridging Concepts**: Explains the fundamental differences between `useState` (UI-driven) and `useRef` (logic/DOM-driven).
+- **Hierarchical Learning**: Progresses from basic DOM manipulation to advanced patterns like `forwardRef` and `useImperativeHandle`, providing a complete roadmap for hook mastery.
+
+#### 166.2.1 What are **REFS**?
+
+**Subsection Summary**
+- **Visual Definition**: Uses diagrams to illustrate that a Ref is a "box" holding a `current` value.
+- **Persistence**: Highlights that the value stays the same across renders, even when the component function executes again.
+
+![What are REFS](../img/section13-lecture166-001.png)
+
+#### 166.2.2 State **vs** Refs
+
+**Subsection Summary**
+- **Comparative Analysis**: Contrasts State (re-renders, immutable, async) with Refs (no re-renders, mutable, synchronous).
+- **Guidance**: Helps developers choose the right tool based on whether the data should "talk to the UI" or "talk to the logic".
+
+![state vs Refs](../img/section13-lecture166-002.png)
+
+
+#### 166.2.3 Different example level of useRef applying:
+
+**Subsection Summary**
+- **Practical Application**: Demonstrates six specific tiers of `useRef` usage, from standard DOM focusing to complex parent-child imperative interactions.
+- **Common Patterns**: Includes the "Previous State" pattern and interval management, which are staple use cases in real-world React apps.
+- **Advanced Integration**: Explains `forwardRef` and `useImperativeHandle` for scenarios where internal component logic needs to be exposed to parents.
+
+**`useRef`** is one of the most versatile hooks in React, but it is often underutilized, with people thinking it only serves for selecting DOM elements.
+
+The key to understanding **`useRef`** is to think of it as a **`mutable box`** that can hold any value (an object, a number, a DOM element) and **`persists across renders`** without causing the component to re-render if you change its contents.
+
+Here are the different ways to use it, ordered from the simplest to the most complex:
+
+**1. Basic Level: Accessing the DOM**
+
+This is the most common way. It is used to "select" an HTML element just like you would with **`document.getElementById`**, but in a declarative way.
+
+**`Use case`**: You want the cursor to be automatically focused on a text input when the page loads.
+
+```jsx
+import React, { useRef, useEffect } from 'react';
+
+function Formulario() {
+  // 1. Create the reference
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    // 3. Access the element and focus it
+    // current is null at the start, but when the component mounts, 
+    // React assigns the DOM element here.
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  return (
+    <div>
+      <h2>Registration Form</h2>
+      {/* 2. Connect the ref with the JSX element */}
+      <input ref={inputRef} type="text" placeholder="Type your name..." />
+    </div>
+  );
+}
+```
+
+**2. Intermediate Level: Storing values that don't trigger re-renders**
+
+Unlike **`useState`**, if you change the value of **`ref.current`**, React ***`will not`*** execute the component again. This is ideal for storing values you need to read later but that aren't visual.
+
+**`Use case`**: A counter of how many times the component has rendered, or storing a timer ID.
+
+```jsx
+import React, { useRef, useState, useEffect } from 'react';
+
+function RenderCounter() {
+  const [count, setCount] = useState(0);
+  const renderCount = useRef(0);
+
+  useEffect(() => {
+    // Every time the component renders, this runs.
+    // Note! If we used useState here to save the number,
+    // we would enter an infinite loop of renders.
+    renderCount.current = renderCount.current + 1;
+  });
+
+  return (
+    <div>
+      <p>State count: {count}</p>
+      <p>The component has rendered: {renderCount.current} times</p>
+      <button onClick={() => setCount(c => c + 1)}>Increase State</button>
+    </div>
+  );
+}
+```
+
+**3. Intermediate-Advanced Level: The "Previous State" Pattern**
+
+Do you need to know what the value of a variable or prop was before it changed? **`useRef`** is perfect for remembering the past without affecting the present.
+
+**`Use case`**: A chat that shows "New message" only if the number of messages actually changes.
+
+```jsx
+import React, { useState, useEffect, useRef } from 'react';
+
+function Chat({ message }) {
+  const [currentMessage, setCurrentMessage] = useState(message);
+  // We save the previous value of the message
+  const prevMessageRef = useRef();
+
+  useEffect(() => {
+    // We update the ref with the CURRENT value before it changes
+    prevMessageRef.current = currentMessage;
+  }, [currentMessage]); // Runs only when currentMessage changes
+
+  const isNew = prevMessageRef.current !== currentMessage;
+
+  return (
+    <div>
+      <h3>Chat Thread</h3>
+      <p>Current: {currentMessage}</p>
+      <p>Previous: {prevMessageRef.current}</p>
+      {isNew && <span style={{color: 'red'}}>¡NEW!</span>}
+      <button onClick={() => setCurrentMessage(prompt("Type something"))}>
+        Change Message
+      </button>
+    </div>
+  );
+}
+```
+
+
+**4. Advanced Level: Timers and Cleanup (setInterval / setTimeout)**
+
+When you use **`setInterval`**, you often need to clear it (clearInterval) or access its ID elsewhere. Saving the timer ID in a **`ref`** ensures you always have access to the correct ID, even if the component re-renders many times while the timer is running.
+
+**`Use case`**: A stopwatch that can be stopped and resumed.
+
+```jsx
+import React, { useState, useEffect, useRef } from 'react';
+
+function Stopwatch() {
+  const [seconds, setSeconds] = useState(0);
+  const intervalRef = useRef(null); // We save the interval ID here
+
+  const start = () => {
+    if (intervalRef.current) return; // It's already running
+
+    intervalRef.current = setInterval(() => {
+      setSeconds((s) => s + 1);
+    }, 1000);
+  };
+
+  const stop = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current); // We use the ref to clean up
+      intervalRef.current = null;
+    }
+  };
+
+  // Automatic cleanup if the component unmounts
+  useEffect(() => {
+    return () => {
+      clearInterval(intervalRef.current);
+    };
+  }, []);
+
+  return (
+    <div>
+      <h1>{seconds} s</h1>
+      <button onClick={start}>Start</button>
+      <button onClick={stop}>Stop</button>
+    </div>
+  );
+}
+```
+
+
+**5. Expert Level: Integration with Third-Party Libraries (`forwardRef`)**
+
+Sometimes you create your own components (custom buttons, styled inputs) and you want the parent component to be able to focus them or access their DOM properties. Since React encapsulates everything, the parent doesn't see the child's internal DOM. For this, we use **`forwardRef`**.
+
+**`Use case`**: A `FancyInput` that receives a ref from its parent.
+
+```jsx
+// The CHILD component
+const FancyInput = React.forwardRef((props, ref) => {
+  return (
+    <div style={{ border: '2px solid blue', padding: '10px' }}>
+      {/* We connect the ref passed to us to the real input */}
+      <input ref={ref} type="text" style={{ fontSize: '20px' }} />
+    </div>
+  );
+});
+
+// The PARENT component
+function App() {
+  const inputRef = useRef(null);
+
+  const handleClick = () => {
+    // Magic! The parent can focus the input living inside the child.
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  return (
+    <div>
+      <FancyInput ref={inputRef} />
+      <button onClick={handleClick}>Focus Child Input</button>
+    </div>
+  );
+}
+```
+
+
+**6. Very Expert Level: `useImperativeHandle`**
+
+This is the most complex and specific form. Sometimes you don't want to expose the entire DOM element (which can be dangerous or give too much access), but you want to expose **specific functions** of your child component to the parent.
+
+Use case: A Modal or VideoPlayer where the parent only wants to call **`play()`** or **`reset()`**, but doesn't want to access the HTML div directly.
+
+```jsx
+import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react';
+
+// Child Component
+const VideoPlayer = forwardRef((props, ref) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  // Internal function to play
+  const play = () => {
+    setIsPlaying(true);
+    console.log("Playing video...");
+  };
+
+  // Internal function to pause
+  const pause = () => {
+    setIsPlaying(false);
+    console.log("Pausing video...");
+  };
+
+  // We expose ONLY what we want to the parent through the ref
+  useImperativeHandle(ref, () => ({
+    play,
+    pause,
+    isPlaying // We can also expose read-only values
+  }));
+
+  return (
+    <div className="video-box" style={{ padding: 20, background: '#eee' }}>
+      Status: {isPlaying ? "▶️ Playing" : "⏸️ Paused"}
+    </div>
+  );
+});
+
+// Parent Component
+function RemoteControl() {
+  const playerRef = useRef(null);
+
+  return (
+    <div>
+      <VideoPlayer ref={playerRef} />
+      
+      <div style={{ marginTop: 10 }}>
+        <button onClick={() => playerRef.current.play()}>
+          Play (from parent)
+        </button>
+        <button onClick={() => playerRef.current.pause()}>
+          Pause (from parent)
+        </button>
+      </div>
+    </div>
+  );
+}
+```
+
+**Summary**:
+1. **Simple**: Focus or scroll to an HTML element (**`ref={domElement}`**).
+2. **Medium**: Store mutable variables that shouldn't re-render the app (timers, internal counters).
+3. **Advanced**: Pass a ref through components (**`forwardRef`**).
+4. **Complex**: Create a custom API for your component exposing only specific functions (**`useImperativeHandle`**`).
+
+
+
+### 🐞 166.3 Issues:
+- **Language Inconsistency**: Some code examples and comments are in Spanish (e.g., `Formulario`, `¡NEW!`), whereas the rest of the documentation is in English.
+- **Missing implementation in project**: `useRef` is explained theoretically but not yet implemented in the `usePopcorn` components.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Language Inconsistency | ℹ️ Informational | Spanish snippets in theoretical examples: `docs/LECTURE_STEPS.md:9783, 9862`. |
+| Pending Integration | ⚠️ Identified | Components like `Search.jsx` still use standard state or props where refs could optimize focus/interaction. |
+
+### 🧱 166.4 Pending Fixes (TODO)
+
+- [ ] Implement `useRef` to focus the search input in `Search.jsx` on mount.
+- [ ] Use `useRef` to store the previous movie rating in `MovieDetails.jsx` to compare with the new rating.
+- [ ] Implement a custom hook `useKey` that utilizes `useRef` for event listener cleanup.
+
+
 
 
 
