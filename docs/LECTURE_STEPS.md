@@ -10500,6 +10500,8 @@ export default MovieDetails;
   <source src="../img/section13-lecture168-001.mp4" type="video/mp4">
 </video>
 
+![demo](../img/section13-lecture168-001.mp4)
+
 #### 168.2.2 Using a regular variable doing the same:
 **Subsection Summary**
 - Contrasts `useRef` with a standard `let` variable declaration inside the component.
