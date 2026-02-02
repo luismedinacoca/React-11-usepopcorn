@@ -10714,6 +10714,70 @@ export default MovieDetails;
 - [ ] Refactor the `handleAdd` function to ensure all side effects (like updating `countRef`) are fully encapsulated.
 
 
+<br>
+
+## 🔧 169. Lesson 169 — *What are Custom Hooks? When to Create One?*
+
+- [169. Lesson 169 — *What are Custom Hooks? When to Create One?*](#-169-lesson-169--what-are-custom-hooks-when-to-create-one)
+- [169.1 Context](#1691-context)
+- [169.2 Updating code/theory according the context](#1692-updating-codetheory-according-the-context)
+  - [169.2.1 Reusing Logic with Custom Hooks](#16921-reusing-logic-with-custom-hooks)
+- [169.3 Issues](#1693-issues)
+- [169.4 Pending Fixes (TODO)](#1694-pending-fixes-todo)
+
+### 🧠 169.1 Context:
+
+Custom hooks are a powerful React feature that allows you to extract component logic into reusable functions. They are essentially regular JavaScript functions that can call other React hooks (like `useState`, `useEffect`, etc.). While regular functions can't hold state or use effects, custom hooks can, providing a way to share stateful logic between components without duplicating code.
+
+1. **Key Concepts**:
+   - **Naming Convention**: Must start with the word `use` (e.g., `useFetch`, `useLocalStorage`). This is how React identifies them as hooks and enforces the Rules of Hooks.
+   - **Hook Composition**: Custom hooks can call other hooks, but they must follow the same rules as built-in hooks (top-level only, only in React functions).
+   - **Isolation**: Every time you call a custom hook in a component, all state and effects inside that hook are completely isolated.
+
+2. **Advantages**:
+   - **Reusability**: Share complex logic (fetching data, handling forms, timers) across multiple components.
+   - **Readability**: Simplify large components by offloading logic to descriptive hooks.
+   - **Testability**: Logic in custom hooks is easier to test in isolation.
+   - **Separation of Concerns**: Decouple UI rendering from complex state or side-effect logic.
+
+3. **Disadvantages/Gotchas**:
+   - **Not for UI**: Custom hooks should return data or functions, not JSX elements (use components for that).
+   - **Over-abstraction**: Don't create custom hooks for very simple logic that's only used once.
+   - **Hook Rules**: They are bound by the same strict rules as built-in hooks.
+
+4. **When to Consider Alternatives**:
+   - Use **Component Composition** if the shared logic is primarily about the UI structure.
+   - Use a regular **Helper Function** if the logic doesn't need to use any React hooks (state, effects, etc.).
+
+### ⚙️ 169.2 Updating code/theory according the context:
+
+#### **Summary**
+- This section explores the conceptual foundation of custom hooks and the criteria for creating them.
+- It highlights the shift from duplicating `useEffect` and `useState` patterns to encapsulating them in reusable units.
+- The focus is on identifying "non-visual" logic that can be extracted to improve code maintainability.
+
+#### 169.2.1 **Reusing** Logic with Custom Hooks
+**Subsection Summary**
+- Demonstrates the architectural pattern of lifting stateful logic out of components.
+- Illustrates how components become "skinnier" and more focused on rendering when logic is moved to hooks.
+- Useful for understanding the transition from complex monolithic components to a modular, hook-based architecture.
+
+![Reusing Logic with Custom Hooks](../img/section13-lecture169-001.png)
+
+### 🐞 169.3 Issues:
+- The current implementation in `App.jsx` still contains large chunks of logic for fetching movies and managing local storage that are ripe for extraction into custom hooks.
+- Placeholder text "something.." needs removal.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Logic Duplication | ⚠️ Identified | Data fetching logic in `App.jsx:51-85` is not yet encapsulated and could be reused. |
+| Non-Modular State | ⚠️ Identified | Local storage synchronization in `App.jsx:24-27` and `47-49` is coupled to the `App` component. |
+
+### 🧱 169.4 Pending Fixes (TODO)
+
+- [ ] Extract data fetching logic from `App.jsx` into a custom `useMovies` hook.
+- [ ] Extract local storage persistence into a reusable `useLocalStorageState` hook.
+- [ ] Implement a `useKey` hook to handle the escape keypress functionality currently in `MovieDetails.jsx`.
 
 
 
