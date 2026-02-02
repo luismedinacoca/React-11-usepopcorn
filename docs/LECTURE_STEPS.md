@@ -10304,6 +10304,415 @@ export default Search;
 - [ ] Investigate if `autoFocus` property could be used as a simpler alternative for the initial mount focus.
 
 
+<br>
+
+## 🔧 168. Lesson 168 — *Refs to Persist Data Between Renders*
+
+- [Lesson 168: Refs to Persist Data Between Renders](#-168-lesson-168--refs-to-persist-data-between-renders)
+- [168.1 Context](#1681-context)
+- [168.2 Updating code/theory according the context](#1682-updating-codetheory-according-the-context)
+  - [168.2.1 Using useRef for counting](#16821-using-useref-for-counting-the-userrating-time-selection)
+  - [168.2.2 Regular variable comparison](#16822-using-a-regular-variable-doing-the-same)
+  - [168.2.3 Variables Comparative](#16823-comparative-between-regular-or-normal-state-and-useref-variables)
+- [168.3 Issues](#1683-issues)
+- [168.4 Pending Fixes (TODO)](#1684-pending-fixes-todo)
+
+### 🧠 168.1 Context:
+
+This lesson explores the second use case for `useRef`: persisting data across re-renders without triggering a new render when that data is updated. While `useState` is for data that the UI depends on, `useRef` is for "hidden" data that survives the component's lifecycle but doesn't need to be reflected in the visual output immediately. We use this to track how many times a user changes their movie rating before actually clicking "Add to list".
+
+1. **Key Concepts**:
+   - **Persistence**: Ref values are stored in a box that React keeps around for the entire lifetime of the component.
+   - **No Re-renders**: Updating `ref.current` does *not* trigger a re-render. This is the fundamental difference from `useState`.
+   - **Stability**: Unlike regular variables inside the function body, refs don't reset to their initial value every time the component renders.
+   - **Muting during Render**: You should generally not read or write `ref.current` during the render phase. Instead, do it in effects or event handlers.
+
+2. **Advantages**:
+   - **Performance**: Great for storing IDs (like `setInterval`), previous props/state, or counters that are only needed at the time of an action (like submission).
+   - **State Isolation**: Allows tracking metadata without cluttering the rendering logic or causing unnecessary UI updates.
+
+3. **Disadvantages/Gotchas**:
+   - **No Reactive UI**: If you update a ref and expect the UI to change, it won't. You'll see the stale value until something else (like a state change) triggers a render.
+   - **Side Effects**: Updating refs is a side effect, so it belongs in `useEffect` or event handlers.
+
+4. **When to Consider Alternatives**:
+   - Use `useState` if the data needs to be displayed in the UI.
+   - Use regular variables if the data only needs to exist during the current render cycle.
+
+### ⚙️ 168.2 Updating code/theory according the context:
+
+#### **Summary**
+- This section demonstrates how to use `useRef` to track "silent" metrics that persist across renders without affecting the UI.
+- We specifically implement a counter to track how many times a user adjusted their rating before adding a movie to their watched list.
+- The examples compare `useRef` against regular variables to illustrate why standard variables fail to persist data across React's rendering cycles.
+
+#### 168.2.1 Using `useRef` for counting the `userRating` time selection:
+**Subsection Summary**
+- Initializes a `countRef` with `useRef(0)` to track rating decisions.
+- Uses `useEffect` to increment the ref whenever the `userRating` state changed, creating a persistent counter that doesn't trigger extra renders.
+- Includes the final count in the movie object sent to the `onAddWatched` function.
+
+```jsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useRef, useState } from "react";    // 👈🏽 ✅ (1)
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+
+  const countRef = useRef(0);   // 👈🏽 ✅ (1)
+
+  useEffect(() => {   // 👈🏽 ✅ (2)
+    if (userRating) countRef.current++;   // 👈🏽 ✅ (2)
+    console.log(countRef.current);
+  }, [userRating])    // 👈🏽 ✅ (3)
+
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+
+  const [avgRating, setAvgRating] = useState(0);
+
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+      countRatingDecisions: countRef.current,   // 👈🏽 ✅ (3)
+    };
+    onAddWatched(newWatchedMovie);
+    //onCloseMovie();
+
+    // setting the current imdbRating value to avgRating:
+    setAvgRating(Number(imdbRating));
+    //alert(avgRating);
+    setAvgRating((avgRating) => (avgRating + userRating) / 2);
+  };
+
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+
+    getMovieDetails();
+  }, [selectedId]);
+
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    };
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
+
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+    return () => {
+      document.title = "usePopcorn";
+      //console.log(`Clean up effect for movie ${title}`);
+    };
+  }, [title]);
+
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+
+          <p>🍺 {avgRating}</p>
+
+          <section>
+            <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span>
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+<video width="100%" controls>
+  <source src="../img/section13-lecture168-001.mp4" type="video/mp4">
+</video>
+
+#### 168.2.2 Using a regular variable doing the same:
+**Subsection Summary**
+- Contrasts `useRef` with a standard `let` variable declaration inside the component.
+- Explains why the regular variable fails: it is destroyed and re-initialized to 0 on every render, making it impossible to accumulate values across the lifecycle.
+- Highlights the importance of the dependency array when trying to track non-reactive variables in `useEffect`.
+
+```jsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useRef, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+
+  const countRef = useRef(0);
+  const count = 0;    // 👈🏽 ✅ (1)
+
+  useEffect(() => {
+    if (userRating) countRef.current++;
+    if (userRating) count++;    // 👈🏽 ✅ (1)
+    //console.log(countRef.current);
+    console.log(count);    // 👈🏽 ✅ (1)
+  }, [userRating, count]) // count does not have a ref that's why is added to the dependency array 👈🏽 ✅ (2)
+
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+
+  const [avgRating, setAvgRating] = useState(0);
+
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+      countRatingDecisions: countRef.current,
+      count,    // 👈🏽 ✅ (2)
+    };
+    onAddWatched(newWatchedMovie);
+    //onCloseMovie();
+
+    // setting the current imdbRating value to avgRating:
+    setAvgRating(Number(imdbRating));
+    //alert(avgRating);
+    setAvgRating((avgRating) => (avgRating + userRating) / 2);
+  };
+
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+
+    getMovieDetails();
+  }, [selectedId]);
+
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    };
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
+
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+    return () => {
+      document.title = "usePopcorn";
+      //console.log(`Clean up effect for movie ${title}`);
+    };
+  }, [title]);
+
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+
+          <p>🍺 {avgRating}</p>
+
+          <section>
+            <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span>
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+![applying a regular variable](../img/section13-lecture168-002.png)
+
+#### 168.2.3 Comparative between `regular or normal`, `state` and `useRef` variables:
+**Subsection Summary**
+- Provides a comprehensive lookup table comparing the three main ways to store data in a React component.
+- Clarifies the specific trade-offs between rendering triggers, persistence, and storage locations (Stack vs. React Fiber).
+- Serves as a decision-making guide for choosing the right tool for different data persistence needs.
+
+
+
+| Feature / Variable Type | Regular Variable (`let` / `const`) | State Variable (`useState`) | Ref Variable (`useRef`) |
+|-------------------------|-------------------------------------|-----------------------------|--------------------------|
+| Persists between renders | ❌ No (resets on every render) | ✅ Yes | ✅ Yes |
+| Triggers re-render when updated | ❌ No | ✅ Yes | ❌ No |
+| Typical update method | Direct assignment (`x = value`) | `setState(value)` | `ref.current = value` |
+| Stored across component lifecycle | ❌ No | ✅ Yes | ✅ Yes |
+| Use case | Temporary values inside render | UI-related reactive data | Store mutable values without re-render |
+| Affects UI automatically | ❌ No | ✅ Yes | ❌ No |
+
+
+* Normal variables are not persistent across renders and they don't trigger the re-render.
+* State variables are re-render and persistent.
+* ref variables persist across renders but it does not trigger the re-render when updated.
+
+
+| Aspect | Regular Variable | State (`useState`) | Ref (`useRef`) |
+|--------|------------------|--------------------|----------------|
+| Storage location | Function execution context (stack) | React Fiber (hook state) | React Fiber (hook ref) |
+| Lifetime | One render cycle | Component lifetime | Component lifetime |
+| Preserved between renders | ❌ No | ✅ Yes | ✅ Yes |
+| Update mechanism | Reassignment (`x = ...`) | State setter (`setX`) | Mutation (`ref.current = ...`) |
+| Schedules re-render | ❌ No | ✅ Yes | ❌ No |
+| Batched updates | ❌ No | ✅ Yes (React batching) | ❌ No |
+| Update is asynchronous | ❌ No | ✅ Potentially (concurrent rendering) | ❌ No |
+| Equality check before update | N/A | `Object.is` comparison | N/A |
+| Causes reconciliation | ❌ No | ✅ Yes | ❌ No |
+| Tracked by React | ❌ No | ✅ Yes | ✅ Yes |
+| Suitable for render output | ❌ No | ✅ Yes | ❌ No |
+| Referential stability | ❌ No (new per render) | ❌ No (new value per update) | ✅ Yes (same object reference) |
+| Can be used in dependency arrays | ❌ No | ✅ Yes | ⚠️ Not useful (mutations not tracked) |
+| Typical internal representation | Local JS binding | Hook state cell | `{ current: value }` object |
+
+
+### 🐞 168.3 Issues:
+- **Redundant tracking**: In the provided examples, `count` and `countRef` are redundant if only one persistence method is needed.
+- **Dependency Inconsistency**: Adding `count` (a regular variable) to the `useEffect` dependency array is technically possible but conceptually misleading as it doesn't change from React's perspective between renders.
+- **Direct Mutation in Render**: While not shown here, a common issue is trying to update `ref.current` directly in the render body which can lead to unpredictable behavior in concurrent mode.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Redundant Variable | ℹ️ Informational | `src/components/MovieDetails.jsx`: both `count` and `countRef` used for same logic in 168.2.2. |
+| Dependency Array Warning | ⚠️ Identified | Regular variable in dependency array in `src/components/MovieDetails.jsx:10525` may trigger lint warnings. |
+
+### 🧱 168.4 Pending Fixes (TODO)
+- [ ] Remove the experimental `count` variable and stick to `countRef` for the final implementation.
+- [ ] Add a visual feedback (perhaps a small toast) when a movie is added, showing the number of rating adjustments made.
+- [ ] Refactor the `handleAdd` function to ensure all side effects (like updating `countRef`) are fully encapsulated.
+
+
 
 
 
