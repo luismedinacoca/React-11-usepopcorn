@@ -10496,11 +10496,8 @@ const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
 export default MovieDetails;
 ```
 
-<video width="100%" controls>
-  <source src="../img/section13-lecture168-001.mp4" type="video/mp4">
-</video>
 
-![demo](../img/section13-lecture168-001.mp4)
+[![demo](../img/section13-lecture168-001.png)](../img/section13-lecture168-001.mp4)
 
 #### 168.2.2 Using a regular variable doing the same:
 **Subsection Summary**
@@ -10657,6 +10654,8 @@ export default MovieDetails;
 ```
 
 ![applying a regular variable](../img/section13-lecture168-002.png)
+
+![seen from the code](../img/section13-lecture168-003.png)
 
 #### 168.2.3 Comparative between `regular or normal`, `state` and `useRef` variables:
 **Subsection Summary**
