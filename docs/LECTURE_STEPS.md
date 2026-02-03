@@ -10780,7 +10780,503 @@ Custom hooks are a powerful React feature that allows you to extract component l
 - [ ] Implement a `useKey` hook to handle the escape keypress functionality currently in `MovieDetails.jsx`.
 
 
+<br>
 
+## 🔧 170. Lesson 170 — *Creating our First Custom Hook: useMovies*
+
+- [170. Lesson 170 — Creating our First Custom Hook: useMovies](#-170-lesson-170---creating-our-first-custom-hook-usemovies)
+- [170.1 Context](#-1701-context)
+- [170.2 Updating code according the context](#-1702-updating-code-according-the-context)
+    - [170.2.1 Searching the future custom hook part](#-17021-searching-the-future-custom-hook-part)
+    - [170.2.2 Creating the Custom hook useMovie](#-17022-creating-the-custom-hook-usemovie)
+    - [170.2.3 Movie Details does not close by searching another movie](#-17023-movie-details-does-not-close-by-searching-another-movie)
+    - [170.2.4 Meanwhile App.jsx is updated](#-17024-meanwhile-appjsx-is-updated)
+    - [170.2.5 Adding a callback function into useMovie hook](#-17025-adding-a-callback-function-into-usemovie-hook)
+    - [170.2.6 Adding this callback update into App.jsx](#-17026-adding-this-callback-update-into-appjsx)
+- [170.3 Issues](#-1703-issues)
+- [170.4 Pending Fixes (TODO)](#-1704-pending-fixes-todo)
+
+### 🧠 170.1 Context:
+
+In this lesson, we create our first **Custom Hook** named `useMovies`. Custom hooks allow us to extract component logic into reusable functions.
+
+We identified that the `App` component was becoming bloated with logic related to fetching movies. By moving this logic into a custom hook, we achieve better **Separation of Concerns**. The `App` component can focus on the UI and wiring together different parts, while the `useMovies` hook handles the data fetching implementation details.
+
+**Key Concepts:**
+1.  **Custom Hooks**: JavaScript functions that start with `use` and can call other hooks (like `useState`, `useEffect`).
+2.  **Reusability**: encapsulating logic so it can be used in multiple components.
+3.  **Stateful Logic**: Custom hooks allow sharing stateful logic, not state itself.
+
+**Advantages:**
+- **Cleaner Code**: `App.jsx` becomes much smaller and easier to read.
+- **Testability**: The hook can potentially be tested in isolation.
+- **Reusability**: If we needed to fetch movies in another component, we could reuse this hook.
+
+**Disadvantages/Gotchas:**
+- **Abstraction**: It adds a layer of abstraction which might slightly increase complexity for very simple cases.
+- **Dependencies**: We need to be careful about what data the hook needs (arguments) and what it returns.
+
+### ⚙️ 170.2 Updating code/theory according the context:
+
+#### **Summary**
+- This section demonstrates the process of extracting the movie fetching logic from `App.jsx` into a new file `useMovies.js`.
+- It shows how to identify the relevant state and effects to move.
+- It addresses a specific issue that arises when moving the logic: the need to close the movie details when a new search begins, which was previously handled inside the component's effect.
+- The solution involves passing a `callback` function to the custom hook.
+
+#### 170.2.1 Searching the future custom hook part:
+
+**Subsection Summary**
+- Identifies the specific block of code in `App.jsx` that is responsible for fetching movies.
+- This includes the `useEffect` hook handling the data fetching and the validation logic.
+- This code is the target for extraction into the custom hook.
+
+```jsx
+/* src/App.jsx */
+....
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+        const data = await resp.json();
+
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+
+        setMovies(data.Search);
+      } catch (error) {
+        console.log(error.message);
+        if (error.name !== "AbortError") {
+          setError(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
+    handleCloseMovie();
+    fetchMovies();
+    return () => controller.abort();
+  }, [query]);
+....
+```
+
+#### 170.2.2 Creating the Custom hook `useMovie`
+
+**Subsection Summary**
+- Shows the implementation of the new `useMovies.js` file.
+- The hook accepts `query` as an argument.
+- It manages its own state: `isLoading`, `error`, `movies`.
+- It returns these state values so the consuming component can use them.
+- **Note**: The `handleCloseMovie` call was removed (commented out) initially because it's not available in this scope.
+
+```jsx
+/* src/Hooks/useMovies.js */
+import { useState, useEffect } from "react";   // 👈🏽 ✅ (1)
+
+const KEY = "f84fc31d";   // 👈🏽 ✅ (5)
+
+export function useMovies(query) {
+  const [isLoading, setIsLoading] = useState(false);    // 👈🏽 ✅ (2)
+  const [error, setError] = useState("");   // 👈🏽 ✅ (3)
+  const [movies, setMovies] = useState([]);   // 👈🏽 ✅ (4)
+
+  useEffect(() => {   // 👈🏽 ✅ (1)
+    const controller = new AbortController();
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);    // 👈🏽 (2)
+        setError("");   // 👈🏽 (3)
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+        const data = await resp.json();
+
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+
+        setMovies(data.Search);   // 👈🏽 (4)
+      } catch (error) {
+        console.log(error.message);
+        if (error.name !== "AbortError") {
+          setError(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
+    //handleCloseMovie();
+    fetchMovies();
+    return () => controller.abort();
+  }, [query]);
+
+  return {movies, isLoading, error}   //👈🏽 ✅ (6)
+}
+```
+
+#### 170.2.3 Movie Details does not close by searching another movie:
+
+**Subsection Summary**
+- detailed visual proof of the bug introduced by the refactoring.
+- The image shows that when searching for a new movie, the previously selected movie details remain open.
+- This happens because `handleCloseMovie()` was removed from the effect chain.
+
+![no closing movie details](../img/section13-lecture170-001.png)
+
+
+#### 170.2.4 Meanwhile `App.jsx` is updated:
+
+**Subsection Summary**
+- Updates `App.jsx` to use the new `useMovies` hook.
+- Removes the local state for `movies`, `isLoading`, and `error`.
+- Removes the old `useEffect` for data fetching.
+- Demonstrates how much cleaner the component becomes.
+
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+
+import { useMovies } from "./Hooks/useMovies";    // 👈🏽 ✅
+
+//const KEY = "f84fc31d";
+
+function App() {
+  // const [movies, setMovies] = useState([]);    // 👈🏽 ✅
+  // const [isLoading, setIsLoading] = useState(false);   // 👈🏽 ✅
+  // const [error, setError] = useState("");    // 👈🏽 ✅
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  const [watched, setWatched] = useState(() => {
+    const storedValue = localStorage.getItem("watched");
+    return storedValue ? JSON.parse(storedValue) : [];
+  });
+
+  const { movies, isLoading, error } = useMovies(query); // 👈🏽 ✅ custom hook
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
+
+  // useEffect(() => {
+  //   const controller = new AbortController();
+  //   const fetchMovies = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       setError("");
+  //       const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+  //       if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+  //       const data = await resp.json();
+
+  //       if (data.Response === "False") throw new Error("Movie not found 😭");
+
+  //       setMovies(data.Search);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //       if (error.name !== "AbortError") {
+  //         setError(error.message);
+  //       }
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   if (query.length < 3) {
+  //     setMovies([]);
+  //     setError("");
+  //     return;
+  //   }
+
+  //   handleCloseMovie();
+  //   fetchMovies();
+  //   return () => controller.abort();
+  // }, [query]);
+
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+#### 170.2.5 Adding a `callback` function into `useMovie` hook:
+
+**Subsection Summary**
+- Modifies `useMovies` to accept a second argument: `callback`.
+- Calls this `callback` inside the `useEffect` whenever the query changes (this is where `handleCloseMovie` was previously called).
+- uses `callback?.()` to safely call it only if it exists.
+
+```jsx
+/* src/Hooks/useMovies.js */
+import { useState, useEffect } from "react";
+
+const KEY = "f84fc31d";
+
+export function useMovies(query, callback) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    callback?.();   // 👉🏽 handleCloseMovie();
+    const controller = new AbortController();
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+        const data = await resp.json();
+
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+
+        setMovies(data.Search);
+      } catch (error) {
+        console.log(error.message);
+        if (error.name !== "AbortError") {
+          setError(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
+    fetchMovies();
+    return () => controller.abort();
+  }, [query]);
+
+  return { movies, isLoading, error }
+}
+```
+
+#### 170.2.6 Adding this `callback` update into `App.jsx`:
+
+**Subsection Summary**
+- Updates `App.jsx` to pass `handleCloseMovie` as the second argument to `useMovies`.
+- **Hoisting**: Changes `handleCloseMovie` from an arrow function to a regular function declaration so it can be used before its definition (hoisted), though in this specific snippet it is passed after definition or simply referenced. *Correction*: In the snippet, it is converted to a function declaration because it is used inside `App`'s body before strictly being "defined" if interpreted linearly, but mainly to avoid initialization issues if it were a const variable accessed in the render phase before declaration (though here it's passed to hook).
+- Note: In Javascript function declarations are hoisted.
+
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+
+import { useMovies } from "./Hooks/useMovies";
+
+//const KEY = "f84fc31d";
+
+function App() {
+  // const [movies, setMovies] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  const [watched, setWatched] = useState(() => {
+    const storedValue = localStorage.getItem("watched");
+    return storedValue ? JSON.parse(storedValue) : [];
+  });
+
+  const { movies, isLoading, error } = useMovies(query, handleCloseMovie); // 👈🏽 ✅ custom hook
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+
+  //const handleCloseMovie = () => {
+  function handleCloseMovie() { // 👈🏽 ✅ due to this hoisted function
+    setSelectedId(null);
+  };
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+    //localStorage.setItem("watched", JSON.stringify([...watched, movie]));
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
+
+  // useEffect(() => {
+  //   const controller = new AbortController();
+  //   const fetchMovies = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       setError("");
+  //       const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+  //       if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+  //       const data = await resp.json();
+
+  //       if (data.Response === "False") throw new Error("Movie not found 😭");
+
+  //       setMovies(data.Search);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //       if (error.name !== "AbortError") {
+  //         setError(error.message);
+  //       }
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   if (query.length < 3) {
+  //     setMovies([]);
+  //     setError("");
+  //     return;
+  //   }
+
+  //   handleCloseMovie();
+  //   fetchMovies();
+  //   return () => controller.abort();
+  // }, [query]);
+
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+### 🐞 170.3 Issues:
+
+**Summary**
+- No critical code errors were found, but a logical UI issue was identified and fixed.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Movie details overlay persists on new search | ✅ Fixed | Visual bug (see 170.2.3) |
+
+### 🧱 170.4 Pending Fixes (TODO)
+
+- [ ] None for this lesson.
 
 <br>
 <br>
