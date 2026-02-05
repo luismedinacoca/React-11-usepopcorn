@@ -11265,6 +11265,55 @@ function App() {
 export default App;
 ```
 
+#### 170.2.7 Why was `callback?.()` moved to the top of the `useEffect` body, before the rest of the code, when before it was after it?
+
+👉 From a JavaScript / React point of view, there is NO functional difference
+as long as it is executed before `fetchMovies()`.
+
+
+So this:
+```js
+useEffect(() => {
+  callback?.();
+  // rest of code
+  fetchMovies();
+}, [query]);
+```
+
+and this:
+
+```js
+useEffect(() => {
+  // rest of code
+  callback?.();
+  fetchMovies();
+}, [query]);
+```
+
+are behaviorally equivalent (assuming no early `return` in between).
+
+
+✅ So why move it to the top?
+The reason is semantic / structural, not technical.
+
+> `callback?.()` is a side-effect triggered by query change,
+not part of the fetching logic.
+
+Meaning:
+
+> “First, react to query change (close movie).
+Then, define and run the fetch logic.”
+
+
+🧠 Think of it like this: `useEffect` is conceptually:
+```js
+onQueryChange() {
+  doSideEffectsOfQueryChange();
+  doFetchingLogic();
+}
+```
+
+
 ### 🐞 170.3 Issues:
 
 **Summary**
@@ -11277,6 +11326,348 @@ export default App;
 ### 🧱 170.4 Pending Fixes (TODO)
 
 - [ ] None for this lesson.
+
+<br>
+
+## 🔧 171. Lesson 171 — *Creating useLocalStorageState*
+
+- [Creating useLocalStorageState](#-171-lesson-171--creating-uselocalstoragestate)
+- [171.1 Context](#-1711-context)
+- [171.2 Updating code/theory according the context](#%EF%B8%8F-1712-updating-codetheory-according-the-context)
+  - [171.2.1 Verifying which part can be potentially for custom hook](#17121-verifying-which-part-can-be-potentially-for-custom-hook)
+  - [171.2.2 Create custom hook useLocalStorageState](#17122-create-custom-hook-uselocalstoragestate)
+  - [171.2.3 Complete this custom hook useLocalStorageState](#17123-complete-this-custom-hook-uselocalstoragestate)
+  - [171.2.4 Import this custom useLocalStorageState hook into App.jsx](#17124-import-this-custom-uselocalstoragestate-hook-into-appjsx)
+- [171.3 Issues](#-1713-issues)
+- [171.4 Pending Fixes (TODO)](#-1714-pending-fixes-todo)
+
+### 🧠 171.1 Context:
+
+The `useLocalStorageState` custom hook is a reusable abstraction that synchronizes React state with the browser's `localStorage`. This pattern encapsulates the common functionality of persisting state across browser sessions, making it easy to reuse throughout an application without duplicating code.
+
+#### Key Concepts:
+
+1. **Custom Hook Pattern**: Custom hooks allow you to extract component logic into reusable functions. They must start with "use" prefix and can call other hooks inside them.
+
+2. **Lazy State Initialization**: The hook uses a callback function in `useState` to read from `localStorage` only on the initial render, avoiding unnecessary reads on subsequent renders.
+
+3. **State Synchronization**: The `useEffect` hook keeps `localStorage` in sync with the state by writing to storage whenever the value changes.
+
+4. **Generic Implementation**: The hook accepts an `initialState` and a `key` parameter, making it reusable for any type of data that needs to be persisted.
+
+5. **JSON Serialization**: Since `localStorage` only stores strings, the hook uses `JSON.parse()` and `JSON.stringify()` to handle complex data types like arrays and objects.
+
+#### Advantages:
+
+- **Reusability**: Can be used across multiple components and projects without code duplication.
+- **Separation of Concerns**: Abstracts storage logic away from component business logic.
+- **Consistent API**: Returns `[value, setValue]` just like `useState`, making it a drop-in replacement.
+- **Persistence**: Data survives page refreshes and browser restarts.
+- **Clean Components**: Reduces boilerplate code in components that need persistent state.
+
+#### Disadvantages/Gotchas:
+
+- **Browser Only**: `localStorage` is not available in server-side rendering (SSR) environments without proper handling.
+- **Storage Limits**: `localStorage` has a ~5MB limit per origin; large data sets may fail silently.
+- **Synchronous API**: `localStorage` operations are synchronous and can block the main thread with large data.
+- **No Cross-Tab Sync**: Changes in one tab won't automatically reflect in another tab without additional event listeners.
+- **JSON Limitations**: Cannot serialize functions, `undefined`, or circular references.
+
+#### When to Consider Alternatives:
+
+- Use **IndexedDB** for larger datasets or complex querying needs.
+- Use **sessionStorage** if data should not persist after the browser is closed.
+- Use **State Management Libraries** (Redux, Zustand) with persistence middleware for complex applications.
+- Use **Server-Side Storage** (database, cookies) for sensitive data or when data must sync across devices.
+
+### ⚙️ 171.2 Updating code/theory according the context:
+
+#### **Summary**
+
+- This section demonstrates how to extract localStorage logic from a component into a reusable custom hook.
+- The problem solved is code duplication when multiple components need to persist state to localStorage.
+- The subsections progress from identifying the extractable code (171.2.1), creating the hook skeleton (171.2.2), implementing the full hook logic (171.2.3), and finally integrating it back into the component (171.2.4).
+
+#### 171.2.1 Verifying which part can be potentially for custom hook:
+
+**Subsection Summary:**
+- This subsection identifies the code in `App.jsx` that can be extracted into a custom hook.
+- Two pieces of code are marked: (1) the `useState` with lazy initialization that reads from localStorage, and (2) the `useEffect` that writes to localStorage.
+- These two patterns together form the complete localStorage synchronization logic that will become `useLocalStorageState`.
+- The emoji markers (👈🏽 ✅ 🤔) highlight the specific lines to be refactored.
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+
+import { useMovies } from "./Hooks/useMovies";
+
+//const KEY = "f84fc31d";
+
+function App() {
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+
+  // potential code for custom hook "useLocalStorageState"
+  const [watched, setWatched] = useState(() => {    // 👈🏽 ✅ 🤔
+    const storedValue = localStorage.getItem("watched");
+    return storedValue ? JSON.parse(storedValue) : [];
+  });
+
+  const { movies, isLoading, error } = useMovies(query, handleCloseMovie); // custom hook
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+
+  function handleCloseMovie() { // due to this hoisted function
+    setSelectedId(null);
+  };
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  // potential code for custom hook "useLocalStorageState"
+  useEffect(() => {    // 👈🏽 ✅ 🤔
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
+
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+#### 171.2.2 Create custom hook `useLocalStorageState`:
+
+**Subsection Summary:**
+- This subsection shows the initial skeleton of the custom hook file.
+- The hook is created as a named export in `src/Hooks/useLocalStorageState.js`.
+- At this stage, the function is empty and serves as a placeholder for the implementation.
+- Following the "use" prefix naming convention is mandatory for custom hooks.
+
+```jsx
+/* src/Hooks/useLocalStorageState.js */
+export function useLocalStorageState(){
+
+}
+```
+
+#### 171.2.3 Complete this custom hook `useLocalStorageState`:
+
+**Subsection Summary:**
+- This subsection shows the complete implementation of the `useLocalStorageState` hook.
+- The hook accepts two parameters: `initialState` (fallback value) and `key` (localStorage key name).
+- **Lazy initialization** is used in `useState` to read from localStorage only on mount, avoiding performance issues.
+- The `useEffect` synchronizes state changes back to localStorage whenever `value` or `key` changes.
+- The hook returns `[value, setValue]`, mirroring the `useState` API for seamless integration.
+- JSON serialization handles complex data types (arrays, objects).
+
+```jsx
+/* src/Hooks/useLocalStorageState.js */
+import { useState, useEffect } from 'react';
+
+export function useLocalStorageState(initialState, key) {
+  const [value, setValue] = useState(() => {
+    const storedValue = localStorage.getItem(key);
+    return storedValue ? JSON.parse(storedValue) : initialState;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [value, key]);
+
+  return [value, setValue];
+}
+```
+
+#### 171.2.4 Import this custom `useLocalStorageState` hook into `App.jsx`:
+
+**Subsection Summary:**
+- This subsection demonstrates integrating the custom hook into `App.jsx`.
+- The hook is imported from `./Hooks/useLocalStorageState`.
+- The original `useState` + `useEffect` combination is replaced with a single `useLocalStorageState([], "watched")` call.
+- The commented-out code shows what was replaced, serving as documentation of the refactoring.
+- The component now has cleaner, more readable code with the same functionality.
+- The hook returns the same `[watched, setWatched]` tuple, so no other component code changes are needed.
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+
+import { useMovies } from "./Hooks/useMovies";
+import { useLocalStorageState } from "./Hooks/useLocalStorageState";
+
+//const KEY = "f84fc31d";
+
+function App() {
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+
+  // potential code for custom hook "useLocalStorageState"  // 👈🏽 ✅ 
+  // const [watched, setWatched] = useState(() => {
+  //   const storedValue = localStorage.getItem("watched");
+  //   return storedValue ? JSON.parse(storedValue) : [];
+  // });
+  const [watched, setWatched] = useLocalStorageState([], "watched");    // 👈🏽 ✅
+
+  const { movies, isLoading, error } = useMovies(query, handleCloseMovie); // custom hook
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+
+  function handleCloseMovie() {
+    setSelectedId(null);
+  }
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  // potential code for custom hook "useLocalStorageState" // 👈🏽 ✅ 
+  // useEffect(() => {
+  //   localStorage.setItem("watched", JSON.stringify(watched));
+  // }, [watched]);
+
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+### 🐞 171.3 Issues:
+
+- **No Error Handling for JSON Parsing**: If `localStorage` contains corrupted or invalid JSON data, `JSON.parse()` will throw an error and break the application.
+- **No SSR Compatibility**: The hook directly accesses `localStorage` without checking if `window` is defined, which would fail in server-side rendering environments.
+- **Typo in Documentation**: The subsection 171.2.4 originally had "cutom" instead of "custom" (now fixed).
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| No try-catch for JSON.parse | ⚠️ Identified | `src/Hooks/useLocalStorageState.js:5-6` - If stored data is corrupted, `JSON.parse(storedValue)` throws `SyntaxError: Unexpected token` |
+| No SSR check for localStorage | ℹ️ Low Priority | `src/Hooks/useLocalStorageState.js:5` - Accessing `localStorage` without `typeof window !== 'undefined'` check will throw `ReferenceError` in SSR |
+| Unused useEffect import in App.jsx | ℹ️ Informational | `src/App.jsx:1` - `useEffect` is imported but no longer used after refactoring to custom hook |
+
+### 🧱 171.4 Pending Fixes (TODO)
+
+- [ ] **Add error handling for JSON parsing** (`src/Hooks/useLocalStorageState.js:5-6`): Wrap `JSON.parse` in try-catch to gracefully handle corrupted localStorage data:
+  ```jsx
+  const [value, setValue] = useState(() => {
+    try {
+      const storedValue = localStorage.getItem(key);
+      return storedValue ? JSON.parse(storedValue) : initialState;
+    } catch (error) {
+      console.error(`Error reading localStorage key "${key}":`, error);
+      return initialState;
+    }
+  });
+  ```
+
+- [ ] **Add SSR compatibility check** (`src/Hooks/useLocalStorageState.js:5`): Check for browser environment before accessing localStorage:
+  ```jsx
+  const [value, setValue] = useState(() => {
+    if (typeof window === 'undefined') return initialState;
+    // ... rest of the logic
+  });
+  ```
+
+- [ ] **Remove unused `useEffect` import** (`src/App.jsx:1`): Update the import statement to only import what's needed:
+  ```jsx
+  import { useState } from "react";
+  ```
+
+- [ ] **Consider adding TypeScript generics** for better type inference when using the hook with different data types.
+
+
 
 <br>
 <br>
