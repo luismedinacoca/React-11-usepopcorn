@@ -11670,6 +11670,294 @@ export default App;
 
 
 <br>
+
+## 🔧 172. Lesson 172 — *Creating useKey*
+
+- [Lecture 172: Creating useKey](#-172-lesson-172--creating-usekey)
+- [172.1 Context](#1721-context)
+- [172.2 Updating code according the context](#1722-updating-code-according-the-context)
+- [172.3 Issues](#1723-issues)
+- [172.4 Pending Fixes (TODO)](#1724-pending-fixes-todo)
+
+### 🧠 172.1 Context:
+In this lesson, we recognize a pattern of duplication in how we handle global keydown events. Both the `MovieDetails` component (for closing duplication on 'Escape') and the `Search` component (for focusing on 'Enter') implement similar `useEffect` logic to add and remove event listeners. To improve code reusability and clean up our components, we extract this logic into a custom hook called `useKey`. This hook abstracts the lifecycle management of the event listener, allowing components to simply specify the key they are interested in and the action to perform.
+
+### ⚙️ 172.2 Updating code according the context:
+
+#### **Summary**
+- We create a new custom hook `useKey` to encapsulate the event listener logic.
+- We evolve the hook from a hardcoded version to a reusable one accepting `key` and `action` arguments.
+- We implement this hook in `MovieDetails` to close the movie view on 'Escape'.
+- We implement this hook in `Search` to focus the input on 'Enter'.
+
+#### **Subsection Summary**
+- **Purpose**: Establishes the initial structure of the custom hook.
+- **Functionality**: Moves the existing `useEffect` logic from `MovieDetails` into a standalone function `useKey`.
+- **Limitation**: At this stage, it is hardcoded to listen for "Escape" and call `onCloseMovie`, serving as a first step in the refactoring process.
+
+#### 172.2.1 Create `useKey` hook:
+```jsx
+/* src/Hooks/useKey.js */
+import { useEffect } from "react";
+
+export default function useKey() {
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    };
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
+}
+```
+
+#### **Subsection Summary**
+- **Purpose**: Makes the `useKey` hook generic and reusable.
+- **Changes**: Adds `key` and `action` parameters to the function signature.
+- **Logic**: Updates the event handler to check against the provided `key` (case-insensitive) and execute the provided `action`.
+- **Dependencies**: Adds `action` and `key` to the dependency array to ensure the effect re-runs if they change.
+
+#### 172.2.2 Update `useKey` hook:
+```jsx
+/* src/Hooks/useKey.js */
+import { useEffect } from "react";
+
+export default function useKey(key, action) {   // 👈🏽 ✅
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code.toLowerCase() === key.toLowerCase()) {   // 👈🏽 ✅
+        action();
+      }
+    };
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [action, key]);   // 👈🏽 ✅
+}
+```
+
+#### **Subsection Summary**
+- **Purpose**: Integrates the custom hook into the `MovieDetails` component.
+- **Implementation**: Imports `useKey` and replaces the verbose `useEffect` block with a single function call: `useKey("Escape", onCloseMovie)`.
+- **Benefit**: Significantly reduces boilerplate code in the component.
+
+#### 172.2.3 Import `useKey` custom hook into `MovieDetails` component:
+```jsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useRef, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+import useKey from "../Hooks/useKey";   // 👈🏽 ✅
+
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+
+  const countRef = useRef(0);
+
+  useEffect(() => {
+    if (userRating) countRef.current++;
+  }, [userRating]) // count does not have a ref that's why is added to the dependency array
+
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+
+  const [avgRating, setAvgRating] = useState(0);
+
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+      countRatingDecisions: countRef.current,
+    };
+    onAddWatched(newWatchedMovie);
+    //onCloseMovie();
+
+    // setting the current imdbRating value to avgRating:
+    setAvgRating(Number(imdbRating));
+    //alert(avgRating);
+    setAvgRating((avgRating) => (avgRating + userRating) / 2);
+  };
+
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+
+    getMovieDetails();
+  }, [selectedId]);
+
+  useKey("Escape", onCloseMovie);   // 👈🏽 ✅
+  // useEffect(() => {       // 👈🏽 ✅
+  //   const callback = (e) => {
+  //     if (e.code === "Escape") {
+  //       onCloseMovie();
+  //     }
+  //   };
+  //   document.addEventListener("keydown", callback);
+  //   return () => {
+  //     document.removeEventListener("keydown", callback);
+  //   };
+  // }, [onCloseMovie]);       // 👈🏽 ✅
+
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+    return () => {
+      document.title = "usePopcorn";
+      //console.log(`Clean up effect for movie ${title}`);
+    };
+  }, [title]);
+
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+
+          <p>🍺 {avgRating}</p>
+
+          <section>
+            <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span>
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+#### **Subsection Summary**
+- **Purpose**: Applies the `useKey` hook to the Search component for better UX.
+- **Logic**: Listens for the "Enter" key to focus the search input field.
+- **Safety Check**: Checks `document.activeElement` to avoid refocusing and clearing the input if it's already active, preventing accidental data loss while typing.
+
+#### 172.2.4 Apply `useKey` custom hook into `Search` component: 
+```jsx
+/* src/components/Search.jsx */
+import { useEffect, useRef } from "react";
+import useKey from "../Hooks/useKey";
+
+const Search = ({ query, setQuery }) => {
+  const inputEl = useRef(null);
+
+  useKey("Enter", function() {
+    if(document.activeElement === inputEl.current) return;    // 👈🏽 ✅ 🔥
+    inputEl.current.focus();    // 👈🏽 ✅ 🔥
+    setQuery("");    // 👈🏽 ✅ 🔥
+  })    // 👈🏽 ✅
+
+  // useEffect(() => {    //    // 👈🏽 ✅
+  //   function callback(e) {
+  //     if(document.activeElement === inputEl.current) return;    // 👈🏽 ✅ 🤔
+  //     if (e.code === "Enter") {
+  //       inputEl.current.focus();    // 👈🏽 ✅ 🤔
+  //       setQuery("");    // 👈🏽 ✅ 🤔
+  //     }
+  //   }
+  //   document.addEventListener("keydown", callback);
+  //   return () => document.removeEventListener("keydown", callback);
+  // }, [setQuery]);    //    // 👈🏽 ✅
+
+  return (
+    <input
+      className="search"
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      ref={inputEl}
+    />
+  );
+};
+
+export default Search;
+```
+
+### 🐞 172.3 Issues:
+
+- No issues encountered during this refactoring.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| N/A | ✅ Resolved | Refactoring completed successfully. |
+
+### 🧱 172.4 Pending Fixes (TODO)
+
+- [x] Create generic `useKey` custom hook
+- [x] Refactor `MovieDetails` to use `useKey` for closing on Escape
+- [x] Refactor `Search` to use `useKey` for focusing on Enter
+
+[↑ top - Lesson 172: Creating useKey](#-172-lesson-172--creating-usekey)
+
+
+--- 
+
 <br>
 <br>
 <br>
