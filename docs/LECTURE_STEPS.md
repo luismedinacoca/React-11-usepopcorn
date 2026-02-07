@@ -72,39 +72,68 @@ usePopcorn is a modern React application that allows users to discover, search, 
     <details>
     <summary>Section 13 - Lessons</summary>
 
-      * [📚 Lesson 157: One More Effect: Listening to a Keypress](#-157-lesson-157--one-more-effect-listening-to-keypress)
-      * [📚 Lesson 158: React Hooks: Summary and Rules](#-158-lesson-158--react-hooks-summary-and-rules)
-      * [📚 Lesson 159: Summary of Rules](#-159-lesson-159--summary-of-rules)
-      * [📚 Lesson 160: The "usePopcorn" Project](#-160-lesson-160--the-usepopcorn-project)
-      * [📚 Lesson 161: Starting the "usePopcorn" project](#-161-lesson-161--starting-the-usepopcorn-project)
+      * [📚 Lesson 157: One More Effect: Listening to a Keypress](#-157-lesson-157--one-more-effect-listening-to-a-keypress)
+      * [📚 Lesson 160: React Hooks and their Rules](#-160-lesson-160--react-hooks-and-their-rules)
+      * [📚 Lesson 161: The Rules of Hooks in Practice](#-161-lesson-161--the-rules-of-hooks-in-practice)
       * [📚 Lesson 162: More Details of useState](#-162-lesson-162--more-details-of-usestate)
       * [📚 Lesson 163: Initializing State With a Callback (Lazy Initial State)](#-163-lesson-163--initializing-state-with-a-callback-lazy-initial-state)
       * [📚 Lesson 164: useState summary](#-164-lesson-164--usestate-summary)
       * [📚 Lesson 165: How NOT to Select DOM Elements in React](#-165-lesson-165--how-not-to-select-dom-elements-in-react)
+      * [📚 Lesson 166: Introducing Another Hook: useRef](#-166-lesson-166--introducing-another-hook-useref)
+      * [📚 Lesson 167: Refs to Select DOM Elements](#-167-lesson-167--refs-to-select-dom-elements)
+      * [📚 Lesson 168: Refs to Persist Data Between Renders](#-168-lesson-168--refs-to-persist-data-between-renders)
+      * [📚 Lesson 169: What are Custom Hooks? When to Create One?](#-169-lesson-169--what-are-custom-hooks-when-to-create-one)
+      * [📚 Lesson 170: Creating our First Custom Hook: useMovies](#-170-lesson-170--creating-our-first-custom-hook-usemovies)
+      * [📚 Lesson 171: Creating useLocalStorageState](#-171-lesson-171--creating-uselocalstoragestate)
+      * [📚 Lesson 172: Creating useKey](#-172-lesson-172--creating-usekey)
     </details>
 
 ## 📁 Visual Project Tree
 
 ```bash
 📁 11-usepopcorn/
-├── 📄 index.html             # Main HTML entry point
-├── 📄 package.json           # Project manifest and dependencies
-├── 📄 vite.config.js         # Vite build configuration
-├── 📄 eslint.config.js       # Linting rules
-├── 📄 README.md              # Project overview
-├── 📁 src/                   # Source code directory
-│   ├── 📄 main.jsx           # React app entry point
-│   ├── 📄 App.jsx            # Multi-component root
-│   ├── 📄 StarRating.jsx     # Reusable rating component
-│   └── 📁 components/        # Isolated UI components
-│       ├── 📄 Navbar.jsx
-│       ├── 📄 Main.jsx
-│       ├── 📄 Search.jsx
-│       ├── 📄 MovieDetails.jsx
-│       └── ...
-├── 📁 docs/                  # Educational documentation
-│   └── 📄 LECTURE_STEPS.md   # Detailed step-by-step notes
-└── 📁 img/                   # Visual aids and screenshots
+├── 📄 index.html               # Main HTML entry point
+├── 📄 package.json             # Project manifest and dependencies
+├── 📄 vite.config.js           # Vite build configuration
+├── 📄 eslint.config.js         # Linting rules
+├── 📄 README.md                # Project overview
+├── 📁 src/                     # Source code directory
+│   ├── 📄 main.jsx             # React app entry point
+│   ├── 📄 index.css            # Global styles
+│   ├── 📄 App.jsx              # Multi-component root (current)
+│   ├── 📄 App-v01.jsx          # App version 01 (archive)
+│   ├── 📄 App-v02.jsx          # App version 02 (archive)
+│   ├── 📄 App-v03.jsx          # App version 03 (archive)
+│   ├── 📄 StarRating.jsx       # Reusable star rating component
+│   ├── 📄 Star.jsx             # Individual star component
+│   ├── 📁 assets/              # Static assets
+│   │   ├── 📄 App.js           # Legacy App file
+│   │   └── 📄 index.css        # Asset styles
+│   ├── 📁 components/          # Isolated UI components
+│   │   ├── 📄 Box.jsx          # Reusable collapsible container
+│   │   ├── 📄 ErrorMessage.jsx # Error display component
+│   │   ├── 📄 ListBox.jsx      # List container component
+│   │   ├── 📄 Loader.jsx       # Loading spinner component
+│   │   ├── 📄 Logo.jsx         # App logo component
+│   │   ├── 📄 Main.jsx         # Main content wrapper
+│   │   ├── 📄 Movie.jsx        # Individual movie card
+│   │   ├── 📄 MovieDetails.jsx # Movie details view with rating
+│   │   ├── 📄 MovieList.jsx    # Movie search results list
+│   │   ├── 📄 Navbar.jsx       # Navigation bar component
+│   │   ├── 📄 NumResult.jsx    # Results count display
+│   │   ├── 📄 Search.jsx       # Search input component
+│   │   ├── 📄 Test.jsx         # Test component
+│   │   ├── 📄 WatchedBox.jsx   # Watched movies container
+│   │   ├── 📄 WatchedMovie.jsx # Individual watched movie item
+│   │   ├── 📄 WatchedMovieList.jsx # Watched movies list
+│   │   └── 📄 WatchedSummary.jsx   # Watched stats summary
+│   └── 📁 Hooks/               # Custom React hooks
+│       ├── 📄 useKey.js         # Keyboard event listener hook
+│       ├── 📄 useLocalStorageState.js # Local storage state persistence hook
+│       └── 📄 useMovies.js     # Movie fetching and search hook
+├── 📁 docs/                    # Educational documentation
+│   └── 📄 LECTURE_STEPS.md     # Detailed step-by-step notes
+└── 📁 img/                     # Visual aids and screenshots
 ```
 
 <br>
@@ -160,6 +189,8 @@ Visit [UsePoCorn app](https://usepopcorn.netlify.app/) here!.
 - [x] Configure development environment
 - [x] Establish project architecture foundation
 
+[↑ top - Lesson 106: Setting Up the "usePopcorn" project](#-106-lesson-106--setting-up-the-usepopcorn-project)
+
 ## 🔧 107. Lesson 107 — *How to split a UI into components*
 
 - [Lecture 107: How to split a UI into components](#-107-lesson-107--how-to-split-a-ui-into-components)
@@ -193,6 +224,8 @@ This lesson teaches the fundamental skill of breaking down a user interface into
 - [x] Learn component design principles
 - [x] Understand component size guidelines
 - [x] Practice identifying component boundaries
+
+[↑ top - Lesson 107: How to split a UI into components](#-107-lesson-107--how-to-split-a-ui-into-components)
 
 ## 🔧 108. Lesson 108 — *Splitting Components in Practice*
 
@@ -1675,6 +1708,8 @@ App.jsx (Root Component)
 - [ ] Extract the `average` helper function to a utilities file since it's used in `WatchedSummary.jsx` and may be reused elsewhere
 - [ ] Add PropTypes or TypeScript types for better type safety and component documentation
 
+[↑ top - Lesson 108: Splitting Components in Practice](#-108-lesson-108--splitting-components-in-practice)
+
 
 <br>
 
@@ -1749,10 +1784,13 @@ Structural components are components that define the structure and layout of the
 - [x] Understand stateful components
 - [x] Understand structural components
 
+[↑ top - Lesson 109: Component Categories](#-109-lesson-109--component-categories)
+
 
 
 ## 🔧 110. Lesson 110 — *Prop Drilling*
 
+- [Lecture 110: Prop Drilling](#-110-lesson-110--prop-drilling)
 - [110.1 Context](#1101-context)
 - [110.2 Updating code according the context](#1102-updating-code-according-the-context)
 - [110.3 Issues](#1103-issues)
@@ -2005,6 +2043,8 @@ export default Movie;
 - [ ] Add prop validation: Consider using PropTypes or TypeScript to validate that `movies` props are valid arrays in each component that receives them
 - [ ] Optimize re-renders: Review if intermediate components like `Navbar` and `Main` are re-rendering unnecessarily when `movies` changes, and consider using `React.memo` if necessary
 
+[↑ top - Lesson 110: Prop Drilling](#-110-lesson-110--prop-drilling)
+
 
 
 ## 🔧 111. Lesson 111 — *Component Composition*
@@ -2103,6 +2143,8 @@ In this lesson, we identify that `ListBox.jsx` and `WatchedBox.jsx` share the sa
 - [ ] Update component documentation: Document the new `Box` component and its usage pattern in component hierarchy documentation
 - [ ] Test composition pattern: Verify that the refactored components maintain the same functionality and behavior after applying composition
 - [ ] Consider additional composition opportunities: Review other components (`Navbar`, `Main`) for potential composition improvements using `children` prop
+
+[↑ top - Lesson 111: Component Composition](#-111-lesson-111--component-composition)
 
 
 ## 🔧 112. Lesson 112 — *Fixing Prop Drilling With Composition (And Building a Layout)*
@@ -2319,7 +2361,9 @@ function App() {
   );
 }
 export default App;
-```### 🐞 112.3 Issues:
+```
+
+### 🐞 112.3 Issues:
 
 - **Intermediate structural coupling**: `Navbar` and `Main` were acting as data-passers, which violates the principle of separation of concerns between structure and data.
 - **Manual children handling**: Initial implementation required explicit child rendering, which was refactored to use the idiomatic `{children}` pattern.
@@ -2338,6 +2382,8 @@ export default App;
 - [ ] Ensure all structural components (`Navbar`, `Main`, `ListBox`, `WatchedBox`) follow the same composition pattern
 - [ ] Add comments explaining the composition pattern usage in refactored components
 - [ ] Verify `WatchedBox` is properly composed in the application
+
+[↑ top - Lesson 112: Fixing Prop Drilling With Composition (And Building a Layout)](#-112-lesson-112--fixing-prop-drilling-with-composition-and-building-a-layout)
 
 ## 🔧 113. Lesson 113 — *Using Composition to Make a Reusable Box*
 
@@ -2590,8 +2636,16 @@ export default App;
 - [ ] Consider adding PropTypes or TypeScript for `children` prop validation in `Box.jsx`
 - [ ] Review all component imports to ensure no stale references to `ListBox` or `WatchedBox`
 
+[↑ top - Lesson 113: Using Composition to Make a Reusable Box](#-113-lesson-113--using-composition-to-make-a-reusable-box)
+
 
 ## 🔧 114. Lesson 114 — *Passing Elements as Props (Alternative to children)*
+
+- [Lecture 114: Passing Elements as Props (Alternative to children)](#-114-lesson-114--passing-elements-as-props-alternative-to-children)
+- [114.1 Context](#1141-context)
+- [114.2 Updating code according the context](#1142-updating-code-according-the-context)
+- [114.3 Issues](#1143-issues)
+- [114.4 Pending Fixes (TODO)](#1144-pending-fixes-todo)
 
 ### 🧠 114.1 Context:
 
@@ -2767,6 +2821,8 @@ If your component “wraps” content → use `children`
 - [ ] Add documentation explaining the preference for `children` over named props for wrappers
 - [ ] Consider using multiple named props ONLY if the component needs distinct header/footer sections
 - [ ] Review all components for idiomatic React patterns
+
+[↑ top - Lesson 114: Passing Elements as Props (Alternative to children)](#-114-lesson-114--passing-elements-as-props-alternative-to-children)
 
 
 ## 🔧 115. Lesson 115 — *Building a Reusable Star Rating Component*
@@ -2948,6 +3004,8 @@ Notes:
 - [ ] Add visual feedback for rated vs. unrated stars
 - [ ] Ensure `rating` prop is bounded by `maxRating`
 - [ ] Add JSDoc documentation for component props and behavior
+
+[↑ top - Lesson 115: Building a Reusable Star Rating Component](#-115-lesson-115--building-a-reusable-star-rating-component)
 
 ## 🔧 116. Lesson 116 — *Creating the Stars*
 
@@ -3308,6 +3366,8 @@ export default StarRating;
 - [ ] Standardize `viewBox` values for both star states
 - [ ] Add hover-specific CSS transforms or transitions for star interactivity
 
+[↑ top - Lesson 116: Creating the Stars](#-116-lesson-116--creating-the-stars)
+
 
 ## 🔧 117. Lesson 117 — *Handling Hover Events*
 
@@ -3586,6 +3646,8 @@ export default StarRating;
 - [ ] Implement CSS transform effects for enhanced visual feedback on hover
 - [ ] Ensure `tempRating` resets reliably even on rapid mouse movements
 
+[↑ top - Lesson 117: Handling Hover Events](#-117-lesson-117--handling-hover-events)
+
 ## 🔧 118. Lesson 118 — *Props as a Component API*
 
 - [Lecture 118: Props as a Component API](#-118-lesson-118--props-as-a-component-api)
@@ -3702,6 +3764,8 @@ In this lesson, we learn that props are not just a way to pass data—they are t
 - [ ] Ensure consistent naming conventions for singular/plural props across the project
 - [ ] Fix potential crashes in `Movie` components when the required `movie` object is missing
 - [ ] Validate function props before invocation to prevent runtime errors
+
+[↑ top - Lesson 118: Props as a Component API](#-118-lesson-118--props-as-a-component-api)
 
 
 ## 🔧 119. Lesson 119 — *Improving Reusability with Props*
@@ -4201,6 +4265,8 @@ if (!onSetRating) {
 - [ ] Ensure `messages` array length consistency with `maxRating`
 - [ ] Add descriptive JSDoc documentation for the improved component API
 
+[↑ top - Lesson 119: Improving Reusability with Props](#-119-lesson-119--improving-reusability-with-props)
+
 ## 🔧 120. Lesson 120 — *PropTypes*
 
 - [Lecture 120: PropTypes](#-120-lesson-120--proptypes)
@@ -4399,6 +4465,8 @@ Because of this:
 - [ ] Standardize default properties across all UI components
 - [ ] Document the documentation-only nature of PropTypes in React 19 environments
 
+[↑ top - Lesson 120: PropTypes](#-120-lesson-120--proptypes)
+
 <br>
 
 ## 🧳 Section 12: *Effects and Data Fetching*
@@ -4416,38 +4484,22 @@ Because of this:
   - [📚 Lesson 149: Synchronizing Queries With Movie Data](#-149-lesson-149--synchronizing-queries-with-movie-data)
   - [📚 Lesson 150: Selecting a Movie](#-150-lesson-150--selecting-a-movie)
   - [📚 Lesson 151: Loading Movie Details](#-151-lesson-151--loading-movie-details)
-  - [📚 Lesson 152: Adding a Watched Movie](#-152-adding-a-watched-movie)
+  - [📚 Lesson 152: Adding a Watched Movie](#-152-lesson-152--adding-a-watched-movie)
   - [📚 Lesson 153: Adding a New Effect: Changing Page Title](#-153-lesson-153--adding-a-new-effect-changing-page-title)
   - [📚 Lesson 154: The useEffect cleanup function](#-154-lesson-154--the-useeffect-cleanup-function)
   - [📚 Lesson 155: Cleaning Up the Title](#-155-lesson-155--cleaning-up-the-title)
-### 📋 Table of Contents
-- [📚 Lesson 141: The Component Lifecycle](#-141-lesson-141--the-component-lifecycle)
-- [📚 Lesson 142: How NOT to Fetch Data in React](#-142-lesson-142--how-not-to-fetch-data-in-react)
-- [📚 Lesson 143: useEffect to the Rescue](#-143-lesson-143--useeffect-to-the-rescue)
-- [📚 Lesson 144: At first look at Effects](#-144-lesson-144--at-first-look-at-effects)
-- [📚 Lesson 145: Using an async Function](#-145-lesson-145--using-an-async-function)
-- [📚 Lesson 146: Adding a Loading State](#-146-lesson-146--adding-a-loading-state)
-- [📚 Lesson 147: Handling Errors](#-147-lesson-147--handling-errors)
-- [📚 Lesson 148: The useEffect dependency array](#-148-lesson-148--the-useeffect-dependency-array)
-- [📚 Lesson 149: Synchronizing Queries With Movie Data](#-149-lesson-149--synchronizing-queries-with-movie-data)
-- [📚 Lesson 150: Selecting a Movie](#-150-lesson-150--selecting-a-movie)
-- [📚 Lesson 151: Loading Movie Details](#-151-lesson-151--loading-movie-details)
-- [📚 Lesson 152: Adding a Watched Movie](#-152-adding-a-watched-movie)
-- [📚 Lesson 153: Adding a New Effect: Changing Page Title](#-153-lesson-153--adding-a-new-effect-changing-page-title)
-- [📚 Lesson 154: The useEffect cleanup function](#-154-lesson-154--the-useeffect-cleanup-function)
-- [📚 Lesson 155: Cleaning Up the Title](#-155-lesson-155--cleaning-up-the-title)
-- [📚 Lesson 156: Cleaning Up Data Fetching](#-156-lesson-156--cleaning-up-data-fetching)
+  - [📚 Lesson 156: Cleaning Up Data Fetching](#-156-lesson-156--cleaning-up-data-fetching)
 
 
 <br>
 
 ## 🔧 141. Lesson 141 — *The Component Lifecycle*
 
-### 📋 Table of Contents
-- [🧠 141.1 Context](#-1411-context)
-- [⚙️ 141.2 Updating code according the context](#-1412-updating-code-according-the-context)
-- [🐞 141.3 Issues](#-1413-issues)
-- [🧱 141.4 Pending Fixes (TODO)](#-1414-pending-fixes-todo)
+- [Lecture 141: The Component Lifecycle](#-141-lesson-141--the-component-lifecycle)
+- [141.1 Context](#1411-context)
+- [141.2 Updating code according the context](#1412-updating-code-according-the-context)
+- [141.3 Issues](#1413-issues)
+- [141.4 Pending Fixes (TODO)](#1414-pending-fixes-todo)
 
 ### 🧠 141.1 Context:
 
@@ -4557,6 +4609,8 @@ In this project, all components are functional and primarily use `useState` to m
 - [ ] Memoize styles and derived values in `StarRating.jsx` using `useMemo`
 - [ ] Add defensive prop validation in `WatchedSummary` for array properties
 - [ ] Add JSDoc to document lifecycle behavior in complex stateful components
+
+[↑ top - Lesson 141: The Component Lifecycle](#-141-lesson-141--the-component-lifecycle)
 
 
 <br>
@@ -4756,6 +4810,8 @@ export default App;
 - [ ] Clean up redundant mock data initialization when using real API data
 - [ ] Consider extracting fetch logic into a custom `useMovies` hook for cleaner code
 
+[↑ top - Lesson 142: How NOT to Fetch Data in React](#-142-lesson-142--how-not-to-fetch-data-in-react)
+
 
 <br>
 
@@ -4921,6 +4977,8 @@ Note:
 - [ ] Add `AbortController` to the effect cleanup to handle Strict Mode and racing responses
 - [ ] Define a clear transition between mock data and real API data to avoid UI flickering
 
+[↑ top - Lesson 143: useEffect to the Rescue](#-143-lesson-143--useeffect-to-the-rescue)
+
 
 <br>
 
@@ -4999,6 +5057,8 @@ React rendering must be **pure**: given the same props/state, the component shou
 - [ ] Add `AbortController` for request cleanup and stale-response protection
 - [ ] Add warning comments to the anti-pattern fetch-in-render snippet to prevent misuse
 - [ ] Ensure the effect consistently handles both mount and dependency-triggered executions
+
+[↑ top - Lesson 144: At first look at Effects](#-144-lesson-144--at-first-look-at-effects)
 
 
 <br>
@@ -5167,6 +5227,8 @@ useEffect(() => {
 - [ ] Add request cancellation / stale-response protection with `AbortController` and return a cleanup function from the effect. File: `src/App.jsx:68-77`.
 - [ ] Lift `query` state to `App` and pass it to `Search` as a controlled input (`value`, `onChange`), then make the effect depend on `[query]`. Files: `src/components/Search.jsx:3-12`, `src/App.jsx:59-77`.
 - [ ] If you want to log updated movies for debugging, move it to `useEffect(() => { console.log(movies); }, [movies])` instead of logging immediately after `setMovies`. File: `src/App.jsx`.
+
+[↑ top - Lesson 145: Using an async Function](#-145-lesson-145--using-an-async-function)
 ```
 
 
@@ -5309,6 +5371,8 @@ export default Loader;
 - [ ] Ensure `movies` is always an array: set `setMovies(data.Search ?? [])` and handle OMDb “False” responses by setting `[]`.
 - [ ] Make `NumResult` resilient by using `movies?.length ?? 0` (or keep the invariant that `movies` is always `[]`).
 - [ ] Improve loader accessibility with `role="status"` and `aria-live="polite"`.
+
+[↑ top - Lesson 146: Adding a Loading State](#-146-lesson-146--adding-a-loading-state)
 
 
 <br>
@@ -5560,6 +5624,8 @@ export default App;
 - [ ] Remove the hardcoded query and connect the `Search` component's state to drive the fetch
 - [ ] Add `query` as a dependency to the `useEffect` hook to synchronize it with state changes
 
+[↑ top - Lesson 147: Handling Errors](#-147-lesson-147--handling-errors)
+
 
 <br>
 
@@ -5631,6 +5697,8 @@ The project currently implements a side effect in `App.jsx` to fetch movie data 
 - [ ] Add `query` to the dependency array in `src/App.jsx` for proper re-fetching
 - [ ] Implement `AbortController` in the cleanup function to prevent race conditions
 - [ ] Remove debug `console.log` statements from the `fetchMovies` function
+
+[↑ top - Lesson 148: The useEffect dependency array](#-148-lesson-148--the-useeffect-dependency-array)
 
 
 <br>
@@ -5951,6 +6019,8 @@ export default App;
 - [ ] Implement `AbortController` to cancel stale fetch requests during rapid typing
 - [ ] Add a cleanup function to `useEffect` that calls `controller.abort()` to manage resources
 - [ ] Gracefully handle `AbortError` to prevent misleading error messages in the UI
+
+[↑ top - Lesson 149: Synchronizing Queries With Movie Data](#-149-lesson-149--synchronizing-queries-with-movie-data)
 
 
 <br>
@@ -6355,6 +6425,8 @@ export default MovieDetails;
 - [ ] Implement a loading state in `MovieDetails` for the full data fetch transition
 - [ ] Clean up unused variables (`setWatched`, `tempQuery`) and comments in `App.jsx`
 
+[↑ top - Lesson 150: Selecting a Movie](#-150-lesson-150--selecting-a-movie)
+
 
 <br>
 
@@ -6625,6 +6697,8 @@ export default MovieDetails;
 - [ ] Implement `try...catch` in `getMovieDetails` to handle network failures gracefully
 - [ ] Store/persist the star rating when navigating between different movie details
 - [ ] Update `alt` text in `MovieDetails.jsx` to use the movie title instead of the object
+
+[↑ top - Lesson 151: Loading Movie Details](#-151-lesson-151--loading-movie-details)
 
 
 <br>
@@ -7339,6 +7413,8 @@ export default WatchedMovie;
 - [ ] Add a deletion confirmation or undo capability to the `WatchedMovie` items
 - [ ] Enable updating existing ratings for movies already in the watched list
 
+[↑ top - Lesson 152: Adding a Watched Movie](#-152-lesson-152--adding-a-watched-movie)
+
 
 <br>
 
@@ -7561,6 +7637,8 @@ Issue:
 - [ ] Restore the default `document.title` when `MovieDetails` unmounts (cleanup)
 - [ ] Remove or conditionalize the `console.log(title)` call to reduce noise
 
+[↑ top - Lesson 153: Adding a New Effect: Changing Page Title](#-153-lesson-153--adding-a-new-effect-changing-page-title)
+
 
 
 <br>
@@ -7630,6 +7708,8 @@ In this project, `MovieDetails` updates `document.title` based on the selected m
 
 - [ ] Implement `document.title` restoration in the `MovieDetails` effect cleanup
 - [ ] Add `AbortController` cleanup to the movie details fetch effect
+
+[↑ top - Lesson 154: The useEffect cleanup function](#-154-lesson-154--the-useeffect-cleanup-function)
 
 
 <br>
@@ -7830,6 +7910,8 @@ Notes:
 
 - [ ] Use a dynamic fallback for `document.title` cleanup instead of a hardcoded string
 - [ ] Clean up redundant `console.log` statements in the effect cleanup logic
+
+[↑ top - Lesson 155: Cleaning Up the Title](#-155-lesson-155--cleaning-up-the-title)
 
 
 
@@ -8051,6 +8133,8 @@ Note:
 - [ ] Implement `AbortController` in `MovieDetails.jsx` for the details fetch effect
 - [ ] Avoid logging `AbortError` in `App.jsx` to reduce console noise during typing
 
+[↑ top - Lesson 156: Cleaning Up Data Fetching](#-156-lesson-156--cleaning-up-data-fetching)
+
 
 
 <br>
@@ -8060,22 +8144,29 @@ Note:
 ### 📑 Table of Contents
 - [📑 Table of Contents](#-table-of-contents-3)
   - [📚 Lesson 157: One More Effect: Listening to a Keypress](#-157-lesson-157--one-more-effect-listening-to-a-keypress)
-  - [📚 Lesson 158: React Hooks: Summary and Rules](#-158-react-hooks-summary-and-rules)
-  - [📚 Lesson 159: Summary of Rules](#-159-summary-of-rules)
-  - [📚 Lesson 160: The \"usePopcorn\" Project](#-160-the-usepopcorn-project)
-  - [📚 Lesson 161: Starting the \"usePopcorn\" project](#-161-starting-the-usepopcorn-project)
+  - [📚 Lesson 160: React Hooks and their Rules](#-160-lesson-160--react-hooks-and-their-rules)
+  - [📚 Lesson 161: The Rules of Hooks in Practice](#-161-lesson-161--the-rules-of-hooks-in-practice)
   - [📚 Lesson 162: More Details of useState](#-162-lesson-162--more-details-of-usestate)
   - [📚 Lesson 163: Initializing State With a Callback (Lazy Initial State)](#-163-lesson-163--initializing-state-with-a-callback-lazy-initial-state)
   - [📚 Lesson 164: useState summary](#-164-lesson-164--usestate-summary)
   - [📚 Lesson 165: How NOT to Select DOM Elements in React](#-165-lesson-165--how-not-to-select-dom-elements-in-react)
+  - [📚 Lesson 166: Introducing Another Hook: useRef](#-166-lesson-166--introducing-another-hook-useref)
+  - [📚 Lesson 167: Refs to Select DOM Elements](#-167-lesson-167--refs-to-select-dom-elements)
+  - [📚 Lesson 168: Refs to Persist Data Between Renders](#-168-lesson-168--refs-to-persist-data-between-renders)
+  - [📚 Lesson 169: What are Custom Hooks? When to Create One?](#-169-lesson-169--what-are-custom-hooks-when-to-create-one)
+  - [📚 Lesson 170: Creating our First Custom Hook: useMovies](#-170-lesson-170--creating-our-first-custom-hook-usemovies)
+  - [📚 Lesson 171: Creating useLocalStorageState](#-171-lesson-171--creating-uselocalstoragestate)
+  - [📚 Lesson 172: Creating useKey](#-172-lesson-172--creating-usekey)
 
 <br>
 
-### 📋 Lecture TOC
+## 🔧 157. Lesson 157 — *One More Effect: Listening to a Keypress*
+
 - [Lecture 157: One More Effect: Listening to a Keypress](#-157-lesson-157--one-more-effect-listening-to-a-keypress)
 - [157.1 Context](#1571-context)
 - [157.2 Updating code according the context](#1572-updating-code-according-the-context)
-- [157.3 Pending Fixes (TODO)](#1573-pending-fixes-todo)
+- [157.3 Issues](#1573-issues)
+- [157.4 Pending Fixes (TODO)](#1574-pending-fixes-todo)
 
 ### 🧠 157.1 Context:
 
@@ -8214,6 +8305,8 @@ This section demonstrates the evolution of implementing a keyboard event listene
 - [ ] **Handle focus management**: Consider implementing proper focus trapping and restoration when the modal opens/closes for better accessibility
 - [ ] **Test edge cases**: Verify behavior when multiple modals might be open simultaneously (though current design prevents this)
 
+[↑ top - Lesson 157: One More Effect: Listening to a Keypress](#-157-lesson-157--one-more-effect-listening-to-a-keypress)
+
 
 
 
@@ -8221,11 +8314,11 @@ This section demonstrates the evolution of implementing a keyboard event listene
 
 ## 🔧 160. Lesson 160 — *React Hooks and their Rules*
 
-### 📋 Lecture TOC
 - [Lecture 160: React Hooks and their Rules](#-160-lesson-160--react-hooks-and-their-rules)
 - [160.1 Context](#1601-context)
 - [160.2 Updating code according the context](#1602-updating-code-according-the-context)
-- [160.3 Pending Fixes (TODO)](#1603-pending-fixes-todo)
+- [160.3 Issues](#1603-issues)
+- [160.4 Pending Fixes (TODO)](#1604-pending-fixes-todo)
 
 ### 🧠 160.1 Context:
 
@@ -8425,6 +8518,8 @@ This section provides a comprehensive theoretical overview of React Hooks. It co
 - [ ] Add `useRef` to `src/components/Search.jsx` for auto-focus functionality on component mount
 - [ ] Extract API key to environment variable (`.env`) and import it in `App.jsx` and `MovieDetails.jsx`
 - [ ] Review all hooks in the codebase to ensure they follow the two rules of hooks (no hooks in conditionals, loops, or after early returns)
+
+[↑ top - Lesson 160: React Hooks and their Rules](#-160-lesson-160--react-hooks-and-their-rules)
 
 
 <br>
@@ -8804,6 +8899,8 @@ export default MovieDetails;
 
 - [ ] **Ensure ESLint rules-of-hooks is enabled** — Verify `eslint-plugin-react-hooks` is installed and configured to catch these violations during development.
 
+[↑ top - Lesson 161: The Rules of Hooks in Practice](#-161-lesson-161--the-rules-of-hooks-in-practice)
+
 <br>
 
 ## 🔧 162. Lesson 162 — *More Details of useState*
@@ -9137,12 +9234,15 @@ export default MovieDetails;
 - [ ] **Verify Functional Updates** — Ensure all state updates that depend on previous state (like counters or accumulators) use the callback form `(s) => s + 1`.
 - [ ] **Standardize API key usage** — (Carry over from previous lessons) Centralize the hardcoded API key from line 5.
 
+[↑ top - Lesson 162: More Details of useState](#-162-lesson-162--more-details-of-usestate)
+
 
 
 <br>
 
 ## 🔧 163. Lesson 163 — *Initializing State With a Callback (Lazy Initial State)*
 
+- [Lecture 163: Initializing State With a Callback (Lazy Initial State)](#-163-lesson-163--initializing-state-with-a-callback-lazy-initial-state)
 - [163.1 Context](#1631-context)
 - [163.2 Updating code/theory according the context](#1632-updating-code-theory-according-the-context)
   - [163.2.1 Adding `localStorage` in `handleAddWatched` function](#16321-adding-localstorage-in-handleaddwatched-function)
@@ -9583,10 +9683,13 @@ export default App;
 - [ ] Implement a custom hook `useLocalStorageState` to encapsulate the persistence logic (upcoming lesson).
 - [ ] Optimize `JSON.stringify` calls if the list becomes very large.
 
+[↑ top - Lesson 163: Initializing State With a Callback (Lazy Initial State)](#-163-lesson-163--initializing-state-with-a-callback-lazy-initial-state)
+
 <br>
 
 ## 🔧 164. Lesson 164 — *useState summary*
 
+- [Lecture 164: useState summary](#-164-lesson-164--usestate-summary)
 - [164.1 Context](#1641-context)
 - [164.2 Updating code/theory according the context](#1642-updating-code-theory-according-the-context)
   - [164.2.1 Creating State vs Updating State](#16421-creating-state-vs-updating-state)
@@ -9650,13 +9753,15 @@ This lesson provides a comprehensive summary of the `useState` hook, consolidati
 - [ ] Verify that no derived data is being stored in state (like `numResults`, which should just be `movies.length`).
 - [ ] Consider refactoring complex `useState` logic in `App.jsx` into a custom hook (e.g., `useLocalStorageState`).
 
+[↑ top - Lesson 164: useState summary](#-164-lesson-164--usestate-summary)
+
 
 
 <br>
 
 ## 🔧 165. Lesson 165 — *How NOT to Select DOM Elements in React*
 
-- [How NOT to Select DOM Elements in React](#-165-lesson-165--how-not-to-select-dom-elements-in-react)
+- [Lecture 165: How NOT to Select DOM Elements in React](#-165-lesson-165--how-not-to-select-dom-elements-in-react)
 - [165.1 Context](#1651-context)
 - [165.2 Updating code/theory according the context](#1652-updating-codetheory-according-the-context)
   - [165.2.1 DOM manipulation of Search component](#16521-dom-manipulation-of-search-component)
@@ -9745,12 +9850,14 @@ export default Search;
 - [ ] Implement focus logic using the `ref.current.focus()` method within `useEffect`.
 - [ ] Remove the dependency on the `.search` CSS class for functional logic.
 
+[↑ top - Lesson 165: How NOT to Select DOM Elements in React](#-165-lesson-165--how-not-to-select-dom-elements-in-react)
+
 
 <br>
 
 ## 🔧 166. Lesson 166 — *Introducing Another Hook: useRef*
 
-- [166. Lesson 166 — *Introducing Another Hook: useRef*](#-166-lesson-166--introducing-another-hook-useref)
+- [Lecture 166: Introducing Another Hook: useRef](#-166-lesson-166--introducing-another-hook-useref)
 - [166.1 Context](#1661-context)
 - [166.2 Updating code/theory according the context](#1662-updating-codetheory-according-the-context)
   - [166.2.1 What are **REFS**?](#16621-what-are-refs)
@@ -10085,6 +10192,8 @@ function RemoteControl() {
 - [ ] Use `useRef` to store the previous movie rating in `MovieDetails.jsx` to compare with the new rating.
 - [ ] Implement a custom hook `useKey` that utilizes `useRef` for event listener cleanup.
 
+[↑ top - Lesson 166: Introducing Another Hook: useRef](#-166-lesson-166--introducing-another-hook-useref)
+
 
 
 <br>
@@ -10303,12 +10412,14 @@ export default Search;
 - [ ] Add accessibility ARIA labels to the search input to improve screen reader support while using refs.
 - [ ] Investigate if `autoFocus` property could be used as a simpler alternative for the initial mount focus.
 
+[↑ top - Lesson 167: Refs to Select DOM Elements](#-167-lesson-167--refs-to-select-dom-elements)
+
 
 <br>
 
 ## 🔧 168. Lesson 168 — *Refs to Persist Data Between Renders*
 
-- [Lesson 168: Refs to Persist Data Between Renders](#-168-lesson-168--refs-to-persist-data-between-renders)
+- [Lecture 168: Refs to Persist Data Between Renders](#-168-lesson-168--refs-to-persist-data-between-renders)
 - [168.1 Context](#1681-context)
 - [168.2 Updating code/theory according the context](#1682-updating-codetheory-according-the-context)
   - [168.2.1 Using useRef for counting](#16821-using-useref-for-counting-the-userrating-time-selection)
@@ -10713,12 +10824,14 @@ export default MovieDetails;
 - [ ] Add a visual feedback (perhaps a small toast) when a movie is added, showing the number of rating adjustments made.
 - [ ] Refactor the `handleAdd` function to ensure all side effects (like updating `countRef`) are fully encapsulated.
 
+[↑ top - Lesson 168: Refs to Persist Data Between Renders](#-168-lesson-168--refs-to-persist-data-between-renders)
+
 
 <br>
 
 ## 🔧 169. Lesson 169 — *What are Custom Hooks? When to Create One?*
 
-- [169. Lesson 169 — *What are Custom Hooks? When to Create One?*](#-169-lesson-169--what-are-custom-hooks-when-to-create-one)
+- [Lecture 169: What are Custom Hooks? When to Create One?](#-169-lesson-169--what-are-custom-hooks-when-to-create-one)
 - [169.1 Context](#1691-context)
 - [169.2 Updating code/theory according the context](#1692-updating-codetheory-according-the-context)
   - [169.2.1 Reusing Logic with Custom Hooks](#16921-reusing-logic-with-custom-hooks)
@@ -10779,13 +10892,15 @@ Custom hooks are a powerful React feature that allows you to extract component l
 - [ ] Extract local storage persistence into a reusable `useLocalStorageState` hook.
 - [ ] Implement a `useKey` hook to handle the escape keypress functionality currently in `MovieDetails.jsx`.
 
+[↑ top - Lesson 169: What are Custom Hooks? When to Create One?](#-169-lesson-169--what-are-custom-hooks-when-to-create-one)
+
 
 <br>
 
 ## 🔧 170. Lesson 170 — *Creating our First Custom Hook: useMovies*
 
-- [170. Lesson 170 — Creating our First Custom Hook: useMovies](#-170-lesson-170---creating-our-first-custom-hook-usemovies)
-- [170.1 Context](#-1701-context)
+- [Lecture 170: Creating our First Custom Hook: useMovies](#-170-lesson-170--creating-our-first-custom-hook-usemovies)
+- [170.1 Context](#1701-context)
 - [170.2 Updating code according the context](#-1702-updating-code-according-the-context)
     - [170.2.1 Searching the future custom hook part](#-17021-searching-the-future-custom-hook-part)
     - [170.2.2 Creating the Custom hook useMovie](#-17022-creating-the-custom-hook-usemovie)
@@ -11327,12 +11442,14 @@ onQueryChange() {
 
 - [ ] None for this lesson.
 
+[↑ top - Lesson 170: Creating our First Custom Hook: useMovies](#-170-lesson-170--creating-our-first-custom-hook-usemovies)
+
 <br>
 
 ## 🔧 171. Lesson 171 — *Creating useLocalStorageState*
 
-- [Creating useLocalStorageState](#-171-lesson-171--creating-uselocalstoragestate)
-- [171.1 Context](#-1711-context)
+- [Lecture 171: Creating useLocalStorageState](#-171-lesson-171--creating-uselocalstoragestate)
+- [171.1 Context](#1711-context)
 - [171.2 Updating code/theory according the context](#%EF%B8%8F-1712-updating-codetheory-according-the-context)
   - [171.2.1 Verifying which part can be potentially for custom hook](#17121-verifying-which-part-can-be-potentially-for-custom-hook)
   - [171.2.2 Create custom hook useLocalStorageState](#17122-create-custom-hook-uselocalstoragestate)
@@ -11666,6 +11783,8 @@ export default App;
   ```
 
 - [ ] **Consider adding TypeScript generics** for better type inference when using the hook with different data types.
+
+[↑ top - Lesson 171: Creating useLocalStorageState](#-171-lesson-171--creating-uselocalstoragestate)
 
 
 
