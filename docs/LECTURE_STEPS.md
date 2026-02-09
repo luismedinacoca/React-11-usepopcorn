@@ -5174,7 +5174,7 @@ function App() {
 export default App;
 ```
 
-![](../img/section12-lecture145-002.png)
+![issue](../img/section12-lecture145-002.png)
 
 **Key takeaways**
 
@@ -5220,7 +5220,6 @@ useEffect(() => {
 
 ### 🧱 145.4 Pending Fixes (TODO)
 
-```md
 - [ ] Fix Lesson 145 docs to clearly label `useEffect(async () => ...)` as ❌ and keep the “inner async function” pattern as the ✅ approach. File: `docs/LECTURE_STEPS.md` (Lesson 145).
 - [ ] Guard OMDb responses before setting state: handle `res.ok`, OMDb `{ Response: "False", Error: "..." }`, and default to `[]` when `data.Search` is missing. Files: `src/App.jsx:68-77`, `src/components/NumResult.jsx:1-7`.
 - [ ] Add `isLoading` + `error` state and render a small UI state (or disable result count) while loading / on error. Files: `src/App.jsx`, `src/components/MovieList.jsx`, `src/components/NumResult.jsx`.
@@ -5229,7 +5228,7 @@ useEffect(() => {
 - [ ] If you want to log updated movies for debugging, move it to `useEffect(() => { console.log(movies); }, [movies])` instead of logging immediately after `setMovies`. File: `src/App.jsx`.
 
 [↑ top - Lesson 145: Using an async Function](#-145-lesson-145--using-an-async-function)
-```
+
 
 
 <br>
@@ -6005,7 +6004,9 @@ function App() {
     </>
   );
 }
-export default App;
+export default App
+```
+
 ### 🐞 149.3 Issues:
 
 - **Race Conditions**: Rapid typing triggers multiple simultaneous fetch requests, potentially resulting in stale data displayed last.
@@ -11795,6 +11796,9 @@ export default App;
 - [Lecture 172: Creating useKey](#-172-lesson-172--creating-usekey)
 - [172.1 Context](#1721-context)
 - [172.2 Updating code according the context](#1722-updating-code-according-the-context)
+  - [172.2.1 Create useKey hook](#17221-create-usekey-hook)
+  - [172.2.2 Update useKey hook](#17222-update-usekey-hook)
+  - [172.2.3 Import useKey custom hook into MovieDetails component](#17223-import-usekey-custom-hook-into-moviedetails-component)
 - [172.3 Issues](#1723-issues)
 - [172.4 Pending Fixes (TODO)](#1724-pending-fixes-todo)
 

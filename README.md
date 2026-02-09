@@ -1,117 +1,190 @@
 # usePopcorn
 
-A modern React application for movie discovery and rating. Search for movies, view detailed information, and maintain a personal watched list with ratings.
+A React application for movie discovery and personal rating management. Search movies using the OMDB API, view detailed information (plot, cast, director, ratings), rate them with an interactive star system, and maintain a persistent watched list stored in the browser's local storage.
 
 ## Features
 
-- **Movie Search**: Search through a vast movie database using the OMDB API
-- **Movie Details**: View comprehensive movie information including plot, cast, director, and ratings
-- **Interactive Rating**: Rate movies using an intuitive star rating system
-- **Watched List**: Track movies you've watched with personal ratings
-- **Responsive Design**: Clean, modern UI that works across devices
-- **Component Architecture**: Well-structured React components following composition patterns
+- **Movie Search** — Query the OMDB API with real-time results (minimum 3 characters)
+- **Movie Details** — View comprehensive info including plot, cast, director, genre, and IMDb rating
+- **Star Rating System** — Configurable, reusable star component with hover effects and PropTypes validation
+- **Watched List** — Track watched movies with personal ratings and aggregate statistics (avg IMDb rating, avg user rating, avg runtime)
+- **Local Storage Persistence** — Watched list data persists across browser sessions
+- **Keyboard Navigation** — Press `Escape` to close movie details, `Enter` to focus the search bar
+- **Collapsible Panels** — Toggle visibility of search results and watched list sections
+- **Request Cancellation** — Uses `AbortController` to cancel in-flight API requests on new searches
+- **Dynamic Document Title** — Page title updates to reflect the currently viewed movie
+
+## Key Concepts / Architecture
+
+### Component Composition
+
+The application follows React composition patterns with clear component roles:
+
+- **Structural Components** — `Navbar`, `Main`, `Box` provide layout and accept `children` props
+- **Presentational Components** — `Movie`, `WatchedMovie`, `WatchedSummary`, `Loader`, `ErrorMessage` render UI without managing state
+- **Container Components** — `App`, `MovieDetails` manage state and data flow
+
+### Custom Hooks
+
+Three custom hooks encapsulate reusable logic:
+
+| Hook | Purpose |
+|------|---------|
+| `useMovies` | Fetches movies from OMDB API with loading/error states and request cancellation |
+| `useLocalStorageState` | Syncs React state with `localStorage` for persistence |
+| `useKey` | Registers global keyboard event listeners with automatic cleanup |
+
+### State Management
+
+- Local state with `useState` for UI and data
+- `useRef` for mutable values that don't trigger re-renders (e.g., rating decision counter)
+- `useEffect` for side effects: API calls, event listeners, document title updates, localStorage sync
 
 ## Tech Stack
 
-- **React** 19.2.0 - UI library
-- **Vite** 7.2.4 - Build tool and development server
-- **OMDB API** - Movie data source
-- **CSS** - Styling
-- **ESLint** - Code linting
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| React | 19.2.0 | UI library |
+| React DOM | 19.2.0 | DOM rendering |
+| Vite | 7.2.4 | Build tool and dev server |
+| PropTypes | 15.8.1 | Runtime prop validation |
+| ESLint | 9.39.1 | Code linting |
+| OMDB API | — | Movie data source |
 
 ## Installation
 
 ### Prerequisites
-- Node.js (version 16 or higher)
-- npm or yarn package manager
+
+- Node.js (v16 or higher)
+- npm or yarn
 
 ### Setup
+
 1. Clone the repository:
+
 ```bash
 git clone <repository-url>
 cd 11-usepopcorn
 ```
 
 2. Install dependencies:
+
 ```bash
 npm install
 ```
 
 3. Start the development server:
+
 ```bash
 npm run dev
 ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+4. Open `http://localhost:5173` in your browser.
 
 ## Usage
 
-1. **Search Movies**: Enter a movie title in the search bar (minimum 3 characters)
-2. **Browse Results**: View the list of matching movies with posters and basic info
-3. **View Details**: Click on any movie to see detailed information
-4. **Rate Movies**: Use the star rating system to rate movies you haven't watched yet
-5. **Add to Watched**: Rate a movie and add it to your watched list
-6. **Manage Watched List**: View your watched movies with personal ratings and statistics
+1. **Search** — Type a movie title in the search bar (minimum 3 characters to trigger a search)
+2. **Browse** — View matching results with posters and release year
+3. **View Details** — Click a movie to see its full details (plot, cast, director, genre, IMDb rating)
+4. **Rate** — Use the 10-star rating widget to rate a movie
+5. **Add to Watched** — After rating, click "Add to list" to save it
+6. **Manage List** — View your watched movies with stats; click the delete button to remove entries
+7. **Keyboard Shortcuts** — Press `Escape` to close details, `Enter` to focus the search input
 
 ## Project Structure
 
 ```
-src/
-├── components/                 # Reusable React components
-│   ├── Box.jsx                 # Layout container component
-│   ├── ErrorMessage.jsx        # Error display component
-│   ├── ListBox.jsx             # List container component
-│   ├── Loader.jsx              # Loading spinner component
-│   ├── Logo.jsx                # Application logo component
-│   ├── Main.jsx                # Main layout component
-│   ├── Movie.jsx               # Individual movie item component
-│   ├── MovieDetails.jsx        # Movie details view component
-│   ├── MovieList.jsx           # Movie list component
-│   ├── Navbar.jsx              # Navigation bar component
-│   ├── NumResult.jsx           # Results counter component
-│   ├── Search.jsx              # Search input component
-│   ├── WatchedBox.jsx          # Watched movies container
-│   ├── WatchedMovie.jsx        # Watched movie item component
-│   ├── WatchedMovieList.jsx    # Watched movies list component
-│   └── WatchedSummary.jsx      # Watched movies statistics component
-├── App.jsx                     # Main application component
-├── Star.jsx                    # Individual star component
-├── StarRating.jsx              # Star rating system component
-├── index.css                   # Global styles
-└── main.jsx                    # Application entry point
+11-usepopcorn/
+├── docs/
+│   └── LECTURE_STEPS.md          # Course lecture notes
+├── img/                          # Lecture reference images
+├── src/
+│   ├── components/
+│   │   ├── Box.jsx               # Collapsible container (children pattern)
+│   │   ├── ErrorMessage.jsx      # Error display
+│   │   ├── ListBox.jsx           # Legacy list container
+│   │   ├── Loader.jsx            # Loading indicator
+│   │   ├── Logo.jsx              # App logo
+│   │   ├── Main.jsx              # Main layout wrapper
+│   │   ├── Movie.jsx             # Single movie list item
+│   │   ├── MovieDetails.jsx      # Movie detail view with rating
+│   │   ├── MovieList.jsx         # Search results list
+│   │   ├── Navbar.jsx            # Navigation bar (composition)
+│   │   ├── NumResult.jsx         # Results counter
+│   │   ├── Search.jsx            # Search input with keyboard support
+│   │   ├── Test.jsx              # Development testing component
+│   │   ├── WatchedBox.jsx        # Legacy watched container
+│   │   ├── WatchedMovie.jsx      # Single watched movie item
+│   │   ├── WatchedMovieList.jsx  # Watched movies list
+│   │   └── WatchedSummary.jsx    # Watched stats summary
+│   ├── Hooks/
+│   │   ├── useKey.js             # Keyboard event listener hook
+│   │   ├── useLocalStorageState.js # localStorage sync hook
+│   │   └── useMovies.js          # Movie fetching hook
+│   ├── App.jsx                   # Root application component
+│   ├── App-v01.jsx               # Earlier iteration (reference)
+│   ├── App-v02.jsx               # Earlier iteration (reference)
+│   ├── App-v03.jsx               # Earlier iteration (reference)
+│   ├── Star.jsx                  # Individual star SVG component
+│   ├── StarRating.jsx            # Star rating system (reusable)
+│   ├── index.css                 # Global styles
+│   └── main.jsx                  # Entry point
+├── eslint.config.js              # ESLint flat config
+├── package.json
+└── package-lock.json
+```
+
+## Configuration
+
+### API Key
+
+The OMDB API key is defined in `src/Hooks/useMovies.js` and `src/components/MovieDetails.jsx`:
+
+```js
+const KEY = "f84fc31d";
+```
+
+To use your own key, register at [omdbapi.com](https://www.omdbapi.com/apikey.aspx) and replace the value.
+
+### CSS Custom Properties
+
+Global theme variables are defined in `src/index.css`:
+
+```css
+:root {
+  --color-primary: #6741d9;
+  --color-primary-light: #7950f2;
+  --color-text: #dee2e6;
+  --color-text-dark: #adb5bd;
+  --color-background-100: #343a40;
+  --color-background-500: #2b3035;
+  --color-background-900: #212529;
+  --color-red: #fa5252;
+  --color-red-dark: #e03131;
+}
 ```
 
 ## Scripts
 
-- `npm run dev` - Start development server with hot reload
-- `npm run build` - Build for production
-- `npm run lint` - Run ESLint for code quality checks
-- `npm run preview` - Preview production build locally
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start Vite dev server with HMR |
+| `npm run build` | Build for production |
+| `npm run preview` | Preview production build locally |
+| `npm run lint` | Run ESLint across the project |
 
-## Key Concepts
+## Testing and Quality
 
-### Component Composition
-The application demonstrates React component composition patterns, with components organized into:
-- **Presentational Components**: Stateless components focused on UI rendering
-- **Container Components**: Components that manage state and data flow
-- **Structural Components**: Layout and composition components
+- **ESLint** — Flat config with `eslint-plugin-react-hooks` and `eslint-plugin-react-refresh`
+- **PropTypes** — Runtime prop validation on the `StarRating` component
+- **AbortController** — Prevents race conditions by cancelling stale API requests
+- **Error Handling** — Graceful error states for failed API calls and empty search results
+- **Loading States** — Visual feedback during data fetching
 
-### State Management
-- Local state management using React's `useState` hook
-- Props drilling for state distribution
-- Effect hooks for side effects (API calls, event listeners)
+## Acknowledgments
 
-### Custom Hooks
-- Reusable star rating component with hover effects
-- Keyboard navigation support (Escape key to close details)
-
-## Testing & Quality
-
-- ESLint configuration for code quality and consistency
-- PropTypes for component prop validation
-- Error boundaries for graceful error handling
-- Loading states for better user experience
+This project is part of Jonas Schmedtmann's [The Ultimate React Course](https://www.udemy.com/course/the-ultimate-react-course/). Built as a hands-on exercise covering component composition, custom hooks, effects, refs, and data fetching patterns in React.
 
 ## License
 
-This project is part of a learning course and is not licensed for commercial use.
+This project is for educational purposes and is not licensed for commercial use.
