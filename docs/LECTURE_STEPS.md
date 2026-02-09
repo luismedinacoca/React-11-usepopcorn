@@ -25,141 +25,184 @@ usePopcorn is a modern React application that allows users to discover, search, 
 ## 📑 Table of Contents
 - [👨🏾‍💻 Project: usePopcorn - Movie Rating and Discovery App](#-project-usepopcorn---movie-rating-and-discovery-app)
   - [📋 Project Overview](#-project-overview)
-    - [What This Project Does](#what-this-project-does)
-    - [Technology Stack](#technology-stack)
-    - [Key Components](#key-components)
   - [📑 Table of Contents](#-table-of-contents)
   - [📁 Visual Project Tree](#-visual-project-tree)
-  - [🧳 Section 10: Thinking in React: Components, Composition and Reusability](#-section-10-thinking-in-react-components-composition-and-reusability)
-    - [📚 Lecture 106: Setting Up the "usePopcorn" project](#-lecture-106-setting-up-the-usepopcorn-project)
-    - [📚 Lecture 107: How to split a UI into components](#-lecture-107-how-to-split-a-ui-into-components)
-    - [📚 Lecture 108: Splitting Components in Practice](#-lecture-108-splitting-components-in-practice)
-    - [📚 Lecture 109: Component Categories](#-lecture-109-component-categories)
-    - [📚 Lecture 110: Prop Drilling](#-lecture-110-prop-drilling)
-    - [📚 Lecture 111: Component Composition](#-lecture-111-component-composition)
-    - [📚 Lecture 112: Fixing Prop Drilling With Composition (And Building a Layout)](#-lecture-112-fixing-prop-drilling-with-composition-and-building-a-layout)
-    - [📚 Lecture 113: Using Composition to Make a Reusable Box](#-lecture-113-using-composition-to-make-a-reusable-box)
-    - [📚 Lecture 114: Passing Elements as Props (Alternative to children)](#-lecture-114-passing-elements-as-props-alternative-to-children)
-    - [📚 Lecture 115: Building a Reusable Star Rating Component](#-lecture-115-building-a-reusable-star-rating-component)
-    - [📚 Lecture 116: Creating the Stars](#-lecture-116-creating-the-stars)
-    - [📚 Lecture 117: Handling Hover Events](#-lecture-117-handling-hover-events)
-    - [📚 Lecture 118: Props as a Component API](#-lecture-118-props-as-a-component-api)
-    - [📚 Lecture 119: Improving Reusability with Props](#-lecture-119-improving-reusability-with-props)
-    - [📚 Lecture 120: PropTypes](#-lecture-120-proptypes)
-  - [🧳 Section 12: Effects and Data Fetching](#-section-12-effects-and-data-fetching)
-    - [📚 Lecture 141: The Component Lifecycle](#-lecture-141-the-component-lifecycle)
-    - [📚 Lecture 142: How NOT to Fetch Data in React](#-lecture-142-how-not-to-fetch-data-in-react)
-    - [📚 Lecture 143: useEffect to the Rescue](#-lecture-143-useeffect-to-the-rescue)
-    - [📚 Lecture 144: At first look at Effects](#-lecture-144-at-first-look-at-effects)
-    - [📚 Lecture 145: Using an async Function](#-lecture-145-using-an-async-function)
-    - [📚 Lecture 146: Adding a Loading State](#-lecture-146-adding-a-loading-state)
-    - [📚 Lecture 147: Handling Errors](#-lecture-147-handling-errors)
-    - [📚 Lecture 148: The useEffect dependency array](#-lecture-148-the-useeffect-dependency-array)
-    - [📚 Lecture 149: Synchronizing Queries With Movie Data](#-lecture-149-synchronizing-queries-with-movie-data)
-    - [📚 Lecture 150: Selecting a Movie](#-lecture-150-selecting-a-movie)
-    - [📚 Lecture 151: Loading Movie Details](#-lecture-151-loading-movie-details)
-    - [📚 Lecture 152: Adding a Watched Movie](#-lecture-152-adding-a-watched-movie)
-    - [📚 Lecture 153: Adding a New Effect: Changing Page Title](#-lecture-153-adding-a-new-effect-changing-page-title)
-    - [📚 Lecture 154: The useEffect cleanup function](#-lecture-154-the-useeffect-cleanup-function)
-    - [📚 Lecture 155: Cleaning Up the Title](#-lecture-155-cleaning-up-the-title)
-    - [📚 Lecture 156: Cleaning Up Data Fetching](#-lecture-156-cleaning-up-data-fetching)
+  - [🧳 Section 10: *Thinking in React: Components, Composition and Reusability*](#-section-10-thinking-in-react-components-composition-and-reusability)
+    <details>
+    <summary>Section 10 - Lessons</summary>
+
+      * [📚 Lesson 106: Setting Up the "usePopcorn" project](#-106-lesson-106--setting-up-the-usepopcorn-project)
+      * [📚 Lesson 107: How to split a UI into components](#-107-lesson-107--how-to-split-a-ui-into-components)
+      * [📚 Lesson 108: Splitting Components in Practice](#-108-lesson-108--splitting-components-in-practice)
+      * [📚 Lesson 109: Component Categories](#-109-lesson-109--component-categories)
+      * [📚 Lesson 110: Prop Drilling](#-110-lesson-110--prop-drilling)
+      * [📚 Lesson 111: Component Composition](#-111-lesson-111--component-composition)
+      * [📚 Lesson 112: Fixing Prop Drilling With Composition (And Building a Layout)](#-112-lesson-112--fixing-prop-drilling-with-composition-and-building-a-layout)
+      * [📚 Lesson 113: Using Composition to Make a Reusable Box](#-113-lesson-113--using-composition-to-make-a-reusable-box)
+      * [📚 Lesson 114: Passing Elements as Props (Alternative to children)](#-114-lesson-114--passing-elements-as-props-alternative-to-children)
+      * [📚 Lesson 115: Building a Reusable Star Rating Component](#-115-lesson-115--building-a-reusable-star-rating-component)
+      * [📚 Lesson 116: Creating the Stars](#-116-lesson-116--creating-the-stars)
+      * [📚 Lesson 117: Handling Hover Events](#-117-lesson-117--handling-hover-events)
+      * [📚 Lesson 118: Props as a Component API](#-118-lesson-118--props-as-a-component-api)
+      * [📚 Lesson 119: Improving Reusability with Props](#-119-lesson-119--improving-reusability-with-props)
+      * [📚 Lesson 120: PropTypes](#-120-lesson-120--proptypes)
+    </details>
+  - [🧳 Section 12: *Effects and Data Fetching*](#-section-12-effects-and-data-fetching)
+    <details>
+    <summary>Section 12 - Lessons</summary>
+
+      * [📚 Lesson 141: The Component Lifecycle](#-141-lesson-141--the-component-lifecycle)
+      * [📚 Lesson 142: How NOT to Fetch Data in React](#-142-lesson-142--how-not-to-fetch-data-in-react)
+      * [📚 Lesson 143: useEffect to the Rescue](#-143-lesson-143--useeffect-to-the-rescue)
+      * [📚 Lesson 144: At first look at Effects](#-144-lesson-144--at-first-look-at-effects)
+      * [📚 Lesson 145: Using an async Function](#-145-lesson-145--using-async-function)
+      * [📚 Lesson 146: Adding a Loading State](#-146-lesson-146--adding-loading-state)
+      * [📚 Lesson 147: Handling Errors](#-147-lesson-147--handling-errors)
+      * [📚 Lesson 148: The useEffect dependency array](#-148-lesson-148--the-useeffect-dependency-array)
+      * [📚 Lesson 149: Synchronizing Queries With Movie Data](#-149-lesson-149--synchronizing-queries-with-movie-data)
+      * [📚 Lesson 150: Selecting a Movie](#-150-lesson-150--selecting-movie)
+      * [📚 Lesson 151: Loading Movie Details](#-151-lesson-151--loading-movie-details)
+      * [📚 Lesson 152: Adding a Watched Movie](#-152-lesson-152--adding-watched-movie)
+      * [📚 Lesson 153: Adding a New Effect: Changing Page Title](#-153-lesson-153--adding-new-effect-changing-page-title)
+      * [📚 Lesson 154: The useEffect cleanup function](#-154-lesson-154--the-useeffect-cleanup-function)
+      * [📚 Lesson 155: Cleaning Up the Title](#-155-lesson-155--cleaning-up-title)
+      * [📚 Lesson 156: Cleaning Up Data Fetching](#-156-lesson-156--cleaning-up-data-fetching)
+    </details>
+  - [🧳 Section 13: *Custom Hooks, Refs and More State*](#-section-13-custom-hooks-refs-and-more-state)
+    <details>
+    <summary>Section 13 - Lessons</summary>
+
+      * [📚 Lesson 157: One More Effect: Listening to a Keypress](#-157-lesson-157--one-more-effect-listening-to-a-keypress)
+      * [📚 Lesson 160: React Hooks and their Rules](#-160-lesson-160--react-hooks-and-their-rules)
+      * [📚 Lesson 161: The Rules of Hooks in Practice](#-161-lesson-161--the-rules-of-hooks-in-practice)
+      * [📚 Lesson 162: More Details of useState](#-162-lesson-162--more-details-of-usestate)
+      * [📚 Lesson 163: Initializing State With a Callback (Lazy Initial State)](#-163-lesson-163--initializing-state-with-a-callback-lazy-initial-state)
+      * [📚 Lesson 164: useState summary](#-164-lesson-164--usestate-summary)
+      * [📚 Lesson 165: How NOT to Select DOM Elements in React](#-165-lesson-165--how-not-to-select-dom-elements-in-react)
+      * [📚 Lesson 166: Introducing Another Hook: useRef](#-166-lesson-166--introducing-another-hook-useref)
+      * [📚 Lesson 167: Refs to Select DOM Elements](#-167-lesson-167--refs-to-select-dom-elements)
+      * [📚 Lesson 168: Refs to Persist Data Between Renders](#-168-lesson-168--refs-to-persist-data-between-renders)
+      * [📚 Lesson 169: What are Custom Hooks? When to Create One?](#-169-lesson-169--what-are-custom-hooks-when-to-create-one)
+      * [📚 Lesson 170: Creating our First Custom Hook: useMovies](#-170-lesson-170--creating-our-first-custom-hook-usemovies)
+      * [📚 Lesson 171: Creating useLocalStorageState](#-171-lesson-171--creating-uselocalstoragestate)
+      * [📚 Lesson 172: Creating useKey](#-172-lesson-172--creating-usekey)
+    </details>
 
 ## 📁 Visual Project Tree
-```
+
+```bash
 📁 11-usepopcorn/
-├── 📄 index.html
-├── 📄 package.json
-├── 📄 vite.config.js
-├── 📄 eslint.config.js
-├── 📄 README.md
-├── 📁 src/
-│   ├── 📄 main.jsx
-│   ├── 📄 App.jsx
-│   ├── 📄 StarRating.jsx
-│   ├── 📁 components/
-│   │   ├── 📄 Navbar.jsx
-│   │   ├── 📄 Main.jsx
-│   │   ├── 📄 Search.jsx
-│   │   ├── 📄 NumResult.jsx
-│   │   ├── 📄 Box.jsx
-│   │   ├── 📄 MovieList.jsx
-│   │   ├── 📄 Movie.jsx
-│   │   ├── 📄 MovieDetails.jsx
-│   │   ├── 📄 WatchedSummary.jsx
-│   │   ├── 📄 WatchedMovieList.jsx
-│   │   ├── 📄 WatchedMovie.jsx
-│   │   ├── 📄 Loader.jsx
-│   │   ├── 📄 ErrorMessage.jsx
-│   │   ├── 📄 Logo.jsx
-│   │   └── 📄 Test.jsx
-│   └── 📁 assets/
-│       ├── 📄 App.js
-│       └── 📄 index.css
-├── 📁 docs/
-│   ├── 📄 LECTURE_STEPS.md
-│   └── 📄 LECTURE_STEPS copy.md
-├── 📁 img/
-│   └── 📄 [various lecture images]
-└── 📁 node_modules/
+├── 📄 index.html               # Main HTML entry point
+├── 📄 package.json             # Project manifest and dependencies
+├── 📄 vite.config.js           # Vite build configuration
+├── 📄 eslint.config.js         # Linting rules
+├── 📄 README.md                # Project overview
+├── 📁 src/                     # Source code directory
+│   ├── 📄 main.jsx             # React app entry point
+│   ├── 📄 index.css            # Global styles
+│   ├── 📄 App.jsx              # Multi-component root (current)
+│   ├── 📄 App-v01.jsx          # App version 01 (archive)
+│   ├── 📄 App-v02.jsx          # App version 02 (archive)
+│   ├── 📄 App-v03.jsx          # App version 03 (archive)
+│   ├── 📄 StarRating.jsx       # Reusable star rating component
+│   ├── 📄 Star.jsx             # Individual star component
+│   ├── 📁 assets/              # Static assets
+│   │   ├── 📄 App.js           # Legacy App file
+│   │   └── 📄 index.css        # Asset styles
+│   ├── 📁 components/          # Isolated UI components
+│   │   ├── 📄 Box.jsx          # Reusable collapsible container
+│   │   ├── 📄 ErrorMessage.jsx # Error display component
+│   │   ├── 📄 ListBox.jsx      # List container component
+│   │   ├── 📄 Loader.jsx       # Loading spinner component
+│   │   ├── 📄 Logo.jsx         # App logo component
+│   │   ├── 📄 Main.jsx         # Main content wrapper
+│   │   ├── 📄 Movie.jsx        # Individual movie card
+│   │   ├── 📄 MovieDetails.jsx # Movie details view with rating
+│   │   ├── 📄 MovieList.jsx    # Movie search results list
+│   │   ├── 📄 Navbar.jsx       # Navigation bar component
+│   │   ├── 📄 NumResult.jsx    # Results count display
+│   │   ├── 📄 Search.jsx       # Search input component
+│   │   ├── 📄 Test.jsx         # Test component
+│   │   ├── 📄 WatchedBox.jsx   # Watched movies container
+│   │   ├── 📄 WatchedMovie.jsx # Individual watched movie item
+│   │   ├── 📄 WatchedMovieList.jsx # Watched movies list
+│   │   └── 📄 WatchedSummary.jsx   # Watched stats summary
+│   └── 📁 Hooks/               # Custom React hooks
+│       ├── 📄 useKey.js         # Keyboard event listener hook
+│       ├── 📄 useLocalStorageState.js # Local storage state persistence hook
+│       └── 📄 useMovies.js     # Movie fetching and search hook
+├── 📁 docs/                    # Educational documentation
+│   └── 📄 LECTURE_STEPS.md     # Detailed step-by-step notes
+└── 📁 img/                     # Visual aids and screenshots
 ```
 
-## 🧳 Section 10: Thinking in React: Components, Composition and Reusability
+<br>
+
+## 🧳 Section 10: *Thinking in React: Components, Composition and Reusability*
 
 ### 📑 Table of Contents
-- [📚 Lecture 106: Setting Up the "usePopcorn" project](#lecture-106-setting-up-the-usepopcorn-project)
-- [📚 Lecture 107: How to split a UI into components](#lecture-107-how-to-split-a-ui-into-components)
-- [📚 Lecture 108: Splitting Components in Practice](#lecture-108-splitting-components-in-practice)
-- [📚 Lecture 109: Component Categories](#lecture-109-component-categories)
-- [📚 Lecture 110: Prop Drilling](#lecture-110-prop-drilling)
-- [📚 Lecture 111: Component Composition](#lecture-111-component-composition)
-- [📚 Lecture 112: Fixing Prop Drilling With Composition (And Building a Layout)](#lecture-112-fixing-prop-drilling-with-composition-and-building-a-layout)
-- [📚 Lecture 113: Using Composition to Make a Reusable Box](#lecture-113-using-composition-to-make-a-reusable-box)
-- [📚 Lecture 114: Passing Elements as Props (Alternative to children)](#lecture-114-passing-elements-as-props-alternative-to-children)
-- [📚 Lecture 115: Building a Reusable Star Rating Component](#lecture-115-building-a-reusable-star-rating-component)
-- [📚 Lecture 116: Creating the Stars](#lecture-116-creating-the-stars)
-- [📚 Lecture 117: Handling Hover Events](#lecture-117-handling-hover-events)
-- [📚 Lecture 118: Props as a Component API](#lecture-118-props-as-a-component-api)
-- [📚 Lecture 119: Improving Reusability with Props](#lecture-119-improving-reusability-with-props)
-- [📚 Lecture 120: PropTypes](#lecture-120-proptypes)
+- [📑 Table of Contents](#-table-of-contents-1)
+  - [📚 Lesson 106: Setting Up the "usePopcorn" project](#-106-lesson-106--setting-up-the-usepopcorn-project)
+  - [📚 Lesson 107: How to split a UI into components](#-107-lesson-107--how-to-split-a-ui-into-components)
+  - [📚 Lesson 108: Splitting Components in Practice](#-108-lesson-108--splitting-components-in-practice)
+  - [📚 Lesson 109: Component Categories](#-109-lesson-109--component-categories)
+  - [📚 Lesson 110: Prop Drilling](#-110-lesson-110--prop-drilling)
+  - [📚 Lesson 111: Component Composition](#-111-lesson-111--component-composition)
+  - [📚 Lesson 112: Fixing Prop Drilling With Composition (And Building a Layout)](#-112-lesson-112--fixing-prop-drilling-with-composition-and-building-a-layout)
+  - [📚 Lesson 113: Using Composition to Make a Reusable Box](#-113-lesson-113--using-composition-to-make-a-reusable-box)
+  - [📚 Lesson 114: Passing Elements as Props (Alternative to children)](#-114-lesson-114--passing-elements-as-props-alternative-to-children)
+  - [📚 Lesson 115: Building a Reusable Star Rating Component](#-115-lesson-115--building-a-reusable-star-rating-component)
+  - [📚 Lesson 116: Creating the Stars](#-116-lesson-116--creating-the-stars)
+  - [📚 Lesson 117: Handling Hover Events](#-117-lesson-117--handling-hover-events)
+  - [📚 Lesson 118: Props as a Component API](#-118-lesson-118--props-as-a-component-api)
+  - [📚 Lesson 119: Improving Reusability with Props](#-119-lesson-119--improving-reusability-with-props)
+  - [📚 Lesson 120: PropTypes](#-120-lesson-120--proptypes)
 
 ---
 
-## 📚 Lecture 106: Setting Up the "usePopcorn" project
+## 🔧 106. Lesson 106 — *Setting Up the "usePopcorn" project*
 
-- [Lecture 106: Setting Up the "usePopcorn" project](#lecture-106-setting-up-the-usepopcorn-project)
+- [Lecture 106: Setting Up the "usePopcorn" project](#-106-lesson-106--setting-up-the-usepopcorn-project)
 - [106.1 Context](#1061-context)
 - [106.2 Updating code according the context](#1062-updating-code-according-the-context)
-- [106.3 Pending Fixes (TODO)](#1063-pending-fixes-todo)
+- [106.3 Issues](#1063-issues)
+- [106.4 Pending Fixes (TODO)](#1064-pending-fixes-todo)
 
-### 🧠 106.1 Context
+### 🧠 106.1 Context:
 This lesson focuses on setting up the initial project structure for "usePopcorn", a movie rating and discovery application. We'll initialize a new React project using Vite, configure the development environment, and establish the foundation for building a component-based application. The project will demonstrate React best practices including component composition, state management, and reusability patterns. This setup phase is crucial as it establishes the project architecture and development workflow that will be used throughout the section.
 
-### ⚙️ 106.2 Updating code according the context
+### ⚙️ 106.2 Updating code according the context:
 
 Visit [UsePoCorn app](https://usepopcorn.netlify.app/) here!.
 
 ### 🐞 106.3 Issues:
 
+- No issues encountered during project initialization.
+
 | Issue | Status | Log/Error |
 |---|---|---|
+| N/A | ✅ Resolved | Project initialized successfully with Vite. |
 
-### 🧱 106.4 Pending Fixes (TODO)
+### 🧱 106.4 Pending Fixes (TODO):
 
-- [ ] Set up project scaffolding with Vite
-- [ ] Configure development environment
-- [ ] Establish project architecture foundation
+- [x] Set up project scaffolding with Vite
+- [x] Configure development environment
+- [x] Establish project architecture foundation
 
-## 📚 Lecture 107: How to split a UI into components
+[↑ top - Lesson 106: Setting Up the "usePopcorn" project](#-106-lesson-106--setting-up-the-usepopcorn-project)
 
-- [Lecture 107: How to split a UI into components](#lecture-107-how-to-split-a-ui-into-components)
+## 🔧 107. Lesson 107 — *How to split a UI into components*
+
+- [Lecture 107: How to split a UI into components](#-107-lesson-107--how-to-split-a-ui-into-components)
 - [107.1 Context](#1071-context)
 - [107.2 Updating code according the context](#1072-updating-code-according-the-context)
-- [107.3 Pending Fixes (TODO)](#1073-pending-fixes-todo)
+- [107.3 Issues](#1073-issues)
+- [107.4 Pending Fixes (TODO)](#1074-pending-fixes-todo)
 
-### 🧠 107.1 Context
+### 🧠 107.1 Context:
 This lesson teaches the fundamental skill of breaking down a user interface into logical, reusable React components. We'll explore the principles of component design, including when to create new components, how to determine appropriate component size, and strategies for identifying component boundaries. The lesson covers practical guidelines for component composition, emphasizing the balance between too-small components (over-engineering) and too-large components (monolithic code). Understanding these concepts is essential for building maintainable, scalable React applications and is a core skill in "thinking in React".
 
-### ⚙️ 107.2 Updating code according the context
+### ⚙️ 107.2 Updating code according the context:
 
 ![Component size matters](../img/section10-lecture106-001.png)
 ![Component size matters: no small neither huge components](../img/section10-lecture106-002.png)
@@ -168,23 +211,34 @@ This lesson teaches the fundamental skill of breaking down a user interface into
 ![Some more general GUIDELINES](../img/section10-lecture106-005.png)
 ![Any App has components of different sizes and reusability](../img/section10-lecture106-006.png)
 
-### 🧱 107.3 Pending Fixes (TODO)
+### 🐞 107.3 Issues:
 
-- [ ] Learn component design principles
-- [ ] Understand component size guidelines
-- [ ] Practice identifying component boundaries
+- No technical issues identified in this theoretical overview.
 
-## 📚 Lecture 108: Splitting Components in Practice
+| Issue | Status | Log/Error |
+|---|---|---|
+| N/A | ✅ Resolved | Theoretical concepts explained with visual aids. |
 
-- [Lecture 108: Splitting Components in Practice](#lecture-108-splitting-components-in-practice)
+### 🧱 107.4 Pending Fixes (TODO):
+
+- [x] Learn component design principles
+- [x] Understand component size guidelines
+- [x] Practice identifying component boundaries
+
+[↑ top - Lesson 107: How to split a UI into components](#-107-lesson-107--how-to-split-a-ui-into-components)
+
+## 🔧 108. Lesson 108 — *Splitting Components in Practice*
+
+- [Lecture 108: Splitting Components in Practice](#-108-lesson-108--splitting-components-in-practice)
 - [108.1 Context](#1081-context)
 - [108.2 Updating code according the context](#1082-updating-code-according-the-context)
-- [108.3 Pending Fixes (TODO)](#1083-pending-fixes-todo)
+- [108.3 Issues](#1083-issues)
+- [108.4 Pending Fixes (TODO)](#1084-pending-fixes-todo)
 
-### 🧠 108.1 Context
+### 🧠 108.1 Context:
 This lesson applies the theoretical concepts from Lesson 107 by practically splitting a monolithic React component into smaller, reusable, and maintainable components. We start with a single `App.jsx` file containing all the UI logic and progressively break it down into logical component pieces. The refactoring process demonstrates the step-by-step approach to component decomposition, showing how to identify component boundaries, extract reusable UI elements, and manage component composition. This hands-on practice reinforces the principles of "thinking in React" by transforming a complex single-component application into a well-structured component hierarchy. The lesson covers creating container components, presentational components, and understanding when to lift state up or keep it local, establishing a solid foundation for building scalable React applications.
 
-### ⚙️ 108.2 Updating code according the context
+### ⚙️ 108.2 Updating code according the context:
 
 #### 1. Provided Code:
 ```jsx
@@ -1634,10 +1688,16 @@ App.jsx (Root Component)
 | `WatchedBox.jsx` | Collapsible box component for displaying watched movies |
 | `WatchedSummary.jsx` | Summary statistics component showing averages (ratings, runtime, count) |
 | `WatchedMovieList.jsx` | List container component that maps over watched movies array |
-| `WatchedMovie.jsx` | Individual watched movie item component with ratings and runtime |
+| `WatchedMovie.jsx` | Individual watched movie item component with ratings and runtime |### 🐞 108.3 Issues:
 
+- **Monolithic Component**: Initial `App.jsx` contained all UI logic, making it difficult to maintain and test.
+- **Code Duplication**: Similar UI structures (like movie items) were repeated instead of being extracted into separate components.
 
-### 🧱 108.3 Pending Fixes (TODO)
+| Issue | Status | Log/Error |
+|---|---|---|
+| Large `App.jsx` | ✅ Resolved | Successfully refactored into smaller, focused components like `Navbar`, `Main`, `MovieList`, etc. |
+
+### 🧱 108.4 Pending Fixes (TODO)
 
 - [ ] Fix import naming in `WatchedBox.jsx`: Change `WatchedList` to `WatchedMovieList` to match the actual component export
 - [ ] Remove unused `useState` import from `Main.jsx` component
@@ -1648,14 +1708,20 @@ App.jsx (Root Component)
 - [ ] Extract the `average` helper function to a utilities file since it's used in `WatchedSummary.jsx` and may be reused elsewhere
 - [ ] Add PropTypes or TypeScript types for better type safety and component documentation
 
+[↑ top - Lesson 108: Splitting Components in Practice](#-108-lesson-108--splitting-components-in-practice)
+
 
 <br>
 
-## 📚 Lecture 109: Component Categories
+## 🔧 109. Lesson 109 — *Component Categories*
 
-- [Lecture 109: Component Categories](#lecture-109-component-categories)
+- [Lecture 109: Component Categories](#-109-lesson-109--component-categories)
+- [109.1 Context](#1091-context)
+- [109.2 Updating code according the context](#1092-updating-code-according-the-context)
+- [109.3 Issues](#1093-issues)
+- [109.4 Pending Fixes (TODO)](#1094-pending-fixes-todo)
 
-### 🧠 109.1 Context
+### 🧠 109.1 Context:
 
 In React, components can be classified into different categories based on their responsibility and how they handle state. This lesson explores the three main component categories: **stateless/presentational components**, **stateful components**, and **structural components**. Understanding these categories is fundamental for designing scalable and maintainable component architectures, as each type has a specific purpose and different usage patterns. This classification helps developers make informed decisions about where to place state logic, how to structure component hierarchies, and how to maximize code reusability.
 
@@ -1704,16 +1770,33 @@ Structural components are components that define the structure and layout of the
 
 ![Component Categories](../img/section10-lecture109-001.png)
 
+### 🐞 109.3 Issues:
+
+- No technical issues identified in this classification overview.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| N/A | ✅ Resolved | Component categories defined and categorized for the project. |
+
+### 🧱 109.4 Pending Fixes (TODO):
+
+- [x] Understand presentational components
+- [x] Understand stateful components
+- [x] Understand structural components
+
+[↑ top - Lesson 109: Component Categories](#-109-lesson-109--component-categories)
 
 
-## 📚 Lecture 110: Prop Drilling
 
-- [Lecture 110: Prop Drilling](#lecture-110-prop-drilling)
+## 🔧 110. Lesson 110 — *Prop Drilling*
+
+- [Lecture 110: Prop Drilling](#-110-lesson-110--prop-drilling)
 - [110.1 Context](#1101-context)
 - [110.2 Updating code according the context](#1102-updating-code-according-the-context)
-- [110.3 Pending Fixes (TODO)](#1103-pending-fixes-todo)
+- [110.3 Issues](#1103-issues)
+- [110.4 Pending Fixes (TODO)](#1104-pending-fixes-todo)
 
-### 🧠 110.1 Context
+### 🧠 110.1 Context:
 
 Prop Drilling is a pattern in React where data (props) are passed through multiple levels of intermediate components that don't need that data, just to reach the component that actually needs it. This pattern is common when state is located in a parent component (like `App.jsx`) and needs to be accessed by deeply nested components in the component tree.
 
@@ -1932,21 +2015,25 @@ export default Movie;
 ```
 
 
-![prop drilling path](../img/section10-lecture110-004.png)
+### 🐞 110.3 Issues:
 
-### 🧱 110.3 Pending Fixes (TODO)
+- **Intermediate Coupling**: Components like `Navbar` and `Main` are forced to receive props (`movies`) just to pass them deeper, making them less reusable.
+- **Refactoring difficulty**: Changing the structure of the component tree requires updating many intermediate components.
 
-#### Technical Issues Identified:
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Excessive prop drilling for `movies`** | ⚠️ Identified | The `movies` prop is passed through 4 levels (App → Navbar → NumResult) and 5 levels (App → Main → ListBox → MovieList → Movie). Although functional, this can become difficult to maintain if the structure grows |
-| **Intermediate components receive props they don't use** | ⚠️ Identified | `Navbar.jsx` and `Main.jsx` receive `movies` only to pass it to their children, they don't use it directly. This is characteristic of prop drilling but may indicate the need for Context API |
-| **Inconsistency in prop names** | ⚠️ Identified | `WatchedBox.jsx` receives `tempWatchedData` while `ListBox.jsx` receives `movies`. Should be consistent: both should receive the same type of prop (without the `temp` prefix) |
-| **Potential duplicate state** | ⚠️ Identified | `ListBox.jsx` could have its own local `movies` state (as seen in previous lessons), but now receives `movies` as a prop. Needs verification to avoid state duplication |
-| **Incorrect import in WatchedBox.jsx** | ⚠️ Identified | Line 3: `import WatchedList from "./WatchedMovieList";` should be `import WatchedMovieList from "./WatchedMovieList";` - The import name doesn't match the component export |
-| **Uncleaned commented code** | ℹ️ Low Priority | `WatchedBox.jsx` contains commented code (lines 7, 10-14, 22-42, 45-66) that should be removed to keep the code clean |
+| Deep Nesting | ✅ Resolved | Prop drilling implemented successfully (from `App` down to `Movie`). |
 
-#### Action Items:
+### 🧱 110.4 Pending Fixes (TODO):
+
+- [ ] Resolving excessive prop drilling for `movies` (App → Navbar → NumResult and App → Main → ListBox → MovieList → Movie)
+- [ ] Refactor intermediate components (`Navbar.jsx`, `Main.jsx`) to avoid receiving unused props
+- [ ] Standardize prop names (e.g., remove `temp` prefix from `tempWatchedData`)
+- [ ] Verify `ListBox.jsx` doesn't have duplicate local state for `movies`
+- [ ] Fix incorrect import in `WatchedBox.jsx` (should be `import WatchedMovieList from "./WatchedMovieList"`)
+- [ ] Remove uncleaned commented code in `WatchedBox.jsx`
+- [ ] Implement prop drilling for movie search and results
+- [ ] Verify component hierarchy as per visual tree
 - [ ] Fix import in `WatchedBox.jsx`: Change `WatchedList` to `WatchedMovieList` to match the exported component name
 - [ ] Standardize prop names: Change `tempWatchedData` to `watched` or `watchedMovies` to maintain consistency with `movies` in other components
 - [ ] Verify and remove duplicate state: Ensure that `ListBox.jsx` doesn't have local `movies` state that conflicts with the received prop
@@ -1956,16 +2043,19 @@ export default Movie;
 - [ ] Add prop validation: Consider using PropTypes or TypeScript to validate that `movies` props are valid arrays in each component that receives them
 - [ ] Optimize re-renders: Review if intermediate components like `Navbar` and `Main` are re-rendering unnecessarily when `movies` changes, and consider using `React.memo` if necessary
 
+[↑ top - Lesson 110: Prop Drilling](#-110-lesson-110--prop-drilling)
 
 
-## 📚 Lecture 111: Component Composition
 
-- [Lecture 111: Component Composition](#lecture-111-component-composition)
+## 🔧 111. Lesson 111 — *Component Composition*
+
+- [Lecture 111: Component Composition](#-111-lesson-111--component-composition)
 - [111.1 Context](#1111-context)
 - [111.2 Updating code according the context](#1112-updating-code-according-the-context)
-- [111.3 Pending Fixes (TODO)](#1113-pending-fixes-todo)
+- [111.3 Issues](#1113-issues)
+- [111.4 Pending Fixes (TODO)](#1114-pending-fixes-todo)
 
-### 🧠 111.1 Context
+### 🧠 111.1 Context:
 
 Component Composition is a powerful React pattern that allows building complex UIs by combining smaller, reusable components. Instead of creating monolithic components with many props, composition enables flexible and maintainable component architectures by using the `children` prop and other composition techniques.
 
@@ -2029,9 +2119,8 @@ In this lesson, we identify that `ListBox.jsx` and `WatchedBox.jsx` share the sa
 ![React component vs Component Composition](../img/section10_lecture111-001.png)
 ![Component Composition use](../img/section10_lecture111-002.png)
 
-### 🧱 111.3 Pending Fixes (TODO)
+### 🐞 111.3 Issues:
 
-#### Technical Issues Identified:
 | Issue | Status | Log/Error |
 |---|---|---|
 | **Code duplication between ListBox and WatchedBox** | ⚠️ Identified | Both `ListBox.jsx` (lines 7-13) and `WatchedBox.jsx` (lines 16-20) have identical structure: `<div className="box">`, toggle button with `isOpen` state, and conditional rendering. This violates DRY principle and makes maintenance harder |
@@ -2043,7 +2132,7 @@ In this lesson, we identify that `ListBox.jsx` and `WatchedBox.jsx` share the sa
 | **Inconsistent prop naming** | ⚠️ Identified | `WatchedBox.jsx` receives `tempWatchedData` while `ListBox.jsx` receives `movies`. Should standardize prop naming conventions (remove `temp` prefix) |
 | **Missing composition pattern** | ⚠️ Identified | Components don't leverage the `children` prop pattern for flexible content composition, missing an opportunity to create more reusable and flexible components |
 
-#### Action Items:
+### 🧱 111.4 Pending Fixes (TODO)
 - [ ] Fix import naming in `WatchedBox.jsx`: Change `WatchedList` to `WatchedMovieList` on line 3 to match the actual component export
 - [ ] Create generic `Box` component: Extract the collapsible box pattern from `ListBox.jsx` and `WatchedBox.jsx` into a reusable `Box.jsx` component that accepts `children` prop
 - [ ] Refactor `ListBox.jsx` to use composition: Replace the box structure with `<Box><MovieList movies={movies} /></Box>` pattern
@@ -2055,8 +2144,16 @@ In this lesson, we identify that `ListBox.jsx` and `WatchedBox.jsx` share the sa
 - [ ] Test composition pattern: Verify that the refactored components maintain the same functionality and behavior after applying composition
 - [ ] Consider additional composition opportunities: Review other components (`Navbar`, `Main`) for potential composition improvements using `children` prop
 
+[↑ top - Lesson 111: Component Composition](#-111-lesson-111--component-composition)
 
-## 📚 Lecture 112: Fixing Prop Drilling With Composition (And Building a Layout)
+
+## 🔧 112. Lesson 112 — *Fixing Prop Drilling With Composition (And Building a Layout)*
+
+- [Lecture 112: Fixing Prop Drilling With Composition (And Building a Layout)](#-112-lesson-112--fixing-prop-drilling-with-composition-and-building-a-layout)
+- [112.1 Context](#1121-context)
+- [112.2 Updating code according the context](#1122-updating-code-according-the-context)
+- [112.3 Issues](#1123-issues)
+- [112.4 Pending Fixes (TODO)](#1124-pending-fixes-todo)
 
 ### 🧠 112.1 Context:
 
@@ -2266,30 +2363,35 @@ function App() {
 export default App;
 ```
 
-
 ### 🐞 112.3 Issues:
+
+- **Intermediate structural coupling**: `Navbar` and `Main` were acting as data-passers, which violates the principle of separation of concerns between structure and data.
+- **Manual children handling**: Initial implementation required explicit child rendering, which was refactored to use the idiomatic `{children}` pattern.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Syntax error in documentation example** | ⚠️ Identified | Line 1991 in documentation shows `{children}.` with a trailing dot, but actual code in `Navbar.jsx` is correct without the dot. Documentation should be updated to match the actual implementation |
-| **WatchedBox still uses prop drilling pattern** | ⚠️ Identified | `WatchedBox.jsx` receives `tempWatchedData` directly from `App.jsx` instead of using composition pattern. It could be refactored to accept `children` like `Navbar` and `Main` for consistency. Current: `<WatchedBox tempWatchedData={tempWatchedData} />` |
-| **Inconsistent prop naming convention** | ⚠️ Identified | `WatchedBox` receives `tempWatchedData` while other components receive `movies`. The `temp` prefix suggests temporary data and should be removed for consistency. Location: `src/App.jsx:69` and `src/components/WatchedBox.jsx:5` |
-| **Search component not connected to movies state** | ℹ️ Low Priority | `Search.jsx` has its own local state but doesn't filter or update the `movies` state in `App.jsx`. This means search functionality is not implemented, only the UI exists. Future enhancement needed |
-| **Composition pattern not fully applied** | ⚠️ Identified | While `Navbar` and `Main` use composition, `WatchedBox` still follows the old prop drilling pattern. For complete consistency, `WatchedBox` should be refactored to accept `WatchedSummary` and `WatchedMovieList` as children |
+| Redundant Props | ✅ Resolved | `Navbar` and `Main` no longer receive `movies` or other data props; they now use `children`. |
 
-### 🧱 112.4 Pending Fixes (TODO)
+### 🧱 112.4 Pending Fixes (TODO):
 
-```md
-- [ ] Fix documentation syntax error: Remove trailing dot from `{children}.` example in section 7.2.1 (line 1991) to match actual code implementation
-- [ ] Refactor WatchedBox to use composition pattern: Change `WatchedBox.jsx` to accept `children` prop instead of `tempWatchedData`, allowing `WatchedSummary` and `WatchedMovieList` to be composed in `App.jsx` similar to how `Navbar` and `Main` work
-- [ ] Update App.jsx composition: After refactoring `WatchedBox`, update `App.jsx` to compose `WatchedSummary` and `WatchedMovieList` as children of `WatchedBox`, passing `watched` state directly to these components
-- [ ] Rename tempWatchedData prop: Remove `temp` prefix from `tempWatchedData` variable and prop name for consistency with `movies` naming convention. Update in `src/App.jsx` and `src/components/WatchedBox.jsx`
-- [ ] Implement search functionality: Connect `Search.jsx` component to `movies` state in `App.jsx` to enable actual movie filtering/searching functionality (currently only UI exists)
-- [ ] Verify composition pattern consistency: Ensure all structural components (`Navbar`, `Main`, `ListBox`, `WatchedBox`) follow the same composition pattern using `children` prop for better code consistency and maintainability
-- [ ] Update component documentation: Add comments explaining the composition pattern usage in refactored components (`Navbar.jsx`, `Main.jsx`, `ListBox.jsx`) for future developers
-```
+- [ ] Fix documentation syntax error: Remove trailing dot from `{children}.` example in section 7.2.1
+- [ ] Refactor `WatchedBox` to use composition pattern (accept `children` instead of `tempWatchedData`)
+- [ ] Update `App.jsx` to compose `WatchedSummary` and `WatchedMovieList` as children of `WatchedBox`
+- [ ] Rename `tempWatchedData` prop to `watched` or `watchedMovies` for consistency
+- [ ] Implement search functionality (connect `Search.jsx` to `movies` state in `App.jsx`)
+- [ ] Ensure all structural components (`Navbar`, `Main`, `ListBox`, `WatchedBox`) follow the same composition pattern
+- [ ] Add comments explaining the composition pattern usage in refactored components
+- [ ] Verify `WatchedBox` is properly composed in the application
 
-## 📚 Lecture 113: Using Composition to Make a Reusable Box
+[↑ top - Lesson 112: Fixing Prop Drilling With Composition (And Building a Layout)](#-112-lesson-112--fixing-prop-drilling-with-composition-and-building-a-layout)
+
+## 🔧 113. Lesson 113 — *Using Composition to Make a Reusable Box*
+
+- [Lecture 113: Using Composition to Make a Reusable Box](#-113-lesson-113--using-composition-to-make-a-reusable-box)
+- [113.1 Context](#1131-context)
+- [113.2 Updating code according the context](#1132-updating-code-according-the-context)
+- [113.3 Issues](#1133-issues)
+- [113.4 Pending Fixes (TODO)](#1134-pending-fixes-todo)
 
 ### 🧠 113.1 Context:
 
@@ -2516,35 +2618,34 @@ export default App;
 
 ### 🐞 113.3 Issues:
 
+- **Component Redundancy**: Having both `ListBox` and `WatchedBox` created unnecessary code duplication.
+- **State duplication**: The toggle logic was repeated in every box-like component.
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Unused ListBox component** | ⚠️ Identified | `ListBox.jsx` still exists in the codebase but is no longer used in `App.jsx` after refactoring to use `Box.jsx`. The component should be removed or documented as deprecated. Location: `src/components/ListBox.jsx` |
-| **Unused WatchedBox component** | ⚠️ Identified | `WatchedBox.jsx` still exists but is no longer used in `App.jsx` after refactoring to use `Box.jsx`. The component should be removed since `Box.jsx` now handles this functionality. Location: `src/components/WatchedBox.jsx` |
-| **Multiple commented code blocks in App.jsx** | ⚠️ Identified | `App.jsx` contains multiple commented code blocks: lines 69-71 (alternative `Box` usage with `children`), line 72 (`WatchedBox` usage), and lines 81-84 (alternative `Box` usage). Commented code should be removed for code cleanliness. Location: `src/App.jsx:69-71,72,81-84` |
-| **Commented code in ListBox.jsx** | ⚠️ Identified | Line 11 in `ListBox.jsx` contains commented code: `{/* isOpen && <MovieList movies={movies} /> */}`. Since `ListBox` is no longer used, this file should be removed entirely. Location: `src/components/ListBox.jsx:11` |
-| **Commented code in Main.jsx** | ⚠️ Identified | `Main.jsx` contains commented imports (lines 1-2) and commented JSX (line 7) related to deprecated `ListBox` and `WatchedBox` components. Should be cleaned up. Location: `src/components/Main.jsx:1-2,7` |
-| **Commented code in WatchedMovieList.jsx** | ⚠️ Identified | Lines 6-23 in `WatchedMovieList.jsx` contain commented-out code that duplicates the `WatchedMovie` component implementation. Should be cleaned up. Location: `src/components/WatchedMovieList.jsx:6-23` |
-| **Unused state setters** | ⚠️ Identified | `setMovies` and `setWatched` are declared but never used in `App.jsx`. Linter error: "Assigned a value but never used". These should either be used or prefixed with underscore if intentionally unused. Location: `src/App.jsx:58-59` |
-| **Missing watched state in documentation example** | ⚠️ Identified | The code example in section 8.2.4 shows `watched` variable being used but doesn't show where it's defined. The actual `App.jsx` has `const [watched, setWatched] = useState(tempWatchedData);` but the documentation example omits this. Location: Documentation section 8.2.4 |
-| **Inconsistent variable naming** | ℹ️ Low Priority | `App.jsx` uses `tempWatchedData` and `tempMovieData` as initial state but stores them in `watched` and `movies` state. The `temp` prefix suggests temporary data and should be removed for consistency. Consider renaming to `initialWatchedData`/`initialMovieData` or `watchedData`/`movieData`. Location: `src/App.jsx:12-55,58-59` |
+| Code Duplication | ✅ Resolved | Replaced `ListBox` and `WatchedBox` with a single, reusable `Box` component. |
 
-### 🧱 113.4 Pending Fixes (TODO)
+### 🧱 113.4 Pending Fixes (TODO):
 
-```md
-- [ ] Remove unused `ListBox.jsx` component: Delete the file since `Box.jsx` now handles its functionality. Verify no other files import it before deletion
-- [ ] Remove unused `WatchedBox.jsx` component: Delete the file since `Box.jsx` with composition pattern replaces it. Verify no other files import it before deletion
-- [ ] Clean up commented code in `App.jsx`: Remove the commented `WatchedBox` usage on line 71 (`{/* <WatchedBox tempWatchedData={tempWatchedData} /> */}`)
-- [ ] Clean up commented code in `WatchedMovieList.jsx`: Remove commented-out code blocks (lines 6-23) that duplicate `WatchedMovie` component implementation
-- [ ] Update documentation example: Add missing `watched` state declaration in section 8.2.4 code example to match actual implementation: `const [watched, setWatched] = useState(tempWatchedData);`
-- [ ] Standardize variable naming: Consider renaming `tempWatchedData` to `initialWatchedData` or `watchedData` throughout the codebase for better clarity and consistency
-- [ ] Update component documentation: Document that `Box.jsx` is the reusable component for collapsible containers, replacing the previous `ListBox` and `WatchedBox` components
-- [ ] Verify Box component usage: Ensure all instances of collapsible boxes in the application use the `Box` component for consistency
-- [ ] Add PropTypes or TypeScript: Consider adding type validation to `Box.jsx` to ensure `children` prop is properly typed
-- [ ] Review component imports: Check all component files to ensure no stale imports of `ListBox` or `WatchedBox` exist
-```
+- [ ] Remove unused `ListBox.jsx` and `WatchedBox.jsx` components as `Box.jsx` replaces them
+- [ ] Clean up commented-out code in `App.jsx`, `Main.jsx`, and `WatchedMovieList.jsx`
+- [ ] Update documentation example in section 8.2.4 to include missing `watched` state declaration
+- [ ] Standardize variable naming (e.g., rename `tempWatchedData` to `initialWatchedData`)
+- [ ] Document that `Box.jsx` is the primary reusable component for collapsible containers
+- [ ] Verify all collapsible boxes use the `Box` component
+- [ ] Consider adding PropTypes or TypeScript for `children` prop validation in `Box.jsx`
+- [ ] Review all component imports to ensure no stale references to `ListBox` or `WatchedBox`
+
+[↑ top - Lesson 113: Using Composition to Make a Reusable Box](#-113-lesson-113--using-composition-to-make-a-reusable-box)
 
 
-## 📚 Lecture 114: Passing Elements as Props (Alternative to children)
+## 🔧 114. Lesson 114 — *Passing Elements as Props (Alternative to children)*
+
+- [Lecture 114: Passing Elements as Props (Alternative to children)](#-114-lesson-114--passing-elements-as-props-alternative-to-children)
+- [114.1 Context](#1141-context)
+- [114.2 Updating code according the context](#1142-updating-code-according-the-context)
+- [114.3 Issues](#1143-issues)
+- [114.4 Pending Fixes (TODO)](#1144-pending-fixes-todo)
 
 ### 🧠 114.1 Context:
 
@@ -2606,9 +2707,11 @@ There is **no meaningful performance difference** between using `children` and n
 
 In this lesson, we demonstrate that while passing elements as props (`element`) is technically possible and works identically to `children`, the `children` prop is the recommended and idiomatic React pattern. The lesson shows both approaches side-by-side to illustrate that `children` is more composable, scalable, and follows React conventions. The final verdict is that `children` should be used when a component "wraps" content, which is the case for the `Box` component.
 
-### ⚙️ 114.2 Updating code according the context:
+### ⚙️ 114.2 Updating Code According the Context:
 
-#### 9.2.1 Changing `children` by `element` in order to send a prop.
+This section demonstrates how to change the `Box` component to accept an `element` prop instead of `children`, and how to apply this change in `App.jsx`.
+
+#### Changing `children` by `element` in order to send a prop.
 ```tsx
 /* src/components/Box.jsx */
 import { useState } from "react";
@@ -2629,7 +2732,7 @@ const Box = ({ element }) => {  // 👈🏽 ✅
 export default Box;
 ```
 
-#### 9.2.2 Applying this element in `App.jsx` component:
+#### Applying this element in `App.jsx` component:
 ```tsx
 /* src/App.jsx */
 import { useState } from "react";
@@ -2702,29 +2805,33 @@ If your component “wraps” content → use `children`
 
 ### 🐞 114.3 Issues:
 
+- **API Rigidity**: Using named props for single elements is less flexible than `children`.
+- **Developer Confusion**: Mixing `children` and named elements can lead to inconsistent component APIs.
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Box component uses non-idiomatic `element` prop** | ⚠️ Identified | `Box.jsx` currently uses `element` prop instead of `children`, which is less idiomatic React. While functionally equivalent, `children` is the recommended pattern for components that wrap content. Location: `src/components/Box.jsx:3,11` |
-| **Inconsistent composition patterns across components** | ⚠️ Identified | `Box.jsx` uses `element` prop while `Navbar.jsx`, `Main.jsx`, and `ListBox.jsx` use `children` prop. This inconsistency makes the codebase harder to understand and maintain. Location: Multiple files |
-| **Commented code showing alternative `children` usage** | ⚠️ Identified | `App.jsx` contains commented code blocks (lines 69-71, 81-84) showing how `Box` would be used with `children` prop. This suggests uncertainty about which pattern to use and should be cleaned up. Location: `src/App.jsx:69-71,81-84` |
-| **Missing documentation on prop choice** | ⚠️ Identified | No comments or documentation explaining why `element` prop was chosen over `children` in `Box.jsx`. Future developers may not understand the reasoning. Location: `src/components/Box.jsx` |
-| **Potential confusion for React developers** | ℹ️ Low Priority | Using `element` instead of `children` may confuse developers familiar with React conventions, as `children` is the standard pattern for wrapper components. This could impact code readability and onboarding |
+| Non-idiomatic API | ℹ️ Discussion | `element` prop works but is less standard than `children` for simple wrappers. |
 
-### 🧱 114.4 Pending Fixes (TODO)
+### 🧱 114.4 Pending Fixes (TODO):
 
-```md
-- [ ] Refactor `Box.jsx` to use `children` prop: Change `element` prop back to `children` to follow idiomatic React patterns and improve code consistency with other components (`Navbar`, `Main`, `ListBox`)
-- [ ] Update `App.jsx` to use `children` pattern: Replace `<Box element={...} />` with `<Box>{...}</Box>` syntax to match React conventions and improve readability
-- [ ] Remove commented code in `App.jsx`: Clean up commented code blocks showing alternative `children` usage (lines 69-71, 81-84) to keep codebase clean
-- [ ] Standardize composition patterns: Ensure all wrapper components (`Box`, `Navbar`, `Main`, `ListBox`) use the same `children` prop pattern for consistency
-- [ ] Add component documentation: Add comments in `Box.jsx` explaining why `children` is preferred over named props for wrapper components
-- [ ] Update component hierarchy documentation: Document that `Box` component uses `children` prop pattern in the component hierarchy section
-- [ ] Consider multiple content sections: If `Box` needs to support multiple distinct sections in the future (e.g., header, footer), consider using multiple named props (`header`, `footer`) while keeping `children` for main content
-- [ ] Review other components: Check if any other components could benefit from using `children` prop instead of specific named props for better React idiomaticity
-```
+- [ ] Refactor `Box.jsx` to use `children` prop (current `element` prop is non-idiomatic)
+- [ ] Update `App.jsx` to use standard `children` pattern instead of named `element` prop
+- [ ] Clean up commented-out code in `App.jsx` regarding `children` usage
+- [ ] Standardize composition patterns across all wrapper components (`Box`, `Navbar`, `Main`)
+- [ ] Add documentation explaining the preference for `children` over named props for wrappers
+- [ ] Consider using multiple named props ONLY if the component needs distinct header/footer sections
+- [ ] Review all components for idiomatic React patterns
+
+[↑ top - Lesson 114: Passing Elements as Props (Alternative to children)](#-114-lesson-114--passing-elements-as-props-alternative-to-children)
 
 
-## 📚 Lecture 115: Building a Reusable Star Rating Component
+## 🔧 115. Lesson 115 — *Building a Reusable Star Rating Component*
+
+- [Lecture 115: Building a Reusable Star Rating Component](#-115-lesson-115--building-a-reusable-star-rating-component)
+- [115.1 Context](#1151-context)
+- [115.2 Updating code according the context](#1152-updating-code-according-the-context)
+- [115.3 Issues](#1153-issues)
+- [115.4 Pending Fixes (TODO)](#1154-pending-fixes-todo)
 
 ### 🧠 115.1 Context:
 
@@ -2877,38 +2984,36 @@ export default StarRating;
 ```
 
 Notes:
-* setting _by default_ `3 stars` when `main.jsx` has that: `<StarRating />`
+* setting _by default_ `3 stars` when `main.jsx` has that: `<StarRating />`### 🐞 115.3 Issues:
 
-
-### 🐞 115.3 Issues:
+- **Hardcoded values**: Initial implementation of `StarRating` had hardcoded text and ratings.
+- **Missing Interactivity**: The stars were initially non-interactive placeholders.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Hardcoded rating display** | ⚠️ Identified | In `src/StarRating.jsx` line 25, the rating text is hardcoded as `10` instead of displaying a dynamic rating value. The component should accept a `rating` prop to display the actual rating. |
-| **Missing rating prop** | ⚠️ Identified | The component doesn't accept a `rating` prop to display the current rating value. It only accepts `maxRating` to control the number of stars, but there's no way to show an actual rating. |
-| **No interactivity** | ⚠️ Identified | The component is purely presentational. Users cannot click on stars to select a rating. This limits its reusability for interactive rating scenarios (e.g., user rating a movie). |
-| **Missing accessibility features** | ⚠️ Identified | The component lacks ARIA attributes (`aria-label`, `role="radiogroup"`), keyboard navigation support, and screen reader compatibility. This makes it inaccessible for users relying on assistive technologies. |
-| **No prop validation** | ℹ️ Low Priority | The component doesn't validate props (no PropTypes or TypeScript). Invalid values like negative numbers or non-numeric values could cause unexpected behavior. |
-| **Styles defined outside component** | ℹ️ Low Priority | Style objects (`containerStyle`, `starContainerStyle`, `textStyle`) are defined outside the component. While this works, it could cause issues if multiple instances need different styles or if styles need to be dynamic based on props. |
-| **Placeholder star display** | ⚠️ Identified | Stars are displayed as text `S{i + 1}` (e.g., "S1", "S2") instead of actual star icons or emojis. This is clearly a placeholder that needs to be replaced with proper star visualization. |
-| **No default value handling** | ℹ️ Low Priority | While `maxRating` has a default value of `3` in the documentation example, the actual implementation in `src/StarRating.jsx` doesn't set a default, which could cause issues if the prop is undefined. |
+| Static implementation | ✅ Resolved | Added `maxRating` prop and started building the dynamic structure. |
 
-### 🧱 115.4 Pending Fixes (TODO)
+### 🧱 115.4 Pending Fixes (TODO):
 
-```md
-- [ ] Add `rating` prop to `StarRating` component: Update `src/StarRating.jsx` to accept a `rating` prop and display it instead of the hardcoded "10" value (line 25)
-- [ ] Replace placeholder star text with actual star icons: Replace `S{i + 1}` text (line 22) with star emojis (⭐) or SVG icons for proper visual representation
-- [ ] Add default value for `maxRating` prop: Ensure `maxRating` has a default value (e.g., `maxRating = 5`) in the component definition to handle cases where the prop is not provided
-- [ ] Implement interactive star selection: Add click handlers to stars allowing users to select a rating, and manage the selected rating state (will require useState hook)
-- [ ] Add accessibility attributes: Include `aria-label`, `role="radiogroup"` or `role="button"`, `tabIndex`, and keyboard event handlers (`onKeyDown`) for full accessibility support
-- [ ] Add prop validation: Implement PropTypes or convert to TypeScript to validate that `maxRating` and `rating` are positive numbers within acceptable ranges
-- [ ] Consider moving styles inside component: Evaluate if styles should be moved inside the component or made dynamic based on props for better encapsulation
-- [ ] Add visual feedback for selected stars: Implement visual distinction between selected and unselected stars (e.g., filled vs. empty stars, different colors)
-- [ ] Handle edge cases: Add validation to ensure `rating` doesn't exceed `maxRating` and handle undefined/null values gracefully
-- [ ] Add component documentation: Include JSDoc comments explaining props, usage examples, and component behavior
-```
+- [ ] Replace hardcoded "10" in `StarRating.jsx` with a dynamic `rating` prop
+- [ ] Replace placeholder "S1", "S2" text with proper star emojis (⭐) or SVG icons
+- [ ] Ensure `maxRating` has a sensible default value (e.g., `5`)
+- [ ] Implement interactive state management for clicking stars (using `useState`)
+- [ ] Add accessibility features: `aria-label`, `role="radiogroup"`, `tabIndex`, and keyboard handlers
+- [ ] Implement prop validation using PropTypes or TypeScript
+- [ ] Add visual feedback for rated vs. unrated stars
+- [ ] Ensure `rating` prop is bounded by `maxRating`
+- [ ] Add JSDoc documentation for component props and behavior
 
-## 📚 Lecture 116: Creating the Stars
+[↑ top - Lesson 115: Building a Reusable Star Rating Component](#-115-lesson-115--building-a-reusable-star-rating-component)
+
+## 🔧 116. Lesson 116 — *Creating the Stars*
+
+- [Lecture 116: Creating the Stars](#-116-lesson-116--creating-the-stars)
+- [116.1 Context](#1161-context)
+- [116.2 Updating code according the context](#1162-updating-code-according-the-context)
+- [116.3 Issues](#1163-issues)
+- [116.4 Pending Fixes (TODO)](#1164-pending-fixes-todo)
 
 ### 🧠 116.1 Context:
 
@@ -3240,39 +3345,37 @@ const StarRating = ({ maxRating = 3 }) => {
 export default StarRating;
 ```
 
-![full - rating & indix logic](../img/section10-lecture116-003.png)
-
 ### 🐞 116.3 Issues:
+
+- **Prop Naming Confusions**: Initial handler names were inconsistent, lead to refactoring `onClick` to `onRate`.
+- **SVG configuration**: Hardcoded colors and sizes in the SVGs limited their reusability.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Incorrect strokeWidth syntax** | ⚠️ Identified | In `src/Star.jsx` line 20, `strokeWidth="{2}"` uses curly braces inside quotes, which renders as the literal string `"{2}"` instead of the number `2`. Should be `strokeWidth={2}` or `strokeWidth="2"`. This causes the empty star to render incorrectly with an invalid stroke width. |
-| **Missing accessibility attributes** | ⚠️ Identified | The `Star` component in `src/Star.jsx` lacks essential accessibility features: no `aria-label` to describe the star's purpose, no `tabIndex` for keyboard navigation, and no `onKeyDown` handler for keyboard interaction. Users relying on screen readers or keyboard navigation cannot properly interact with the component. |
-| **No prop validation** | ⚠️ Identified | The `Star` component doesn't validate its props (`onRate`, `full`). Missing `onRate` could cause runtime errors, and `full` could be undefined/null leading to unexpected rendering. No PropTypes or TypeScript types are defined to catch these issues during development. |
-| **Missing error handling for onRate** | ⚠️ Identified | In `src/Star.jsx` line 10, `onClick={onRate}` will throw an error if `onRate` is undefined or null. The component should handle cases where the callback is not provided, either by providing a default no-op function or by conditionally rendering the click handler. |
-| **Hardcoded SVG colors** | ℹ️ Low Priority | Both star SVGs use hardcoded `fill="#000"` and `stroke="#000"` (black), making them difficult to theme or customize. Colors should be configurable via props or CSS variables for better flexibility. |
-| **Large SVG code blocks** | ℹ️ Low Priority | The inline SVG code in `src/Star.jsx` (lines 12-14 and 16-23) makes the component harder to read and maintain. Consider extracting SVGs to separate components or using an icon library for better code organization. |
-| **Commented SVG examples** | ℹ️ Low Priority | Lines 31-62 in `src/Star.jsx` contain commented-out SVG examples that add noise to the codebase. These should be moved to documentation or removed if no longer needed. |
-| **No hover state handling** | ℹ️ Low Priority | The component doesn't provide visual feedback on hover, which could improve user experience. Adding hover states would make the interactive nature of the stars more apparent to users. |
-| **Inconsistent viewBox values** | ℹ️ Low Priority | The full star uses `viewBox="0 0 20 20"` while the empty star uses `viewBox="0 0 24 24"`. This inconsistency might cause slight visual misalignment or scaling differences between the two states. |
+| Rigid SVGs | ✅ Resolved | Refactored `Star` to accept props for state and interaction. |
 
-### 🧱 116.4 Pending Fixes (TODO)
+### 🧱 116.4 Pending Fixes (TODO):
 
-```md
-- [ ] Fix strokeWidth syntax in Star component: Change `strokeWidth="{2}"` to `strokeWidth={2}` in `src/Star.jsx` line 20 to properly set the stroke width for the empty star SVG
-- [ ] Add accessibility attributes to Star component: Add `aria-label`, `tabIndex="0"`, and `onKeyDown` handler in `src/Star.jsx` to support keyboard navigation and screen readers
-- [ ] Add prop validation: Implement PropTypes for `Star` component to validate `onRate` (function, required) and `full` (boolean, optional) props, or convert to TypeScript with proper type definitions
-- [ ] Add default handler for onRate: Provide a default no-op function or conditional rendering in `src/Star.jsx` to prevent errors when `onRate` prop is not provided
-- [ ] Make SVG colors configurable: Add `color` prop to `Star` component or use CSS variables to allow customization of star colors instead of hardcoded `#000`
-- [ ] Extract SVG code to separate components: Create `FullStarIcon` and `EmptyStarIcon` components to improve code readability and maintainability in `src/Star.jsx`
-- [ ] Remove or document commented SVG examples: Clean up commented code (lines 31-62) in `src/Star.jsx` by either removing it or moving to proper documentation
-- [ ] Add hover state styling: Implement hover effects (e.g., scale transform or color change) to provide visual feedback when users hover over stars
-- [ ] Standardize viewBox values: Use consistent `viewBox` dimensions for both full and empty star SVGs to ensure visual consistency
-- [ ] Add keyboard event handler: Implement `handleKeyDown` function in `Star` component to allow rating selection using Enter or Space keys for better accessibility
-```
+- [ ] Fix `strokeWidth="{2}"` syntax in `src/Star.jsx` to `strokeWidth={2}`
+- [ ] Add `aria-label`, `tabIndex="0"`, and `onKeyDown` handlers to `Star` component
+- [ ] Implement PropTypes or TypeScript for `Star` component prop validation
+- [ ] Add default no-op function for `onRate` prop in `Star.jsx`
+- [ ] Make star SVG colors (`fill`, `stroke`) configurable via props
+- [ ] Extract SVG icons to separate `FullStarIcon` and `EmptyStarIcon` components
+- [ ] Clean up commented-out SVG examples in `src/Star.jsx`
+- [ ] Standardize `viewBox` values for both star states
+- [ ] Add hover-specific CSS transforms or transitions for star interactivity
+
+[↑ top - Lesson 116: Creating the Stars](#-116-lesson-116--creating-the-stars)
 
 
-## 📚 Lecture 117: Handling Hover Events
+## 🔧 117. Lesson 117 — *Handling Hover Events*
+
+- [Lecture 117: Handling Hover Events](#-117-lesson-117--handling-hover-events)
+- [117.1 Context](#1171-context)
+- [117.2 Updating code according the context](#1172-updating-code-according-the-context)
+- [117.3 Issues](#1173-issues)
+- [117.4 Pending Fixes (TODO)](#1174-pending-fixes-todo)
 
 ### 🧠 117.1 Context:
 
@@ -3523,35 +3626,35 @@ export default StarRating;
 
 - Determines whether the `star` is filled or full.
 - While hovering, the temporary rating (`tempRating`) is used to _**preview**_ the selection.
-- When not hovering, the _**saved rating**_ (`rating`) is used instead.
-
 ### 🐞 117.3 Issues:
+
+- **State Syncing**: Keeping `tempRating` and `rating` in sync during rapid mouse movements.
+- **Visual Feedback Lag**: Ensuring the hover state clears immediately on mouse leave.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Commented debug code in production** | ⚠️ Identified | In `src/Star.jsx` lines 14 and 16, there are commented-out `console.log` statements (`// onMouseEnter={() => console.log("Enter")}` and `// onMouseLeave={() => console.log("Leave")}`). These should be removed to keep the codebase clean and avoid confusion. Debug code should not remain in production code, even if commented. |
-| **Inconsistent use of displayedRating variable** | ⚠️ Identified | In `src/StarRating.jsx` line 27, `displayedRating` is calculated but not used consistently. The `full` prop uses `displayedRating >= i + 1` (line 36), but the text display uses `tempRating || rating || ""` directly (line 42). This inconsistency could lead to bugs if the logic changes. Should use `displayedRating` consistently throughout or remove the variable if not needed. |
-| **Missing default handlers for optional hover props** | ⚠️ Identified | The `Star` component in `src/Star.jsx` accepts `onHoverIn` and `onHoverOut` as props but doesn't provide default handlers. If these props are undefined, the component will pass `undefined` to `onMouseEnter` and `onMouseLeave`, which could cause runtime errors or unexpected behavior. Should provide default no-op functions: `onHoverIn = () => {}` and `onHoverOut = () => {}`. |
-| **No prop validation for hover handlers** | ⚠️ Identified | The `Star` component doesn't validate that `onHoverIn` and `onHoverOut` are functions. If incorrect prop types are passed (e.g., strings or numbers), the component will fail at runtime. Should implement PropTypes or TypeScript to catch these issues during development. |
-| **Hover state not accessible via keyboard** | ⚠️ Identified | The hover functionality only works with mouse interactions. Keyboard users cannot preview ratings using `onFocus`/`onBlur` events, creating an accessibility barrier. The component should provide equivalent functionality for keyboard navigation to ensure all users have the same experience. |
-| **Potential memory leak with inline arrow functions** | ℹ️ Low Priority | In `src/StarRating.jsx` lines 37-38, inline arrow functions are created on every render (`onHoverIn={() => setTempRating(i + 1)}`). While React's reconciliation handles this efficiently, it could be optimized using `useCallback` for better performance, especially if the component re-renders frequently. |
-| **No visual feedback for hover state** | ℹ️ Low Priority | While the hover events change the star fill state, there's no additional visual feedback (e.g., scale transform, color change, or shadow) to indicate the hover interaction. Adding CSS transitions or transform effects would enhance the user experience and make the hover state more obvious. |
-| **tempRating state persists after mouse leave** | ℹ️ Low Priority | The `tempRating` state is reset to 0 on `onMouseLeave`, but if the user moves the mouse quickly or the event doesn't fire properly, the temporary rating might persist. Consider adding a cleanup effect or ensuring the state resets reliably. |
+| Interaction Preview | ✅ Resolved | Implemented `tempRating` logic to provide preview before clicking. |
 
-### 🧱 117.4 Pending Fixes (TODO)
+### 🧱 117.4 Pending Fixes (TODO):
 
-```md
-- [ ] Remove commented debug code: Delete commented `console.log` statements in `src/Star.jsx` lines 14 and 16 to clean up the codebase
-- [ ] Standardize displayedRating usage: Use `displayedRating` consistently in both the `full` prop logic and text display in `src/StarRating.jsx`, or remove the variable if direct `tempRating || rating || ""` is preferred
-- [ ] Add default handlers for hover props: Provide default no-op functions for `onHoverIn` and `onHoverOut` props in `src/Star.jsx` to prevent errors when props are undefined: `const Star = ({ onRate, full, onHoverIn = () => {}, onHoverOut = () => {} }) => { ... }`
-- [ ] Add prop validation for hover handlers: Implement PropTypes or TypeScript types in `src/Star.jsx` to validate that `onHoverIn` and `onHoverOut` are functions, ensuring type safety and catching errors early
-- [ ] Implement keyboard accessibility for hover: Add `onFocus` and `onBlur` event handlers in `src/Star.jsx` that mirror the hover functionality, allowing keyboard users to preview ratings by focusing on stars with Tab key
-- [ ] Optimize inline arrow functions: Wrap hover handlers in `useCallback` in `src/StarRating.jsx` to prevent unnecessary function recreation on each render, improving performance: `const handleHoverIn = useCallback((rating) => setTempRating(rating), [])`
-- [ ] Add visual hover feedback: Implement CSS transitions or transform effects (e.g., `transform: scale(1.1)` or color change) in `src/Star.jsx` to provide additional visual feedback when hovering over stars
-- [ ] Add cleanup for tempRating state: Ensure `tempRating` resets reliably by adding a `useEffect` cleanup or handling edge cases where `onMouseLeave` might not fire properly in `src/StarRating.jsx`
-```
+- [ ] Clean up commented-out debug code in `src/Star.jsx`
+- [ ] Use `displayedRating` consistently in `src/StarRating.jsx` for both logic and display
+- [ ] Add default no-op functions for `onHoverIn` and `onHoverOut` props in `Star.jsx`
+- [ ] Implement PropTypes or TypeScript for hover handler validation
+- [ ] Mirror hover preview functionality for keyboard users using `onFocus` and `onBlur`
+- [ ] Wrap hover handlers in `useCallback` to optimize render performance in `StarRating.jsx`
+- [ ] Implement CSS transform effects for enhanced visual feedback on hover
+- [ ] Ensure `tempRating` resets reliably even on rapid mouse movements
 
-## 📚 Lecture 118: Props as a Component API
+[↑ top - Lesson 117: Handling Hover Events](#-117-lesson-117--handling-hover-events)
+
+## 🔧 118. Lesson 118 — *Props as a Component API*
+
+- [Lecture 118: Props as a Component API](#-118-lesson-118--props-as-a-component-api)
+- [118.1 Context](#1181-context)
+- [118.2 Updating code according the context](#1182-updating-code-according-the-context)
+- [118.3 Issues](#1183-issues)
+- [118.4 Pending Fixes (TODO)](#1184-pending-fixes-todo)
 
 ### 🧠 118.1 Context:
 
@@ -3643,36 +3746,37 @@ In this lesson, we learn that props are not just a way to pass data—they are t
 ### ⚙️ 118.2 Updating code according the context:
 
 #### 118.2.1 Props as an API
-![](../img/section10-lecture118-001.png)
-
 ### 🐞 118.3 Issues:
+
+- **API bloating**: Risk of adding too many props to components like `StarRating` without clear documentation.
+- **Default value consistency**: ensuring components behave predictably when props are omitted.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Missing PropTypes validation** | ⚠️ Identified | No PropTypes or TypeScript validation for component props. Components like `Movie`, `MovieList`, `WatchedSummary`, `WatchedMovieList`, `NumResult`, and `Box` don't validate prop types, which can lead to runtime errors if incorrect props are passed. Example: `Movie` expects `movie` prop but no validation ensures it's an object with required properties. |
-| **Inconsistent default prop values** | ⚠️ Identified | Only `StarRating` component uses default prop values (`maxRating = 3`). Other components like `Box`, `MovieList`, `WatchedSummary` don't handle undefined props gracefully. If `movies` is undefined in `MovieList`, the optional chaining (`movies?.map`) prevents errors but the component renders nothing without clear feedback. |
-| **Missing error handling for edge cases** | ⚠️ Identified | `WatchedSummary` component doesn't handle empty arrays or undefined `watched` prop. If `watched` is empty, it will calculate averages incorrectly (dividing by 0). The component should validate that `watched` exists and has items before performing calculations. Location: `src/components/WatchedSummary.jsx:4-6` |
-| **No prop documentation** | ℹ️ Low Priority | Components lack JSDoc comments or prop documentation explaining what each prop does, its expected type, and whether it's required or optional. This makes it harder for developers to understand component APIs without reading the implementation. |
-| **Inconsistent prop naming** | ℹ️ Low Priority | Some components use singular prop names (`movie` in `Movie`, `WatchedMovie`) while others use plural (`movies` in `MovieList`, `watched` in `WatchedSummary`). While not an error, consistent naming conventions would improve API clarity. |
-| **Missing required prop validation** | ⚠️ Identified | Components don't validate that required props are provided. For example, `Movie` component requires `movie` prop but will crash if it's undefined when accessing `movie.Poster`, `movie.Title`, etc. Should use PropTypes or default to empty object/early return. |
+| Design Patterns | ℹ️ Discussion | Established principles for designing clean and intuitive component APIs. |
 
-### 🧱 118.4 Pending Fixes (TODO)
+### 🧱 118.4 Pending Fixes (TODO):
 
-```md
-- [ ] Add PropTypes validation to all components (`Movie`, `MovieList`, `WatchedSummary`, `WatchedMovieList`, `NumResult`, `Box`, `Star`, `StarRating`) to validate prop types and provide better error messages during development
-- [ ] Add default prop values where appropriate (e.g., `Box` component should handle `element` being undefined, `MovieList` should default `movies` to empty array)
-- [ ] Implement error handling in `WatchedSummary` component to handle empty `watched` array and prevent division by zero errors. Add early return or default values when `watched` is empty or undefined
-- [ ] Add JSDoc comments to all components documenting prop types, descriptions, and whether they're required or optional (e.g., `@param {Object} movie - Movie object with Poster, Title, Year properties`)
-- [ ] Add defensive checks in `Movie` and `WatchedMovie` components to handle undefined or null `movie` prop gracefully (early return or default empty object)
-- [ ] Consider adding PropTypes package to `package.json` if not already present, or migrate to TypeScript for better type safety
-- [ ] Add prop validation for `Star` component callbacks (`onRate`, `onHoverIn`, `onHoverOut`) to ensure they're functions before calling them
-- [ ] Review and standardize prop naming conventions across all components (singular vs plural) for consistency
-```
+- [ ] Add PropTypes or TypeScript validation across all Section 10 components
+- [ ] Standardize default prop values for optional configuration (`Box`, `MovieList`, etc.)
+- [ ] Add defensive checks in `WatchedSummary` for empty arrays to prevent division by zero
+- [ ] Add JSDoc documentation for all public component prop APIs
+- [ ] Ensure consistent naming conventions for singular/plural props across the project
+- [ ] Fix potential crashes in `Movie` components when the required `movie` object is missing
+- [ ] Validate function props before invocation to prevent runtime errors
+
+[↑ top - Lesson 118: Props as a Component API](#-118-lesson-118--props-as-a-component-api)
 
 
-## 📚 Lecture 119: Improving Reusability with Props
+## 🔧 119. Lesson 119 — *Improving Reusability with Props*
 
-### 🧠 14.1 Context:
+- [Lecture 119: Improving Reusability with Props](#-119-lesson-119--improving-reusability-with-props)
+- [119.1 Context](#1191-context)
+- [119.2 Updating code according the context](#1192-updating-code-according-the-context)
+- [119.3 Issues](#1193-issues)
+- [119.4 Pending Fixes (TODO)](#1194-pending-fixes-todo)
+
+### 🧠 119.1 Context:
 
 **Props (Properties)** are a fundamental mechanism in React for passing data from parent components to child components. They enable component reusability by allowing components to be configured differently based on the data they receive, rather than having hardcoded values.
 
@@ -3728,9 +3832,9 @@ The component is then reused with different configurations:
 The lesson demonstrates how adding props (`color`, `size`, `className`, `messages`, `onSetRating`) transforms `StarRating` from a hardcoded component into a flexible, reusable component that can be configured for different use cases throughout the application. The optional `onSetRating` prop also shows how to make components work both as controlled and uncontrolled components, further increasing flexibility.
 
 
-### ⚙️ 14.2 Updating code according the context:
+### ⚙️ 119.2 Updating code according the context:
 
-#### 14.2.1 Add `color` and `size` as props in `StarRating` and pass those props to `Star` component:
+#### 119.2.1 Add `color` and `size` as props in `StarRating` and pass those props to `Star` component:
 ```tsx
 /* src/StarRating.jsx */
 import { useState } from "react";
@@ -4141,34 +4245,35 @@ if (!onSetRating) {
 ```
 
 * ❌ Reduces reusability
-* ✔️ Useful in very specific components
+### 🐞 119.3 Issues:
 
-### 🐞 14.3 Issues:
+- **Optional Function Crash**: Components would crash if `onSetRating` was not provided (resolved with optional chaining).
+- **Prop Overload**: Managing multiple customization props (`color`, `size`, `messages`) required careful organization.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Invalid strokeWidth prop value in Star component** | ⚠️ Identified | In `src/Star.jsx` line 20, `strokeWidth="{2}"` uses quotes around the number, making it a string instead of a number. Should be `strokeWidth={2}`. This may cause rendering inconsistencies in some browsers. |
-| **Missing prop validation** | ℹ️ Low Priority | `StarRating` and `Star` components lack PropTypes or TypeScript types, making it easy to pass incorrect prop types without runtime warnings. |
-| **No accessibility labels** | ⚠️ Identified | The `Star` component uses `role="button"` but lacks `aria-label` or `aria-describedby` attributes, making it less accessible for screen readers. |
-| **Potential array index out of bounds** | ⚠️ Identified | In `StarRating.jsx` line 48, accessing `messages[tempRating ? tempRating - 1 : rating - 1]` could fail if `rating` is 0 and messages array is not empty. The check `messages.length === maxRating` doesn't prevent this edge case. |
-| **Missing keyboard event handlers** | ⚠️ Identified | `Star` component only handles mouse events (`onClick`, `onMouseEnter`, `onMouseLeave`) but lacks keyboard support (`onKeyDown`) for accessibility compliance. |
+| Undefined Callbacks | ✅ Resolved | Implemented `onSetRating?.(rating)` to prevent errors when prop is missing. |
 
-### 🧱 14.4 Pending Fixes (TODO)
+### 🧱 119.4 Pending Fixes (TODO):
 
-```md
-- [ ] Fix `strokeWidth` prop in `Star.jsx` line 20: Change `strokeWidth="{2}"` to `strokeWidth={2}` to use a number instead of a string
-- [ ] Add PropTypes or TypeScript types to `StarRating` component for prop validation (`maxRating`, `color`, `size`, `className`, `messages`, `onSetRating`)
-- [ ] Add PropTypes or TypeScript types to `Star` component for prop validation (`onRate`, `full`, `onHoverIn`, `onHoverOut`, `color`, `size`)
-- [ ] Add `aria-label` attribute to `Star` component's span element to improve accessibility for screen readers
-- [ ] Add keyboard event handler (`onKeyDown`) to `Star` component to support keyboard navigation (Enter/Space keys)
-- [ ] Fix potential array index out of bounds in `StarRating.jsx` line 48: Add validation to ensure `rating` is greater than 0 before accessing `messages` array
-- [ ] Add `tabIndex={0}` to `Star` component's span element to make it keyboard focusable
-- [ ] Consider adding `defaultProps` or using default parameters consistently for all optional props in `StarRating`
-- [ ] Add error boundary or validation for `messages` array length to ensure it matches `maxRating` when provided
-- [ ] Document prop types and usage examples in component comments or README
-```
+- [ ] Fix `strokeWidth={2}` in `Star.jsx` (remove quotes/braces string)
+- [ ] Add comprehensive prop validation for the expanded `StarRating` API
+- [ ] Add ARIA labels and `tabIndex` to `Star` component for accessibility
+- [ ] Implement keyboard handlers (`onKeyDown`) for star selection
+- [ ] Safely handle message indexing in `StarRating.jsx` to prevent out-of-bounds errors
+- [ ] Standardize default properties using default parameters or `defaultProps`
+- [ ] Ensure `messages` array length consistency with `maxRating`
+- [ ] Add descriptive JSDoc documentation for the improved component API
 
-## 📚 Lecture 120: PropTypes
+[↑ top - Lesson 119: Improving Reusability with Props](#-119-lesson-119--improving-reusability-with-props)
+
+## 🔧 120. Lesson 120 — *PropTypes*
+
+- [Lecture 120: PropTypes](#-120-lesson-120--proptypes)
+- [120.1 Context](#1201-context)
+- [120.2 Updating code according the context](#1202-updating-code-according-the-context)
+- [120.3 Issues](#1203-issues)
+- [120.4 Pending Fixes (TODO)](#1204-pending-fixes-todo)
 
 ### 🧠 120.1 Context:
 
@@ -4340,74 +4445,61 @@ Because of this:
 
 📌 The import does not fail
 📌 The code does not break
-📌 React simply ignores it
-
-
 ### 🐞 120.3 Issues:
+
+- **React 19 Warning Suppression**: Noticed that `prop-types` no longer logs warnings in React 19, which can be confusing for developers.
+- **Type mismatch**: Identified that passing a string where a number is expected doesn't trigger a runtime error in recent React versions.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **PropTypes not working in React 19** | ⚠️ Identified | React 19 no longer calls `checkPropTypes` internally, so PropTypes validation in `StarRating.jsx` (lines 55-62) doesn't emit warnings even when incorrect prop types are passed. This is expected behavior in React 19, not a bug. Example: Passing `maxRating="invalid"` (string instead of number) won't show any warning. |
-| **Missing PropTypes in most components** | ⚠️ Identified | Only `StarRating` component has PropTypes validation. Components like `Movie`, `MovieList`, `Box`, `Star`, `WatchedSummary`, `WatchedMovie`, `WatchedMovieList`, `NumResult`, `Search`, `Navbar`, and `Main` lack PropTypes, making their APIs unclear and prone to runtime errors if incorrect props are passed. |
-| **No required prop validation** | ⚠️ Identified | In `StarRating.propTypes`, all props are optional (no `.isRequired`). Critical props like `onSetRating` should be marked as required if they're essential for component functionality. Also, `Movie` component requires `movie` prop but has no validation, causing crashes if `movie` is undefined when accessing `movie.Poster`, `movie.Title`, etc. |
-| **Missing PropTypes for Star component** | ⚠️ Identified | `Star.jsx` component receives multiple props (`onRate`, `full`, `onHoverIn`, `onHoverOut`, `color`, `size`) but has no PropTypes validation. If incorrect types are passed (e.g., `full="true"` instead of boolean), no warning is shown. Location: `src/Star.jsx:1` |
-| **WatchedSummary lacks prop validation** | ⚠️ Identified | `WatchedSummary` component expects `watched` array but has no PropTypes. If `watched` is undefined or not an array, the component will crash when calling `watched.map()` (line 4). Additionally, empty arrays cause division by zero in the `average` function. Location: `src/components/WatchedSummary.jsx:1-6` |
-| **Movie and WatchedMovie missing object shape validation** | ⚠️ Identified | `Movie` and `WatchedMovie` components expect `movie` prop to be an object with specific properties (`Poster`, `Title`, `Year`, `imdbID`, etc.), but PropTypes only validate it's an object, not its shape. Should use `PropTypes.shape()` to validate required properties. Locations: `src/components/Movie.jsx:1`, `src/components/WatchedMovie.jsx:1` |
-| **Box component missing element prop validation** | ⚠️ Identified | `Box` component expects `element` prop (JSX element) but has no PropTypes. Should validate it's a valid React element using `PropTypes.element`. If `element` is undefined, the component renders nothing without clear feedback. Location: `src/components/Box.jsx:3` |
-| **MovieList doesn't validate movies array** | ⚠️ Identified | `MovieList` component expects `movies` array but has no PropTypes. Uses optional chaining (`movies?.map`) which prevents crashes but renders nothing silently if `movies` is undefined. Should validate array type and potentially array contents. Location: `src/components/MovieList.jsx:3` |
-| **PropTypes import present but ineffective** | ℹ️ Low Priority | `prop-types` package is installed (`package.json:13`) and imported in `StarRating.jsx` (line 3), but due to React 19 behavior, it serves only as documentation. Consider removing it or migrating to TypeScript for actual type checking. |
-| **Inconsistent prop type definitions** | ℹ️ Low Priority | `StarRating.propTypes` uses basic types but doesn't specify ranges or constraints (e.g., `maxRating` should be positive, `size` should be reasonable). Could use custom validators for more robust validation. Location: `src/StarRating.jsx:55-62` |
+| Silent Failures | ℹ️ Note | Explained that PropTypes serve as documentation in React 19 due to lack of console warnings. |
 
-### 🧱 120.4 Pending Fixes (TODO)
+### 🧱 120.4 Pending Fixes (TODO):
 
-```md
-- [ ] Add PropTypes validation to `Movie` component: Validate `movie` prop as required object with shape containing `Poster`, `Title`, `Year`, and `imdbID` properties using `PropTypes.shape()`. Location: `src/components/Movie.jsx`
-- [ ] Add PropTypes validation to `WatchedMovie` component: Validate `movie` prop as required object with shape containing `Poster`, `Title`, `imdbRating`, `userRating`, and `runtime` properties. Location: `src/components/WatchedMovie.jsx`
-- [ ] Add PropTypes validation to `MovieList` component: Validate `movies` prop as required array of objects. Consider using `PropTypes.arrayOf(PropTypes.object)` or more specific shape validation. Location: `src/components/MovieList.jsx:3`
-- [ ] Add PropTypes validation to `WatchedSummary` component: Validate `watched` prop as required array. Add defensive check to handle empty arrays and prevent division by zero in `average` function. Location: `src/components/WatchedSummary.jsx:1-6`
-- [ ] Add PropTypes validation to `Box` component: Validate `element` prop as required React element using `PropTypes.element`. Location: `src/components/Box.jsx:3`
-- [ ] Add PropTypes validation to `Star` component: Validate all props (`onRate`, `full`, `onHoverIn`, `onHoverOut`, `color`, `size`) with appropriate types. Mark callbacks as required functions. Location: `src/Star.jsx:1`
-- [ ] Mark required props in `StarRating.propTypes`: Add `.isRequired` to props that are essential for component functionality (e.g., `onSetRating` if it's always needed). Review which props should be required vs optional. Location: `src/StarRating.jsx:55-62`
-- [ ] Add custom validators for `StarRating` props: Add validation functions to ensure `maxRating` is positive, `size` is reasonable, and `messages` array length matches `maxRating` when provided. Use `PropTypes.oneOf()` or custom validator functions. Location: `src/StarRating.jsx:55-62`
-- [ ] Add PropTypes to remaining components: Add PropTypes validation to `WatchedMovieList`, `NumResult`, `Search`, `Navbar`, and `Main` components to complete type validation across the application
-- [ ] Consider migrating to TypeScript: Given React 19's limitation with PropTypes, evaluate migrating the project to TypeScript for compile-time type checking and better IDE support. This would provide actual type safety instead of documentation-only PropTypes
-- [ ] Add default prop values where appropriate: For components with optional props, consider adding `defaultProps` or default parameters to handle undefined values gracefully (e.g., `Box` component should handle `element` being undefined)
-- [ ] Document PropTypes limitations in React 19: Add comments or documentation explaining that PropTypes serve as documentation in React 19 and won't emit warnings, helping developers understand the current behavior
-- [ ] Add PropTypes validation for nested objects: Use `PropTypes.shape()` for complex objects like `movie` prop to validate nested properties and catch errors when accessing `movie.Poster`, `movie.Title`, etc.
-- [ ] Review and remove unused PropTypes: If migrating to TypeScript or deciding PropTypes aren't needed, remove `prop-types` dependency and PropTypes definitions to reduce bundle size
-```
+- [ ] Add `PropTypes` validation to `Movie`, `WatchedMovie`, and `MovieList` using `shape()`
+- [ ] Implement `PropTypes.arrayOf(PropTypes.shape(...))` for list components
+- [ ] Ensure all required props are marked with `.isRequired`
+- [ ] Add defensive handlers in `WatchedSummary` for empty array edge cases
+- [ ] Use `PropTypes.element` for validating component composition props in `Box`
+- [ ] Evaluate migration to TypeScript for actual type safety in React 19+
+- [ ] Standardize default properties across all UI components
+- [ ] Document the documentation-only nature of PropTypes in React 19 environments
+
+[↑ top - Lesson 120: PropTypes](#-120-lesson-120--proptypes)
 
 <br>
 
-## 🧳 Section 12: Effects and Data Fetching
+## 🧳 Section 12: *Effects and Data Fetching*
 
 ### 📑 Table of Contents
-- [📚 Lecture 141: The Component Lifecycle](#lecture-141-the-component-lifecycle)
-- [📚 Lecture 142: How NOT to Fetch Data in React](#lecture-142-how-not-to-fetch-data-in-react)
-- [📚 Lecture 143: useEffect to the Rescue](#lecture-143-useeffect-to-the-rescue)
-- [📚 Lecture 144: At first look at Effects](#lecture-144-at-first-look-at-effects)
-- [📚 Lecture 145: Using an async Function](#lecture-145-using-an-async-function)
-- [📚 Lecture 146: Adding a Loading State](#lecture-146-adding-a-loading-state)
-- [📚 Lecture 147: Handling Errors](#lecture-147-handling-errors)
-- [📚 Lecture 148: The useEffect dependency array](#lecture-148-the-useeffect-dependency-array)
-- [📚 Lecture 149: Synchronizing Queries With Movie Data](#lecture-149-synchronizing-queries-with-movie-data)
-- [📚 Lecture 150: Selecting a Movie](#lecture-150-selecting-a-movie)
-- [📚 Lecture 151: Loading Movie Details](#lecture-151-loading-movie-details)
-- [📚 Lecture 152: Adding a Watched Movie](#lecture-152-adding-a-watched-movie)
-- [📚 Lecture 153: Adding a New Effect: Changing Page Title](#lecture-153-adding-a-new-effect-changing-page-title)
-- [📚 Lecture 154: The useEffect cleanup function](#lecture-154-the-useeffect-cleanup-function)
-- [📚 Lecture 155: Cleaning Up the Title](#lecture-155-cleaning-up-the-title)
-- [📚 Lecture 156: Cleaning Up Data Fetching](#lecture-156-cleaning-up-data-fetching)
+- [📑 Table of Contents](#-table-of-contents-2)
+  - [📚 Lesson 141: The Component Lifecycle](#-141-lesson-141--the-component-lifecycle)
+  - [📚 Lesson 142: How NOT to Fetch Data in React](#-142-lesson-142--how-not-to-fetch-data-in-react)
+  - [📚 Lesson 143: useEffect to the Rescue](#-143-lesson-143--useeffect-to-the-rescue)
+  - [📚 Lesson 144: At first look at Effects](#-144-lesson-144--at-first-look-at-effects)
+  - [📚 Lesson 145: Using an async Function](#-145-lesson-145--using-an-async-function)
+  - [📚 Lesson 146: Adding a Loading State](#-146-lesson-146--adding-a-loading-state)
+  - [📚 Lesson 147: Handling Errors](#-147-lesson-147--handling-errors)
+  - [📚 Lesson 148: The useEffect dependency array](#-148-lesson-148--the-useeffect-dependency-array)
+  - [📚 Lesson 149: Synchronizing Queries With Movie Data](#-149-lesson-149--synchronizing-queries-with-movie-data)
+  - [📚 Lesson 150: Selecting a Movie](#-150-lesson-150--selecting-a-movie)
+  - [📚 Lesson 151: Loading Movie Details](#-151-lesson-151--loading-movie-details)
+  - [📚 Lesson 152: Adding a Watched Movie](#-152-lesson-152--adding-a-watched-movie)
+  - [📚 Lesson 153: Adding a New Effect: Changing Page Title](#-153-lesson-153--adding-a-new-effect-changing-page-title)
+  - [📚 Lesson 154: The useEffect cleanup function](#-154-lesson-154--the-useeffect-cleanup-function)
+  - [📚 Lesson 155: Cleaning Up the Title](#-155-lesson-155--cleaning-up-the-title)
+  - [📚 Lesson 156: Cleaning Up Data Fetching](#-156-lesson-156--cleaning-up-data-fetching)
 
 
 <br>
 
-## 📚 Lecture 141: The Component Lifecycle
+## 🔧 141. Lesson 141 — *The Component Lifecycle*
 
-- [📚 Lecture 141: The Component Lifecycle](#lecture-141-the-component-lifecycle)
+- [Lecture 141: The Component Lifecycle](#-141-lesson-141--the-component-lifecycle)
 - [141.1 Context](#1411-context)
 - [141.2 Updating code according the context](#1412-updating-code-according-the-context)
-- [141.3 Pending Fixes (TODO)](#1413-pending-fixes-todo)
+- [141.3 Issues](#1413-issues)
+- [141.4 Pending Fixes (TODO)](#1414-pending-fixes-todo)
 
 ### 🧠 141.1 Context:
 
@@ -4415,28 +4507,28 @@ The **component lifecycle** (Component Lifecycle) in React refers to the differe
 
 #### **The Three Main Phases of the Lifecycle:**
 
-1. **Mount (Mounting/Initialization)**: When the component is created and inserted into the DOM for the first time.
-   - In functional components: The function body and hooks are executed in the order they are declared.
-   - In class components: `constructor()`, `render()`, and then `componentDidMount()` are executed.
+1.  **Mount (Mounting/Initialization)**: When the component is created and inserted into the DOM for the first time.
+    -   In functional components: The function body and hooks are executed in the order they are declared.
+    -   In class components: `constructor()`, `render()`, and then `componentDidMount()` are executed.
 
-2. **Re-render (Update)**: When the component updates due to changes in props or state.
-   - Occurs whenever React detects changes that require a component update.
-   - In functional components: The function body is re-executed with the new values.
-   - In class components: `render()` and then `componentDidUpdate()` are executed.
+2.  **Re-render (Update)**: When the component updates due to changes in props or state.
+    -   Occurs whenever React detects changes that require a component update.
+    -   In functional components: The function body is re-executed with the new values.
+    -   In class components: `render()` and then `componentDidUpdate()` are executed.
 
-3. **Unmount (Unmounting)**: When the component is removed from the DOM.
-   - In functional components: The cleanup function of `useEffect` is executed if it exists.
-   - In class components: `componentWillUnmount()` is executed.
+3.  **Unmount (Unmounting)**: When the component is removed from the DOM.
+    -   In functional components: The cleanup function of `useEffect` is executed if it exists.
+    -   In class components: `componentWillUnmount()` is executed.
 
 #### **Lifecycle in Functional Components (Hooks):**
 
 In modern React with functional components, the lifecycle is primarily managed through hooks:
 
-- **`useState`**: Manages the component's local state. It is initialized on mount and can change on each re-render.
-- **`useEffect`**: Allows executing side effects at different moments of the lifecycle:
-  - Without dependencies `[]`: Executes only on mount (equivalent to `componentDidMount`).
-  - With dependencies `[dep1, dep2]`: Executes on mount and when dependencies change (equivalent to `componentDidUpdate`).
-  - With return function: Executes on unmount or before the next effect (equivalent to `componentWillUnmount`).
+-   **`useState`**: Manages the component's local state. It is initialized on mount and can change on each re-render.
+-   **`useEffect`**: Allows executing side effects at different moments of the lifecycle:
+    -   Without dependencies `[]`: Executes only on mount (equivalent to `componentDidMount`).
+    -   With dependencies `[dep1, dep2]`: Executes on mount and when dependencies change (equivalent to `componentDidUpdate`).
+    -   With return function: Executes on unmount or before the next effect (equivalent to `componentWillUnmount`).
 
 #### **Examples in the Project:**
 
@@ -4465,23 +4557,23 @@ These calculations execute on every component re-render, even if `watched` hasn'
 
 #### **Advantages of Understanding the Lifecycle:**
 
-- **Precise control**: Allows executing code at specific moments of the lifecycle.
-- **Optimization**: Facilitates identifying when and how to optimize components.
-- **Resource management**: Allows cleaning up subscriptions, timers, and other resources when the component unmounts.
-- **Side effects**: Facilitates handling API calls, subscriptions, and other asynchronous operations.
+-   **Precise control**: Allows executing code at specific moments of the lifecycle.
+-   **Optimization**: Facilitates identifying when and how to optimize components.
+-   **Resource management**: Allows cleaning up subscriptions, timers, and other resources when the component unmounts.
+-   **Side effects**: Facilitates handling API calls, subscriptions, and other asynchronous operations.
 
 #### **Disadvantages and Considerations:**
 
-- **Complexity**: Incorrect lifecycle handling can lead to hard-to-debug bugs (memory leaks, updates on unmounted components).
-- **Unnecessary re-renders**: Without proper optimization, components can re-render more times than necessary.
-- **Learning curve**: Understanding when to use each hook and how to handle dependencies requires practice.
+-   **Complexity**: Incorrect lifecycle handling can lead to hard-to-debug bugs (memory leaks, updates on unmounted components).
+-   **Unnecessary re-renders**: Without proper optimization, components can re-render more times than necessary.
+-   **Learning curve**: Understanding when to use each hook and how to handle dependencies requires practice.
 
 #### **When to Consider Alternatives:**
 
-- **`useMemo`**: When calculations are expensive and should only execute when certain dependencies change.
-- **`useCallback`**: When functions are passed as props and you want to avoid unnecessary re-renders of child components.
-- **`React.memo`**: For components that receive the same props and don't need to re-render.
-- **`useRef`**: For values that must persist between renders but don't cause re-renders when they change.
+-   **`useMemo`**: When calculations are expensive and should only execute when certain dependencies change.
+-   **`useCallback`**: When functions are passed as props and you want to avoid unnecessary re-renders of child components.
+-   **`React.memo`**: For components that receive the same props and don't need to re-render.
+-   **`useRef`**: For values that must persist between renders but don't cause re-renders when they change.
 
 #### **Connection with Practical Implementation:**
 
@@ -4490,12 +4582,9 @@ In this project, all components are functional and primarily use `useState` to m
 - Re-renders when props or state change
 - Automatic destruction when components unmount
 
-However, the project doesn't yet use `useEffect` for side effects like API calls, subscriptions, or resource cleanup, which would be necessary in a more complete application.
+### ⚙️ 141.2 Updating code according the context:
 
-
-### ⚙️ 141.2 Updating code/theory according the context:
-
-#### 141.2.1 Component (Instance) **Lifecycle**:
+#### Component (Instance) **Lifecycle**:
 
 - mount/initial render
 - re-render
@@ -4503,44 +4592,36 @@ However, the project doesn't yet use `useEffect` for side effects like API calls
 
 ![](../img/section12-lecture141-001.png)
 
-### 🧱 141.3 Pending Fixes (TODO)
+### 🐞 141.3 Issues:
+
+- No technical issues identified in this overview.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Expensive calculations on each re-render in WatchedSummary** | ⚠️ Identified | `WatchedSummary.jsx` executes average calculations (`average`, `map`, `reduce`) on every re-render, even when `watched` hasn't changed. This can impact performance with large lists. Location: `src/components/WatchedSummary.jsx:2-6` |
-| **Missing side effect handling with useEffect** | ⚠️ Identified | The project doesn't use `useEffect` to handle side effects like API calls, subscriptions, or resource cleanup. Components like `App.jsx` and `MovieList.jsx` could benefit from `useEffect` to load data from an API. |
-| **Absence of cleanup in components with state** | ⚠️ Identified | Components like `Box.jsx` and `StarRating.jsx` manage state but don't have cleanup logic. If timers, subscriptions, or event listeners are added in the future, there's no mechanism to clean them up on unmount, which could cause memory leaks. |
-| **Unnecessary re-renders in child components** | ⚠️ Identified | Components like `Movie.jsx` and `Star.jsx` re-render every time the parent component updates, even if their props haven't changed. This could be optimized with `React.memo` to improve performance. |
-| **State initialized with calculated values on each render** | ℹ️ Low Priority | In `StarRating.jsx`, the `textStyle` style is recalculated on every render even though `color` and `size` don't change. This is minor but could be optimized with `useMemo` if the component becomes more complex. Location: `src/StarRating.jsx:24-29` |
-| **Missing prop validation before calculations** | ⚠️ Identified | `WatchedSummary.jsx` executes calculations on `watched` without validating if it's an array or if it's empty first. If `watched` is `undefined` or `null`, it will cause an error. Should be validated before executing `watched.map()`. Location: `src/components/WatchedSummary.jsx:4-6` |
+| N/A | ✅ Resolved | Core lifecycle concepts (mount, update, unmount) explained. |
 
-- [ ] Optimize calculations in `WatchedSummary.jsx`: Use `useMemo` to memoize the calculations of `avgImdbRating`, `avgUserRating`, and `avgRuntime` so they only execute when `watched` changes. Location: `src/components/WatchedSummary.jsx:2-6`
-- [ ] Add prop validation in `WatchedSummary.jsx`: Validate that `watched` is an array before executing calculations. Add handling for cases when `watched` is empty or `undefined`. Location: `src/components/WatchedSummary.jsx:1-6`
-- [ ] Implement `useEffect` in `App.jsx`: Add `useEffect` to load movie data from an API instead of using temporary data (`tempMovieData`). Include loading and error states. Location: `src/App.jsx:57-58`
-- [ ] Add cleanup in components with effects: If timers, subscriptions, or event listeners are implemented in components like `Box.jsx` or `StarRating.jsx`, add cleanup functions in `useEffect` to prevent memory leaks.
-- [ ] Optimize re-renders with `React.memo`: Wrap presentational components like `Movie.jsx` and `Star.jsx` with `React.memo` to avoid unnecessary re-renders when their props don't change. Locations: `src/components/Movie.jsx:1`, `src/Star.jsx:1`
-- [ ] Memoize calculated styles: In `StarRating.jsx`, use `useMemo` to memoize the `textStyle` object so it only recalculates when `color` or `size` change. Location: `src/StarRating.jsx:24-29`
-- [ ] Document lifecycle of key components: Add comments explaining the lifecycle in complex components like `App.jsx` and `StarRating.jsx` to facilitate future maintenance.
-- [ ] Consider `useCallback` for functions passed as props: If functions are identified that are passed as props and cause unnecessary re-renders, use `useCallback` to memoize them. Example: `handleRating` in `StarRating.jsx` could benefit if passed to multiple child components.
+### 🧱 141.4 Pending Fixes (TODO):
 
-- [ ] Optimize calculations in `WatchedSummary.jsx`: Use `useMemo` to memoize the calculations of `avgImdbRating`, `avgUserRating`, and `avgRuntime` so they only execute when `watched` changes. Location: `src/components/WatchedSummary.jsx:2-6`
-- [ ] Add prop validation in `WatchedSummary.jsx`: Validate that `watched` is an array before executing calculations. Add handling for cases when `watched` is empty or `undefined`. Location: `src/components/WatchedSummary.jsx:1-6`
-- [ ] Implement `useEffect` in `App.jsx`: Add `useEffect` to load movie data from an API instead of using temporary data (`tempMovieData`). Include loading and error states. Location: `src/App.jsx:57-58`
-- [ ] Add cleanup in components with effects: If timers, subscriptions, or event listeners are implemented in components like `Box.jsx` or `StarRating.jsx`, add cleanup functions in `useEffect` to prevent memory leaks.
-- [ ] Optimize re-renders with `React.memo`: Wrap presentational components like `Movie.jsx` and `Star.jsx` with `React.memo` to avoid unnecessary re-renders when their props don't change. Locations: `src/components/Movie.jsx:1`, `src/Star.jsx:1`
-- [ ] Memoize calculated styles: In `StarRating.jsx`, use `useMemo` to memoize the `textStyle` object so it only recalculates when `color` or `size` change. Location: `src/StarRating.jsx:24-29`
-- [ ] Document lifecycle of key components: Add comments explaining the lifecycle in complex components like `App.jsx` and `StarRating.jsx` to facilitate future maintenance.
-- [ ] Consider `useCallback` for functions passed as props: If functions are identified that are passed as props and cause unnecessary re-renders, use `useCallback` to memoize them. Example: `handleRating` in `StarRating.jsx` could benefit if passed to multiple child components.
+- [ ] Use `useMemo` to optimize calculations in `WatchedSummary.jsx`
+- [ ] Implement `useEffect` for API data fetching to replace `tempMovieData`
+- [ ] Add cleanup logic for future timers or event listeners to prevent memory leaks
+- [ ] Optimize presentational components (`Movie`, `Star`) with `React.memo`
+- [ ] Memoize styles and derived values in `StarRating.jsx` using `useMemo`
+- [ ] Add defensive prop validation in `WatchedSummary` for array properties
+- [ ] Add JSDoc to document lifecycle behavior in complex stateful components
+
+[↑ top - Lesson 141: The Component Lifecycle](#-141-lesson-141--the-component-lifecycle)
 
 
 <br>
 
-## 📚 Lecture 142: How NOT to Fetch Data in React
+## 🔧 142. Lesson 142 — *How NOT to Fetch Data in React*
 
-- [📚 Lecture 142: How NOT to Fetch Data in React](#lecture-142-how-not-to-fetch-data-in-react)
+- [Lecture 142: How NOT to Fetch Data in React](#-142-lesson-142--how-not-to-fetch-data-in-react)
 - [142.1 Context](#1421-context)
 - [142.2 Updating code according the context](#1422-updating-code-according-the-context)
-- [142.3 Pending Fixes (TODO)](#1423-pending-fixes-todo)
+- [142.3 Issues](#1423-issues)
+- [142.4 Pending Fixes (TODO)](#1424-pending-fixes-todo)
 
 ### 🧠 142.1 Context:
 
@@ -4711,37 +4792,36 @@ export default App;
 ```
 ![second issue - setWatched](../img/section12-lecture142-003.png)
 
-Issue:
-* ⚠️ Too many renders
-
-
 ### 🐞 142.3 Issues:
-- **Main takeaway**: side effects (fetching) and state updates must not run during render; they must be coordinated with `useEffect` (or a data-fetching library) to avoid duplicate requests and render loops.
+
+- **Infinite Re-renders**: Fetching in the component body triggers a state update, which triggers a re-render, creating an infinite loop.
+- **Strict Mode Double-Execution**: In development, React Strict Mode calls the component function twice, which can double the number of network requests if not handled properly.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Fetching in render (side effect during render)** | ⚠️ Identified | `src/App.jsx:63-66` calls `fetch(...)` in the component body. This runs on every re-render and will also run twice on mount in dev because Strict Mode is enabled (`src/main.jsx:8-15`). Impact: duplicate requests, unpredictable behavior, hard-to-debug state. |
-| **Infinite request loop if setting state from fetch in render** | ⚠️ Identified | The snippet in `02.2.2` shows `.then((data) => setMovies(data.Search))`. If this runs during render, it creates a render loop: render → fetch → `setMovies` → render → fetch → ... leading to continuous requests. |
-| **Immediate “Too many re-renders” when calling `setState` in render** | ⚠️ Identified | The snippet in `02.2.3` shows `setWatched([])` executed in render. React will throw an error similar to: “Too many re-renders. React limits the number of renders to prevent an infinite loop.” |
-| **Missing loading/error handling around fetch** | ℹ️ Low Priority | Current code logs the response but doesn’t handle error states (`catch`) or a loading UI. Once the UI depends on fetched data, this becomes a UX bug. Location: `src/App.jsx:63-66`. |
-| **Inconsistent data source (temp data + fetch at the same time)** | ℹ️ Low Priority | `movies` is initialized with `tempMovieData` (`src/App.jsx:60`) while still fetching Interstellar in the background. This mixes "mock data mode" with "API mode", which can confuse UX and debugging once the fetched data is rendered. |
+| Render Loop | 🛑 Critical | Component body network calls cause non-stop requests and browser lag. |
 
-- [ ] Move the OMDb request into a `useEffect` in `src/App.jsx` so it runs only when intended (e.g. on mount, or when `query` changes), instead of executing in render. (Current anti-pattern: `src/App.jsx:63-66`)
-- [ ] Add `isLoading` and `error` state in `src/App.jsx` and render proper UI states in the movie list area (loading indicator + error message).
-- [ ] Add request cancellation (AbortController) or a stale-response guard to prevent setting state from outdated requests (important once search is user-driven).
-- [ ] Replace `http://www.omdbapi.com` with `https://www.omdbapi.com` and add a `catch` branch for fetch failures.
-- [ ] Decide on one mode: mock data vs API data. Either remove temp data initialization when fetching, or gate the fetch behind a flag to avoid mixing sources.
-- [ ] (Optional) Extract fetching into a reusable hook (e.g. `useMovies(query)`) or adopt a library (TanStack Query/SWR) once caching/deduping/retries are needed.
+### 🧱 142.4 Pending Fixes (TODO):
+
+- [ ] Move OMDb fetching out of the render cycle and into `useEffect`
+- [ ] Implement `isLoading` and `error` states for network requests in `App.jsx`
+- [ ] Add `AbortController` cleanup to handle stale responses and racing requests
+- [ ] Upgrade OMDb endpoint to `https://` and handle network failures with `catch`
+- [ ] Clean up redundant mock data initialization when using real API data
+- [ ] Consider extracting fetch logic into a custom `useMovies` hook for cleaner code
+
+[↑ top - Lesson 142: How NOT to Fetch Data in React](#-142-lesson-142--how-not-to-fetch-data-in-react)
 
 
 <br>
 
-## 📚 Lecture 143: useEffect to the Rescue
+## 🔧 143. Lesson 143 — *useEffect to the Rescue*
 
-- [📚 Lecture 143: useEffect to the Rescue](#lecture-143-useeffect-to-the-rescue)
+- [Lecture 143: useEffect to the Rescue](#-143-lesson-143--useeffect-to-the-rescue)
 - [143.1 Context](#1431-context)
 - [143.2 Updating code according the context](#1432-updating-code-according-the-context)
-- [143.3 Pending Fixes (TODO)](#1433-pending-fixes-todo)
+- [143.3 Issues](#1433-issues)
+- [143.4 Pending Fixes (TODO)](#1434-pending-fixes-todo)
 
 ### 🧠 143.1 Context:
 
@@ -4786,7 +4866,7 @@ When `StrictMode` is enabled in development, React intentionally mounts componen
 
 ### ⚙️ 143.2 Updating code/theory according the context:
 
-#### 03.2.1 Adding and using `useEffect` hook:
+#### 143.2.1 Adding and using `useEffect` hook:
 - Safely run side effects (like this `fetch`) **after** the component renders.
 - The second argument is the **dependency array**.
 - An empty array (`[]`) means “run on mount” (note: may run twice in dev with Strict Mode).
@@ -4881,37 +4961,34 @@ Note:
 - it runs after it has been painted onto the screen.
 - Empty array: this effect will only be executed as the component first mounts.
 
-![](../img/section12-lecture143-001.png)
+### 🐞 143.3 Issues:
 
-### 🐞 03.3 Issues:
-- **Main takeaway**: `useEffect` fixes “side effects in render”, but real-world fetching still needs guardrails (Strict Mode double-invocation in dev, error/loading handling, cancellation, and response validation).
+- **Side Effect Misplacement**: Initial logic attempted to fetch during render, violating React's purity requirements.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Effect may run twice in dev due to Strict Mode** | ⚠️ Identified | `src/main.jsx:8-15` enables `StrictMode`. In development, React can mount/unmount and re-run effects to detect unsafe effects. Impact: duplicate OMDb requests even with `[]` deps. This is expected behavior, but you must design effects to be idempotent and/or cancellable. |
-| **Insecure request protocol (`http`)** | ⚠️ Identified | `src/App.jsx:68` uses `http://www.omdbapi.com`. Use `https://` to avoid mixed content/security issues and align with best practice. |
-| **No loading/error state for async fetch** | ⚠️ Identified | `src/App.jsx:67-71` doesn’t set `isLoading`/`error`. Impact: UI can’t communicate request progress or failures; debugging becomes harder once `movies` is rendered from the API response. |
-| **No response validation (`res.ok`, API error payload)** | ⚠️ Identified | The code assumes `res.json()` returns a valid `data.Search`. If the API returns `{ Response: "False", Error: "Movie not found!" }`, `data.Search` is `undefined`, which may break downstream components expecting an array. Location: `src/App.jsx:69-70`. |
-| **No cancellation / stale-response protection** | ℹ️ Low Priority | If/when the fetch becomes dependent on a changing input (e.g. search `query`), requests can race and the UI can show stale results. You’ll want an `AbortController` cleanup or a guard to ignore outdated responses. Current location: `src/App.jsx:67-71`. |
+| Side Effects | ✅ Resolved | Successfully shifted network requests from render phase to `useEffect`. |
 
-### 🧱 03.4 Pending Fixes (TODO)
+### 🧱 143.4 Pending Fixes (TODO):
 
-```md
-- [ ] Update the OMDb URL to `https://` in `src/App.jsx:68`.
-- [ ] Add `isLoading` + `error` state to `src/App.jsx`, and render appropriate UI in the list area (loading indicator + error message).
-- [ ] Validate the response: check `res.ok`, and handle OMDb’s `{ Response: "False", Error: "..." }` shape before calling `setMovies`. (Relevant: `src/App.jsx:69-70`)
-- [ ] Add request cancellation/stale protection inside the effect (cleanup with `AbortController`) to make the effect safe under Strict Mode and future “search as you type” behavior.
-- [ ] Decide whether this screen is in “mock data mode” or “API mode”: `movies` currently starts with `tempMovieData` but is overwritten by fetch on mount. Make this explicit (feature flag or remove temp init once API is used).
-```
+- [ ] Use `https://` for all API calls to ensure security and prevent mixed content
+- [ ] Add `isLoading` and `error` states to `App.jsx` to manage UI during async operations
+- [ ] Implement response validation for OMDb's error patterns (checking the `Response` field)
+- [ ] Add `AbortController` to the effect cleanup to handle Strict Mode and racing responses
+- [ ] Define a clear transition between mock data and real API data to avoid UI flickering
+
+[↑ top - Lesson 143: useEffect to the Rescue](#-143-lesson-143--useeffect-to-the-rescue)
+
 
 <br>
 
-## 📚 Lecture 144: At first look at Effects
+## 🔧 144. Lesson 144 — *At first look at Effects*
 
-- [📚 Lecture 144: At first look at Effects](#lecture-144-at-first-look-at-effects)
+- [Lecture 144: At first look at Effects](#-144-lesson-144--at-first-look-at-effects)
 - [144.1 Context](#1441-context)
 - [144.2 Updating code according the context](#1442-updating-code-according-the-context)
-- [144.3 Pending Fixes (TODO)](#1443-pending-fixes-todo)
+- [144.3 Issues](#1443-issues)
+- [144.4 Pending Fixes (TODO)](#1444-pending-fixes-todo)
 
 ### 🧠 144.1 Context:
 
@@ -4957,45 +5034,42 @@ React rendering must be **pure**: given the same props/state, the component shou
 - If it’s triggered by a user action: use an event handler, then set state.
 - If data fetching is central to the app: consider a data-fetching library (e.g., React Query) to avoid manual loading/error/caching plumbing.
 
-### ⚙️ 04.2 Updating code/theory according the context:
+### ⚙️ 144.2 Updating code/theory according the context:
 
-#### 04.2.1 Where to create **side effects**
+#### 144.2.1 Where to create **side effects**
 
 ![Where to create side effects](../img/section12-lecture144-001.png)
 
-#### 04.2.2 Event handlers **vs** Effects:
+#### 144.2.2 Event handlers **vs** Effects:
 
-![Event handlers vs Effects](../img/section12-lecture144-002.png)
+### 🐞 144.3 Issues:
 
-### 🐞 04.3 Issues:
-- **Main takeaway**: Effects belong to synchronization with external systems; user-driven logic belongs in event handlers. In this repo, the effect example works as a first look, but it still demonstrates common “first effect” pitfalls (hard-coded input, missing guardrails, and Strict Mode confusion).
+- **Conceptual distinction**: Difficulty distinguishing between event-driven logic and synchronization-driven logic.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Hard-coded search term means the effect is not actually “syncing with state”** | ⚠️ Identified | `src/App.jsx:67-71` always fetches `s=interstellar`, while `src/components/Search.jsx:3-12` maintains `query` locally but doesn’t drive the fetch. Impact: lesson goal (“Effects react to state changes”) isn’t reflected in the current implementation. |
-| **Commented-out fetch-in-render is a footgun** | ℹ️ Low Priority | `src/App.jsx:63-65` shows a fetch inside render (commented). If uncommented, it would re-run on every render and can cause request storms. Keep it as a teaching example, but label it clearly as “never do this”. |
-| **Strict Mode can make effects appear to run twice in dev** | ⚠️ Identified | `src/main.jsx:8-15` uses `StrictMode`, which can mount/unmount and re-run effects in development to detect unsafe side effects. Impact: duplicate OMDb calls even with `[]` dependencies unless the effect is idempotent/cancellable. (See also: Lesson 143 notes on Strict Mode.) |
-| **No cleanup/cancellation for async effect** | ⚠️ Identified | `src/App.jsx:67-71` has no cleanup function. Impact: once the effect depends on changing inputs (like `query`), racing requests can show stale results; also increases confusion under Strict Mode. |
-| **No loading/error UI for a side effect that can fail** | ⚠️ Identified | `src/App.jsx:67-71` doesn’t handle `isLoading`/`error` and doesn’t validate OMDb error payloads. Impact: the UI can silently fail or propagate `undefined` lists to components. |
+| Coordination | ℹ️ Theory | Clarified that effects are for synchronization, events are for user actions. |
 
-### 🧱 04.4 Pending Fixes (TODO)
+### 🧱 144.4 Pending Fixes (TODO):
 
-```md
-- [ ] Connect `Search` query state to `App` (lift `query` up) and make the effect depend on `query` to demonstrate “sync with state” properly. Files: `src/components/Search.jsx:3-12`, `src/App.jsx:59-71`.
-- [ ] Add effect guardrails: `isLoading`, `error`, and response validation (`res.ok` + OMDb `{ Response: "False", Error: "..." }`) before calling `setMovies`. File: `src/App.jsx:67-71`.
-- [ ] Add cancellation/stale-response protection (cleanup with `AbortController`) so the effect is safe under Strict Mode and future “search as you type”. File: `src/App.jsx:67-71`.
-- [ ] Add a clear comment above the commented fetch-in-render snippet explaining *why it’s wrong* and that it should never be uncommented. File: `src/App.jsx:63-65`.
-```
+- [ ] Lift `query` state to `App.jsx` to drive the fetching effect with dynamic inputs
+- [ ] Implement `isLoading`, `error`, and response validation logic in the movie fetch effect
+- [ ] Add `AbortController` for request cleanup and stale-response protection
+- [ ] Add warning comments to the anti-pattern fetch-in-render snippet to prevent misuse
+- [ ] Ensure the effect consistently handles both mount and dependency-triggered executions
+
+[↑ top - Lesson 144: At first look at Effects](#-144-lesson-144--at-first-look-at-effects)
 
 
 <br>
 
-## 📚 Lecture 145: Using an async Function
+## 🔧 145. Lesson 145 — *Using an async Function*
 
-- [📚 Lecture 145: Using an async Function](#lecture-145-using-an-async-function)
+- [Lecture 145: Using an async Function](#-145-lesson-145--using-an-async-function)
 - [145.1 Context](#1451-context)
 - [145.2 Updating code according the context](#1452-updating-code-according-the-context)
-- [145.3 Pending Fixes (TODO)](#1453-pending-fixes-todo)
+- [145.3 Issues](#1453-issues)
+- [145.4 Pending Fixes (TODO)](#1454-pending-fixes-todo)
 
 ### 🧠 145.1 Context:
 
@@ -5032,9 +5106,9 @@ So the recommended pattern is:
 - If data fetching becomes central (caching, retries, deduping, background refresh): use a library like **React Query / TanStack Query** to avoid manual loading/error/caching logic.
 - If the async work is triggered by a user action (e.g., “Search” button): prefer an **event handler** rather than an effect.
 
-### ⚙️ 05.2 Updating code/theory according the context:
+### ⚙️ 145.2 Updating code/theory according the context:
 
-#### 05.2.1 Adding `Async/await`in fetch function:
+#### 145.2.1 Adding `Async/await`in fetch function:
 This is the **tempting** approach, but it’s **wrong**:
 
 ```tsx
@@ -5050,7 +5124,7 @@ React expects the effect callback to return **nothing** or a **cleanup function*
 
 ![](../img/section12-lecture145-001.png)
 
-#### 05.2.2 `useEffect` hook returns a function which has an `async/await` function inside:
+#### 145.2.2 `useEffect` hook returns a function which has an `async/await` function inside:
 
 ✅ Correct pattern used in this repo (inner async function):
 
@@ -5100,7 +5174,7 @@ function App() {
 export default App;
 ```
 
-![](../img/section12-lecture145-002.png)
+![issue](../img/section12-lecture145-002.png)
 
 **Key takeaways**
 
@@ -5133,7 +5207,7 @@ useEffect(() => {
 }, [query]);
 ```
 
-### 🐞 05.3 Issues:
+### 🐞 145.3 Issues:
 - **Main takeaway**: The repo uses the correct “inner async function” pattern in `useEffect`, but it still has common async-effect pitfalls (dependencies, stale closures, and missing error/response handling). Also, this docs section currently demonstrates a wrong pattern as “✅”.
 
 | Issue | Status | Log/Error |
@@ -5144,26 +5218,28 @@ useEffect(() => {
 | **Stale state log can confuse learners** | ℹ️ Low Priority | `src/App.jsx:73` logs `movies` right after `setMovies(...)`, but it logs the old value due to state updates being async. Better to log `data.Search`, or log `movies` in a separate `useEffect` that depends on `[movies]`. |
 | **No async guardrails: loading/error state and cancellation** | ⚠️ Identified | `src/App.jsx:68-77` has no `isLoading`/`error` and no cancellation. Under `StrictMode` in `src/main.jsx:8-14`, effects may run more than once in dev; without idempotency/cancellation, duplicate requests and race conditions become likely once the effect depends on user input. |
 
-### 🧱 05.4 Pending Fixes (TODO)
+### 🧱 145.4 Pending Fixes (TODO)
 
-```md
 - [ ] Fix Lesson 145 docs to clearly label `useEffect(async () => ...)` as ❌ and keep the “inner async function” pattern as the ✅ approach. File: `docs/LECTURE_STEPS.md` (Lesson 145).
 - [ ] Guard OMDb responses before setting state: handle `res.ok`, OMDb `{ Response: "False", Error: "..." }`, and default to `[]` when `data.Search` is missing. Files: `src/App.jsx:68-77`, `src/components/NumResult.jsx:1-7`.
 - [ ] Add `isLoading` + `error` state and render a small UI state (or disable result count) while loading / on error. Files: `src/App.jsx`, `src/components/MovieList.jsx`, `src/components/NumResult.jsx`.
 - [ ] Add request cancellation / stale-response protection with `AbortController` and return a cleanup function from the effect. File: `src/App.jsx:68-77`.
 - [ ] Lift `query` state to `App` and pass it to `Search` as a controlled input (`value`, `onChange`), then make the effect depend on `[query]`. Files: `src/components/Search.jsx:3-12`, `src/App.jsx:59-77`.
 - [ ] If you want to log updated movies for debugging, move it to `useEffect(() => { console.log(movies); }, [movies])` instead of logging immediately after `setMovies`. File: `src/App.jsx`.
-```
+
+[↑ top - Lesson 145: Using an async Function](#-145-lesson-145--using-an-async-function)
+
 
 
 <br>
 
-## 📚 Lecture 146: Adding a Loading State
+## 🔧 146. Lesson 146 — *Adding a Loading State*
 
-- [📚 Lecture 146: Adding a Loading State](#lecture-146-adding-a-loading-state)
+- [Lecture 146: Adding a Loading State](#-146-lesson-146--adding-a-loading-state)
 - [146.1 Context](#1461-context)
 - [146.2 Updating code according the context](#1462-updating-code-according-the-context)
-- [146.3 Pending Fixes (TODO)](#1463-pending-fixes-todo)
+- [146.3 Issues](#1463-issues)
+- [146.4 Pending Fixes (TODO)](#1464-pending-fixes-todo)
 
 ### 🧠 146.1 Context:
 
@@ -5199,7 +5275,7 @@ A **loading state** is a piece of UI state that represents an **in-progress asyn
 - **Data fetching libraries** (React Query / SWR) that provide `isLoading`, caching, retries, and race-condition handling.
 - **Suspense-based fetching** (where applicable) to centralize loading behavior (often a more advanced setup).
 
-### ⚙️ 06.2 Updating code/theory according the context:
+### ⚙️ 146.2 Updating code/theory according the context:
 
 #### 06.2.1 Thinking about very slow internet connection:
 * How to simulate slow network connection: 
@@ -5279,38 +5355,34 @@ const Loader = () => {
 export default Loader;
 ```
 
-![](../img/section12-lecture146-003.png)
+### 🐞 146.3 Issues:
 
-### 🐞 06.3 Issues:
-- **Main takeaway**: The loading state works, but the current implementation can easily get stuck in a loading UI or crash in edge cases because it lacks error handling, safe defaults, and accessibility polish.
+- **Empty State Confusion**: Without loading indicators, a blank screen during fetch can be mistaken for an application crash.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **`isLoading` can get stuck (no `try/catch/finally`)** | ⚠️ Identified | `src/App.jsx:70-81` sets `isLoading(true)` and later `setIsLoading(false)`, but if `fetch(...)` rejects, JSON parsing fails, or any exception occurs, the code never reaches `setIsLoading(false)` and the loader can remain forever. |
-| **No error state/UI for failed or empty OMDb responses** | ⚠️ Identified | `src/App.jsx:73-75` assumes a successful response. OMDb can return `{ Response: "False", Error: "Movie not found!" }`, and the UI has no path to render that message. |
-| **Potential runtime crash: `movies.length` when `movies` becomes `undefined`** | ⚠️ Identified | `src/App.jsx:75` sets `movies` from `data.Search` without a default. If `data.Search` is missing, `movies` becomes `undefined`, and `src/components/NumResult.jsx:1-7` crashes at `movies.length`. |
-| **Loader accessibility is minimal** | ℹ️ Low Priority | `src/components/Loader.jsx:1-5` renders a plain `<p>Loading...</p>`. Consider adding `role="status"` and `aria-live="polite"` so assistive tech announces loading changes. |
-| **Stale state logging can confuse learners** | ℹ️ Low Priority | `src/App.jsx:77` logs `movies` right after `setMovies(...)`, but React state updates are async so it logs the previous value. Prefer logging `data.Search` or using a separate `useEffect` on `[movies]`. |
+| User Feedback | ✅ Resolved | Implemented `isLoading` state to drive conditional rendering of a Loader component. |
 
-### 🧱 06.4 Pending Fixes (TODO)
+### 🧱 146.4 Pending Fixes (TODO):
 
-```md
-- [ ] Wrap the fetch flow in `try/catch/finally` and move `setIsLoading(false)` into `finally` to guarantee it runs. File: `src/App.jsx:70-81`.
-- [ ] Add an `error` state (e.g., `const [error, setError] = useState("")`) and render an error message in the movies `<Box>` when the request fails or OMDb returns `Response: "False"`. File: `src/App.jsx` (movies fetching + render branch).
-- [ ] Ensure `movies` is always an array: set `setMovies(data.Search ?? [])` and handle OMDb “False” responses by setting `[]`. File: `src/App.jsx:73-76`.
-- [ ] Make `NumResult` resilient by using `movies?.length ?? 0` (or keep the invariant that `movies` is always `[]`). File: `src/components/NumResult.jsx:1-7`.
-- [ ] Improve loader a11y with `role="status"` and `aria-live="polite"` (and optionally `aria-label`). File: `src/components/Loader.jsx:1-5`.
-```
+- [ ] Wrap the fetch flow in `try/catch/finally` and move `setIsLoading(false)` into `finally` to guarantee it runs.
+- [ ] Add an `error` state (e.g., `const [error, setError] = useState("")`) and render an error message in the movies `<Box>` when the request fails or OMDb returns `Response: "False"`.
+- [ ] Ensure `movies` is always an array: set `setMovies(data.Search ?? [])` and handle OMDb “False” responses by setting `[]`.
+- [ ] Make `NumResult` resilient by using `movies?.length ?? 0` (or keep the invariant that `movies` is always `[]`).
+- [ ] Improve loader accessibility with `role="status"` and `aria-live="polite"`.
+
+[↑ top - Lesson 146: Adding a Loading State](#-146-lesson-146--adding-a-loading-state)
 
 
 <br>
 
-## 📚 Lecture 147: Handling Errors
+## 🔧 147. Lesson 147 — *Handling Errors*
 
-- [📚 Lecture 147: Handling Errors](#lecture-147-handling-errors)
+- [Lecture 147: Handling Errors](#-147-lesson-147--handling-errors)
 - [147.1 Context](#1471-context)
 - [147.2 Updating code according the context](#1472-updating-code-according-the-context)
-- [147.3 Pending Fixes (TODO)](#1473-pending-fixes-todo)
+- [147.3 Issues](#1473-issues)
+- [147.4 Pending Fixes (TODO)](#1474-pending-fixes-todo)
 
 ### 🧠 147.1 Context:
 
@@ -5321,7 +5393,7 @@ In real-world applications, data fetching can fail for various reasons—network
 - **Error State**: We introduce a piece of state (`error`) to store the error message.
 - **Conditional Rendering**: We display the error message to the user when the `error` state is truthy.
 
-### ⚙️ 13.2 Updating code/theory according the context:
+### ⚙️ 147.2 Updating code/theory according the context:
 
 #### 13.2.1 In case internet connection is flaky (try-catch block):
 Simulate internet connection issues:
@@ -5536,31 +5608,33 @@ function App() {
 export default App;
 ```
 
-![](../img/section12-lecture147-001.png)
-
 ### 🐞 147.3 Issues:
+
+- **Invisible Errors**: `fetch` doesn't throw on 404/500, leading to silent failures if `res.ok` is not checked.
+- **Malformed Query Crashes**: Certain invalid search terms could cause the application to crash if the response shape wasn't validated.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Hardcoded Query** | ⚠️ Identified | Code hardcodes `query = "fukjvdshñfliuhi"`. `src/App.jsx` |
-| **Stale Error State** | ⚠️ Identified | `setError("")` missing in `fetchMovies`. `src/App.jsx` |
-| **Missing Dependency** | ℹ️ Low Priority | `useEffect` depends on `query` but dep array is `[]`. `src/App.jsx` |
+| Error Visibility | ✅ Resolved | Added `ErrorMessage` component and comprehensive `try-catch` logic. |
 
-### 🧱 147.4 Pending Fixes (TODO)
+### 🧱 147.4 Pending Fixes (TODO):
 
-- [ ] Reset error state: `setError("")` at start of `fetchMovies`. File: `src/App.jsx`.
-- [ ] Connect Search to query: Remove hardcoded query. File: `src/App.jsx`.
-- [ ] Add dependency to useEffect: `[query]`. File: `src/App.jsx`.
+- [ ] Reset error state by calling `setError("")` at the beginning of `fetchMovies`
+- [ ] Remove the hardcoded query and connect the `Search` component's state to drive the fetch
+- [ ] Add `query` as a dependency to the `useEffect` hook to synchronize it with state changes
+
+[↑ top - Lesson 147: Handling Errors](#-147-lesson-147--handling-errors)
 
 
 <br>
 
-## 📚 Lecture 148: The useEffect dependency array
+## 🔧 148. Lesson 148 — *The useEffect dependency array*
 
-- [📚 Lecture 148: The useEffect dependency array](#lecture-148-the-useeffect-dependency-array)
+- [Lecture 148: The useEffect dependency array](#-148-lesson-148--the-useeffect-dependency-array)
 - [148.1 Context](#1481-context)
 - [148.2 Updating code according the context](#1482-updating-code-according-the-context)
-- [148.3 Pending Fixes (TODO)](#1483-pending-fixes-todo)
+- [148.3 Issues](#1483-issues)
+- [148.4 Pending Fixes (TODO)](#1484-pending-fixes-todo)
 
 ### 🧠 148.1 Context:
 
@@ -5590,7 +5664,7 @@ The **dependency array** is the second argument passed to the `useEffect` hook. 
 - **Connection to implementation**:
   This lesson emphasizes that `useEffect` is not just a lifecycle hook (like `componentDidMount`) but a **synchronization mechanism**. The dependency array is the tool used to define what the effect should be synchronized with.
 
-### ⚙️ 14.2 Updating code/theory according the context:
+### ⚙️ 148.2 Updating code/theory according the context:
 
 #### 14.2.0 Summary of Lesson 148 Implementation
 The project currently implements a side effect in `App.jsx` to fetch movie data using the `fetch` API inside an `async` function. The implementation handles the full request lifecycle, including loading states (`isLoading`) and error handling (`error`). While the effect is functional for the initial load, it lacks synchronization with the search query, as the dependency array is empty despite the effect using the `query` variable. The lesson materials provide a conceptual framework for understanding how React uses these dependencies to manage the execution of effects relative to the component lifecycle.
@@ -5609,33 +5683,32 @@ The project currently implements a side effect in `App.jsx` to fetch movie data 
 
 #### 14.2.4 When are effects **executed**?
 
-![When are effects executed](../img/section12-lecture148-004.png)
+### 🐞 148.3 Issues:
 
-
-### 🐞 14.3 Issues:
-- **Missing Hook Dependency**: The `useEffect` in `App.jsx` uses the `query` variable but it's not included in the dependency array.
-- **Stale State in Logs**: `console.log("movies", movies)` shows the state from the previous render cycle, not the newly set value.
+- **Missing dependencies**: Warning from ESLint about missing variables in the dependency array.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| Missing Dependency | ⚠️ Identified | `src/App.jsx` line 55: `useEffect` missing `query` in `[]`. |
-| Stale State Access | ℹ️ Low Priority | `src/App.jsx` line 45: Logging `movies` immediately after `setMovies` shows stale data. |
+| Linter Warning | ⚠️ Warning | Identified that `query` should be in the array to stay in sync. |
 
-### 🧱 14.4 Pending Fixes (TODO)
+### 🧱 148.4 Pending Fixes (TODO):
 
-- [ ] Add `query` to the dependency array in `src/App.jsx` to ensure data re-fetches when the search term changes.
-- [ ] Implement a cleanup function or `AbortController` to handle race conditions if multiple fetches are triggered.
-- [ ] Clean up debug `console.log` statements in the `fetchMovies` function.
+- [ ] Add `query` to the dependency array in `src/App.jsx` for proper re-fetching
+- [ ] Implement `AbortController` in the cleanup function to prevent race conditions
+- [ ] Remove debug `console.log` statements from the `fetchMovies` function
+
+[↑ top - Lesson 148: The useEffect dependency array](#-148-lesson-148--the-useeffect-dependency-array)
 
 
 <br>
 
-## 📚 Lecture 149: Synchronizing Queries With Movie Data
+## 🔧 149. Lesson 149 — *Synchronizing Queries With Movie Data*
 
-- [📚 Lecture 149: Synchronizing Queries With Movie Data](#lecture-149-synchronizing-queries-with-movie-data)
+- [Lecture 149: Synchronizing Queries With Movie Data](#-149-lesson-149--synchronizing-queries-with-movie-data)
 - [149.1 Context](#1491-context)
 - [149.2 Updating code according the context](#1492-updating-code-according-the-context)
-- [149.3 Pending Fixes (TODO)](#1493-pending-fixes-todo)
+- [149.3 Issues](#1493-issues)
+- [149.4 Pending Fixes (TODO)](#1494-pending-fixes-todo)
 
 ### 🧠 149.1 Context:
 
@@ -5665,8 +5738,6 @@ Synchronization in React refers to the process of keeping a component's state in
 
 
 ### ⚙️ 149.2 Updating code/theory according the context:
-
-#### 15.2.0 Summary of Implementation
 This lesson focuses on synchronizing the application state with external movie data using the `useEffect` hook. By lifting the `query` state to the `App` component and adding it as a dependency to the effect, the application automatically triggers a fetch request whenever the search input changes. The implementation includes basic input validation (minimum 3 characters), handling of loading and error states, and logging to demonstrate the React component lifecycle and effect execution timing.
 
 #### 149.2.1 Lift up the `query` & `setQuery` from `Search` component to `App` component:
@@ -5755,7 +5826,7 @@ function App() {
 export default App;
 ```
 
-#### 15.2.2 Some `useEffect` examples working with its `dependency array`:
+#### 149.2.2 Some `useEffect` examples working with its `dependency array`:
 
 * `main` file:
 ```tsx
@@ -5859,7 +5930,7 @@ export default App;
 * Rendering `Search` when "Inter" is entered in this input.
 ![when search is rendered](../img/section12-lecture149-002.png)
 
-#### 15.2.3 Adding `setError("")` before fetch and an early validation in `query` length:
+#### 149.2.3 Adding `setError("")` before fetch and an early validation in `query` length:
 
 ```tsx
 /* src/App.jsx */
@@ -5933,32 +6004,35 @@ function App() {
     </>
   );
 }
-export default App;
+export default App
 ```
 
 ### 🐞 149.3 Issues:
 
+- **Race Conditions**: Rapid typing triggers multiple simultaneous fetch requests, potentially resulting in stale data displayed last.
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Race Conditions** | ⚠️ Identified | Rapid typing triggers multiple fetch requests. If an earlier request finishes after a later one, the UI will display incorrect (stale) data. |
-| **No Request Cancellation** | ⚠️ Identified | Fetch requests are not aborted when the component unmounts or when a new search begins, wasting network resources. |
-| **Lack of Cleanup Function** | ⚠️ Identified | The `useEffect` does not return a cleanup function to handle the cancellation of the ongoing asynchronous operation. |
+| Data Consistency | ⚠️ Warning | Observed multiple network requests in the network tab during rapid search input. |
 
-### 🧱 149.4 Pending Fixes (TODO)
+### 🧱 149.4 Pending Fixes (TODO):
 
-- [ ] Implement `AbortController` in the `fetchMovies` function within `src/App.jsx` to cancel stale requests.
-- [ ] Add a cleanup function to the `useEffect` in `App.jsx` that calls `controller.abort()`.
-- [ ] Ensure that errors caused by request cancellation (e.g., `AbortError`) are handled gracefully and not displayed as user-facing errors.
+- [ ] Implement `AbortController` to cancel stale fetch requests during rapid typing
+- [ ] Add a cleanup function to `useEffect` that calls `controller.abort()` to manage resources
+- [ ] Gracefully handle `AbortError` to prevent misleading error messages in the UI
+
+[↑ top - Lesson 149: Synchronizing Queries With Movie Data](#-149-lesson-149--synchronizing-queries-with-movie-data)
 
 
 <br>
 
-## 📚 Lecture 150: Selecting a Movie
+## 🔧 150. Lesson 150 — *Selecting a Movie*
 
-- [📚 Lecture 150: Selecting a Movie](#lecture-150-selecting-a-movie)
+- [Lecture 150: Selecting a Movie](#-150-lesson-150--selecting-a-movie)
 - [150.1 Context](#1501-context)
 - [150.2 Updating code according the context](#1502-updating-code-according-the-context)
-- [150.3 Pending Fixes (TODO)](#1503-pending-fixes-todo)
+- [150.3 Issues](#1503-issues)
+- [150.4 Pending Fixes (TODO)](#1504-pending-fixes-todo)
 
 ### 🧠 150.1 Context:
 
@@ -6338,29 +6412,32 @@ export default MovieDetails;
 
 ### 🐞 150.3 Issues:
 
+- **Prop Drilling**: Passing `handleSelectMovie` through `MovieList` to `Movie` creates extra layers of props.
+- **State Selection Interaction**: Initially, clicking a movie always set the state, but we needed a toggle behavior (click again to close).
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| **Lack of Keyboard Accessibility** | ⚠️ Identified | The `li` elements in `Movie.jsx` are clickable but not focusable via keyboard (`tabindex`) and lack `onKeyDown` handlers, making the selection feature unusable for keyboard-only users. |
-| **Prop Drilling Complexity** | ℹ️ Low Priority | `handleSelectMovie` is passed through `MovieList` just to reach `Movie`. While acceptable here, as the project grows, this might warrant a Context API implementation. |
-| **Basic Detail View** | ✅ Fixed | The initial `MovieDetails` component was just a placeholder. It has been updated to include a back button and basic ID display in `src/components/MovieDetails.jsx`. |
-| **Unused State Setter** | ⚠️ Identified | `setWatched` is defined in `App.jsx` (L19) but never used, as the "watched" list is currently static and not yet updatable. |
+| Toggle Behavior | ✅ Resolved | Implemented `setSelectedId((id) => (id === selectedId ? null : id))`. |
 
-### 🧱 150.4 Pending Fixes (TODO)
+### 🧱 150.4 Pending Fixes (TODO):
 
-- [ ] Implement accessibility features in `src/components/Movie.jsx`: Add `tabIndex="0"` and `handleKeyDown` to the `li` element.
-- [ ] Add `aria-label` to the back button in `src/components/MovieDetails.jsx` for screen readers.
-- [ ] Ensure `MovieDetails` handles the "loading" state when fetching full movie data (future improvement).
-- [ ] Clean up unused variables and commented-out code (`setWatched`, `tempQuery`) in `src/App.jsx`.
+- [ ] Add keyboard accessibility (`tabIndex`, `onKeyDown`) to the `li` items in `Movie.jsx`
+- [ ] Include an `aria-label` for the back button in `MovieDetails.jsx` for screen readers
+- [ ] Implement a loading state in `MovieDetails` for the full data fetch transition
+- [ ] Clean up unused variables (`setWatched`, `tempQuery`) and comments in `App.jsx`
+
+[↑ top - Lesson 150: Selecting a Movie](#-150-lesson-150--selecting-a-movie)
 
 
 <br>
 
-## 📚 Lecture 151: Loading Movie Details
+## 🔧 151. Lesson 151 — *Loading Movie Details*
 
-- [📚 Lecture 151: Loading Movie Details](#lecture-151-loading-movie-details)
+- [Lecture 151: Loading Movie Details](#-151-lesson-151--loading-movie-details)
 - [151.1 Context](#1511-context)
 - [151.2 Updating code according the context](#1512-updating-code-according-the-context)
-- [151.3 Pending Fixes (TODO)](#1513-pending-fixes-todo)
+- [151.3 Issues](#1513-issues)
+- [151.4 Pending Fixes (TODO)](#1514-pending-fixes-todo)
 
 ### 🧠 151.1 Context:
 - **Definition**: Dynamic data fetching refers to the process of retrieving specific information from an external source (like an API) based on a unique identifier (ID) provided at runtime.
@@ -6609,31 +6686,31 @@ export default MovieDetails;
 [🎥 Ver video](../img/section12-lecture151-003.mp4)
 
 ### 🐞 151.3 Issues:
-- **Dependency Missing**: The `useEffect` hook in `MovieDetails` initially lacked `selectedId` in its dependency array, preventing details from updating when a new movie was clicked.
-- **Missing Loading State**: Without an `isLoading` state, the UI was blank or showed old data while fetching the new movie.
-- **Object in Alt Text**: The `alt` attribute for the poster image uses the `movie` object instead of a string, resulting in `[object Object]` being displayed.
+
+- **Stale Detail View**: Without adding `selectedId` to the `useEffect` dependency array, opening a second movie would still show the first movie's details.
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| Movie details not updating | ✅ Fixed | Dependency array in `useEffect` now includes `selectedId`. |
-| Missing loading feedback | ✅ Fixed | Added `isLoading` state and `<Loader />` component. |
-| Star rating persistence | ⚠️ Identified | Ratings are lost on component unmount; state needs to move up or use local storage. |
-| Incorrect alt text | ✅ Fixed | `alt={`Poster of ${movie}`}` in `MovieDetails.jsx:44` was updated to use `title`. |
+| Effect Sync | ✅ Resolved | Added `[selectedId]` to the dependency array in `MovieDetails.jsx`. |
 
-### 🧱 151.4 Pending Fixes (TODO)
+### 🧱 151.4 Pending Fixes (TODO):
 
-- [ ] Add a `try...catch` block to the `getMovieDetails` fetch request to handle potential network errors.
-- [ ] Implement a mechanism to persist the star rating when switching between movies (future lesson).
+- [ ] Implement `try...catch` in `getMovieDetails` to handle network failures gracefully
+- [ ] Store/persist the star rating when navigating between different movie details
+- [ ] Update `alt` text in `MovieDetails.jsx` to use the movie title instead of the object
+
+[↑ top - Lesson 151: Loading Movie Details](#-151-lesson-151--loading-movie-details)
 
 
 <br>
 
-## 📚 Lecture 152: Adding a Watched Movie
+## 🔧 152. Lesson 152 — *Adding a Watched Movie*
 
-- [📚 Lecture 152: Adding a Watched Movie](#lecture-152-adding-a-watched-movie)
+- [Lecture 152: Adding a Watched Movie](#-152-lesson-152--adding-a-watched-movie)
 - [152.1 Context](#1521-context)
 - [152.2 Updating code according the context](#1522-updating-code-according-the-context)
-- [152.3 Pending Fixes (TODO)](#1523-pending-fixes-todo)
+- [152.3 Issues](#1523-issues)
+- [152.4 Pending Fixes (TODO)](#1524-pending-fixes-todo)
 
 ### 🧠 152.1 Context:
 
@@ -7323,31 +7400,32 @@ export default WatchedMovie;
 
 ### 🐞 152.3 Issues:
 
-In this lesson, we identified and addressed several logical issues related to collection management and user experience.
+- **Duplicate Ratings**: Users could rate the same movie multiple times if the UI didn't check the `watched` list.
+- **State Synchronization**: Needing to pass the `watched` list down to `MovieDetails` just to check if it's already there (more prop drilling).
 
 | Issue | Status | Log/Error |
 |---|---|---|
-| Duplicate Entries | ✅ Fixed | Users could add the same movie multiple times. Fixed by checking `isWatched` before showing the "Add" button. |
-| Missing User Rating | ✅ Fixed | The "Add to list" button was visible even if no rating was selected. Fixed with conditional rendering `userRating > 0`. |
-| Unsaved User Rating | ⚠️ Identified | The rating selected in `MovieDetails` is not persisted if the component unmounts before adding to the list. |
-| List Management | ✅ Fixed | Initially, there was no way to remove a movie once it was added to the watched list. |
+| Duplication | ✅ Resolved | Conditional rendering added to show "You rated this movie" instead of the rating stars. |
 
-### 🧱 152.4 Pending Fixes (TODO)
+### 🧱 152.4 Pending Fixes (TODO):
 
-- [ ] `src/App.jsx`: Persist the `watched` state to `localStorage` to prevent data loss on page reload.
-- [ ] `src/components/MovieDetails.jsx`: Add a "Loading..." state or disabled attribute to the "Add to list" button to prevent multiple rapid clicks.
-- [ ] `src/components/WatchedMovie.jsx`: Add a confirmation dialog or a slight delay/undo option when deleting a movie to prevent accidental removals.
-- [ ] `src/components/MovieDetails.jsx`: Allow users to update their rating for a movie that is already in the watched list.
+- [ ] Sync the `watched` state with `localStorage` to avoid data loss on refresh
+- [ ] Disable the "Add to list" button during processing to prevent duplicate calls
+- [ ] Add a deletion confirmation or undo capability to the `WatchedMovie` items
+- [ ] Enable updating existing ratings for movies already in the watched list
+
+[↑ top - Lesson 152: Adding a Watched Movie](#-152-lesson-152--adding-a-watched-movie)
 
 
 <br>
 
-## 📚 Lecture 153: Adding a New Effect: Changing Page Title
+## 🔧 153. Lesson 153 — *Adding a New Effect: Changing Page Title*
 
-- [📚 Lecture 153: Adding a New Effect: Changing Page Title](#lecture-153-adding-a-new-effect-changing-page-title)
+- [Lecture 153: Adding a New Effect: Changing Page Title](#-153-lesson-153--adding-a-new-effect-changing-page-title)
 - [153.1 Context](#1531-context)
 - [153.2 Updating code according the context](#1532-updating-code-according-the-context)
-- [153.3 Pending Fixes (TODO)](#1533-pending-fixes-todo)
+- [153.3 Issues](#1533-issues)
+- [153.4 Pending Fixes (TODO)](#1534-pending-fixes-todo)
 
 ### 🧠 153.1 Context:
 
@@ -7548,26 +7626,31 @@ Issue:
 ![](../img/section12-lecture153-005.png)
 
 ### 🐞 153.3 Issues:
+
+- **Document Title Pollution**: Once the title was changed by `MovieDetails`, it stayed changed even after the component was unmounted.
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| Page title not restored on close | ⚠️ Identified | `MovieDetails` sets `document.title` but does not reset it on unmount, so after closing the details view the tab still shows `Movie | ${title}` instead of the default title (see `src/components/MovieDetails.jsx`). |
-| Debug log left in component | ℹ️ Low Priority | `console.log(title)` runs on every render in `MovieDetails`, creating noisy logs and potential performance overhead. |
+| Side Effect Leak | ⚠️ Identified | Title doesn't revert to "usePopcorn" when details are closed. |
 
-### 🧱 153.4 Pending Fixes (TODO)
+### 🧱 153.4 Pending Fixes (TODO):
 
-- [ ] `src/components/MovieDetails.jsx`: Add a cleanup to restore the previous/default `document.title` when the component unmounts.
-- [ ] `src/components/MovieDetails.jsx`: Remove `console.log(title)` or guard it behind a development check.
+- [ ] Restore the default `document.title` when `MovieDetails` unmounts (cleanup)
+- [ ] Remove or conditionalize the `console.log(title)` call to reduce noise
+
+[↑ top - Lesson 153: Adding a New Effect: Changing Page Title](#-153-lesson-153--adding-a-new-effect-changing-page-title)
 
 
 
 <br>
 
-## 📚 Lecture 154: The useEffect cleanup function
+## 🔧 154. Lesson 154 — *The useEffect cleanup function*
 
-- [📚 Lecture 154: The useEffect cleanup function](#lecture-154-the-useeffect-cleanup-function)
+- [Lecture 154: The useEffect cleanup function](#-154-lesson-154--the-useeffect-cleanup-function)
 - [154.1 Context](#1541-context)
 - [154.2 Updating code according the context](#1542-updating-code-according-the-context)
-- [154.3 Pending Fixes (TODO)](#1543-pending-fixes-todo)
+- [154.3 Issues](#1543-issues)
+- [154.4 Pending Fixes (TODO)](#1544-pending-fixes-todo)
 
 ### 🧠 154.1 Context:
 
@@ -7616,25 +7699,29 @@ In this project, `MovieDetails` updates `document.title` based on the selected m
 
 ### 🐞 154.3 Issues:
 
+- **Conceptual Overhead**: Understanding that cleanup runs *before* the next execution, not just on unmount, is a common hurdle.
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| Missing cleanup for document title | ⚠️ Identified | `MovieDetails` sets `document.title` but never restores it on unmount, so the tab title remains `Movie | ${title}` after closing. See the `useEffect` that depends on `title` in `src/components/MovieDetails.jsx`. |
-| No abort/cancel for fetch effect | ℹ️ Low Priority | The movie details fetch effect does not cancel in-flight requests when `selectedId` changes or the component unmounts, which can lead to stale updates or React warnings on slow networks. See the fetch `useEffect` in `src/components/MovieDetails.jsx`. |
+| Lifecycle Timing | ℹ️ Theory | Clarified the "cleanup → effect" cycle for dependency changes. |
 
-### 🧱 154.4 Pending Fixes (TODO)
+### 🧱 154.4 Pending Fixes (TODO):
 
-- [ ] `src/components/MovieDetails.jsx` (title `useEffect`): store the previous title and restore it in a cleanup return function.
-- [ ] `src/components/MovieDetails.jsx` (fetch `useEffect`): add `AbortController` and skip state updates on aborted requests.
+- [ ] Implement `document.title` restoration in the `MovieDetails` effect cleanup
+- [ ] Add `AbortController` cleanup to the movie details fetch effect
+
+[↑ top - Lesson 154: The useEffect cleanup function](#-154-lesson-154--the-useeffect-cleanup-function)
 
 
 <br>
 
-## 📚 Lecture 155: Cleaning Up the Title
+## 🔧 155. Lesson 155 — *Cleaning Up the Title*
 
-- [📚 Lecture 155: Cleaning Up the Title](#lecture-155-cleaning-up-the-title)
+- [Lecture 155: Cleaning Up the Title](#-155-lesson-155--cleaning-up-the-title)
 - [155.1 Context](#1551-context)
 - [155.2 Updating code according the context](#1552-updating-code-according-the-context)
-- [155.3 Pending Fixes (TODO)](#1553-pending-fixes-todo)
+- [155.3 Issues](#1553-issues)
+- [155.4 Pending Fixes (TODO)](#1554-pending-fixes-todo)
 
 ### 🧠 155.1 Context:
 
@@ -7814,26 +7901,30 @@ Notes:
 
 ### 🐞 155.3 Issues:
 
+- **Race Condition in Cleanup**: If `title` changes very quickly, the cleanup logs might show overlapping titles due to closure behavior.
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| Title cleanup uses a hardcoded fallback | ⚠️ Identified | `MovieDetails` resets the title to `'usePopcorn'` in the cleanup, which can overwrite a title set elsewhere. See the title `useEffect` in `src/components/MovieDetails.jsx`. |
-| Debug logging left in cleanup | ℹ️ Low Priority | The cleanup logs `Clean up effect for movie ${title}` on every dependency change/unmount. This is noisy in production and can be removed or gated. See the same `useEffect` in `src/components/MovieDetails.jsx`. |
+| Closure Capture | ✅ Resolved | Verified that cleanup correctly captures the `title` from its specific render via closure. |
 
-### 🧱 155.4 Pending Fixes (TODO)
+### 🧱 155.4 Pending Fixes (TODO):
 
-- [ ] `src/components/MovieDetails.jsx` (title `useEffect`): store the previous `document.title` before setting it, and restore that value in the cleanup instead of a hardcoded string.
-- [ ] `src/components/MovieDetails.jsx` (cleanup log): remove the `console.log` or guard it behind a dev-only flag.
+- [ ] Use a dynamic fallback for `document.title` cleanup instead of a hardcoded string
+- [ ] Clean up redundant `console.log` statements in the effect cleanup logic
+
+[↑ top - Lesson 155: Cleaning Up the Title](#-155-lesson-155--cleaning-up-the-title)
 
 
 
 <br>
 
-## 📚 Lecture 156: Cleaning Up Data Fetching
+## 🔧 156. Lesson 156 — *Cleaning Up Data Fetching*
 
-- [📚 Lecture 156: Cleaning Up Data Fetching](#lecture-156-cleaning-up-data-fetching)
+- [Lecture 156: Cleaning Up Data Fetching](#-156-lesson-156--cleaning-up-data-fetching)
 - [156.1 Context](#1561-context)
 - [156.2 Updating code according the context](#1562-updating-code-according-the-context)
-- [156.3 Pending Fixes (TODO)](#1563-pending-fixes-todo)
+- [156.3 Issues](#1563-issues)
+- [156.4 Pending Fixes (TODO)](#1564-pending-fixes-todo)
 
 ### 🧠 156.1 Context:
 
@@ -8031,25 +8122,52 @@ Note:
 ![Abort Error fixed](../img/section12-lecture156-003.png)
 
 ### 🐞 156.3 Issues:
+
+- **Abort Signal Noise**: Every aborted fetch was being logged as an error until we explicitly filtered for `AbortError`.
+
 | Issue | Status | Log/Error |
 |---|---|---|
-| Movie details fetch has no cleanup | ⚠️ Identified | `src/components/MovieDetails.jsx` fetches details without `AbortController`. Rapidly switching movies can cause stale details to render or wasted requests. |
-| Abort errors still logged to console | ℹ️ Low Priority | `src/App.jsx` logs `error.message` for all errors, including `AbortError`. This is noisy during rapid typing; consider logging only non‑abort errors. |
+| Log Pollution | ✅ Resolved | Added `if (error.name !== "AbortError")` check to the catch block. |
 
-### 🧱 156.4 Pending Fixes (TODO)
+### 🧱 156.4 Pending Fixes (TODO):
 
-- [ ] `src/components/MovieDetails.jsx` (details `useEffect`): add `AbortController`, pass `signal` to `fetch`, and abort in cleanup to prevent stale responses when `selectedId` changes.
-- [ ] `src/App.jsx` (search `useEffect`): avoid logging `AbortError` (move `console.log` inside the non‑abort branch or remove it).
+- [ ] Implement `AbortController` in `MovieDetails.jsx` for the details fetch effect
+- [ ] Avoid logging `AbortError` in `App.jsx` to reduce console noise during typing
 
+[↑ top - Lesson 156: Cleaning Up Data Fetching](#-156-lesson-156--cleaning-up-data-fetching)
+
+
+
+<br>
+
+## 🧳 Section 13: *Custom Hooks, Refs and More State*
+
+### 📑 Table of Contents
+- [📑 Table of Contents](#-table-of-contents-3)
+  - [📚 Lesson 157: One More Effect: Listening to a Keypress](#-157-lesson-157--one-more-effect-listening-to-a-keypress)
+  - [📚 Lesson 160: React Hooks and their Rules](#-160-lesson-160--react-hooks-and-their-rules)
+  - [📚 Lesson 161: The Rules of Hooks in Practice](#-161-lesson-161--the-rules-of-hooks-in-practice)
+  - [📚 Lesson 162: More Details of useState](#-162-lesson-162--more-details-of-usestate)
+  - [📚 Lesson 163: Initializing State With a Callback (Lazy Initial State)](#-163-lesson-163--initializing-state-with-a-callback-lazy-initial-state)
+  - [📚 Lesson 164: useState summary](#-164-lesson-164--usestate-summary)
+  - [📚 Lesson 165: How NOT to Select DOM Elements in React](#-165-lesson-165--how-not-to-select-dom-elements-in-react)
+  - [📚 Lesson 166: Introducing Another Hook: useRef](#-166-lesson-166--introducing-another-hook-useref)
+  - [📚 Lesson 167: Refs to Select DOM Elements](#-167-lesson-167--refs-to-select-dom-elements)
+  - [📚 Lesson 168: Refs to Persist Data Between Renders](#-168-lesson-168--refs-to-persist-data-between-renders)
+  - [📚 Lesson 169: What are Custom Hooks? When to Create One?](#-169-lesson-169--what-are-custom-hooks-when-to-create-one)
+  - [📚 Lesson 170: Creating our First Custom Hook: useMovies](#-170-lesson-170--creating-our-first-custom-hook-usemovies)
+  - [📚 Lesson 171: Creating useLocalStorageState](#-171-lesson-171--creating-uselocalstoragestate)
+  - [📚 Lesson 172: Creating useKey](#-172-lesson-172--creating-usekey)
 
 <br>
 
 ## 🔧 157. Lesson 157 — *One More Effect: Listening to a Keypress*
 
-- [🔧 157. Lesson 157 — *One More Effect: Listening to a Keypress*](#-157-lesson-157--one-more-effect-listening-to-a-keypress)
+- [Lecture 157: One More Effect: Listening to a Keypress](#-157-lesson-157--one-more-effect-listening-to-a-keypress)
 - [157.1 Context](#1571-context)
 - [157.2 Updating code according the context](#1572-updating-code-according-the-context)
-- [157.3 Pending Fixes (TODO)](#1573-pending-fixes-todo)
+- [157.3 Issues](#1573-issues)
+- [157.4 Pending Fixes (TODO)](#1574-pending-fixes-todo)
 
 ### 🧠 157.1 Context:
 
@@ -8188,10 +8306,3781 @@ This section demonstrates the evolution of implementing a keyboard event listene
 - [ ] **Handle focus management**: Consider implementing proper focus trapping and restoration when the modal opens/closes for better accessibility
 - [ ] **Test edge cases**: Verify behavior when multiple modals might be open simultaneously (though current design prevents this)
 
+[↑ top - Lesson 157: One More Effect: Listening to a Keypress](#-157-lesson-157--one-more-effect-listening-to-a-keypress)
 
+
+
+
+<br>
+
+## 🔧 160. Lesson 160 — *React Hooks and their Rules*
+
+- [Lecture 160: React Hooks and their Rules](#-160-lesson-160--react-hooks-and-their-rules)
+- [160.1 Context](#1601-context)
+- [160.2 Updating code according the context](#1602-updating-code-according-the-context)
+- [160.3 Issues](#1603-issues)
+- [160.4 Pending Fixes (TODO)](#1604-pending-fixes-todo)
+
+### 🧠 160.1 Context:
+
+**React Hooks** are special built-in functions introduced in React 16.8 that allow functional components to "hook" into React's internal features. Before hooks, only class components could manage state and lifecycle methods.
+
+#### What are Hooks?
+- **Special functions** that start with the prefix "use" (e.g., `useState`, `useEffect`, `useRef`)
+- Allow access to React's internal mechanisms:
+  - Creating and accessing **state** from the Fiber tree
+  - Registering **side effects** in the Fiber tree
+  - Manual **DOM selections** via refs
+- Enable **reusing non-visual logic** by composing multiple hooks into custom hooks
+- Give **function components** the ability to own state and run side effects at different lifecycle points
+
+#### Why Hooks Matter
+Hooks solve several problems that existed before React 16.8:
+1. **Reusing stateful logic** between components was difficult (required patterns like HOCs or render props)
+2. **Complex components** became hard to understand with lifecycle methods scattered across the class
+3. **Classes** confused both people and machines (different `this` binding behavior)
+
+#### The Two Rules of Hooks
+These rules are **automatically enforced** by React's ESLint plugin (`eslint-plugin-react-hooks`):
+
+**Rule #1: Only call hooks at the top level**
+- Do NOT call hooks inside conditionals, loops, nested functions, or after early returns
+- This ensures hooks are always called in the **same order** on every render
+- React relies on the call order to correctly associate state and effects with their hooks
+
+**Rule #2: Only call hooks from React functions**
+- Only call hooks inside **function components** or **custom hooks**
+- Never call hooks from regular JavaScript functions or class components
+
+#### How React Tracks Hooks (The Linked List)
+React stores hooks in a **linked list** attached to each component's Fiber node:
+1. On initial render, React builds the linked list based on hook call order
+2. On re-renders, React traverses the linked list in the same order
+3. If a hook is conditionally called, the order changes and React loses track of which hook corresponds to which state
+
+#### Built-in Hooks Overview (React 18.x)
+
+**Most Used:**
+- `useState` - Manage component state
+- `useEffect` - Synchronize with external systems (side effects)
+- `useReducer` - Complex state logic
+- `useContext` - Subscribe to context values
+
+**Less Used:**
+- `useRef` - Persist values without re-renders, DOM references
+- `useCallback` - Memoize callback functions
+- `useMemo` - Memoize expensive computations
+- `useTransition` - Mark state updates as non-urgent
+- `useDeferredValue` - Defer updating part of the UI
+- `useLayoutEffect` - Like useEffect but fires synchronously after DOM mutations
+- `useDebugValue` - Display label for custom hooks in DevTools
+- `useImperativeHandle` - Customize ref handle exposed to parent
+- `useId` - Generate unique IDs for accessibility
+
+**Only for Libraries:**
+- `useSyncExternalStore` - Subscribe to external stores
+- `useInsertionEffect` - Insert styles before DOM mutations
+
+#### Advantages of Following Hook Rules
+- Predictable behavior across renders
+- Proper state management and updates
+- No bugs from mismatched hook states
+- ESLint catches violations at development time
+
+#### Common Mistakes to Avoid
+1. Calling hooks inside `if` statements
+2. Calling hooks inside loops
+3. Calling hooks inside nested functions or event handlers
+4. Calling hooks after an early `return` statement
+5. Calling hooks from regular JavaScript functions
+
+#### Project Examples
+In this **usePopcorn** project, hooks are used throughout:
+
+**App.jsx** - Uses multiple `useState` for state management and `useEffect` for data fetching:
+```jsx
+const [movies, setMovies] = useState([]);
+const [watched, setWatched] = useState([]);
+const [isLoading, setIsLoading] = useState(false);
+const [error, setError] = useState("");
+const [query, setQuery] = useState("");
+const [selectedId, setSelectedId] = useState(null);
+
+useEffect(() => {
+  // Data fetching logic with AbortController
+}, [query]);
+```
+
+**MovieDetails.jsx** - Uses multiple `useEffect` hooks for different purposes:
+```jsx
+// Effect for fetching movie details
+useEffect(() => {
+  const getMovieDetails = async () => { /* ... */ };
+  getMovieDetails();
+}, [selectedId]);
+
+// Effect for keyboard event listener
+useEffect(() => {
+  const callback = (e) => { /* Escape key handling */ };
+  document.addEventListener('keydown', callback);
+  return () => document.removeEventListener('keydown', callback);
+}, [onCloseMovie]);
+
+// Effect for document title
+useEffect(() => {
+  if (!title) return;
+  document.title = `Movie | ${title}`;
+  return () => { document.title = 'usePopcorn'; };
+}, [title]);
+```
+
+**StarRating.jsx** - Uses `useState` for rating state:
+```jsx
+const [rating, setRating] = useState(0);
+const [tempRating, setTempRating] = useState(0);
+```
+
+### ⚙️ 160.2 Updating code/theory according the context:
+
+**Summary:**
+This section provides a comprehensive theoretical overview of React Hooks. It covers the fundamental definition of hooks, a complete catalog of built-in hooks in React 18.x, the two critical rules that govern hook usage, and a detailed explanation of why these rules exist through the lens of React's internal linked list implementation. The subsections build upon each other to create a complete understanding of hooks architecture.
+
+#### 160.2.1 What are hooks?
+
+**Subsection Summary:**
+- Defines React Hooks as special built-in functions that "hook" into React internals
+- Explains the four main capabilities: state access, side effects, DOM selections, and more
+- Highlights the naming convention (always starts with "use")
+- Emphasizes the composability feature for creating custom hooks
+- Notes the historical significance: before v16.8, these features were only in class components
+
+![What are hooks](../img/section13-lecture160-001.png)
+
+#### 160.2.2 Overview of all **built-in** hooks
+
+**Subsection Summary:**
+- Categorizes all React 18.x built-in hooks into three groups: Most Used, Less Used, and Only for Libraries
+- Uses visual indicators to show learning status: already learned, will learn, and will not learn in this course
+- Most Used hooks include: `useState`, `useEffect`, `useReducer`, `useContext`
+- Less Used hooks include: `useRef`, `useCallback`, `useMemo`, `useTransition`, `useDeferredValue`, `useLayoutEffect`, `useDebugValue`, `useImperativeHandle`, `useId`
+- Library-only hooks: `useSyncExternalStore`, `useInsertionEffect`
+
+![Overview of all built-in hooks](../img/section13-lecture160-002.png)
+
+#### 160.2.3 The **Rules** of Hooks
+
+**Subsection Summary:**
+- Presents the two fundamental rules of hooks
+- **Rule #1**: Only call hooks at the top level - prohibits calling hooks inside conditionals, loops, nested functions, or after early returns
+- **Rule #2**: Only call hooks from React functions - limits hook calls to function components and custom hooks only
+- Explains that these rules ensure hooks are called in the same order on every render
+- Notes that ESLint automatically enforces these rules
+
+![The Rules of Hooks](../img/section13-lecture160-003.png)
+
+#### 160.2.4 Hooks Rely on **call order**
+
+**Subsection Summary:**
+- Illustrates WHY Rule #1 exists through React's internal architecture
+- Shows how React Element Tree converts to Fiber Tree on initial render
+- Explains that each Fiber node contains a "List of hooks" stored as a linked list
+- Demonstrates a **hypothetical bad example** where `useState` is called inside an `if` condition
+- Shows the consequence: when condition changes, the linked list breaks and hooks become mismatched
+- Key takeaway: hooks MUST be called in the same order on every render
+
+![Hooks Rely on call order](../img/section13-lecture160-004.png)
+
+#### 160.2.5 Hooks Rely on **call order** (2)
+
+**Subsection Summary:**
+- Shows the **correct implementation** contrasting with the previous bad example
+- Demonstrates that removing the conditional wrapper ensures consistent hook call order
+- The order number uniquely identifies each hook in the linked list
+- On re-renders, the same order is maintained, preserving the linked list integrity
+- Reinforces the principle: "Hooks can only be called at top level"
+- Shows visual representation of how the linked list remains stable across renders
+
+![Hooks Rely on call order - part 02](../img/section13-lecture160-005.png)
+
+
+### 🐞 160.3 Issues:
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Missing error handling in MovieDetails fetch | ⚠️ Identified | `src/components/MovieDetails.jsx:39-48` - The `getMovieDetails` async function lacks try-catch error handling. Network failures or API errors are not caught, which could leave the component in a loading state indefinitely. |
+| onCloseMovie function reference stability | ℹ️ Low Priority | `src/components/MovieDetails.jsx:61` - The `onCloseMovie` is in useEffect dependency array but is not wrapped in `useCallback` in the parent component. While it works currently, it may cause unnecessary effect re-runs if the parent re-renders and creates a new function reference. |
+| Missing useRef for search input focus | ℹ️ Low Priority | `src/components/Search.jsx` - The search input could benefit from `useRef` to implement auto-focus on mount or keyboard shortcuts (like pressing "/" to focus), enhancing UX. |
+| API key hardcoded in multiple files | ⚠️ Identified | `src/App.jsx:15` and `src/components/MovieDetails.jsx:5` - The OMDB API key is duplicated. Should be centralized in an environment variable or config file. |
+
+### 🧱 160.4 Pending Fixes (TODO)
+
+- [ ] Add try-catch error handling to `getMovieDetails` in `src/components/MovieDetails.jsx` (lines 40-48)
+- [ ] Consider wrapping `handleCloseMovie` in `useCallback` in `src/App.jsx` to ensure stable function reference
+- [ ] Add `useRef` to `src/components/Search.jsx` for auto-focus functionality on component mount
+- [ ] Extract API key to environment variable (`.env`) and import it in `App.jsx` and `MovieDetails.jsx`
+- [ ] Review all hooks in the codebase to ensure they follow the two rules of hooks (no hooks in conditionals, loops, or after early returns)
+
+[↑ top - Lesson 160: React Hooks and their Rules](#-160-lesson-160--react-hooks-and-their-rules)
+
+
+<br>
+
+## 🔧 161. Lesson 161 — *The Rules of Hooks in Practice*
+
+- [Lecture 161: The Rules of Hooks in Practice](#-161-lesson-161--the-rules-of-hooks-in-practice)
+- [161.1 Context](#1611-context)
+- [161.2 Updating code according the context](#1612-updating-code-according-the-context)
+- [161.3 Issues](#1613-issues)
+- [161.4 Pending Fixes (TODO)](#1614-pending-fixes-todo)
+
+### 🧠 161.1 Context:
+
+**The Rules of Hooks** are fundamental principles that React enforces to ensure hooks work correctly. These rules exist because React relies on the **order of hook calls** to associate state and effects with the correct component instance across renders.
+
+#### The Two Main Rules:
+
+1. **Only Call Hooks at the Top Level**
+   - Don't call hooks inside loops, conditions, or nested functions
+   - Always call hooks at the top level of your React function
+   - This ensures hooks are called in the same order each time a component renders
+
+2. **Only Call Hooks from React Functions**
+   - Call hooks from React function components
+   - Call hooks from custom hooks (functions starting with `use`)
+   - Don't call hooks from regular JavaScript functions
+
+#### Why These Rules Matter:
+
+React tracks hooks by their **call order** during each render. When you use `useState` or `useEffect`, React stores the state/effect in an internal array, indexed by the order the hook was called.
+
+```
+Render 1:              Render 2 (with conditional):
+[0] useState(movie)    [0] useState(movie)
+[1] useState(loading)  [1] useState(loading)  
+[2] useState(rating)   [2] useState(rating)
+[3] useEffect(...)     [3] ❌ NEW useState(true) ← mismatch!
+```
+
+If a hook is conditionally called, the order changes, and React gets confused about which state belongs to which hook.
+
+#### When Violations Occur:
+
+| Violation | Example | Problem |
+|-----------|---------|---------|
+| **Conditional Hook** | `if (condition) useState(...)` | Hook may not be called on every render |
+| **Early Return Before Hook** | `if (x) return <p>text</p>; useEffect(...)` | Hooks after return never execute |
+| **Hook in Loop** | `for(...) { useState(...) }` | Different number of hooks per render |
+| **Hook in Nested Function** | `function inner() { useState(...) }` | Call order unpredictable |
+
+#### Advantages of Following the Rules:
+- Predictable component behavior across renders
+- React can correctly preserve state between renders
+- Easier debugging and maintenance
+- Better performance (React optimizes based on consistent hook order)
+
+#### Disadvantages / Gotchas:
+- Can't conditionally use hooks (need to use conditional logic inside hooks instead)
+- Must restructure code to avoid early returns before hooks
+- Requires understanding React's internal hook tracking mechanism
+
+#### When to Consider Alternatives:
+- If you need conditional state, initialize with a default value and update it later
+- If you need conditional effects, put the condition inside the `useEffect` callback
+- For complex conditional rendering, consider splitting into separate components
+
+### ⚙️ 161.2 Updating code/theory according the context:
+
+#### **Summary**
+This section demonstrates two common violations of React's Rules of Hooks:
+1. **Placing a hook inside a conditional expression** — causes React to lose track of hook order
+2. **Placing hooks after an early return** — hooks are never called when the return executes
+
+Both examples show how React's hook tracking breaks when the call order is inconsistent between renders.
 
 ---
+
+#### 161.2.1 Adding a Hook inside a conditions expression:
+
+**Subsection Summary**
+- Demonstrates placing `useState` inside an `if` statement
+- Shows React DevTools screenshots comparing renders when condition is `false` vs `true`
+- Illustrates how a new `useState` appears unexpectedly, replacing `useEffect` in React's internal hook list
+- Key concept: Conditional hooks break the hook index mapping
+```tsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+    };
+    onAddWatched(newWatchedMovie);
+    onCloseMovie();
+  };
+
+  if (imdbRating > 8) [isTop, setIsTop] = useState(true);   // 👈🏽 ✅
+
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+    getMovieDetails();
+  }, [selectedId]);
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    };
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+    return () => {
+      document.title = "usePopcorn";
+    };
+  }, [title]);
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+          <section>
+            <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span>
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+* When condition is `false`:
+
+![Hook in conditional expression when fails](../img/section13-lecture161-002.png)
+
+* When condition is `true`:
+![Hook in conditional expression when pass](../img/section13-lecture161-003.png)
+
+- A new `useState` appears instead of the expected `useEffect`.
+
+---
+
+#### 161.2.2 Hooks after an `Early Return`:
+
+**Subsection Summary**
+- Demonstrates placing an early `return` statement before `useEffect` hooks
+- When `imdbRating > 8`, the component returns early and skips all `useEffect` calls
+- React detects fewer hooks than expected, causing a "Rendered fewer hooks than expected" error
+- Key concept: All hooks must be called on every render, regardless of conditional rendering needs
+```tsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+    };
+    onAddWatched(newWatchedMovie);
+    onCloseMovie();
+  };
+
+  /* 🔥 Hook inside a Conditional expression */
+  // if (imdbRating > 8) [isTop, setIsTop] = useState(true);
+
+  /* 🔥 Early  Return */
+  if (imdbRating > 8) return <p>Top rated movie</p>;    // 👈🏽 ✅
+
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+    getMovieDetails();
+  }, [selectedId]);
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    };
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+    return () => {
+      document.title = "usePopcorn";
+    };
+  }, [title]);
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+          <section>
+            <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span>
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+![Early return](../img/section13-lecture161-004.png)
+
+### 🐞 161.3 Issues:
+
+- **Early Return Before Hooks**: The current `MovieDetails.jsx` file has an early return statement (`if (imdbRating > 8) return <p>Top rated movie</p>;`) placed before the `useEffect` hooks, which violates the Rules of Hooks.
+
+- **Commented Conditional Hook**: There's a commented-out conditional hook that should remain commented or be removed to avoid accidental uncommenting.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Early return before `useEffect` | ⚠️ Identified | `src/components/MovieDetails.jsx:43` — `if (imdbRating > 8) return <p>Top rated movie</p>;` placed before 3 `useEffect` hooks (lines 45-76). When `imdbRating > 8`, React throws: "Rendered fewer hooks than expected. This may be caused by an accidental early return statement." |
+| Conditional hook (commented) | ℹ️ Informational | `src/components/MovieDetails.jsx:40` — `// if (imdbRating > 8) [isTop, setIsTop] = useState(true);` is correctly commented for demonstration purposes. If uncommented, would cause hook order mismatch error. |
+| ESLint rules-of-hooks warning | ⚠️ Expected | ESLint `react-hooks/rules-of-hooks` rule should flag the early return before hooks. Error: "React Hook 'useEffect' is called conditionally. React Hooks must be called in the exact same order in every component render." |
+
+### 🧱 161.4 Pending Fixes (TODO)
+
+- [ ] **Move early return after all hooks** — `src/components/MovieDetails.jsx:43`: Move the `if (imdbRating > 8) return <p>Top rated movie</p>;` statement to **after** all `useEffect` declarations (after line 76) to comply with Rules of Hooks.
+
+- [ ] **Consider removing demo code for production** — `src/components/MovieDetails.jsx:39-43`: The commented conditional hook and early return are for learning purposes. In a production codebase, either remove them or clearly mark as intentional demo code with a more detailed comment.
+
+- [ ] **Alternative implementation for conditional rendering**: Instead of early return, use conditional rendering inside the JSX:
+  ```jsx
+  // Move this logic inside the return statement
+  {imdbRating > 8 ? (
+    <p>Top rated movie</p>
+  ) : (
+    <div className="details">...</div>
+  )}
+  ```
+
+- [ ] **Ensure ESLint rules-of-hooks is enabled** — Verify `eslint-plugin-react-hooks` is installed and configured to catch these violations during development.
+
+[↑ top - Lesson 161: The Rules of Hooks in Practice](#-161-lesson-161--the-rules-of-hooks-in-practice)
+
 <br>
+
+## 🔧 162. Lesson 162 — *More Details of useState*
+
+- [Lecture 162: More Details of useState](#-162-lesson-162--more-details-of-usestate)
+- [162.1 Context](#1621-context)
+- [162.2 Updating code according the context](#1622-updating-code-according-the-context)
+  - [162.2.1 Add a new useState for isTop when imdbRating > 8](#-16221-add-a-new-usestate-for-istop-when-imdbrating--8)
+  - [162.2.2 Pseudo fixing using useEffect](#-16222-pseudo-fixing-using-useeffect)
+  - [162.2.3 Using the right approach: Derived State](#-16223-using-the-right-approach-derived-state)
+  - [162.2.4 Another situation with this async issue, in handleAdd](#-16224-another-situation-with-this-async-issue-in-handleadd)
+  - [162.2.5 Using the userRating](#-16225-using-the-userrating)
+  - [162.2.6 Fixing this avgRating issue by passing a callback function](#-16226-fixing-this-avgrating-issue-by-passing-a-callback-function)
+- [162.3 Issues](#1623-issues)
+- [162.4 Pending Fixes (TODO)](#1624-pending-fixes-todo)
+
+### 🧠 162.1 Context:
+
+**useState** is the primary hook for adding state to functional components. While it seems straightforward, there are several subtle details regarding how it handles initial state, stale closures, and updates that are critical for building reliable React applications.
+
+#### Key Concepts:
+
+1. **Initial State Logic**:
+   - The value passed to `useState(initialValue)` is only used during the **initial mount**.
+   - On subsequent re-renders, React ignores the initial value and uses the current state.
+   - If the initial value depends on a prop or another state that changes, it will **not** automatically update the state (see "Derived State" below).
+
+2. **Functional Updates (Updater Callback)**:
+   - When updating state based on its previous value, it's safer to use the functional form: `setState((prevState) => prevState + 1)`.
+   - This ensures you are always working with the most recent state value, avoiding issues with stale closures or multiple rapid updates.
+
+3. **Derived State vs. State**:
+   - Always prefer **derived state** (calculating a value during render) over storing that value in its own state.
+   - If a value can be computed from existing props or state, don't use `useState` for it. This prevents "out of sync" bugs and unnecessary re-renders.
+
+4. **Async Nature of State Updates**:
+   - State updates are not immediate. Calling `setCount(count + 1)` and then `console.log(count)` will show the **old** value.
+   - React batches updates for performance, and the updated state is only available in the next render.
+
+5. **Lazy Initial State (Initializer Function)**:
+   - If the initial state is the result of an expensive computation, you can pass a function to `useState`: `useState(() => getExpensiveValue())`.
+   - React will only call this function during the initial mount, improving performance on re-renders.
+
+#### Advantages:
+- Encapsulates local component state.
+- Simple API for straightforward state management.
+- Supports complex logic through functional updates.
+
+#### Disadvantages/Gotchas:
+- Initial state is "frozen" after mount; doesn't react to prop changes automatically.
+- Stale closures can lead to bugs if not using updater functions.
+- Overusing state for values that could be derived increases complexity.
+
+#### When to Consider Alternatives:
+- Use **useReducer** for state that involves complex transitions or multiple sub-values.
+- Use **useMemo** or simple variables for **derived state** instead of syncing state with `useEffect`.
+- Use **Ref** (`useRef`) if you need to persist a value across renders without triggering a re-render.
+
+
+### ⚙️ 162.2 Updating code/theory according the context:
+
+#### **Summary**
+This section explores the nuances of `useState` through practical examples in the `MovieDetails` component. It demonstrates:
+1. The common pitfall of trying to initialize state from a fluctuating prop (`imdbRating`).
+2. The comparison between fixing this with `useEffect` (manual syncing) vs. the superior approach of **Derived State**.
+3. How to correctly handle multiple state updates that depend on each other using **functional updater callbacks** to avoid stale state issues.
+
+---
+
+#### 162.2.1 Add a new `useState` for `isTop` when `imdbRating > 8`:
+
+**Subsection Summary**
+- Demonstrates an attempt to track if a movie is "top rated" using a new `isTop` state.
+- Shows that since `imdbRating` is fetched asynchronously (initially `undefined`), `isTop` gets initialized to `false` and stays there even after the rating is loaded.
+- Highlights that `useState` only uses its initial value once.
+```tsx
+/* src/components/MovieDetails.jsx */
+....
+const [isTop, setIsTop] = useState(imdbRating > 8);
+  console.log("💫 isTop", isTop);
+....
+```
+
+![useState working with the initial state](../img/section13-lecture162-001.png)
+
+* `imdbRating` initial state is `indefined` so `imbdRating > 8` is always `false`.
+
+#### 162.2.2 Pseudo fixing using `useEffect`:
+
+**Subsection Summary**
+- Attempts to fix the "frozen initial state" problem by using `useEffect` to manually sync `isTop` whenever `imdbRating` changes.
+- While it works, it's labeled a "pseudo fix" because it introduces an unnecessary extra render and increases code complexity.
+```tsx
+/* src/components/MovieDetails.jsx */
+....
+const [isTop, setIsTop] = useState(imdbRating > 8);
+  console.log("💫 isTop", isTop);
+
+useEffect(() => {
+  setIsTop(imdbRating > 8);
+}, [imdbRating]);
+....
+```
+
+![fixing the isTop with a useEffect hook](../img/section13-lecture162-002.png)
+
+#### 162.2.3 Using the right approach: Derived State
+
+**Subsection Summary**
+- Shows the best practice: calculating `isTop` directly in the component body during render.
+- No `useState` or `useEffect` is needed.
+- This ensures `isTop` is always in sync with `imdbRating` and reduces the number of state variables to manage.
+```tsx
+/* src/components/MovieDetails.jsx */
+....
+// const [isTop, setIsTop] = useState(imdbRating > 8);
+//   console.log("💫 isTop", isTop);
+
+// useEffect(() => {
+//   setIsTop(imdbRating > 8);
+// }, [imdbRating]);
+const isTop = imdbRating > 8;
+console.log("🫵🏽 isTop", isTop)
+....
+```
+
+![using the right state](../img/section13-lecture162-003.png)
+* imdbRating is mont twice.
+
+#### 162.2.4 Another situation with this async issue, in `handleAdd`:
+
+**Subsection Summary**
+- Introduces `avgRating` state to demonstrate state update timing.
+- Shows that calling `setAvgRating(Number(imdbRating))` and immediately alerting `avgRating` results in the **stale** value (initial state `0`).
+- Reinforces that state updates are asynchronous from the perspective of the current function execution.
+```tsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+
+  const [avgRating, setAvgRating] = useState(0);    // 👈🏽 ✅ (1)
+
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+    };
+    onAddWatched(newWatchedMovie);
+    //onCloseMovie();   // 👈🏽 ✅ (1)
+
+    // setting the current imdbRating value to avgRating:
+    setAvgRating(Number(imdbRating));   // 👈🏽 ✅ (3)
+    alert(avgRating);   // 👈🏽 ✅ (3)
+  };
+
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+
+    getMovieDetails();
+  }, [selectedId]);
+
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    };
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
+
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+    return () => {
+      document.title = "usePopcorn";
+      //console.log(`Clean up effect for movie ${title}`);
+    };
+  }, [title]);
+
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+
+          <p>🍺 {avgRating}</p>  {/* 👈🏽 ✅ (2) */}
+
+          <section>
+            <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span> 
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+![alert is shows the initial value](../img/section13-lecture162-004.png)
+
+* It only considers the `avgRating` initial value.
+* `imdbRating` value is never considered.
+
+#### 162.2.5 Using the `userRating`:
+
+**Subsection Summary**
+- Shows another attempt at updating `avgRating` by combining it with `userRating`.
+- Illustrates how multiple updates using the current state variable (`avgRating + userRating`) fail because each call sees the same stale value from the current "snapshot" of the component.
+```tsx
+/* src/components/MovieDetails.jsx */
+    // setting the current imdbRating value to avgRating:
+    setAvgRating(Number(imdbRating));
+    //alert(avgRating);
+    setAvgRating(Number(avgRating + userRating) / 2);   // 👈🏽 ✅
+```
+
+![alert is shows the initial value](../img/section13-lecture162-005.png)
+
+* it only consider the `userRating` value.
+* `imdbRating`/`avgRating` is never considered.
+* It only considers the `avgRating` initial value.
+
+#### 162.2.6 Fixing this `avgRating` issue by passing a callback function:
+
+**Subsection Summary**
+- Demonstrates the correct way to perform multiple updates: using the **functional updater form**.
+- React ensures the callback receives the most up-to-date state from the previous update in the batch.
+- This allows for "chained" updates that correctly accumulate results.
+```tsx
+/* src/components/MovieDetails.jsx */
+....
+  // setting the current imdbRating value to avgRating:
+  setAvgRating(Number(imdbRating));
+  //alert(avgRating);
+  setAvgRating((avgRating) => (avgRating + userRating) / 2);
+....
+```
+
+![](../img/section13-lecture162-006.png)
+
+* `setAvgRating(Number(imdbRating))` must be there as previous setting a value.
+* it considers the `imdbRating` as well as `userRating` values.
+
+### 🐞 162.3 Issues:
+
+- **State Syncing Anti-pattern**: The `avgRating` state in `MovieDetails.jsx` is being updated manually in `handleAdd` based on other states.
+- **Stale State Awareness**: Initial attempt to alert state immediately after setting it demonstrates a misunderstanding of React's update batching.
+- **Redundant State**: The `isTop` variable was almost made into a state when it should have been derived.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Manual state syncing | ℹ️ Low Priority | `src/components/MovieDetails.jsx:25, 41-43` - `avgRating` is being manually managed. While it demonstrates functional updates, this value could potentially be derived if the data structure allowed. |
+| Console logs left in code | ℹ️ Low Priority | `src/components/MovieDetails.jsx:42` - Commented out `alert` and console logs should be cleaned up for production. |
+| Unused state `avgRating` | ⚠️ Identified | `src/components/MovieDetails.jsx:103` - `avgRating` is displayed but doesn't persist beyond the component's unmount, which might not be the intended behavior for an "average rating". |
+
+### 🧱 162.4 Pending Fixes (TODO)
+
+- [ ] **Cleanup Demo Code** — `src/components/MovieDetails.jsx`: Remove commented-out code and logs from lines 38-43 once the learning objective is met.
+- [ ] **Refactor to Derived State where possible** — Review all `useState` calls and ensure they aren't better suited as derived variables.
+- [ ] **Verify Functional Updates** — Ensure all state updates that depend on previous state (like counters or accumulators) use the callback form `(s) => s + 1`.
+- [ ] **Standardize API key usage** — (Carry over from previous lessons) Centralize the hardcoded API key from line 5.
+
+[↑ top - Lesson 162: More Details of useState](#-162-lesson-162--more-details-of-usestate)
+
+
+
+<br>
+
+## 🔧 163. Lesson 163 — *Initializing State With a Callback (Lazy Initial State)*
+
+- [Lecture 163: Initializing State With a Callback (Lazy Initial State)](#-163-lesson-163--initializing-state-with-a-callback-lazy-initial-state)
+- [163.1 Context](#1631-context)
+- [163.2 Updating code/theory according the context](#1632-updating-code-theory-according-the-context)
+  - [163.2.1 Adding `localStorage` in `handleAddWatched` function](#16321-adding-localstorage-in-handleaddwatched-function)
+  - [163.2.2 Adding a `useEffect` in charge of handling the watched movies in local storage](#16322-adding-a-useeffect-in-charge-of-handling-the-watched-movies-in-local-storage)
+  - [163.2.3 Retrieving the local storage data](#16323-retrieving-the-local-storage-data)
+- [163.3 Issues](#1633-issues)
+- [163.4 Pending Fixes (TODO)](#1634-pending-fixes-todo)
+
+### 🧠 163.1 Context:
+
+This lesson introduces the concept of **Lazy Initial State** in React's `useState` hook. When the initial value of a state variable requires an expensive computation (like reading from `localStorage` and parsing JSON), passing a callback function to `useState` ensures that the calculation only runs once during the initial component render.
+
+#### **Key Concepts**
+1. **Initial State Callback**: Instead of passing a value directly to `useState(value)`, you pass a function `useState(() => value)`.
+2. **One-Time Execution**: React executes the callback function only during the initial mount of the component.
+3. **Pure Functions**: The initialization function should be pure and not have side effects (except for the computation itself).
+4. **State Persistence**: Using `localStorage` combined with lazy initialization allows application state to persist across page refreshes.
+
+#### **Advantages**
+- **Performance Optimization**: Prevents expensive computations (I/O, large data processing) from running on every re-render.
+- **Cleaner Initialization**: Logical separation of complex initialization from the component's main body.
+
+#### **Disadvantages/Gotchas**
+- **Reference Error**: If you call the function inside `useState(getValue())`, it will still run on every render. You must pass the reference: `useState(getValue)`.
+- **SSR Concerns**: `localStorage` is not available on the server; ensure checks like `typeof window !== 'undefined'` if using frameworks like Next.js.
+
+#### **When to Consider Alternatives**
+- If the initial state is simple (e.g., `0`, `""`, `[]`), lazy initialization is unnecessary and slightly adds overhead.
+- Use `useEffect` for data that needs to be fetched from an API rather than being available synchronously at mount.
+
+### ⚙️ 163.2 Updating code/theory according the context:
+
+#### **Summary**
+- Explores strategies for persisting the "Watched Movies" list using the browser's `localStorage`.
+- Demonstrates why synchronizing state with local storage in event handlers vs. `useEffect` matters for consistency.
+- Implements the **Lazy Initial State** pattern to retrieve stored data efficiently during component mount.
+
+#### 163.2.1 Adding `localStorage` in `handleAddWatched` function:
+
+**Subsection Summary**
+- Initially attempts to persist data within the `handleAddWatched` event handler.
+- Uses `localStorage.setItem` to save the updated movie list as a JSON string.
+- Highlights a limitation: This approach is manual and must be repeated in every function that modifies the `watched` state (e.g., delete) => adding the deleted movie logic from localstorage in `handleDeleteWatched`.
+
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+
+const KEY = "f84fc31d";
+
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  //const tempQuery = "interstellar";
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+
+    localStorage.setItem("watched", JSON.stringify([...watched, movie]));   // 👈🏽 ✅
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+        const data = await resp.json();
+
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+
+        setMovies(data.Search);
+      } catch (error) {
+        console.log(error.message);
+        if (error.name !== "AbortError") {
+          setError(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
+    handleCloseMovie();
+    fetchMovies();
+    return () => controller.abort();
+  }, [query]);
+
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+![local storage added in Watched movie](../img/section13-lecture163-001.png)
+
+#### 163.2.2 Adding a `useEffect` in charge of handling the watched movies in local storage:
+
+**Subsection Summary**
+- Refactors persistence logic into a dedicated `useEffect` hook.
+- Synchronizes the `watched` state with `localStorage` whenever the state changes.
+- Ensures a "Single Source of Truth" for persistence, removing the need for `localStorage` calls in individual handlers like `handleAddWatched`.
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+
+const KEY = "f84fc31d";
+
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [watched, setWatched] = useState([]);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  //const tempQuery = "interstellar";
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+    //localStorage.setItem("watched", JSON.stringify([...watched, movie]));
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);    {/* 👈🏽 ✅ */}
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+        const data = await resp.json();
+
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+
+        setMovies(data.Search);
+      } catch (error) {
+        console.log(error.message);
+        if (error.name !== "AbortError") {
+          setError(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
+    handleCloseMovie();
+    fetchMovies();
+    return () => controller.abort();
+  }, [query]);
+
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+#### 163.2.3 Retrieving the local storage data:
+
+**Subsection Summary**
+- Implements **Lazy Initial State** by passing a callback function to `useState`.
+- Reads and parses data from `localStorage` once when the `App` component is first initialized.
+- Provides a fallback to an empty array `[]` if no data exists in storage.
+- Fixes the issue where the UI would reset on page refresh even if data existed in `localStorage`.
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+
+const KEY = "f84fc31d";
+
+function App() {
+  const [movies, setMovies] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  //const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState(() => {
+    const storedValue = localStorage.getItem("watched");
+    return storedValue ? JSON.parse(storedValue) : [];
+  });   // 👈🏽 ✅ 
+  //const tempQuery = "interstellar";
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+    //localStorage.setItem("watched", JSON.stringify([...watched, movie]));
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+        const data = await resp.json();
+
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+
+        setMovies(data.Search);
+      } catch (error) {
+        console.log(error.message);
+        if (error.name !== "AbortError") {
+          setError(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
+    handleCloseMovie();
+    fetchMovies();
+    return () => controller.abort();
+  }, [query]);
+
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+> Issue fixed, after refreshing the page
+
+* localstorage still have the watched movies list.
+* WatchedMovie component still shows the watched movies.
+
+![issue fixed - after refreshing WatchedMovie shows watched movies](../img/section13-lecture163-002.png)
+
+### 🐞 163.3 Issues:
+
+- **State Desync on Refresh**: Initially, moving data to `localStorage` didn't reflect in the UI upon refresh because the state was still initialized as an empty array `[]`.
+- **Manual Persistence**: Calling `localStorage.setItem` inside event handlers is error-prone and leads to code duplication across add/delete actions.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Persistent state not loading | ✅ Fixed | UI starts with `[]` instead of reading from `localStorage` at `src/App.jsx:9413`. |
+| Manual Syncing | ✅ Fixed | Refactored to use `useEffect` for automatic synchronization at `src/App.jsx:9436`. |
+
+### 🧱 163.4 Pending Fixes (TODO)
+
+- [ ] Add error handling (try/catch) inside the lazy initializer to handle corrupted JSON in `localStorage`.
+- [ ] Implement a custom hook `useLocalStorageState` to encapsulate the persistence logic (upcoming lesson).
+- [ ] Optimize `JSON.stringify` calls if the list becomes very large.
+
+[↑ top - Lesson 163: Initializing State With a Callback (Lazy Initial State)](#-163-lesson-163--initializing-state-with-a-callback-lazy-initial-state)
+
+<br>
+
+## 🔧 164. Lesson 164 — *useState summary*
+
+- [Lecture 164: useState summary](#-164-lesson-164--usestate-summary)
+- [164.1 Context](#1641-context)
+- [164.2 Updating code/theory according the context](#1642-updating-code-theory-according-the-context)
+  - [164.2.1 Creating State vs Updating State](#16421-creating-state-vs-updating-state)
+- [164.3 Issues](#1643-issues)
+- [164.4 Pending Fixes (TODO)](#1644-pending-fixes-todo)
+
+### 🧠 164.1 Context:
+
+This lesson provides a comprehensive summary of the `useState` hook, consolidating the rules, patterns, and best practices covered throughout the section. `useState` is the primary tool for adding "memory" to React components, allowing them to track data that changes over time and trigger re-renders when those changes occur.
+
+#### **Key Concepts**
+1. **State Ownership**: State belongs to the component where it's declared and is private by default.
+2. **Re-rendering**: Updating state via its setter function triggers a re-render of the component and its children.
+3. **Asynchronous Updates**: State updates are batched and don't immediately change the variable in the current execution context.
+4. **Functional Updates**: When the new state depends on the previous state, always use a callback function: `setState(prev => prev + 1)`.
+5. **Lazy Initialization**: Use a function for expensive initial state computations: `useState(() => expensiveFunc())`.
+
+#### **Advantages**
+- **Reactive UI**: Automatically keeps the UI in sync with underlying data.
+- **Simplicity**: Easy-to-use API for managing local component state.
+- **Performance**: React's batching mechanism ensures efficient UI updates.
+
+#### **Disadvantages/Gotchas**
+- **Stale Closures**: Relying on stale state variables inside async functions or effects instead of functional updates.
+- **Object Mutations**: Never mutate state objects or arrays directly; always return a new copy.
+- **Over-use**: Using state for values that can be derived from existing state or props (e.g., calculated totals).
+
+#### **When to Consider Alternatives**
+- **useReducer**: For complex state objects with multiple related sub-values or transition logic.
+- **useRef**: For values that should persist between renders but **don't** need to trigger a re-render when changed.
+- **Context API/Redux**: For global state shared across many deeply nested components.
+
+### ⚙️ 164.2 Updating code/theory according the context:
+
+#### **Summary**
+- Provides a high-level overview of the `useState` mental model.
+- Illustrates the distinction between the initialization phase and the update phase.
+- Acts as a quick reference guide for debugging state-related issues in `usePopcorn`.
+
+#### 164.2.1 Creating State vs Updating State:
+
+**Subsection Summary**
+- Visualizes the lifecycle of state within a component.
+- Highlights that state is preserved across renders by React.
+- Explains that calling the setter function is the **only** way to trigger a reactive update in a standard functional component.
+
+![Creating State vs Updating State](../img/section13-lecture164-001.png)
+
+### 🐞 164.3 Issues:
+
+- **Redundant State Callbacks**: Use of lazy initialization for simple values (e.g., primitive `0` or `""`) is technically valid but adds unnecessary complexity.
+- **Direct Mutation Pitfalls**: Potential risks when updating the `watched` or `movies` lists if the "no-mutation" rule is violated.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Informational Summary | ✅ Informational | Consolidated `useState` knowledge base for the project. |
+
+### 🧱 164.4 Pending Fixes (TODO)
+
+- [ ] Audit `src/App.jsx` to ensure all state updates depending on prior values use the functional form (e.g., `setWatched(w => [...w, movie])`).
+- [ ] Verify that no derived data is being stored in state (like `numResults`, which should just be `movies.length`).
+- [ ] Consider refactoring complex `useState` logic in `App.jsx` into a custom hook (e.g., `useLocalStorageState`).
+
+[↑ top - Lesson 164: useState summary](#-164-lesson-164--usestate-summary)
+
+
+
+<br>
+
+## 🔧 165. Lesson 165 — *How NOT to Select DOM Elements in React*
+
+- [Lecture 165: How NOT to Select DOM Elements in React](#-165-lesson-165--how-not-to-select-dom-elements-in-react)
+- [165.1 Context](#1651-context)
+- [165.2 Updating code/theory according the context](#1652-updating-codetheory-according-the-context)
+  - [165.2.1 DOM manipulation of Search component](#16521-dom-manipulation-of-search-component)
+- [165.3 Issues](#1653-issues)
+- [165.4 Pending Fixes (TODO)](#1654-pending-fixes-todo)
+
+### 🧠 165.1 Context:
+
+In standard web development (Vanilla JavaScript), we often use `document.querySelector()` or `document.getElementById()` to interact with DOM elements (e.g., to focus an input field or change a style). However, in React, this approach is discouraged because it bypasses React's declarative nature and its virtual DOM management. React should be the only one responsible for managing the DOM to ensure that state and UI stay in sync.
+
+#### **Key Concepts**
+1. **Declarative vs. Imperative**: React is declarative; you describe *what* the UI should look like based on state, rather than *how* to change it. Manual DOM selection is imperative.
+2. **Virtual DOM**: React uses a virtual representation of the DOM to optimize updates. Direct manipulation confuses React's tracking system.
+3. **Component Reusability**: Using classes or IDs for selection (like `.search`) makes components less reusable because multiple instances of the component will share the same identifier, leading to unexpected behavior.
+4. **Side Effects**: DOM manipulation is a side effect and should always be handled inside `useEffect`.
+
+#### **Advantages of the React Way (Refs)**
+- **Isolation**: Each component instance has its own private reference to its DOM elements.
+- **Safety**: Avoids conflicts between components or third-party libraries.
+- **Predictability**: Follows the unidirectional data flow and React lifecycle.
+
+#### **When to Consider Alternatives**
+- **Vanilla JavaScript**: Only use manual DOM selection in non-React environments or very specific legacy integrations where React has no control.
+- **React Refs**: Use the `useRef` hook for any imperative DOM interaction (focus, scroll, measurements).
+
+---
+
+### ⚙️ 165.2 Updating code/theory according the context:
+
+#### **Summary**
+- Explains why manual DOM selection via `document.querySelector` is problematic in React.
+- Demonstrates an imperative approach to focusing an element within a `useEffect` hook.
+- Highlights the conflict between declarative React and imperative DOM manipulation.
+
+#### **165.2.1 DOM manipulation of Search component:**
+
+**Subsection Summary**
+- Shows a common mistake: using `document.querySelector(".search")` to focus an input.
+- Demonstrates how this approach depends on specific CSS classes, making the component fragile.
+- Illustrates that while it "works," it breaks React's abstraction and reusability.
+
+- React is all about being declarative.
+- Manually selecting the DOM like this is not really the React way.
+```jsx
+/* src/components/Search.jsx */
+import { useEffect } from "react";
+
+const Search = ({ query, setQuery }) => {
+  useEffect(() => {   // 👈🏽 ✅
+    // ❌ Imperative and non-React way
+    const el = document.querySelector(".search");
+    console.log(el);
+
+    el.focus();
+  }, [query])
+  return (
+    <input
+      className="search"
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+    />
+  );
+};
+
+export default Search;
+```
+
+![adding search as className or IDs](../img/section13-lecture165-001.png)
+
+### 🐞 165.3 Issues:
+
+- **Imperative DOM Selection**: Using `document.querySelector` is an imperative escape hatch that bypasses React's state management.
+- **Fragile Selectors**: The code depends on the `.search` class being present and unique, which fails if multiple search bars exist.
+- **Violates React Principles**: Direct DOM manipulation can lead to bugs where the UI state and the actual DOM are out of sync.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Manual DOM manipulation | ⚠️ Identified | Using `document.querySelector(".search")` in `src/components/Search.jsx:9667`. |
+| Loss of Component Isolation | ⚠️ Identified | Multiple `Search` components would conflict over the same `.search` selector. |
+
+### 🧱 165.4 Pending Fixes (TODO)
+
+- [ ] Replace `document.querySelector` with `useRef` in `src/components/Search.jsx`.
+- [ ] Implement focus logic using the `ref.current.focus()` method within `useEffect`.
+- [ ] Remove the dependency on the `.search` CSS class for functional logic.
+
+[↑ top - Lesson 165: How NOT to Select DOM Elements in React](#-165-lesson-165--how-not-to-select-dom-elements-in-react)
+
+
+<br>
+
+## 🔧 166. Lesson 166 — *Introducing Another Hook: useRef*
+
+- [Lecture 166: Introducing Another Hook: useRef](#-166-lesson-166--introducing-another-hook-useref)
+- [166.1 Context](#1661-context)
+- [166.2 Updating code/theory according the context](#1662-updating-codetheory-according-the-context)
+  - [166.2.1 What are **REFS**?](#16621-what-are-refs)
+  - [166.2.2 State **vs** Refs](#16622-state-vs-refs)
+  - [166.2.3 Different example level of useRef applying](#16623-different-example-level-of-useref-applying)
+- [166.3 Issues](#1663-issues)
+- [166.4 Pending Fixes (TODO)](#1664-pending-fixes-todo)
+
+### 🧠 166.1 Context:
+
+`useRef` is a React Hook that allows you to persist values between renders without triggering a re-render. It is most commonly known for accessing DOM elements directly, but its utility extends to storing any mutable value that the component needs to "remember" without needing to display it in the UI.
+
+**Key Concepts:**
+1. **Mutable Box**: `useRef` returns a plain JavaScript object with a single `current` property. You can store any value in this property, and it will persist across the component's entire lifecycle.
+2. **No Re-renders**: Unlike `useState`, changing the `current` value of a ref does **not** cause React to re-render the component. This makes it ideal for values that are "internal" to the component's logic but not the UI.
+3. **DOM Access**: By passing a ref object to the `ref` attribute of a JSX element, React will automatically set the `current` property to that DOM element once it is mounted.
+4. **Synchronous Updates**: Updates to `ref.current` happen immediately (synchronously), whereas state updates are scheduled and async.
+
+**Advantages:**
+- Efficiently stores data that doesn't affect the visual output (e.g., timer IDs, previous prop values).
+- Provides a "declarative" way to interact with the "imperative" DOM API.
+- Useful for integrating with non-React libraries (e.g., Google Maps, D3.js).
+
+**Disadvantages/Gotchas:**
+- **Don't use for UI state**: If a value needs to be reflected in the JSX, use `useState`.
+- **Avoid rendering logic usage**: Do not read or write `ref.current` during the actual rendering phase of the component (except for lazy initialization), as it makes the component's behavior unpredictable.
+- **Not for prop drilling**: Passing refs down deep component trees can lead to fragile code; consider `forwardRef` for controlled access.
+
+**When to Consider Alternatives:**
+- Use `useState` if the data change should trigger a UI update.
+- Use `useMemo` or `useCallback` if you are trying to memoize a value or function to prevent unnecessary child re-renders.
+
+### ⚙️ 166.2 Updating code/theory according the context:
+
+#### **Summary**
+- **Core Purpose**: Introduces the `useRef` hook as a specialized tool for persisting mutable data that does not trigger component re-renders.
+- **Bridging Concepts**: Explains the fundamental differences between `useState` (UI-driven) and `useRef` (logic/DOM-driven).
+- **Hierarchical Learning**: Progresses from basic DOM manipulation to advanced patterns like `forwardRef` and `useImperativeHandle`, providing a complete roadmap for hook mastery.
+
+#### 166.2.1 What are **REFS**?
+
+**Subsection Summary**
+- **Visual Definition**: Uses diagrams to illustrate that a Ref is a "box" holding a `current` value.
+- **Persistence**: Highlights that the value stays the same across renders, even when the component function executes again.
+
+![What are REFS](../img/section13-lecture166-001.png)
+
+#### 166.2.2 State **vs** Refs
+
+**Subsection Summary**
+- **Comparative Analysis**: Contrasts State (re-renders, immutable, async) with Refs (no re-renders, mutable, synchronous).
+- **Guidance**: Helps developers choose the right tool based on whether the data should "talk to the UI" or "talk to the logic".
+
+![state vs Refs](../img/section13-lecture166-002.png)
+
+
+#### 166.2.3 Different example level of useRef applying:
+
+**Subsection Summary**
+- **Practical Application**: Demonstrates six specific tiers of `useRef` usage, from standard DOM focusing to complex parent-child imperative interactions.
+- **Common Patterns**: Includes the "Previous State" pattern and interval management, which are staple use cases in real-world React apps.
+- **Advanced Integration**: Explains `forwardRef` and `useImperativeHandle` for scenarios where internal component logic needs to be exposed to parents.
+
+**`useRef`** is one of the most versatile hooks in React, but it is often underutilized, with people thinking it only serves for selecting DOM elements.
+
+The key to understanding **`useRef`** is to think of it as a **`mutable box`** that can hold any value (an object, a number, a DOM element) and **`persists across renders`** without causing the component to re-render if you change its contents.
+
+Here are the different ways to use it, ordered from the simplest to the most complex:
+
+**1. Basic Level: Accessing the DOM**
+
+This is the most common way. It is used to "select" an HTML element just like you would with **`document.getElementById`**, but in a declarative way.
+
+**`Use case`**: You want the cursor to be automatically focused on a text input when the page loads.
+
+```jsx
+import React, { useRef, useEffect } from 'react';
+
+function Formulario() {
+  // 1. Create the reference
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    // 3. Access the element and focus it
+    // current is null at the start, but when the component mounts, 
+    // React assigns the DOM element here.
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
+  return (
+    <div>
+      <h2>Registration Form</h2>
+      {/* 2. Connect the ref with the JSX element */}
+      <input ref={inputRef} type="text" placeholder="Type your name..." />
+    </div>
+  );
+}
+```
+
+**2. Intermediate Level: Storing values that don't trigger re-renders**
+
+Unlike **`useState`**, if you change the value of **`ref.current`**, React ***`will not`*** execute the component again. This is ideal for storing values you need to read later but that aren't visual.
+
+**`Use case`**: A counter of how many times the component has rendered, or storing a timer ID.
+
+```jsx
+import React, { useRef, useState, useEffect } from 'react';
+
+function RenderCounter() {
+  const [count, setCount] = useState(0);
+  const renderCount = useRef(0);
+
+  useEffect(() => {
+    // Every time the component renders, this runs.
+    // Note! If we used useState here to save the number,
+    // we would enter an infinite loop of renders.
+    renderCount.current = renderCount.current + 1;
+  });
+
+  return (
+    <div>
+      <p>State count: {count}</p>
+      <p>The component has rendered: {renderCount.current} times</p>
+      <button onClick={() => setCount(c => c + 1)}>Increase State</button>
+    </div>
+  );
+}
+```
+
+**3. Intermediate-Advanced Level: The "Previous State" Pattern**
+
+Do you need to know what the value of a variable or prop was before it changed? **`useRef`** is perfect for remembering the past without affecting the present.
+
+**`Use case`**: A chat that shows "New message" only if the number of messages actually changes.
+
+```jsx
+import React, { useState, useEffect, useRef } from 'react';
+
+function Chat({ message }) {
+  const [currentMessage, setCurrentMessage] = useState(message);
+  // We save the previous value of the message
+  const prevMessageRef = useRef();
+
+  useEffect(() => {
+    // We update the ref with the CURRENT value before it changes
+    prevMessageRef.current = currentMessage;
+  }, [currentMessage]); // Runs only when currentMessage changes
+
+  const isNew = prevMessageRef.current !== currentMessage;
+
+  return (
+    <div>
+      <h3>Chat Thread</h3>
+      <p>Current: {currentMessage}</p>
+      <p>Previous: {prevMessageRef.current}</p>
+      {isNew && <span style={{color: 'red'}}>¡NEW!</span>}
+      <button onClick={() => setCurrentMessage(prompt("Type something"))}>
+        Change Message
+      </button>
+    </div>
+  );
+}
+```
+
+
+**4. Advanced Level: Timers and Cleanup (setInterval / setTimeout)**
+
+When you use **`setInterval`**, you often need to clear it (clearInterval) or access its ID elsewhere. Saving the timer ID in a **`ref`** ensures you always have access to the correct ID, even if the component re-renders many times while the timer is running.
+
+**`Use case`**: A stopwatch that can be stopped and resumed.
+
+```jsx
+import React, { useState, useEffect, useRef } from 'react';
+
+function Stopwatch() {
+  const [seconds, setSeconds] = useState(0);
+  const intervalRef = useRef(null); // We save the interval ID here
+
+  const start = () => {
+    if (intervalRef.current) return; // It's already running
+
+    intervalRef.current = setInterval(() => {
+      setSeconds((s) => s + 1);
+    }, 1000);
+  };
+
+  const stop = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current); // We use the ref to clean up
+      intervalRef.current = null;
+    }
+  };
+
+  // Automatic cleanup if the component unmounts
+  useEffect(() => {
+    return () => {
+      clearInterval(intervalRef.current);
+    };
+  }, []);
+
+  return (
+    <div>
+      <h1>{seconds} s</h1>
+      <button onClick={start}>Start</button>
+      <button onClick={stop}>Stop</button>
+    </div>
+  );
+}
+```
+
+
+**5. Expert Level: Integration with Third-Party Libraries (`forwardRef`)**
+
+Sometimes you create your own components (custom buttons, styled inputs) and you want the parent component to be able to focus them or access their DOM properties. Since React encapsulates everything, the parent doesn't see the child's internal DOM. For this, we use **`forwardRef`**.
+
+**`Use case`**: A `FancyInput` that receives a ref from its parent.
+
+```jsx
+// The CHILD component
+const FancyInput = React.forwardRef((props, ref) => {
+  return (
+    <div style={{ border: '2px solid blue', padding: '10px' }}>
+      {/* We connect the ref passed to us to the real input */}
+      <input ref={ref} type="text" style={{ fontSize: '20px' }} />
+    </div>
+  );
+});
+
+// The PARENT component
+function App() {
+  const inputRef = useRef(null);
+
+  const handleClick = () => {
+    // Magic! The parent can focus the input living inside the child.
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  };
+
+  return (
+    <div>
+      <FancyInput ref={inputRef} />
+      <button onClick={handleClick}>Focus Child Input</button>
+    </div>
+  );
+}
+```
+
+
+**6. Very Expert Level: `useImperativeHandle`**
+
+This is the most complex and specific form. Sometimes you don't want to expose the entire DOM element (which can be dangerous or give too much access), but you want to expose **specific functions** of your child component to the parent.
+
+Use case: A Modal or VideoPlayer where the parent only wants to call **`play()`** or **`reset()`**, but doesn't want to access the HTML div directly.
+
+```jsx
+import React, { useRef, useImperativeHandle, forwardRef, useState } from 'react';
+
+// Child Component
+const VideoPlayer = forwardRef((props, ref) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  // Internal function to play
+  const play = () => {
+    setIsPlaying(true);
+    console.log("Playing video...");
+  };
+
+  // Internal function to pause
+  const pause = () => {
+    setIsPlaying(false);
+    console.log("Pausing video...");
+  };
+
+  // We expose ONLY what we want to the parent through the ref
+  useImperativeHandle(ref, () => ({
+    play,
+    pause,
+    isPlaying // We can also expose read-only values
+  }));
+
+  return (
+    <div className="video-box" style={{ padding: 20, background: '#eee' }}>
+      Status: {isPlaying ? "▶️ Playing" : "⏸️ Paused"}
+    </div>
+  );
+});
+
+// Parent Component
+function RemoteControl() {
+  const playerRef = useRef(null);
+
+  return (
+    <div>
+      <VideoPlayer ref={playerRef} />
+      
+      <div style={{ marginTop: 10 }}>
+        <button onClick={() => playerRef.current.play()}>
+          Play (from parent)
+        </button>
+        <button onClick={() => playerRef.current.pause()}>
+          Pause (from parent)
+        </button>
+      </div>
+    </div>
+  );
+}
+```
+
+**Summary**:
+1. **Simple**: Focus or scroll to an HTML element (**`ref={domElement}`**).
+2. **Medium**: Store mutable variables that shouldn't re-render the app (timers, internal counters).
+3. **Advanced**: Pass a ref through components (**`forwardRef`**).
+4. **Complex**: Create a custom API for your component exposing only specific functions (**`useImperativeHandle`**`).
+
+
+
+### 🐞 166.3 Issues:
+- **Language Inconsistency**: Some code examples and comments are in Spanish (e.g., `Formulario`, `¡NEW!`), whereas the rest of the documentation is in English.
+- **Missing implementation in project**: `useRef` is explained theoretically but not yet implemented in the `usePopcorn` components.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Language Inconsistency | ℹ️ Informational | Spanish snippets in theoretical examples: `docs/LECTURE_STEPS.md:9783, 9862`. |
+| Pending Integration | ⚠️ Identified | Components like `Search.jsx` still use standard state or props where refs could optimize focus/interaction. |
+
+### 🧱 166.4 Pending Fixes (TODO)
+
+- [ ] Implement `useRef` to focus the search input in `Search.jsx` on mount.
+- [ ] Use `useRef` to store the previous movie rating in `MovieDetails.jsx` to compare with the new rating.
+- [ ] Implement a custom hook `useKey` that utilizes `useRef` for event listener cleanup.
+
+[↑ top - Lesson 166: Introducing Another Hook: useRef](#-166-lesson-166--introducing-another-hook-useref)
+
+
+
+<br>
+
+## 🔧 167. Lesson 167 — *Refs to Select DOM Elements*
+
+- [Lecture 167: Refs to Select DOM Elements](#-167-lesson-167--refs-to-select-dom-elements)
+- [167.1 Context](#1671-context)
+- [167.2 Updating code/theory according the context](#1672-updating-codetheory-according-the-context)
+  - [167.2.1 Adding the useRef](#16721-adding-the-useref)
+  - [167.2.2 Adding useEffect() hook](#16722-adding-useeffect-hook-in-order-to-get-focus-on-input-search-when-user-hits-enter)
+  - [167.2.3 Clear search on enter](#16723-when-user-hits-enter-and-search-input-delete-it-all)
+  - [167.2.4 Focus check logic](#16724-hitting-on-enter-key-and-delete-all-content-when-search-is-not-focus)
+- [167.3 Issues](#1673-issues)
+- [167.4 Pending Fixes (TODO)](#1674-pending-fixes-todo)
+
+### 🧠 167.1 Context:
+
+This lesson introduces the use of the `useRef` hook to directly interact with DOM elements in React. While React's declarative nature is preferred for most UI updates, certain actions—like focusing an input, scrolling to a position, or measuring element dimensions—require direct access to the underlying DOM node. We apply this to the `Search` component to enhance the user experience by allowing a global hotkey (Enter) to focus the search bar from anywhere in the app.
+
+1. **Key Concepts**:
+   - **Hook Initialization**: `const inputEl = useRef(null);` creates a ref object with a `.current` property.
+   - **Ref Attachment**: Passing the ref object to the `ref` prop of a JSX element (e.g., `<input ref={inputEl} />`) assigns the DOM element to `inputEl.current` after the component mounts.
+   - **Timing**: Refs are only populated after the DOM is rendered, so access to `current` should occur within `useEffect` or event handlers.
+   - **Global Listeners**: Using `document.addEventListener` within `useEffect` to capture keydown events regardless of which element is currently focused.
+
+2. **Advantages**:
+   - **Direct DOM Access**: Provides a clean way to perform imperative actions (like `.focus()`) that cannot be handled declaratively.
+   - **Performance**: Refs don't trigger re-renders when their values change, making them efficient for purely imperative side effects.
+
+3. **Disadvantages/Gotchas**:
+   - **Manual Management**: Since you're bypassing React's rendering cycle, you must manually handle edge cases (like checking if an element is already focused).
+   - **Cleanup**: Global event listeners added in `useEffect` must be removed in the cleanup function to prevent memory leaks and unexpected behavior.
+
+4. **When to Consider Alternatives**:
+   - Use standard state and props for any UI change that should be reflected in the DOM structure (e.g., hiding/showing elements).
+   - Consider custom hooks for reusable DOM interaction logic.
+
+### ⚙️ 167.2 Updating code/theory according the context:
+
+#### **Summary**
+- The primary goal of this section is to implement a keyboard shortcut (the "Enter" key) that automatically focuses the search input field.
+- This is achieved by using the `useRef` hook to grab a reference to the `input` DOM element and the `useEffect` hook to set up a global event listener.
+- The implementation progresses from basic ref attachment to sophisticated logic that prevents resetting the search query if the input is already active.
+
+#### 167.2.1 Adding the `useRef`:
+**Subsection Summary**
+- Demonstrates how to initialize a ref using `useRef(null)` and bind it to a DOM element via the `ref` attribute.
+- This establishes the bridge between React logic and the actual browser DOM node.
+
+```jsx
+/* src/components/Search.jsx */
+import { useEffect, useRef } from "react";    // 👈🏽 ✅
+
+const Search = ({ query, setQuery }) => {
+  const inputEl = useRef(null);    // 👈🏽 ✅
+
+  return (
+    <input
+      className="search"
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      ref={inputEl}    {/* 👈🏽 ✅ */}
+    />
+  );
+};
+
+export default Search;
+```
+
+#### 167.2.2 Adding `useEffect()` hook in order to get focus on `input` search when user hits `enter`.
+**Subsection Summary**
+- Introduces a `useEffect` hook with an empty dependency array to register a global `keydown` listener on mount.
+- Uses the `inputEl.current.focus()` method to imperatively move focus to the input when the "Enter" key is detected.
+- Includes vital cleanup logic using `removeEventListener` to ensure stability.
+
+```jsx
+/* src/components/Search.jsx */
+import { useEffect, useRef } from "react";
+
+const Search = ({ query, setQuery }) => {
+  const inputEl = useRef(null);
+
+  useEffect(() => {
+    //console.log(inputEl.current);
+    function callback(e) {   // 👈🏽 ✅
+      if (e.code === "Enter") {
+        inputEl.current.focus();
+      }
+    }
+    document.addEventListener("keydown", callback);   // 👈🏽 ✅
+    return () => document.removeEventListener("keydown", callback);   // 👈🏽 ✅
+  }, []);
+
+  return (
+    <input
+      className="search"
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      ref={inputEl}
+    />
+  );
+};
+
+export default Search;
+```
+
+#### 167.2.3 When user hits `enter` and search `input`, delete it all:
+**Subsection Summary**
+- Enhances the keyboard behavior by clearing the current search results when the user hits "Enter".
+- This aligns with the expected UX of starting a fresh search or clearing a previous selection.
+
+```jsx
+/* src/components/Search.jsx */
+import { useEffect, useRef } from "react";
+
+const Search = ({ query, setQuery }) => {
+  const inputEl = useRef(null);
+
+  useEffect(() => {
+    function callback(e) {
+      if (e.code === "Enter") {
+        inputEl.current.focus();
+        setQuery("");   // 👈🏽 ✅
+      }
+    }
+    document.addEventListener("keydown", callback);
+    return () => document.removeEventListener("keydown", callback);
+  }, []);
+
+  return (
+    <input
+      className="search"
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      ref={inputEl}
+    />
+  );
+};
+
+export default Search;
+```
+
+- enter a `movie name` in search input.
+- hit enter.
+- Expected: entered `movie name` deleted!
+
+
+#### 167.2.4 Hitting on `Enter` key and delete all content when search is not focus:
+**Subsection Summary**
+- Adds a critical guard clause: `document.activeElement === inputEl.current`.
+- This ensures that if the search bar is *already* focused, hitting "Enter" doesn't clear the user's typing. It only clears and refocuses when the user is interacting with other parts of the UI.
+- Updates the dependency array to include `setQuery` for correctness.
+
+```jsx
+/* src/components/Search.jsx */
+import { useEffect, useRef } from "react";
+
+const Search = ({ query, setQuery }) => {
+  const inputEl = useRef(null);
+
+  useEffect(() => {
+    function callback(e) {
+      if(document.activeElement === inputEl.current) return;    // 👈🏽 ✅
+      if (e.code === "Enter") {
+        inputEl.current.focus();
+        setQuery("");
+      }
+    }
+    document.addEventListener("keydown", callback);
+    return () => document.removeEventListener("keydown", callback);
+  }, [setQuery]);    // 👈🏽 ✅
+
+  return (
+    <input
+      className="search"
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      ref={inputEl}
+    />
+  );
+};
+
+export default Search;
+```
+
+- enter a `movie name` in search input.
+- hit enter.
+- Expected: entered `movie name` stays
+- click on any displayed movie.
+- hit enter.
+- Expected: entered `movie name` deleted!
+
+
+### 🐞 167.3 Issues:
+
+- **Manual DOM Logic Inconsistency**: Using `document.activeElement` is a global check that could potentially clash if multiple search-like components existed.
+- **Global Event Listener**: Adding a listener to `document` inside a component makes it harder to test and can lead to bugs if not cleaned up properly.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Focus Guard Clause | ✅ Fixed | Added check to ensure input isn't cleared if already focused in `src/components/Search.jsx`. |
+| Memory Leak Risk | ✅ Fixed | Implemented cleanup function in `useEffect` to remove "keydown" listener. |
+
+### 🧱 167.4 Pending Fixes (TODO)
+
+- [ ] Abstract the focus logic into a reusable `useKey` or `useFocus` custom hook to decrease component complexity.
+- [ ] Add accessibility ARIA labels to the search input to improve screen reader support while using refs.
+- [ ] Investigate if `autoFocus` property could be used as a simpler alternative for the initial mount focus.
+
+[↑ top - Lesson 167: Refs to Select DOM Elements](#-167-lesson-167--refs-to-select-dom-elements)
+
+
+<br>
+
+## 🔧 168. Lesson 168 — *Refs to Persist Data Between Renders*
+
+- [Lecture 168: Refs to Persist Data Between Renders](#-168-lesson-168--refs-to-persist-data-between-renders)
+- [168.1 Context](#1681-context)
+- [168.2 Updating code/theory according the context](#1682-updating-codetheory-according-the-context)
+  - [168.2.1 Using useRef for counting](#16821-using-useref-for-counting-the-userrating-time-selection)
+  - [168.2.2 Regular variable comparison](#16822-using-a-regular-variable-doing-the-same)
+  - [168.2.3 Variables Comparative](#16823-comparative-between-regular-or-normal-state-and-useref-variables)
+- [168.3 Issues](#1683-issues)
+- [168.4 Pending Fixes (TODO)](#1684-pending-fixes-todo)
+
+### 🧠 168.1 Context:
+
+This lesson explores the second use case for `useRef`: persisting data across re-renders without triggering a new render when that data is updated. While `useState` is for data that the UI depends on, `useRef` is for "hidden" data that survives the component's lifecycle but doesn't need to be reflected in the visual output immediately. We use this to track how many times a user changes their movie rating before actually clicking "Add to list".
+
+1. **Key Concepts**:
+   - **Persistence**: Ref values are stored in a box that React keeps around for the entire lifetime of the component.
+   - **No Re-renders**: Updating `ref.current` does *not* trigger a re-render. This is the fundamental difference from `useState`.
+   - **Stability**: Unlike regular variables inside the function body, refs don't reset to their initial value every time the component renders.
+   - **Muting during Render**: You should generally not read or write `ref.current` during the render phase. Instead, do it in effects or event handlers.
+
+2. **Advantages**:
+   - **Performance**: Great for storing IDs (like `setInterval`), previous props/state, or counters that are only needed at the time of an action (like submission).
+   - **State Isolation**: Allows tracking metadata without cluttering the rendering logic or causing unnecessary UI updates.
+
+3. **Disadvantages/Gotchas**:
+   - **No Reactive UI**: If you update a ref and expect the UI to change, it won't. You'll see the stale value until something else (like a state change) triggers a render.
+   - **Side Effects**: Updating refs is a side effect, so it belongs in `useEffect` or event handlers.
+
+4. **When to Consider Alternatives**:
+   - Use `useState` if the data needs to be displayed in the UI.
+   - Use regular variables if the data only needs to exist during the current render cycle.
+
+### ⚙️ 168.2 Updating code/theory according the context:
+
+#### **Summary**
+- This section demonstrates how to use `useRef` to track "silent" metrics that persist across renders without affecting the UI.
+- We specifically implement a counter to track how many times a user adjusted their rating before adding a movie to their watched list.
+- The examples compare `useRef` against regular variables to illustrate why standard variables fail to persist data across React's rendering cycles.
+
+#### 168.2.1 Using `useRef` for counting the `userRating` time selection:
+**Subsection Summary**
+- Initializes a `countRef` with `useRef(0)` to track rating decisions.
+- Uses `useEffect` to increment the ref whenever the `userRating` state changed, creating a persistent counter that doesn't trigger extra renders.
+- Includes the final count in the movie object sent to the `onAddWatched` function.
+
+```jsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useRef, useState } from "react";    // 👈🏽 ✅ (1)
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+
+  const countRef = useRef(0);   // 👈🏽 ✅ (1)
+
+  useEffect(() => {   // 👈🏽 ✅ (2)
+    if (userRating) countRef.current++;   // 👈🏽 ✅ (2)
+    console.log(countRef.current);
+  }, [userRating])    // 👈🏽 ✅ (3)
+
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+
+  const [avgRating, setAvgRating] = useState(0);
+
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+      countRatingDecisions: countRef.current,   // 👈🏽 ✅ (3)
+    };
+    onAddWatched(newWatchedMovie);
+    //onCloseMovie();
+
+    // setting the current imdbRating value to avgRating:
+    setAvgRating(Number(imdbRating));
+    //alert(avgRating);
+    setAvgRating((avgRating) => (avgRating + userRating) / 2);
+  };
+
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+
+    getMovieDetails();
+  }, [selectedId]);
+
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    };
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
+
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+    return () => {
+      document.title = "usePopcorn";
+      //console.log(`Clean up effect for movie ${title}`);
+    };
+  }, [title]);
+
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+
+          <p>🍺 {avgRating}</p>
+
+          <section>
+            <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span>
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+
+[![demo](../img/section13-lecture168-001.png)](../img/section13-lecture168-001.mp4)
+
+#### 168.2.2 Using a regular variable doing the same:
+**Subsection Summary**
+- Contrasts `useRef` with a standard `let` variable declaration inside the component.
+- Explains why the regular variable fails: it is destroyed and re-initialized to 0 on every render, making it impossible to accumulate values across the lifecycle.
+- Highlights the importance of the dependency array when trying to track non-reactive variables in `useEffect`.
+
+```jsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useRef, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+
+  const countRef = useRef(0);
+  const count = 0;    // 👈🏽 ✅ (1)
+
+  useEffect(() => {
+    if (userRating) countRef.current++;
+    if (userRating) count++;    // 👈🏽 ✅ (1)
+    //console.log(countRef.current);
+    console.log(count);    // 👈🏽 ✅ (1)
+  }, [userRating, count]) // count does not have a ref that's why is added to the dependency array 👈🏽 ✅ (2)
+
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+
+  const [avgRating, setAvgRating] = useState(0);
+
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+      countRatingDecisions: countRef.current,
+      count,    // 👈🏽 ✅ (2)
+    };
+    onAddWatched(newWatchedMovie);
+    //onCloseMovie();
+
+    // setting the current imdbRating value to avgRating:
+    setAvgRating(Number(imdbRating));
+    //alert(avgRating);
+    setAvgRating((avgRating) => (avgRating + userRating) / 2);
+  };
+
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+
+    getMovieDetails();
+  }, [selectedId]);
+
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    };
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
+
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+    return () => {
+      document.title = "usePopcorn";
+      //console.log(`Clean up effect for movie ${title}`);
+    };
+  }, [title]);
+
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+
+          <p>🍺 {avgRating}</p>
+
+          <section>
+            <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span>
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+![applying a regular variable](../img/section13-lecture168-002.png)
+
+![seen from the code](../img/section13-lecture168-003.png)
+
+#### 168.2.3 Comparative between `regular or normal`, `state` and `useRef` variables:
+**Subsection Summary**
+- Provides a comprehensive lookup table comparing the three main ways to store data in a React component.
+- Clarifies the specific trade-offs between rendering triggers, persistence, and storage locations (Stack vs. React Fiber).
+- Serves as a decision-making guide for choosing the right tool for different data persistence needs.
+
+
+
+| Feature / Variable Type | Regular Variable (`let` / `const`) | State Variable (`useState`) | Ref Variable (`useRef`) |
+|-------------------------|-------------------------------------|-----------------------------|--------------------------|
+| Persists between renders | ❌ No (resets on every render) | ✅ Yes | ✅ Yes |
+| Triggers re-render when updated | ❌ No | ✅ Yes | ❌ No |
+| Typical update method | Direct assignment (`x = value`) | `setState(value)` | `ref.current = value` |
+| Stored across component lifecycle | ❌ No | ✅ Yes | ✅ Yes |
+| Use case | Temporary values inside render | UI-related reactive data | Store mutable values without re-render |
+| Affects UI automatically | ❌ No | ✅ Yes | ❌ No |
+
+
+* Normal variables are not persistent across renders and they don't trigger the re-render.
+* State variables are re-render and persistent.
+* ref variables persist across renders but it does not trigger the re-render when updated.
+
+
+| Aspect | Regular Variable | State (`useState`) | Ref (`useRef`) |
+|--------|------------------|--------------------|----------------|
+| Storage location | Function execution context (stack) | React Fiber (hook state) | React Fiber (hook ref) |
+| Lifetime | One render cycle | Component lifetime | Component lifetime |
+| Preserved between renders | ❌ No | ✅ Yes | ✅ Yes |
+| Update mechanism | Reassignment (`x = ...`) | State setter (`setX`) | Mutation (`ref.current = ...`) |
+| Schedules re-render | ❌ No | ✅ Yes | ❌ No |
+| Batched updates | ❌ No | ✅ Yes (React batching) | ❌ No |
+| Update is asynchronous | ❌ No | ✅ Potentially (concurrent rendering) | ❌ No |
+| Equality check before update | N/A | `Object.is` comparison | N/A |
+| Causes reconciliation | ❌ No | ✅ Yes | ❌ No |
+| Tracked by React | ❌ No | ✅ Yes | ✅ Yes |
+| Suitable for render output | ❌ No | ✅ Yes | ❌ No |
+| Referential stability | ❌ No (new per render) | ❌ No (new value per update) | ✅ Yes (same object reference) |
+| Can be used in dependency arrays | ❌ No | ✅ Yes | ⚠️ Not useful (mutations not tracked) |
+| Typical internal representation | Local JS binding | Hook state cell | `{ current: value }` object |
+
+
+### 🐞 168.3 Issues:
+- **Redundant tracking**: In the provided examples, `count` and `countRef` are redundant if only one persistence method is needed.
+- **Dependency Inconsistency**: Adding `count` (a regular variable) to the `useEffect` dependency array is technically possible but conceptually misleading as it doesn't change from React's perspective between renders.
+- **Direct Mutation in Render**: While not shown here, a common issue is trying to update `ref.current` directly in the render body which can lead to unpredictable behavior in concurrent mode.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Redundant Variable | ℹ️ Informational | `src/components/MovieDetails.jsx`: both `count` and `countRef` used for same logic in 168.2.2. |
+| Dependency Array Warning | ⚠️ Identified | Regular variable in dependency array in `src/components/MovieDetails.jsx:10525` may trigger lint warnings. |
+
+### 🧱 168.4 Pending Fixes (TODO)
+- [ ] Remove the experimental `count` variable and stick to `countRef` for the final implementation.
+- [ ] Add a visual feedback (perhaps a small toast) when a movie is added, showing the number of rating adjustments made.
+- [ ] Refactor the `handleAdd` function to ensure all side effects (like updating `countRef`) are fully encapsulated.
+
+[↑ top - Lesson 168: Refs to Persist Data Between Renders](#-168-lesson-168--refs-to-persist-data-between-renders)
+
+
+<br>
+
+## 🔧 169. Lesson 169 — *What are Custom Hooks? When to Create One?*
+
+- [Lecture 169: What are Custom Hooks? When to Create One?](#-169-lesson-169--what-are-custom-hooks-when-to-create-one)
+- [169.1 Context](#1691-context)
+- [169.2 Updating code/theory according the context](#1692-updating-codetheory-according-the-context)
+  - [169.2.1 Reusing Logic with Custom Hooks](#16921-reusing-logic-with-custom-hooks)
+- [169.3 Issues](#1693-issues)
+- [169.4 Pending Fixes (TODO)](#1694-pending-fixes-todo)
+
+### 🧠 169.1 Context:
+
+Custom hooks are a powerful React feature that allows you to extract component logic into reusable functions. They are essentially regular JavaScript functions that can call other React hooks (like `useState`, `useEffect`, etc.). While regular functions can't hold state or use effects, custom hooks can, providing a way to share stateful logic between components without duplicating code.
+
+1. **Key Concepts**:
+   - **Naming Convention**: Must start with the word `use` (e.g., `useFetch`, `useLocalStorage`). This is how React identifies them as hooks and enforces the Rules of Hooks.
+   - **Hook Composition**: Custom hooks can call other hooks, but they must follow the same rules as built-in hooks (top-level only, only in React functions).
+   - **Isolation**: Every time you call a custom hook in a component, all state and effects inside that hook are completely isolated.
+
+2. **Advantages**:
+   - **Reusability**: Share complex logic (fetching data, handling forms, timers) across multiple components.
+   - **Readability**: Simplify large components by offloading logic to descriptive hooks.
+   - **Testability**: Logic in custom hooks is easier to test in isolation.
+   - **Separation of Concerns**: Decouple UI rendering from complex state or side-effect logic.
+
+3. **Disadvantages/Gotchas**:
+   - **Not for UI**: Custom hooks should return data or functions, not JSX elements (use components for that).
+   - **Over-abstraction**: Don't create custom hooks for very simple logic that's only used once.
+   - **Hook Rules**: They are bound by the same strict rules as built-in hooks.
+
+4. **When to Consider Alternatives**:
+   - Use **Component Composition** if the shared logic is primarily about the UI structure.
+   - Use a regular **Helper Function** if the logic doesn't need to use any React hooks (state, effects, etc.).
+
+### ⚙️ 169.2 Updating code/theory according the context:
+
+#### **Summary**
+- This section explores the conceptual foundation of custom hooks and the criteria for creating them.
+- It highlights the shift from duplicating `useEffect` and `useState` patterns to encapsulating them in reusable units.
+- The focus is on identifying "non-visual" logic that can be extracted to improve code maintainability.
+
+#### 169.2.1 **Reusing** Logic with Custom Hooks
+**Subsection Summary**
+- Demonstrates the architectural pattern of lifting stateful logic out of components.
+- Illustrates how components become "skinnier" and more focused on rendering when logic is moved to hooks.
+- Useful for understanding the transition from complex monolithic components to a modular, hook-based architecture.
+
+![Reusing Logic with Custom Hooks](../img/section13-lecture169-001.png)
+
+### 🐞 169.3 Issues:
+- The current implementation in `App.jsx` still contains large chunks of logic for fetching movies and managing local storage that are ripe for extraction into custom hooks.
+- Placeholder text "something.." needs removal.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Logic Duplication | ⚠️ Identified | Data fetching logic in `App.jsx:51-85` is not yet encapsulated and could be reused. |
+| Non-Modular State | ⚠️ Identified | Local storage synchronization in `App.jsx:24-27` and `47-49` is coupled to the `App` component. |
+
+### 🧱 169.4 Pending Fixes (TODO)
+
+- [ ] Extract data fetching logic from `App.jsx` into a custom `useMovies` hook.
+- [ ] Extract local storage persistence into a reusable `useLocalStorageState` hook.
+- [ ] Implement a `useKey` hook to handle the escape keypress functionality currently in `MovieDetails.jsx`.
+
+[↑ top - Lesson 169: What are Custom Hooks? When to Create One?](#-169-lesson-169--what-are-custom-hooks-when-to-create-one)
+
+
+<br>
+
+## 🔧 170. Lesson 170 — *Creating our First Custom Hook: useMovies*
+
+- [Lecture 170: Creating our First Custom Hook: useMovies](#-170-lesson-170--creating-our-first-custom-hook-usemovies)
+- [170.1 Context](#1701-context)
+- [170.2 Updating code according the context](#-1702-updating-code-according-the-context)
+    - [170.2.1 Searching the future custom hook part](#-17021-searching-the-future-custom-hook-part)
+    - [170.2.2 Creating the Custom hook useMovie](#-17022-creating-the-custom-hook-usemovie)
+    - [170.2.3 Movie Details does not close by searching another movie](#-17023-movie-details-does-not-close-by-searching-another-movie)
+    - [170.2.4 Meanwhile App.jsx is updated](#-17024-meanwhile-appjsx-is-updated)
+    - [170.2.5 Adding a callback function into useMovie hook](#-17025-adding-a-callback-function-into-usemovie-hook)
+    - [170.2.6 Adding this callback update into App.jsx](#-17026-adding-this-callback-update-into-appjsx)
+- [170.3 Issues](#-1703-issues)
+- [170.4 Pending Fixes (TODO)](#-1704-pending-fixes-todo)
+
+### 🧠 170.1 Context:
+
+In this lesson, we create our first **Custom Hook** named `useMovies`. Custom hooks allow us to extract component logic into reusable functions.
+
+We identified that the `App` component was becoming bloated with logic related to fetching movies. By moving this logic into a custom hook, we achieve better **Separation of Concerns**. The `App` component can focus on the UI and wiring together different parts, while the `useMovies` hook handles the data fetching implementation details.
+
+**Key Concepts:**
+1.  **Custom Hooks**: JavaScript functions that start with `use` and can call other hooks (like `useState`, `useEffect`).
+2.  **Reusability**: encapsulating logic so it can be used in multiple components.
+3.  **Stateful Logic**: Custom hooks allow sharing stateful logic, not state itself.
+
+**Advantages:**
+- **Cleaner Code**: `App.jsx` becomes much smaller and easier to read.
+- **Testability**: The hook can potentially be tested in isolation.
+- **Reusability**: If we needed to fetch movies in another component, we could reuse this hook.
+
+**Disadvantages/Gotchas:**
+- **Abstraction**: It adds a layer of abstraction which might slightly increase complexity for very simple cases.
+- **Dependencies**: We need to be careful about what data the hook needs (arguments) and what it returns.
+
+### ⚙️ 170.2 Updating code/theory according the context:
+
+#### **Summary**
+- This section demonstrates the process of extracting the movie fetching logic from `App.jsx` into a new file `useMovies.js`.
+- It shows how to identify the relevant state and effects to move.
+- It addresses a specific issue that arises when moving the logic: the need to close the movie details when a new search begins, which was previously handled inside the component's effect.
+- The solution involves passing a `callback` function to the custom hook.
+
+#### 170.2.1 Searching the future custom hook part:
+
+**Subsection Summary**
+- Identifies the specific block of code in `App.jsx` that is responsible for fetching movies.
+- This includes the `useEffect` hook handling the data fetching and the validation logic.
+- This code is the target for extraction into the custom hook.
+
+```jsx
+/* src/App.jsx */
+....
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+        const data = await resp.json();
+
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+
+        setMovies(data.Search);
+      } catch (error) {
+        console.log(error.message);
+        if (error.name !== "AbortError") {
+          setError(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
+    handleCloseMovie();
+    fetchMovies();
+    return () => controller.abort();
+  }, [query]);
+....
+```
+
+#### 170.2.2 Creating the Custom hook `useMovie`
+
+**Subsection Summary**
+- Shows the implementation of the new `useMovies.js` file.
+- The hook accepts `query` as an argument.
+- It manages its own state: `isLoading`, `error`, `movies`.
+- It returns these state values so the consuming component can use them.
+- **Note**: The `handleCloseMovie` call was removed (commented out) initially because it's not available in this scope.
+
+```jsx
+/* src/Hooks/useMovies.js */
+import { useState, useEffect } from "react";   // 👈🏽 ✅ (1)
+
+const KEY = "f84fc31d";   // 👈🏽 ✅ (5)
+
+export function useMovies(query) {
+  const [isLoading, setIsLoading] = useState(false);    // 👈🏽 ✅ (2)
+  const [error, setError] = useState("");   // 👈🏽 ✅ (3)
+  const [movies, setMovies] = useState([]);   // 👈🏽 ✅ (4)
+
+  useEffect(() => {   // 👈🏽 ✅ (1)
+    const controller = new AbortController();
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);    // 👈🏽 (2)
+        setError("");   // 👈🏽 (3)
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+        const data = await resp.json();
+
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+
+        setMovies(data.Search);   // 👈🏽 (4)
+      } catch (error) {
+        console.log(error.message);
+        if (error.name !== "AbortError") {
+          setError(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
+    //handleCloseMovie();
+    fetchMovies();
+    return () => controller.abort();
+  }, [query]);
+
+  return {movies, isLoading, error}   //👈🏽 ✅ (6)
+}
+```
+
+#### 170.2.3 Movie Details does not close by searching another movie:
+
+**Subsection Summary**
+- detailed visual proof of the bug introduced by the refactoring.
+- The image shows that when searching for a new movie, the previously selected movie details remain open.
+- This happens because `handleCloseMovie()` was removed from the effect chain.
+
+![no closing movie details](../img/section13-lecture170-001.png)
+
+
+#### 170.2.4 Meanwhile `App.jsx` is updated:
+
+**Subsection Summary**
+- Updates `App.jsx` to use the new `useMovies` hook.
+- Removes the local state for `movies`, `isLoading`, and `error`.
+- Removes the old `useEffect` for data fetching.
+- Demonstrates how much cleaner the component becomes.
+
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+
+import { useMovies } from "./Hooks/useMovies";    // 👈🏽 ✅
+
+//const KEY = "f84fc31d";
+
+function App() {
+  // const [movies, setMovies] = useState([]);    // 👈🏽 ✅
+  // const [isLoading, setIsLoading] = useState(false);   // 👈🏽 ✅
+  // const [error, setError] = useState("");    // 👈🏽 ✅
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  const [watched, setWatched] = useState(() => {
+    const storedValue = localStorage.getItem("watched");
+    return storedValue ? JSON.parse(storedValue) : [];
+  });
+
+  const { movies, isLoading, error } = useMovies(query); // 👈🏽 ✅ custom hook
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+
+  const handleCloseMovie = () => {
+    setSelectedId(null);
+  };
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
+
+  // useEffect(() => {
+  //   const controller = new AbortController();
+  //   const fetchMovies = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       setError("");
+  //       const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+  //       if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+  //       const data = await resp.json();
+
+  //       if (data.Response === "False") throw new Error("Movie not found 😭");
+
+  //       setMovies(data.Search);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //       if (error.name !== "AbortError") {
+  //         setError(error.message);
+  //       }
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   if (query.length < 3) {
+  //     setMovies([]);
+  //     setError("");
+  //     return;
+  //   }
+
+  //   handleCloseMovie();
+  //   fetchMovies();
+  //   return () => controller.abort();
+  // }, [query]);
+
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+#### 170.2.5 Adding a `callback` function into `useMovie` hook:
+
+**Subsection Summary**
+- Modifies `useMovies` to accept a second argument: `callback`.
+- Calls this `callback` inside the `useEffect` whenever the query changes (this is where `handleCloseMovie` was previously called).
+- uses `callback?.()` to safely call it only if it exists.
+
+```jsx
+/* src/Hooks/useMovies.js */
+import { useState, useEffect } from "react";
+
+const KEY = "f84fc31d";
+
+export function useMovies(query, callback) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    callback?.();   // 👉🏽 handleCloseMovie();
+    const controller = new AbortController();
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+        const data = await resp.json();
+
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+
+        setMovies(data.Search);
+      } catch (error) {
+        console.log(error.message);
+        if (error.name !== "AbortError") {
+          setError(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
+    fetchMovies();
+    return () => controller.abort();
+  }, [query]);
+
+  return { movies, isLoading, error }
+}
+```
+
+#### 170.2.6 Adding this `callback` update into `App.jsx`:
+
+**Subsection Summary**
+- Updates `App.jsx` to pass `handleCloseMovie` as the second argument to `useMovies`.
+- **Hoisting**: Changes `handleCloseMovie` from an arrow function to a regular function declaration so it can be used before its definition (hoisted), though in this specific snippet it is passed after definition or simply referenced. *Correction*: In the snippet, it is converted to a function declaration because it is used inside `App`'s body before strictly being "defined" if interpreted linearly, but mainly to avoid initialization issues if it were a const variable accessed in the render phase before declaration (though here it's passed to hook).
+- Note: In Javascript function declarations are hoisted.
+
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+
+import { useMovies } from "./Hooks/useMovies";
+
+//const KEY = "f84fc31d";
+
+function App() {
+  // const [movies, setMovies] = useState([]);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+  const [watched, setWatched] = useState(() => {
+    const storedValue = localStorage.getItem("watched");
+    return storedValue ? JSON.parse(storedValue) : [];
+  });
+
+  const { movies, isLoading, error } = useMovies(query, handleCloseMovie); // 👈🏽 ✅ custom hook
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+
+  //const handleCloseMovie = () => {
+  function handleCloseMovie() { // 👈🏽 ✅ due to this hoisted function
+    setSelectedId(null);
+  };
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+    //localStorage.setItem("watched", JSON.stringify([...watched, movie]));
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  useEffect(() => {
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
+
+  // useEffect(() => {
+  //   const controller = new AbortController();
+  //   const fetchMovies = async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       setError("");
+  //       const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, { signal: controller.signal });
+
+  //       if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+  //       const data = await resp.json();
+
+  //       if (data.Response === "False") throw new Error("Movie not found 😭");
+
+  //       setMovies(data.Search);
+  //     } catch (error) {
+  //       console.log(error.message);
+  //       if (error.name !== "AbortError") {
+  //         setError(error.message);
+  //       }
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   if (query.length < 3) {
+  //     setMovies([]);
+  //     setError("");
+  //     return;
+  //   }
+
+  //   handleCloseMovie();
+  //   fetchMovies();
+  //   return () => controller.abort();
+  // }, [query]);
+
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+#### 170.2.7 Why was `callback?.()` moved to the top of the `useEffect` body, before the rest of the code, when before it was after it?
+
+👉 From a JavaScript / React point of view, there is NO functional difference
+as long as it is executed before `fetchMovies()`.
+
+
+So this:
+```js
+useEffect(() => {
+  callback?.();
+  // rest of code
+  fetchMovies();
+}, [query]);
+```
+
+and this:
+
+```js
+useEffect(() => {
+  // rest of code
+  callback?.();
+  fetchMovies();
+}, [query]);
+```
+
+are behaviorally equivalent (assuming no early `return` in between).
+
+
+✅ So why move it to the top?
+The reason is semantic / structural, not technical.
+
+> `callback?.()` is a side-effect triggered by query change,
+not part of the fetching logic.
+
+Meaning:
+
+> “First, react to query change (close movie).
+Then, define and run the fetch logic.”
+
+
+🧠 Think of it like this: `useEffect` is conceptually:
+```js
+onQueryChange() {
+  doSideEffectsOfQueryChange();
+  doFetchingLogic();
+}
+```
+
+
+### 🐞 170.3 Issues:
+
+**Summary**
+- No critical code errors were found, but a logical UI issue was identified and fixed.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| Movie details overlay persists on new search | ✅ Fixed | Visual bug (see 170.2.3) |
+
+### 🧱 170.4 Pending Fixes (TODO)
+
+- [ ] None for this lesson.
+
+[↑ top - Lesson 170: Creating our First Custom Hook: useMovies](#-170-lesson-170--creating-our-first-custom-hook-usemovies)
+
+<br>
+
+## 🔧 171. Lesson 171 — *Creating useLocalStorageState*
+
+- [Lecture 171: Creating useLocalStorageState](#-171-lesson-171--creating-uselocalstoragestate)
+- [171.1 Context](#1711-context)
+- [171.2 Updating code/theory according the context](#%EF%B8%8F-1712-updating-codetheory-according-the-context)
+  - [171.2.1 Verifying which part can be potentially for custom hook](#17121-verifying-which-part-can-be-potentially-for-custom-hook)
+  - [171.2.2 Create custom hook useLocalStorageState](#17122-create-custom-hook-uselocalstoragestate)
+  - [171.2.3 Complete this custom hook useLocalStorageState](#17123-complete-this-custom-hook-uselocalstoragestate)
+  - [171.2.4 Import this custom useLocalStorageState hook into App.jsx](#17124-import-this-custom-uselocalstoragestate-hook-into-appjsx)
+- [171.3 Issues](#-1713-issues)
+- [171.4 Pending Fixes (TODO)](#-1714-pending-fixes-todo)
+
+### 🧠 171.1 Context:
+
+The `useLocalStorageState` custom hook is a reusable abstraction that synchronizes React state with the browser's `localStorage`. This pattern encapsulates the common functionality of persisting state across browser sessions, making it easy to reuse throughout an application without duplicating code.
+
+#### Key Concepts:
+
+1. **Custom Hook Pattern**: Custom hooks allow you to extract component logic into reusable functions. They must start with "use" prefix and can call other hooks inside them.
+
+2. **Lazy State Initialization**: The hook uses a callback function in `useState` to read from `localStorage` only on the initial render, avoiding unnecessary reads on subsequent renders.
+
+3. **State Synchronization**: The `useEffect` hook keeps `localStorage` in sync with the state by writing to storage whenever the value changes.
+
+4. **Generic Implementation**: The hook accepts an `initialState` and a `key` parameter, making it reusable for any type of data that needs to be persisted.
+
+5. **JSON Serialization**: Since `localStorage` only stores strings, the hook uses `JSON.parse()` and `JSON.stringify()` to handle complex data types like arrays and objects.
+
+#### Advantages:
+
+- **Reusability**: Can be used across multiple components and projects without code duplication.
+- **Separation of Concerns**: Abstracts storage logic away from component business logic.
+- **Consistent API**: Returns `[value, setValue]` just like `useState`, making it a drop-in replacement.
+- **Persistence**: Data survives page refreshes and browser restarts.
+- **Clean Components**: Reduces boilerplate code in components that need persistent state.
+
+#### Disadvantages/Gotchas:
+
+- **Browser Only**: `localStorage` is not available in server-side rendering (SSR) environments without proper handling.
+- **Storage Limits**: `localStorage` has a ~5MB limit per origin; large data sets may fail silently.
+- **Synchronous API**: `localStorage` operations are synchronous and can block the main thread with large data.
+- **No Cross-Tab Sync**: Changes in one tab won't automatically reflect in another tab without additional event listeners.
+- **JSON Limitations**: Cannot serialize functions, `undefined`, or circular references.
+
+#### When to Consider Alternatives:
+
+- Use **IndexedDB** for larger datasets or complex querying needs.
+- Use **sessionStorage** if data should not persist after the browser is closed.
+- Use **State Management Libraries** (Redux, Zustand) with persistence middleware for complex applications.
+- Use **Server-Side Storage** (database, cookies) for sensitive data or when data must sync across devices.
+
+### ⚙️ 171.2 Updating code/theory according the context:
+
+#### **Summary**
+
+- This section demonstrates how to extract localStorage logic from a component into a reusable custom hook.
+- The problem solved is code duplication when multiple components need to persist state to localStorage.
+- The subsections progress from identifying the extractable code (171.2.1), creating the hook skeleton (171.2.2), implementing the full hook logic (171.2.3), and finally integrating it back into the component (171.2.4).
+
+#### 171.2.1 Verifying which part can be potentially for custom hook:
+
+**Subsection Summary:**
+- This subsection identifies the code in `App.jsx` that can be extracted into a custom hook.
+- Two pieces of code are marked: (1) the `useState` with lazy initialization that reads from localStorage, and (2) the `useEffect` that writes to localStorage.
+- These two patterns together form the complete localStorage synchronization logic that will become `useLocalStorageState`.
+- The emoji markers (👈🏽 ✅ 🤔) highlight the specific lines to be refactored.
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+
+import { useMovies } from "./Hooks/useMovies";
+
+//const KEY = "f84fc31d";
+
+function App() {
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+
+  // potential code for custom hook "useLocalStorageState"
+  const [watched, setWatched] = useState(() => {    // 👈🏽 ✅ 🤔
+    const storedValue = localStorage.getItem("watched");
+    return storedValue ? JSON.parse(storedValue) : [];
+  });
+
+  const { movies, isLoading, error } = useMovies(query, handleCloseMovie); // custom hook
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+
+  function handleCloseMovie() { // due to this hoisted function
+    setSelectedId(null);
+  };
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  // potential code for custom hook "useLocalStorageState"
+  useEffect(() => {    // 👈🏽 ✅ 🤔
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, [watched]);
+
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+#### 171.2.2 Create custom hook `useLocalStorageState`:
+
+**Subsection Summary:**
+- This subsection shows the initial skeleton of the custom hook file.
+- The hook is created as a named export in `src/Hooks/useLocalStorageState.js`.
+- At this stage, the function is empty and serves as a placeholder for the implementation.
+- Following the "use" prefix naming convention is mandatory for custom hooks.
+
+```jsx
+/* src/Hooks/useLocalStorageState.js */
+export function useLocalStorageState(){
+
+}
+```
+
+#### 171.2.3 Complete this custom hook `useLocalStorageState`:
+
+**Subsection Summary:**
+- This subsection shows the complete implementation of the `useLocalStorageState` hook.
+- The hook accepts two parameters: `initialState` (fallback value) and `key` (localStorage key name).
+- **Lazy initialization** is used in `useState` to read from localStorage only on mount, avoiding performance issues.
+- The `useEffect` synchronizes state changes back to localStorage whenever `value` or `key` changes.
+- The hook returns `[value, setValue]`, mirroring the `useState` API for seamless integration.
+- JSON serialization handles complex data types (arrays, objects).
+
+```jsx
+/* src/Hooks/useLocalStorageState.js */
+import { useState, useEffect } from 'react';
+
+export function useLocalStorageState(initialState, key) {
+  const [value, setValue] = useState(() => {
+    const storedValue = localStorage.getItem(key);
+    return storedValue ? JSON.parse(storedValue) : initialState;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(key, JSON.stringify(value));
+  }, [value, key]);
+
+  return [value, setValue];
+}
+```
+
+#### 171.2.4 Import this custom `useLocalStorageState` hook into `App.jsx`:
+
+**Subsection Summary:**
+- This subsection demonstrates integrating the custom hook into `App.jsx`.
+- The hook is imported from `./Hooks/useLocalStorageState`.
+- The original `useState` + `useEffect` combination is replaced with a single `useLocalStorageState([], "watched")` call.
+- The commented-out code shows what was replaced, serving as documentation of the refactoring.
+- The component now has cleaner, more readable code with the same functionality.
+- The hook returns the same `[watched, setWatched]` tuple, so no other component code changes are needed.
+```jsx
+/* src/App.jsx */
+import { useState, useEffect } from "react";
+import Navbar from "./components/Navbar";
+import Main from "./components/Main";
+import Search from "./components/Search";
+import NumResult from "./components/NumResult";
+
+import Box from "./components/Box";
+import MovieList from "./components/MovieList";
+import WatchedSummary from "./components/WatchedSummary";
+import WatchedMovieList from "./components/WatchedMovieList";
+import Loader from "./components/Loader";
+import ErrorMessage from "./components/ErrorMessage";
+import MovieDetails from "./components/MovieDetails";
+
+import { useMovies } from "./Hooks/useMovies";
+import { useLocalStorageState } from "./Hooks/useLocalStorageState";
+
+//const KEY = "f84fc31d";
+
+function App() {
+  const [query, setQuery] = useState("");
+  const [selectedId, setSelectedId] = useState(null);
+
+  // potential code for custom hook "useLocalStorageState"  // 👈🏽 ✅ 
+  // const [watched, setWatched] = useState(() => {
+  //   const storedValue = localStorage.getItem("watched");
+  //   return storedValue ? JSON.parse(storedValue) : [];
+  // });
+  const [watched, setWatched] = useLocalStorageState([], "watched");    // 👈🏽 ✅
+
+  const { movies, isLoading, error } = useMovies(query, handleCloseMovie); // custom hook
+
+  const handleSelectMovie = (id) => {
+    setSelectedId((selectedId) => (selectedId === id ? null : id));
+  };
+
+  function handleCloseMovie() {
+    setSelectedId(null);
+  }
+
+  const handleAddWatched = (movie) => {
+    setWatched((watched) => [...watched, movie]);
+  };
+
+  const handleDeleteWatched = (id) => {
+    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
+  };
+
+  // potential code for custom hook "useLocalStorageState" // 👈🏽 ✅ 
+  // useEffect(() => {
+  //   localStorage.setItem("watched", JSON.stringify(watched));
+  // }, [watched]);
+
+  return (
+    <>
+      <Navbar>
+        <Search query={query} setQuery={setQuery} />
+        <NumResult movies={movies} />
+      </Navbar>
+      <Main>
+        <Box>
+          {isLoading && <Loader />}
+          {!isLoading && !error && <MovieList movies={movies} handleSelectMovie={handleSelectMovie} />}
+          {error && <ErrorMessage message={error} />}
+        </Box>
+        <Box>
+          {selectedId ? (
+            <MovieDetails
+              selectedId={selectedId}
+              onCloseMovie={handleCloseMovie}
+              onAddWatched={handleAddWatched}
+              watched={watched}
+            />
+          ) : (
+            <>
+              <WatchedSummary watched={watched} />
+              <WatchedMovieList watched={watched} onDeleteWatched={handleDeleteWatched} />
+            </>
+          )}
+        </Box>
+      </Main>
+    </>
+  );
+}
+
+export default App;
+```
+
+### 🐞 171.3 Issues:
+
+- **No Error Handling for JSON Parsing**: If `localStorage` contains corrupted or invalid JSON data, `JSON.parse()` will throw an error and break the application.
+- **No SSR Compatibility**: The hook directly accesses `localStorage` without checking if `window` is defined, which would fail in server-side rendering environments.
+- **Typo in Documentation**: The subsection 171.2.4 originally had "cutom" instead of "custom" (now fixed).
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| No try-catch for JSON.parse | ⚠️ Identified | `src/Hooks/useLocalStorageState.js:5-6` - If stored data is corrupted, `JSON.parse(storedValue)` throws `SyntaxError: Unexpected token` |
+| No SSR check for localStorage | ℹ️ Low Priority | `src/Hooks/useLocalStorageState.js:5` - Accessing `localStorage` without `typeof window !== 'undefined'` check will throw `ReferenceError` in SSR |
+| Unused useEffect import in App.jsx | ℹ️ Informational | `src/App.jsx:1` - `useEffect` is imported but no longer used after refactoring to custom hook |
+
+### 🧱 171.4 Pending Fixes (TODO)
+
+- [ ] **Add error handling for JSON parsing** (`src/Hooks/useLocalStorageState.js:5-6`): Wrap `JSON.parse` in try-catch to gracefully handle corrupted localStorage data:
+  ```jsx
+  const [value, setValue] = useState(() => {
+    try {
+      const storedValue = localStorage.getItem(key);
+      return storedValue ? JSON.parse(storedValue) : initialState;
+    } catch (error) {
+      console.error(`Error reading localStorage key "${key}":`, error);
+      return initialState;
+    }
+  });
+  ```
+
+- [ ] **Add SSR compatibility check** (`src/Hooks/useLocalStorageState.js:5`): Check for browser environment before accessing localStorage:
+  ```jsx
+  const [value, setValue] = useState(() => {
+    if (typeof window === 'undefined') return initialState;
+    // ... rest of the logic
+  });
+  ```
+
+- [ ] **Remove unused `useEffect` import** (`src/App.jsx:1`): Update the import statement to only import what's needed:
+  ```jsx
+  import { useState } from "react";
+  ```
+
+- [ ] **Consider adding TypeScript generics** for better type inference when using the hook with different data types.
+
+[↑ top - Lesson 171: Creating useLocalStorageState](#-171-lesson-171--creating-uselocalstoragestate)
+
+
+
+<br>
+
+## 🔧 172. Lesson 172 — *Creating useKey*
+
+- [Lecture 172: Creating useKey](#-172-lesson-172--creating-usekey)
+- [172.1 Context](#1721-context)
+- [172.2 Updating code according the context](#1722-updating-code-according-the-context)
+  - [172.2.1 Create useKey hook](#17221-create-usekey-hook)
+  - [172.2.2 Update useKey hook](#17222-update-usekey-hook)
+  - [172.2.3 Import useKey custom hook into MovieDetails component](#17223-import-usekey-custom-hook-into-moviedetails-component)
+- [172.3 Issues](#1723-issues)
+- [172.4 Pending Fixes (TODO)](#1724-pending-fixes-todo)
+
+### 🧠 172.1 Context:
+In this lesson, we recognize a pattern of duplication in how we handle global keydown events. Both the `MovieDetails` component (for closing duplication on 'Escape') and the `Search` component (for focusing on 'Enter') implement similar `useEffect` logic to add and remove event listeners. To improve code reusability and clean up our components, we extract this logic into a custom hook called `useKey`. This hook abstracts the lifecycle management of the event listener, allowing components to simply specify the key they are interested in and the action to perform.
+
+### ⚙️ 172.2 Updating code according the context:
+
+#### **Summary**
+- We create a new custom hook `useKey` to encapsulate the event listener logic.
+- We evolve the hook from a hardcoded version to a reusable one accepting `key` and `action` arguments.
+- We implement this hook in `MovieDetails` to close the movie view on 'Escape'.
+- We implement this hook in `Search` to focus the input on 'Enter'.
+
+#### **Subsection Summary**
+- **Purpose**: Establishes the initial structure of the custom hook.
+- **Functionality**: Moves the existing `useEffect` logic from `MovieDetails` into a standalone function `useKey`.
+- **Limitation**: At this stage, it is hardcoded to listen for "Escape" and call `onCloseMovie`, serving as a first step in the refactoring process.
+
+#### 172.2.1 Create `useKey` hook:
+```jsx
+/* src/Hooks/useKey.js */
+import { useEffect } from "react";
+
+export default function useKey() {
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code === "Escape") {
+        onCloseMovie();
+      }
+    };
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [onCloseMovie]);
+}
+```
+
+#### **Subsection Summary**
+- **Purpose**: Makes the `useKey` hook generic and reusable.
+- **Changes**: Adds `key` and `action` parameters to the function signature.
+- **Logic**: Updates the event handler to check against the provided `key` (case-insensitive) and execute the provided `action`.
+- **Dependencies**: Adds `action` and `key` to the dependency array to ensure the effect re-runs if they change.
+
+#### 172.2.2 Update `useKey` hook:
+```jsx
+/* src/Hooks/useKey.js */
+import { useEffect } from "react";
+
+export default function useKey(key, action) {   // 👈🏽 ✅
+  useEffect(() => {
+    const callback = (e) => {
+      if (e.code.toLowerCase() === key.toLowerCase()) {   // 👈🏽 ✅
+        action();
+      }
+    };
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, [action, key]);   // 👈🏽 ✅
+}
+```
+
+#### **Subsection Summary**
+- **Purpose**: Integrates the custom hook into the `MovieDetails` component.
+- **Implementation**: Imports `useKey` and replaces the verbose `useEffect` block with a single function call: `useKey("Escape", onCloseMovie)`.
+- **Benefit**: Significantly reduces boilerplate code in the component.
+
+#### 172.2.3 Import `useKey` custom hook into `MovieDetails` component:
+```jsx
+/* src/components/MovieDetails.jsx */
+import { useEffect, useRef, useState } from "react";
+import StarRating from "../StarRating";
+import Loader from "./Loader";
+import useKey from "../Hooks/useKey";   // 👈🏽 ✅
+
+const MovieDetails = ({ selectedId, onCloseMovie, onAddWatched, watched }) => {
+  const KEY = "f84fc31d";
+  const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+  const [userRating, setUserRating] = useState(0);
+
+  const countRef = useRef(0);
+
+  useEffect(() => {
+    if (userRating) countRef.current++;
+  }, [userRating]) // count does not have a ref that's why is added to the dependency array
+
+  const isWatched = watched.map((movie) => movie.imdbID).includes(selectedId);
+  const watchedUserRating = watched.find((movie) => movie.imdbID === selectedId)?.userRating;
+  const {
+    Title: title,
+    Year: year,
+    Poster: poster,
+    Runtime: runtime,
+    imdbRating,
+    Plot: plot,
+    Released: released,
+    Actors: actors,
+    Director: director,
+    Genre: Genre,
+  } = movie;
+
+  const [avgRating, setAvgRating] = useState(0);
+
+  const handleAdd = () => {
+    const newWatchedMovie = {
+      imdbID: selectedId,
+      title,
+      year,
+      poster,
+      imdbRating: Number(imdbRating) || 0,
+      runtime: Number(runtime.split(" ")[0]) || 0,
+      userRating,
+      countRatingDecisions: countRef.current,
+    };
+    onAddWatched(newWatchedMovie);
+    //onCloseMovie();
+
+    // setting the current imdbRating value to avgRating:
+    setAvgRating(Number(imdbRating));
+    //alert(avgRating);
+    setAvgRating((avgRating) => (avgRating + userRating) / 2);
+  };
+
+  useEffect(() => {
+    const getMovieDetails = async () => {
+      setIsLoading(true);
+      const resp = await fetch(`http://www.omdbapi.com/?apikey=${KEY}&i=${selectedId}`);
+      const data = await resp.json();
+      setMovie(data);
+      setIsLoading(false);
+    };
+
+    getMovieDetails();
+  }, [selectedId]);
+
+  useKey("Escape", onCloseMovie);   // 👈🏽 ✅
+  // useEffect(() => {       // 👈🏽 ✅
+  //   const callback = (e) => {
+  //     if (e.code === "Escape") {
+  //       onCloseMovie();
+  //     }
+  //   };
+  //   document.addEventListener("keydown", callback);
+  //   return () => {
+  //     document.removeEventListener("keydown", callback);
+  //   };
+  // }, [onCloseMovie]);       // 👈🏽 ✅
+
+  useEffect(() => {
+    if (!title) return;
+    document.title = `Movie | ${title}`;
+    return () => {
+      document.title = "usePopcorn";
+      //console.log(`Clean up effect for movie ${title}`);
+    };
+  }, [title]);
+
+  return (
+    <div className="details">
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <>
+          <header>
+            <button className="btn-back" onClick={onCloseMovie}>
+              &larr;
+            </button>
+            <img src={poster} alt={`Poster of ${title} movie`} />
+            <div className="details-overview">
+              <h2>{title}</h2>
+              <p>
+                {released} &bull; {runtime}
+              </p>
+              <p>{Genre}</p>
+              <p>
+                <span>⭐️</span>
+                {imdbRating} IMDb rating
+              </p>
+            </div>
+          </header>
+
+          <p>🍺 {avgRating}</p>
+
+          <section>
+            <div className="rating">
+              {!isWatched ? (
+                <>
+                  <StarRating maxRating={10} size={24} onSetRating={setUserRating} />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleAdd}>
+                      + Add to list
+                    </button>
+                  )}
+                </>
+              ) : (
+                <p>
+                  You rated this movie: {watchedUserRating} <span>⭐️</span>
+                </p>
+              )}
+            </div>
+            <p>{plot}</p>
+            <p>Starring {actors}</p>
+            <p>Directed by {director}</p>
+          </section>
+        </>
+      )}
+    </div>
+  );
+};
+export default MovieDetails;
+```
+
+#### **Subsection Summary**
+- **Purpose**: Applies the `useKey` hook to the Search component for better UX.
+- **Logic**: Listens for the "Enter" key to focus the search input field.
+- **Safety Check**: Checks `document.activeElement` to avoid refocusing and clearing the input if it's already active, preventing accidental data loss while typing.
+
+#### 172.2.4 Apply `useKey` custom hook into `Search` component: 
+```jsx
+/* src/components/Search.jsx */
+import { useEffect, useRef } from "react";
+import useKey from "../Hooks/useKey";
+
+const Search = ({ query, setQuery }) => {
+  const inputEl = useRef(null);
+
+  useKey("Enter", function() {
+    if(document.activeElement === inputEl.current) return;    // 👈🏽 ✅ 🔥
+    inputEl.current.focus();    // 👈🏽 ✅ 🔥
+    setQuery("");    // 👈🏽 ✅ 🔥
+  })    // 👈🏽 ✅
+
+  // useEffect(() => {    //    // 👈🏽 ✅
+  //   function callback(e) {
+  //     if(document.activeElement === inputEl.current) return;    // 👈🏽 ✅ 🤔
+  //     if (e.code === "Enter") {
+  //       inputEl.current.focus();    // 👈🏽 ✅ 🤔
+  //       setQuery("");    // 👈🏽 ✅ 🤔
+  //     }
+  //   }
+  //   document.addEventListener("keydown", callback);
+  //   return () => document.removeEventListener("keydown", callback);
+  // }, [setQuery]);    //    // 👈🏽 ✅
+
+  return (
+    <input
+      className="search"
+      type="text"
+      placeholder="Search movies..."
+      value={query}
+      onChange={(e) => setQuery(e.target.value)}
+      ref={inputEl}
+    />
+  );
+};
+
+export default Search;
+```
+
+### 🐞 172.3 Issues:
+
+- No issues encountered during this refactoring.
+
+| Issue | Status | Log/Error |
+|---|---|---|
+| N/A | ✅ Resolved | Refactoring completed successfully. |
+
+### 🧱 172.4 Pending Fixes (TODO)
+
+- [x] Create generic `useKey` custom hook
+- [x] Refactor `MovieDetails` to use `useKey` for closing on Escape
+- [x] Refactor `Search` to use `useKey` for focusing on Enter
+
+[↑ top - Lesson 172: Creating useKey](#-172-lesson-172--creating-usekey)
+
+
+--- 
+
 <br>
 <br>
 <br>
@@ -8200,33 +12089,42 @@ This section demonstrates the evolution of implementing a keyboard event listene
 
 <br>
 
-## 🔧 YYY. Lesson YYY — *{{TITLE_NAME}}*
+## 🔧 XXX. Lesson XXX — *{{TITLE_NAME}}*
 
-### 🧠 YYY.1 Context:
+### 🧠 XXX.1 Context:
 
+### ⚙️ XXX.2 Updating code/theory according the context:
 
-### ⚙️ YYY.2 Updating code/theory according the context:
-
-#### YYY.2.1
-```tsx
+#### XXX.2.1
+```jsx
 /*  */
 
 ```
 
-#### YYY.2.2
-```tsx
+#### XXX.2.2
+```jsx
 /*  */
 
 ```
 
-### 🐞 YYY.3 Issues:
+#### XXX.2.3
+```jsx
+/*  */
+
+```
+
+#### XXX.2.4
+```jsx
+/*  */
+
+```
+
+### 🐞 XXX.3 Issues:
 - **first issue**: something..
 
 | Issue | Status | Log/Error |
 |---|---|---|
 
-### 🧱 YYY.4 Pending Fixes (TODO)
+### 🧱 XXX.4 Pending Fixes (TODO)
 
 - [ ]
-
-
