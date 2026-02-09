@@ -12,31 +12,24 @@ import Loader from "./components/Loader";
 import ErrorMessage from "./components/ErrorMessage";
 import MovieDetails from "./components/MovieDetails";
 
-import { useMovies } from "./Hooks/useMovies";
-import { useLocalStorageState } from "./Hooks/useLocalStorageState";
-
-//const KEY = "f84fc31d";
+const KEY = "f84fc31d";
 
 function App() {
+  const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null);
-
-  // potential code for custom hook "useLocalStorageState"  // 👈🏽 ✅ 
-  // const [watched, setWatched] = useState(() => {
-  //   const storedValue = localStorage.getItem("watched");
-  //   return storedValue ? JSON.parse(storedValue) : [];
-  // });
-  const [watched, setWatched] = useLocalStorageState([], "watched");
-
-  const { movies, isLoading, error } = useMovies(query, handleCloseMovie); // custom hook
+  //const tempQuery = "interstellar";
 
   const handleSelectMovie = (id) => {
     setSelectedId((selectedId) => (selectedId === id ? null : id));
   };
 
-  function handleCloseMovie() {
+  const handleCloseMovie = () => {
     setSelectedId(null);
-  }
+  };
 
   const handleAddWatched = (movie) => {
     setWatched((watched) => [...watched, movie]);
@@ -46,10 +39,53 @@ function App() {
     setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
   };
 
-  // potential code for custom hook "useLocalStorageState" // 👈🏽 ✅ 
   // useEffect(() => {
-  //   localStorage.setItem("watched", JSON.stringify(watched));
-  // }, [watched]);
+  //   document.addEventListener('keydown', (e) => {
+  //     if (e.code === 'Escape') {
+  //       handleCloseMovie();
+  //       console.log('CLOSING MOVIE')
+  //     }
+  //   });
+  // }, [])
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const fetchMovies = async () => {
+      try {
+        setIsLoading(true);
+        setError("");
+        const resp = await fetch(
+          `http://www.omdbapi.com/?apikey=${KEY}&s=${query}`, 
+          { signal: controller.signal }
+        );
+
+        if (!resp.ok) throw new Error("Something went wrong with fetching movies");
+
+        const data = await resp.json();
+
+        if (data.Response === "False") throw new Error("Movie not found 😭");
+
+        setMovies(data.Search);
+      } catch (error) {
+        console.log(error.message);
+        if(error.name !== "AbortError"){
+          setError(error.message);
+        }
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (query.length < 3) {
+      setMovies([]);
+      setError("");
+      return;
+    }
+
+    handleCloseMovie();
+    fetchMovies();
+    return () => controller.abort();
+  }, [query]);
 
   return (
     <>
